@@ -1,0 +1,19 @@
+@(providers: Collection[com.feth.play.module.pa.providers.AuthProvider])
+
+@import com.feth.play.module.pa.PlayAuthenticate
+
+@main("Login") {
+    
+    Logloglogin
+    @if(flash.contains("error")) {
+      <p>@flash().get("error")</p>
+    }
+    
+    <ul>
+    @for(p <- providers) {
+    	@if(!PlayAuthenticate.isLoggedIn(session()) || (PlayAuthenticate.isLoggedIn(session()) && !PlayAuthenticate.getUser(session()).getProvider().equals(p.getKey()))) {
+    	<li><a href="@p.getUrl()">@p.getKey()</a></li>
+    	}
+    }
+    </ul>
+}

@@ -1,0 +1,11 @@
+
+@main("Welcome to Play Authenticate") {
+    
+    <a href="@routes.Application.restricted()">To restricted page</a>
+    <br/>
+    @if(com.feth.play.module.pa.PlayAuthenticate.isLoggedIn(session())) {
+    	<a href="@routes.Application.logout()">logout</a>
+    	<br/>
+    }
+    	<a href="@routes.Application.login()">login</a>
+}

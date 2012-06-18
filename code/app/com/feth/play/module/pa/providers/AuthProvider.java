@@ -2,6 +2,7 @@ package com.feth.play.module.pa.providers;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.feth.play.module.pa.PlayAuthenticate;
@@ -55,6 +56,18 @@ public abstract class AuthProvider extends Plugin {
 
 	@Override
 	public void onStart() {
+		
+		final List<String> neededSettings = neededSettingKeys();
+		if(neededSettings != null) {
+			final Configuration c = getConfiguration();
+			for(final String key: neededSettings) {
+				final String setting = c.getString(key);
+				if(setting == null || "".equals(setting)) {
+					throw new RuntimeException("Provider '"+getKey()+"' missing needed setting '"+key+"'");
+				}
+			}
+		}
+		
 		Registry.register(getKey(), this);
 	}
 	
@@ -85,5 +98,9 @@ public abstract class AuthProvider extends Plugin {
 	 * @throws AuthException
 	 */
 	public abstract Object authenticate(final Context context) throws AuthException;
+
+	protected List<String> neededSettingKeys() {
+		return null;
+	}
 	
 }

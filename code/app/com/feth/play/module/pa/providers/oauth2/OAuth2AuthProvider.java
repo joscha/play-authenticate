@@ -1,6 +1,7 @@
 package com.feth.play.module.pa.providers.oauth2;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
@@ -27,6 +28,11 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 		extends AuthProvider {
 	public OAuth2AuthProvider(final Application app) {
 		super(app);
+	}
+	
+	@Override
+	protected List<String> neededSettingKeys() {
+		return Arrays.asList(SettingKeys.ACCESS_TOKEN_URL, SettingKeys.AUTHORIZATION_URL, SettingKeys.CLIENT_ID, SettingKeys.CLIENT_SECRET);
 	}
 
 	public static abstract class SettingKeys {

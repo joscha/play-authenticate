@@ -20,6 +20,10 @@ import com.feth.play.module.pa.user.SessionAuthUser;
 
 public abstract class PlayAuthenticate {
 
+	private static final String SETTING_KEY_ACCOUNT_MERGE_ENABLED = "accountMergeEnabled";
+	private static final String SETTING_KEY_ACCOUNT_AUTO_LINK = "accountAutoLink";
+	private static final String SETTING_KEY_ACCOUNT_AUTO_MERGE = "accountAutoMerge";
+
 	public abstract static class Resolver {
 
 		/**
@@ -214,15 +218,15 @@ public abstract class PlayAuthenticate {
 	}
 
 	public static boolean isAccountAutoMerge() {
-		return getConfiguration().getBoolean("accountAutoMerge", false);
+		return getConfiguration().getBoolean(SETTING_KEY_ACCOUNT_AUTO_MERGE, false);
 	}
 
 	public static boolean isAccountAutoLink() {
-		return getConfiguration().getBoolean("accountAutoLink", false);
+		return getConfiguration().getBoolean(SETTING_KEY_ACCOUNT_AUTO_LINK, false);
 	}
 	
 	public static boolean isAccountMergeEnabled() {
-		return getConfiguration().getBoolean("accountMergeEnabled",true);
+		return getConfiguration().getBoolean(SETTING_KEY_ACCOUNT_MERGE_ENABLED,true);
 	}
 
 	private static String getPlayAuthSessionId(final Session session) {

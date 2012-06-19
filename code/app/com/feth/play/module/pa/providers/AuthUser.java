@@ -48,4 +48,8 @@ public abstract class AuthUser implements AuthUserIdentity, Serializable {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return getId()+"@"+getProvider();
+	}
 }

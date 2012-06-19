@@ -12,6 +12,8 @@ import play.mvc.Http.Context;
 import play.mvc.Http.Session;
 import play.mvc.Result;
 
+import com.feth.play.module.pa.exceptions.AccessDeniedException;
+import com.feth.play.module.pa.exceptions.AccessTokenException;
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.AuthProvider;
 import com.feth.play.module.pa.service.UserService;
@@ -175,7 +177,8 @@ public abstract class PlayAuthenticate {
 		session.remove(PROVIDER_KEY);
 		session.remove(EXPIRES_KEY);
 
-		// shouldn't be in any more, but just in case lets kill it from the cookie
+		// shouldn't be in any more, but just in case lets kill it from the
+		// cookie
 		session.remove(ORIGINAL_URL);
 	}
 
@@ -218,15 +221,18 @@ public abstract class PlayAuthenticate {
 	}
 
 	public static boolean isAccountAutoMerge() {
-		return getConfiguration().getBoolean(SETTING_KEY_ACCOUNT_AUTO_MERGE, false);
+		return getConfiguration().getBoolean(SETTING_KEY_ACCOUNT_AUTO_MERGE,
+				false);
 	}
 
 	public static boolean isAccountAutoLink() {
-		return getConfiguration().getBoolean(SETTING_KEY_ACCOUNT_AUTO_LINK, false);
+		return getConfiguration().getBoolean(SETTING_KEY_ACCOUNT_AUTO_LINK,
+				false);
 	}
-	
+
 	public static boolean isAccountMergeEnabled() {
-		return getConfiguration().getBoolean(SETTING_KEY_ACCOUNT_MERGE_ENABLED,true);
+		return getConfiguration().getBoolean(SETTING_KEY_ACCOUNT_MERGE_ENABLED,
+				true);
 	}
 
 	private static String getPlayAuthSessionId(final Session session) {
@@ -265,7 +271,8 @@ public abstract class PlayAuthenticate {
 
 	public static void storeMergeUser(final AuthUser identity,
 			final Session session) {
-		// TODO the cache is not ideal for this, because it might get cleared any time
+		// TODO the cache is not ideal for this, because it might get cleared
+		// any time
 		storeUserInCache(session, MERGE_USER_KEY, identity);
 	}
 
@@ -279,7 +286,8 @@ public abstract class PlayAuthenticate {
 
 	public static void storeLinkUser(final AuthUser identity,
 			final Session session) {
-		// TODO the cache is not ideal for this, because it might get cleared any time
+		// TODO the cache is not ideal for this, because it might get cleared
+		// any time
 		storeUserInCache(session, LINK_USER_KEY, identity);
 	}
 
@@ -309,7 +317,7 @@ public abstract class PlayAuthenticate {
 				if (afterAuthFallback != null && !afterAuthFallback.equals("")) {
 					return afterAuthFallback;
 				}
-				
+
 				// Not even the config setting was there or valid...meh
 				Logger.error("Config setting 'afterAuthFallback' was not present!");
 				return "/";
@@ -375,5 +383,145 @@ public abstract class PlayAuthenticate {
 		}
 		loginUser = u;
 		return loginUser;
+	}
+
+	public static Result handleAuthentication(final String provider,
+			final Context context) {
+		final AuthProvider ap = AuthProvider.Registry.get(provider);
+		if (ap == null) {
+			// Provider wasn't found and/or user was fooling with our stuff -
+			// tell him off:
+			return Controller.notFound();
+		}
+		try {
+			final Object o = ap.authenticate(context);
+			if (o instanceof String) {
+				return Controller.redirect((String) o);
+			} else if (o instanceof AuthUser) {
+
+				final AuthUser newUser = (AuthUser) o;
+				final Session session = context.session();
+
+				// We might want to do merging here:
+				// Adapted from:
+				// http://stackoverflow.com/questions/6666267/architecture-for-merging-multiple-user-accounts-together
+				// 1. The account is linked to a local account and no session
+				// cookie is present --> Login
+				// 2. The account is linked to a local account and a session
+				// cookie is present --> Merge
+				// 3. The account is not linked to a local account and no
+				// session cookie is present --> Signup
+				// 4. The account is not linked to a local account and a session
+				// cookie is present --> Linking Additional account
+
+				// get the user with which we are logged in - is null if we
+				// are
+				// not logged in (does NOT check expiration)
+
+				AuthUser oldUser = getUser(session);
+
+				// checks if the user is logged in (also checks the expiration!)
+				boolean isLoggedIn = isLoggedIn(session);
+
+				Object oldIdentity = null;
+
+				// check if local user still exists - it might have been
+				// deactivated/deleted,
+				// so this is a signup, not a link
+				if (isLoggedIn) {
+					oldIdentity = getUserService().getLocalIdentity(oldUser);
+					isLoggedIn &= oldIdentity != null;
+					if (!isLoggedIn) {
+						// if isLoggedIn is false here, then the local user has
+						// been deleted/deactivated
+						// so kill the session
+						logout(session);
+						oldUser = null;
+					}
+				}
+
+				final Object loginIdentity = getUserService().getLocalIdentity(
+						newUser);
+				final boolean isLinked = loginIdentity != null;
+
+				final AuthUser loginUser;
+				if (isLinked && !isLoggedIn) {
+					// 1. -> Login
+					// User logged in once more - wanna make some updates?
+					loginUser = getUserService().update(newUser);
+
+				} else if (isLinked && isLoggedIn) {
+					// 2. -> Merge
+
+					// merge the two identities and return the AuthUser we want
+					// to use for the log in
+					if (isAccountMergeEnabled()
+							&& !loginIdentity.equals(oldIdentity)) {
+						// account merge is enabled
+						// and
+						// The currently logged in user and the one to log in
+						// are not the same, so shall we merge?
+
+						if (isAccountAutoMerge()) {
+							// Account auto merging is enabled
+							loginUser = getUserService()
+									.merge(newUser, oldUser);
+						} else {
+							// Account auto merging is disabled - forward user
+							// to merge request page
+							final Call c = getResolver().askMerge();
+							if (c == null) {
+								throw new RuntimeException(
+										"Merge controller not defined, even though accountAutoMerge is set to false");
+							}
+							storeMergeUser(newUser, session);
+							return Controller.redirect(c);
+						}
+					} else {
+						// the currently logged in user and the new login belong
+						// to the same local user,
+						// or Account merge is disabled, so just change the log
+						// in to the new user
+						loginUser = newUser;
+					}
+
+				} else if (!isLinked && !isLoggedIn) {
+					// 3. -> Signup
+					loginUser = signupUser(newUser);
+				} else {
+					// !isLinked && isLoggedIn:
+
+					// 4. -> Link additional
+					if (isAccountAutoLink()) {
+						// Account auto linking is enabled
+
+						loginUser = getUserService().link(oldUser, newUser);
+					} else {
+						// Account auto linking is disabled - forward user to
+						// link suggestion page
+						final Call c = getResolver().askLink();
+						if (c == null) {
+							throw new RuntimeException(
+									"Link controller not defined, even though accountAutoLink is set to false");
+						}
+						storeLinkUser(newUser, session);
+						return Controller.redirect(c);
+					}
+
+				}
+
+				return loginAndRedirect(context, loginUser);
+			} else {
+				return Controller.internalServerError("Something went wrong");
+			}
+		} catch (final AuthException e) {
+			if (e instanceof AccessTokenException) {
+				return Controller
+						.internalServerError("Exchanging request token for access token failed");
+			} else if (e instanceof AccessDeniedException) {
+				return Controller.forbidden(e.getMessage());
+			}
+			return Controller.internalServerError(e.getMessage());
+		}
 	}
 }

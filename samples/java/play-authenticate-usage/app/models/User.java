@@ -34,7 +34,6 @@ public class User extends Model implements RoleHolder {
 	@Id
 	public Long id;
 
-	public String userName;
 
 	public boolean active;
 
@@ -56,10 +55,6 @@ public class User extends Model implements RoleHolder {
 
 	public List<? extends Permission> getPermissions() {
 		return permissions;
-	}
-
-	public static User findByUserName(String userName) {
-		return find.where().eq("userName", userName).findUnique();
 	}
 
 	public static boolean existsByAuthUserIdentity(
@@ -92,7 +87,6 @@ public class User extends Model implements RoleHolder {
 
 	public static User create(final AuthUser authUser) {
 		final User user = new User();
-		// user.userName = "steve";
 		user.roles = Collections.singletonList(SecurityRole
 				.findByRoleName(controllers.Application.USER_ROLE));
 		// user.permissions = new ArrayList<UserPermission>();

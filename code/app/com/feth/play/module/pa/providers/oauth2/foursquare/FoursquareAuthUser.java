@@ -8,6 +8,11 @@ import com.feth.play.module.pa.providers.oauth2.OAuth2AuthUser;
 public class FoursquareAuthUser extends OAuth2AuthUser {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
 	 * From:
 	 * https://developer.foursquare.com/docs/responses/user
 	 * 

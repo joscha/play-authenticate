@@ -6,6 +6,11 @@ import com.feth.play.module.pa.providers.oauth2.OAuth2AuthUser;
 
 public class FacebookAuthUser extends OAuth2AuthUser {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private static abstract class Constants {
 		public static final String ID = "id"; // "616473731"
 		public static final String NAME = "name"; // "Joscha Feth"

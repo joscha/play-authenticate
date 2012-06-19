@@ -1,7 +1,15 @@
 package com.feth.play.module.pa.providers;
 
-public abstract class AuthUser implements AuthUserIdentity {
+import java.io.Serializable;
 
+public abstract class AuthUser implements AuthUserIdentity, Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	
 	public static final long NO_EXPIRATION = -1L;
 
 	public long expires() {

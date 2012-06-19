@@ -4,6 +4,11 @@ import com.feth.play.module.pa.providers.AuthUser;
 
 public abstract class OAuth2AuthUser extends AuthUser {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private OAuth2AuthInfo info;
 	private String id;
 	

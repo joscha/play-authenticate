@@ -18,9 +18,10 @@ public class MyUserServicePlugin extends UserServicePlugin {
 		final boolean isLinked = User.existsByAuthUserIdentity(authUser);
 		if (!isLinked) {
 			return User.create(authUser).id;
+		} else {
+			// we have this user already, so return null
+			return null;
 		}
-		// we have this user already, so return null
-		return null;
 	}
 
 	@Override
@@ -30,7 +31,7 @@ public class MyUserServicePlugin extends UserServicePlugin {
 
 	@Override
 	public AuthUser merge(final AuthUser newUser, final AuthUser oldUser) {
-		if(!oldUser.equals(newUser)) {
+		if (!oldUser.equals(newUser)) {
 			User.merge(oldUser, newUser);
 		}
 		return oldUser;

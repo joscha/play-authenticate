@@ -13,7 +13,7 @@ public class FacebookAuthInfo extends OAuth2AuthInfo {
 	public FacebookAuthInfo(final Map<String, String> m) {
 		super(m.get(OAuth2AuthProvider.Constants.ACCESS_TOKEN), new Date()
 				.getTime()
-				+ Long.parseLong(m.get(EXPIRES)));
+				+ Long.parseLong(m.get(EXPIRES)) * 1000);
 	}
 
 }

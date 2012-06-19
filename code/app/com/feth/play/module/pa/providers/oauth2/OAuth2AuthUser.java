@@ -25,4 +25,9 @@ public abstract class OAuth2AuthUser extends AuthUser {
 	public String getId() {
 		return id;
 	}
+
+	@Override
+	public long expires() {
+		return getOAuth2AuthInfo().getExpiration();
+	}
 }

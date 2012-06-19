@@ -99,4 +99,8 @@ public class GoogleAuthUser extends OAuth2AuthUser implements ExtendedIdentity, 
 		return new Locale(locale);
 	}
 
+	@Override
+	public String toString() {
+		return getName() + " ("+getEmail()+") @ "+getProvider();
+	}
 }

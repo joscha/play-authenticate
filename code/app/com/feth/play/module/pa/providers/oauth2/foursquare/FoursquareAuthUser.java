@@ -132,4 +132,8 @@ public class FoursquareAuthUser extends OAuth2AuthUser implements ExtendedIdenti
 		return getFirstName() + " " + getLastName();
 	}
 
+	@Override
+	public String toString() {
+		return getName() + " ("+getEmail()+") @ "+getProvider();
+	}
 }

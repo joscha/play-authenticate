@@ -114,4 +114,8 @@ public class FacebookAuthUser extends OAuth2AuthUser implements ExtendedIdentity
 		return updateTime;
 	}
 
+	@Override
+	public String toString() {
+		return getName() + " ("+getEmail()+") @ "+getProvider();
+	}
 }

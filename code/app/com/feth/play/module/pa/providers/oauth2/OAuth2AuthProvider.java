@@ -21,6 +21,7 @@ import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.exceptions.AccessDeniedException;
 import com.feth.play.module.pa.exceptions.AccessTokenException;
 import com.feth.play.module.pa.exceptions.AuthException;
+import com.feth.play.module.pa.exceptions.RedirectUriMismatch;
 import com.feth.play.module.pa.providers.AuthProvider;
 import com.feth.play.module.pa.user.AuthUserIdentity;
 
@@ -59,6 +60,7 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 		public static final String EXPIRES_IN = "expires_in";
 		public static final String REFRESH_TOKEN = "refresh_token";
 		public static final String ACCESS_DENIED = "access_denied";
+		public static final String REDIRECT_URI_MISMATCH = "redirect_uri_mismatch";
 	}
 
 	private String getAccessTokenParams(final Configuration c,
@@ -113,9 +115,13 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 		params.add(new BasicNameValuePair(Constants.CLIENT_ID, c
 				.getString(SettingKeys.CLIENT_ID)));
 		params.add(new BasicNameValuePair(Constants.REDIRECT_URI,
-				PlayAuthenticate.getResolver().auth(getKey())
-						.absoluteURL(request)));
+				getRedirectUrl(request)));
 		return params;
+	}
+
+	private String getRedirectUrl(final Request request) {
+		return PlayAuthenticate.getResolver().auth(getKey())
+				.absoluteURL(request);
 	}
 
 	@Override
@@ -128,6 +134,10 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 		if (error != null) {
 			if (error.equals(Constants.ACCESS_DENIED)) {
 				throw new AccessDeniedException();
+			} else if(error.equals(Constants.REDIRECT_URI_MISMATCH)) {
+				Logger.error("You must set the redirect URI for your provider to whatever you defined in your routes file." +
+						"For this provider it is: '"+getRedirectUrl(request)+"'");
+				throw new RedirectUriMismatch();
 			} else {
 				throw new AuthException(error);
 			}

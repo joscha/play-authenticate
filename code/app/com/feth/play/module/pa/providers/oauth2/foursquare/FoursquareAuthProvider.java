@@ -19,6 +19,7 @@ public class FoursquareAuthProvider extends
 	public static final String PROVIDER_KEY = "foursquare";
 	private static final String USER_INFO_URL_SETTING_KEY = "userInfoUrl";
 	private static final String OAUTH_TOKEN = "oauth_token";
+	private static final String VERSION = "20120617";
 
 	public FoursquareAuthProvider(Application app) {
 		super(app);
@@ -46,7 +47,9 @@ public class FoursquareAuthProvider extends
 		final Response r = WS
 				.url(url)
 				.setQueryParameter(OAUTH_TOKEN,
-						info.getAccessToken()).get()
+						info.getAccessToken())
+				.setQueryParameter("v", VERSION)
+				.get()
 				.get(PlayAuthenticate.TIMEOUT);
 
 		final JsonNode result = r.asJson();

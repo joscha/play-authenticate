@@ -26,7 +26,9 @@ public class MyUserServicePlugin extends UserServicePlugin {
 
 	@Override
 	public Object getLocalIdentity(final AuthUserIdentity identity) {
-		User u = User.findByAuthUserIdentity(identity);
+		// For production: Caching might be a good idea here...
+		// ...and dont forget to sync the cache when users get deactivated/deleted
+		final User u = User.findByAuthUserIdentity(identity);
 		if(u != null) {
 			return u.id;
 		} else {

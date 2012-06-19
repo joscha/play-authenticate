@@ -1,0 +1,24 @@
+@(acceptForm: Form[Application.Accept], newAccount: com.feth.play.module.pa.providers.AuthUser)
+
+@label = {
+	Link '@newAccount.getProvider()' with your user?
+}
+
+@main("Link account") {
+
+	@helper.form(routes.Application.doLink) {
+	   
+	   @if(acceptForm.hasGlobalErrors) { 
+	       <p class="error">
+	           @acceptForm.globalError.message
+	       </p>
+	   }
+	   
+	   @helper.inputRadioGroup(
+            acceptForm("accept"),
+            options = Seq("true"-> "Yes, link this account to my user","false"->"No, log out and create a new user with this account"),
+            '_label -> label)
+           
+		<input type="submit" value="OK"> 
+	}
+}

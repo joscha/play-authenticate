@@ -10,5 +10,11 @@ GET     /login                      controllers.Application.login()
 GET     /logout                     controllers.Application.logout()
 GET     /authenticate/:provider     com.feth.play.module.pa.controllers.AuthenticateController.authenticate(provider: String)
 
+GET     /accounts/link              controllers.Application.link()
+POST    /accounts/link              controllers.Application.doLink()
+
+GET     /accounts/merge             controllers.Application.merge()
+POST    /accounts/merge             controllers.Application.doMerge()
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

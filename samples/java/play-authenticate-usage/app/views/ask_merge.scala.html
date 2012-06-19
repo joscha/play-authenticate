@@ -1,0 +1,25 @@
+@(acceptForm: Form[Application.Accept], aUser: com.feth.play.module.pa.providers.AuthUser, bUser: com.feth.play.module.pa.providers.AuthUser)
+
+@label = {
+	Do you want to merge the account you are currently logged in with (@aUser),
+	with this account: '@bUser'?
+}
+
+@main("Merge accounts") {
+
+	@helper.form(routes.Application.doMerge) {
+	   
+	   @if(acceptForm.hasGlobalErrors) { 
+	       <p class="error">
+	           @acceptForm.globalError.message
+	       </p>
+	   }
+	   
+	   @helper.inputRadioGroup(
+            acceptForm("accept"),
+            options = Seq("true"-> "Yes, merge these two accounts","false"->"No, end my current session and log in with the new user"),
+            '_label -> label)
+           
+		<input type="submit" value="OK">
+	}
+}

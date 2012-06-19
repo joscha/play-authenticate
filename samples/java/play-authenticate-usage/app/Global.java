@@ -36,6 +36,16 @@ public class Global extends GlobalSettings {
 				return com.feth.play.module.pa.controllers.routes.AuthenticateController
 						.authenticate(provider);
 			}
+
+			@Override
+			public Call askMerge() {
+				return routes.Application.merge();
+			}
+
+			@Override
+			public Call askLink() {
+				return routes.Application.link();
+			}
 		});
 
 		initialData();

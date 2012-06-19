@@ -1,6 +1,7 @@
 package models;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -17,8 +18,10 @@ import be.objectify.deadbolt.models.RoleHolder;
 
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.ExpressionList;
+import com.avaje.ebean.validation.Email;
 import com.feth.play.module.pa.user.AuthUser;
 import com.feth.play.module.pa.user.AuthUserIdentity;
+import com.feth.play.module.pa.user.BasicIdentity;
 
 /**
  * Initial version based on work by Steve Chaloner (steve@objectify.be) for
@@ -34,6 +37,10 @@ public class User extends Model implements RoleHolder {
 	@Id
 	public Long id;
 
+	@Email
+	public String email;
+
+	public String name;
 	
 	public Date lastLogin;
 
@@ -97,6 +104,15 @@ public class User extends Model implements RoleHolder {
 		user.lastLogin = new Date();
 		user.linkedAccounts = Collections.singletonList(LinkedAccount
 				.create(authUser));
+
+		if (authUser instanceof BasicIdentity) {
+			final BasicIdentity identity = (BasicIdentity) authUser;
+			user.name = identity.getName();
+
+			// Remember, even when getting them from FB & Co., emails should be
+			// verified within the application!
+			user.email = identity.getEmail();
+		}
 
 		user.save();
 		user.saveManyToManyAssociations("roles");

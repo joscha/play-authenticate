@@ -14,7 +14,7 @@ public class MyUserServicePlugin extends UserServicePlugin {
 	}
 
 	@Override
-	public Long save(final AuthUser authUser) {
+	public Object save(final AuthUser authUser) {
 		final boolean isLinked = User.existsByAuthUserIdentity(authUser);
 		if (!isLinked) {
 			return User.create(authUser).id;

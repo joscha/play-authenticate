@@ -19,7 +19,7 @@ public interface UserService {
 	 * @param authUser
 	 * @return
 	 */
-	public Long save(final AuthUser authUser);
+	public Object save(final AuthUser authUser);
 
 	/**
 	 * Returns true if the auth provider/id combination has been linked to a local user account already

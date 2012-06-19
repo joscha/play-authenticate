@@ -34,6 +34,8 @@ public class User extends Model implements RoleHolder {
 	@Id
 	public Long id;
 
+	
+	public Date lastLogin;
 
 	public boolean active;
 
@@ -92,6 +94,7 @@ public class User extends Model implements RoleHolder {
 		// user.permissions = new ArrayList<UserPermission>();
 		// user.permissions.add(UserPermission.findByValue("printers.edit"));
 		user.active = true;
+		user.lastLogin = new Date();
 		user.linkedAccounts = Collections.singletonList(LinkedAccount
 				.create(authUser));
 
@@ -110,6 +113,12 @@ public class User extends Model implements RoleHolder {
 			final AuthUser newUser) {
 		final User u = User.findByAuthUserIdentity(oldUser);
 		u.linkedAccounts.add(LinkedAccount.create(newUser));
+		u.save();
+	}
+
+	public static void setLastLoginDate(final AuthUser knownUser) {
+		final User u = User.findByAuthUserIdentity(knownUser);
+		u.lastLogin = new Date();
 		u.save();
 	}
 }

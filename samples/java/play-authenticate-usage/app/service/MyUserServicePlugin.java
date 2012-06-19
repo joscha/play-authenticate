@@ -47,5 +47,12 @@ public class MyUserServicePlugin extends UserServicePlugin {
 		User.addLinkedAccount(oldUser, newUser);
 		return newUser;
 	}
+	
+	@Override
+	public AuthUser update(final AuthUser knownUser) {
+		// User logged in again, bump last login date
+		User.setLastLoginDate(knownUser);
+		return knownUser;
+	}
 
 }

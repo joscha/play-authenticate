@@ -5,6 +5,7 @@ import play.Logger;
 import play.Plugin;
 
 import com.feth.play.module.pa.PlayAuthenticate;
+import com.feth.play.module.pa.user.AuthUser;
 
 public abstract class UserServicePlugin extends Plugin implements UserService {
 	
@@ -24,5 +25,11 @@ public abstract class UserServicePlugin extends Plugin implements UserService {
 			Logger.warn("A user service was already registered - replacing the old one, however this might hint to a configuration problem");
 		}
 		PlayAuthenticate.setUserService(this);
+	}
+	
+	@Override
+	public AuthUser update(AuthUser knownUser) {
+		// Default: just do nothing when user logs in again
+		return knownUser;
 	}
 }

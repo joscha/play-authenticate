@@ -220,6 +220,10 @@ public abstract class PlayAuthenticate {
 	public static boolean isAccountAutoLink() {
 		return getConfiguration().getBoolean("accountAutoLink", false);
 	}
+	
+	public static boolean isAccountMergeEnabled() {
+		return getConfiguration().getBoolean("accountMergeEnabled",true);
+	}
 
 	private static String getPlayAuthSessionId(final Session session) {
 		// Generate a unique id

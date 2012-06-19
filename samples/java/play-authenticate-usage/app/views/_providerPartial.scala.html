@@ -1,0 +1,11 @@
+
+@import com.feth.play.module.pa.PlayAuthenticate
+@import com.feth.play.module.pa.providers.AuthProvider.Registry
+
+    <ul>
+    @for(p <- Registry.getProviders()) {
+    	@if(!PlayAuthenticate.isLoggedIn(session()) || (PlayAuthenticate.isLoggedIn(session()) && !PlayAuthenticate.getUser(session()).getProvider().equals(p.getKey()))) {
+    	<li><a href="@p.getUrl()"><img src="@routes.Assets.at("images/icons/"+p.getKey()+".png")"></a></li>
+    	}
+    }
+    </ul>

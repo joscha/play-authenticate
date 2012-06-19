@@ -10,6 +10,7 @@ GET     /login                      controllers.Application.login()
 GET     /logout                     controllers.Application.logout()
 GET     /authenticate/:provider     com.feth.play.module.pa.controllers.AuthenticateController.authenticate(provider: String)
 
+GET     /accounts/add               controllers.Application.add()
 GET     /accounts/link              controllers.Application.link()
 POST    /accounts/link              controllers.Application.doLink()
 

@@ -1,11 +1,23 @@
 
+@import com.feth.play.module.pa.PlayAuthenticate
+
 @main("Welcome to Play Authenticate") {
-    
+    <h1>Play Authenticate sample app</h1>
     <a href="@routes.Application.restricted()">To restricted page</a>
     <br/>
-    @if(com.feth.play.module.pa.PlayAuthenticate.isLoggedIn(session())) {
-    	<a href="@routes.Application.logout()">logout</a>
+    @if(PlayAuthenticate.isLoggedIn(session())) {
+    @defining(PlayAuthenticate.getUser(session())) { user =>
+    	You are logged in with: <img src="@routes.Assets.at("images/icons/"+user.getProvider()+".png")"><br/>
+    	Your user ID is @user.getId() and your session will expire @if(user.expires() == -1) { never } else { on @Application.formatTimestamp(user.expires()) }
     	<br/>
+    	<a href="@routes.Application.add()">Link additional providers</a>
+    	<br/>
+    	<a href="@routes.Application.logout()">logout</a>
+    	
     }
+    } else {
     	<a href="@routes.Application.login()">login</a>
+    }
+    <br/>
+    <small><a href="http://icondock.com/free/vector-social-media-icons" target="_blank">Icons by icondock</a></small>
 }

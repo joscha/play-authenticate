@@ -40,8 +40,9 @@ public class AuthenticateController extends Controller {
 
 				final boolean isLoggedIn = PlayAuthenticate
 						.isLoggedIn(session());
-				final boolean isLinked = PlayAuthenticate.getUserService()
-						.isLinked(u);
+				final Object loginIdentity = PlayAuthenticate.getUserService()
+						.getLocalIdentity(u);
+				final boolean isLinked = loginIdentity != null;
 
 				// get the user with which we are logged in - is null if we are
 				// not logged in
@@ -54,18 +55,34 @@ public class AuthenticateController extends Controller {
 					// 2. -> Merge
 					// merge the two identities and return the AuthUser we want
 					// to use for the log in
-					if (PlayAuthenticate.isAccountAutoMerge()) {
-						loginUser = PlayAuthenticate.getUserService().merge(u,
-								oldUser);
-					} else {
-						final Call c = PlayAuthenticate.getResolver()
-								.askMerge();
-						if (c == null) {
-							throw new RuntimeException(
-									"Merge controller not defined, even though accountAutoMerge is set to false");
+					if (PlayAuthenticate.isAccountMergeEnabled()
+							&& !loginIdentity
+									.equals(PlayAuthenticate.getUserService()
+											.getLocalIdentity(oldUser))) {
+						// account merge is enabled
+						// and
+						// The currently logged in user and the one to log in
+						// are not the same, so shall we merge?
+
+						if (PlayAuthenticate.isAccountAutoMerge()) {
+							loginUser = PlayAuthenticate.getUserService()
+									.merge(u, oldUser);
+						} else {
+							final Call c = PlayAuthenticate.getResolver()
+									.askMerge();
+							if (c == null) {
+								throw new RuntimeException(
+										"Merge controller not defined, even though accountAutoMerge is set to false");
+							}
+							PlayAuthenticate.storeMergeUser(u, session());
+							return redirect(c);
 						}
-						PlayAuthenticate.storeMergeUser(u, session());
-						return redirect(c);
+					} else {
+						// the currently logged in user and the new login belong
+						// to the same local user,
+						// or Account merge is disabled, so just change the log
+						// in to the new user
+						loginUser = u;
 					}
 
 				} else if (!isLinked && !isLoggedIn) {

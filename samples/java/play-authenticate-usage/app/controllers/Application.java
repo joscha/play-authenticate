@@ -1,5 +1,8 @@
 package controllers;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import play.data.Form;
 import play.data.format.Formats.NonEmpty;
 import play.data.validation.Constraints.Required;
@@ -38,7 +41,16 @@ public class Application extends Controller {
 	}
 
 	public static Result login() {
-		return ok(login.render(Registry.getProviders()));
+		return ok(login.render());
+	}
+	
+	@Restrict("user")
+	public static Result add() {
+		return ok(add.render());
+	}
+	
+	public static String formatTimestamp(final long t) {
+		return new SimpleDateFormat("yyyy-dd-MM HH:mm:ss").format(new Date(t));
 	}
 
 	public static Result logout() {

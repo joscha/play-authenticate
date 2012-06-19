@@ -25,8 +25,13 @@ public class MyUserServicePlugin extends UserServicePlugin {
 	}
 
 	@Override
-	public boolean isLinked(final AuthUserIdentity identity) {
-		return User.existsByAuthUserIdentity(identity);
+	public Object getLocalIdentity(final AuthUserIdentity identity) {
+		User u = User.findByAuthUserIdentity(identity);
+		if(u != null) {
+			return u.id;
+		} else {
+			return null;
+		}
 	}
 
 	@Override

@@ -22,7 +22,7 @@ import com.feth.play.module.pa.exceptions.AccessDeniedException;
 import com.feth.play.module.pa.exceptions.AccessTokenException;
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.AuthProvider;
-import com.feth.play.module.pa.providers.AuthUserIdentity;
+import com.feth.play.module.pa.user.AuthUserIdentity;
 
 public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends OAuth2AuthInfo>
 		extends AuthProvider {

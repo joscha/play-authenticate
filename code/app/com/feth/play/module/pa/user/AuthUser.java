@@ -1,4 +1,4 @@
-package com.feth.play.module.pa.providers;
+package com.feth.play.module.pa.user;
 
 import java.io.Serializable;
 

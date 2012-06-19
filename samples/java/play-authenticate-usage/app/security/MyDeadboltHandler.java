@@ -8,7 +8,7 @@ import be.objectify.deadbolt.DynamicResourceHandler;
 import be.objectify.deadbolt.models.RoleHolder;
 
 import com.feth.play.module.pa.PlayAuthenticate;
-import com.feth.play.module.pa.providers.AuthUserIdentity;
+import com.feth.play.module.pa.user.AuthUserIdentity;
 
 public class MyDeadboltHandler extends AbstractDeadboltHandler {
 	

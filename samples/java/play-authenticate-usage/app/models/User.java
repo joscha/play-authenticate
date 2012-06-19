@@ -29,12 +29,12 @@ import javax.persistence.OneToMany;
 
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.ExpressionList;
-import com.feth.play.module.pa.providers.AuthUser;
-import com.feth.play.module.pa.providers.AuthUserIdentity;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import com.feth.play.module.pa.user.AuthUser;
+import com.feth.play.module.pa.user.AuthUserIdentity;
 
 /**
  * @author Steve Chaloner (steve@objectify.be)

@@ -9,7 +9,7 @@ import com.feth.play.module.pa.exceptions.AccessDeniedException;
 import com.feth.play.module.pa.exceptions.AccessTokenException;
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.AuthProvider;
-import com.feth.play.module.pa.providers.AuthUser;
+import com.feth.play.module.pa.user.AuthUser;
 
 public class AuthenticateController extends Controller {
 

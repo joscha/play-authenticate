@@ -14,8 +14,7 @@ import be.objectify.deadbolt.actions.Restrict;
 import be.objectify.deadbolt.actions.RoleHolderPresent;
 
 import com.feth.play.module.pa.PlayAuthenticate;
-import com.feth.play.module.pa.providers.AuthProvider.Registry;
-import com.feth.play.module.pa.providers.AuthUser;
+import com.feth.play.module.pa.user.AuthUser;
 
 public class Application extends Controller {
 

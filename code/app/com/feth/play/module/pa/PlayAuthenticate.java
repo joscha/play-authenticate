@@ -14,9 +14,9 @@ import play.mvc.Result;
 
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.AuthProvider;
-import com.feth.play.module.pa.providers.AuthUser;
-import com.feth.play.module.pa.providers.SessionAuthUser;
 import com.feth.play.module.pa.service.UserService;
+import com.feth.play.module.pa.user.AuthUser;
+import com.feth.play.module.pa.user.SessionAuthUser;
 
 public abstract class PlayAuthenticate {
 

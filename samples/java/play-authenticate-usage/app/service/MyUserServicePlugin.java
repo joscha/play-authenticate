@@ -3,8 +3,8 @@ package service;
 import models.User;
 import play.Application;
 
-import com.feth.play.module.pa.providers.AuthUser;
-import com.feth.play.module.pa.providers.AuthUserIdentity;
+import com.feth.play.module.pa.user.AuthUser;
+import com.feth.play.module.pa.user.AuthUserIdentity;
 import com.feth.play.module.pa.service.UserServicePlugin;
 
 public class MyUserServicePlugin extends UserServicePlugin {

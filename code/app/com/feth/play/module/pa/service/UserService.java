@@ -1,7 +1,7 @@
 package com.feth.play.module.pa.service;
 
-import com.feth.play.module.pa.providers.AuthUser;
-import com.feth.play.module.pa.providers.AuthUserIdentity;
+import com.feth.play.module.pa.user.AuthUser;
+import com.feth.play.module.pa.user.AuthUserIdentity;
 
 public interface UserService {
 	

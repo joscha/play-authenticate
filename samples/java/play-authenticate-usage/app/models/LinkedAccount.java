@@ -3,13 +3,17 @@ package models;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-import com.feth.play.module.pa.providers.AuthUser;
-import com.feth.play.module.pa.providers.AuthUserIdentity;
-
 import play.db.ebean.Model;
+
+import com.feth.play.module.pa.user.AuthUser;
 
 @Entity
 public class LinkedAccount extends Model {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	public Long id;

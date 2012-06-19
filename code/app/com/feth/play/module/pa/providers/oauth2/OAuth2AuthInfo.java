@@ -1,7 +1,7 @@
 package com.feth.play.module.pa.providers.oauth2;
 
 import com.feth.play.module.pa.providers.AuthInfo;
-import com.feth.play.module.pa.providers.AuthUser;
+import com.feth.play.module.pa.user.AuthUser;
 
 public abstract class OAuth2AuthInfo extends AuthInfo {
 	private String accessToken;

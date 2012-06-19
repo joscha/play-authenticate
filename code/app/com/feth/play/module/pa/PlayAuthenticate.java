@@ -175,7 +175,7 @@ public abstract class PlayAuthenticate {
 		session.remove(PROVIDER_KEY);
 		session.remove(EXPIRES_KEY);
 
-		// shouldn't be in any more, but just in case
+		// shouldn't be in any more, but just in case lets kill it from the cookie
 		session.remove(ORIGINAL_URL);
 	}
 
@@ -265,6 +265,7 @@ public abstract class PlayAuthenticate {
 
 	public static void storeMergeUser(final AuthUser identity,
 			final Session session) {
+		// TODO the cache is not ideal for this, because it might get cleared any time
 		storeUserInCache(session, MERGE_USER_KEY, identity);
 	}
 
@@ -278,6 +279,7 @@ public abstract class PlayAuthenticate {
 
 	public static void storeLinkUser(final AuthUser identity,
 			final Session session) {
+		// TODO the cache is not ideal for this, because it might get cleared any time
 		storeUserInCache(session, LINK_USER_KEY, identity);
 	}
 

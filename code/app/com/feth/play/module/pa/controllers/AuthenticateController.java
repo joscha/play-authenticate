@@ -16,7 +16,7 @@ public class AuthenticateController extends Controller {
 	public static Result authenticate(final String provider) {
 		final AuthProvider ap = AuthProvider.Registry.get(provider);
 		if (ap == null) {
-			// Provider wasn't found and/or user was fooling with our stuff
+			// Provider wasn't found and/or user was fooling with our stuff - tell him off:
 			return notFound();
 		}
 		try {
@@ -28,6 +28,7 @@ public class AuthenticateController extends Controller {
 				final AuthUser u = (AuthUser) o;
 
 				// We might want to do merging here:
+				// Adapted from:
 				// http://stackoverflow.com/questions/6666267/architecture-for-merging-multiple-user-accounts-together
 				// 1. The account is linked to a local account and no session
 				// cookie is present --> Login
@@ -44,15 +45,18 @@ public class AuthenticateController extends Controller {
 						.getLocalIdentity(u);
 				final boolean isLinked = loginIdentity != null;
 
-				// get the user with which we are logged in - is null if we are
-				// not logged in
-				final AuthUser oldUser = PlayAuthenticate.getUser(ctx());
 				final AuthUser loginUser;
 				if (isLinked && !isLoggedIn) {
 					// 1. -> Login
 					loginUser = u;
 				} else if (isLinked && isLoggedIn) {
 					// 2. -> Merge
+
+					// get the user with which we are logged in - is null if we
+					// are
+					// not logged in
+					final AuthUser oldUser = PlayAuthenticate.getUser(ctx());
+
 					// merge the two identities and return the AuthUser we want
 					// to use for the log in
 					if (PlayAuthenticate.isAccountMergeEnabled()
@@ -65,9 +69,12 @@ public class AuthenticateController extends Controller {
 						// are not the same, so shall we merge?
 
 						if (PlayAuthenticate.isAccountAutoMerge()) {
+							// Account auto merging is enabled
 							loginUser = PlayAuthenticate.getUserService()
 									.merge(u, oldUser);
 						} else {
+							// Account auto merging is disabled - forward user
+							// to merge request page
 							final Call c = PlayAuthenticate.getResolver()
 									.askMerge();
 							if (c == null) {
@@ -92,9 +99,19 @@ public class AuthenticateController extends Controller {
 					// !isLinked && isLoggedIn:
 					// 4. -> Link additional
 					if (PlayAuthenticate.isAccountAutoLink()) {
+						// Account auto linking is enabled
+
+						// get the user with which we are logged in - is null if
+						// we are
+						// not logged in
+						final AuthUser oldUser = PlayAuthenticate
+								.getUser(ctx());
+
 						loginUser = PlayAuthenticate.getUserService().link(
 								oldUser, u);
 					} else {
+						// Account auto linking is disabled - forward user to
+						// link suggestion page
 						final Call c = PlayAuthenticate.getResolver().askLink();
 						if (c == null) {
 							throw new RuntimeException(

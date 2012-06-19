@@ -15,17 +15,22 @@
  */
 package models;
 
-import be.objectify.deadbolt.models.Role;
-import play.db.ebean.Model;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
+
+import play.db.ebean.Model;
+import be.objectify.deadbolt.models.Role;
 
 /**
  * @author Steve Chaloner (steve@objectify.be)
  */
 @Entity
 public class SecurityRole extends Model implements Role {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	public Long id;
 

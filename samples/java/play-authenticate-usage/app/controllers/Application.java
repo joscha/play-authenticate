@@ -25,7 +25,7 @@ public class Application extends Controller {
 		@Required
 		@NonEmpty
 		public Boolean accept;
-		
+
 	}
 
 	public static Form<Accept> ACCEPT_FORM = form(Accept.class);
@@ -42,12 +42,12 @@ public class Application extends Controller {
 	public static Result login() {
 		return ok(login.render());
 	}
-	
+
 	@Restrict("user")
 	public static Result add() {
 		return ok(add.render());
 	}
-	
+
 	public static String formatTimestamp(final long t) {
 		return new SimpleDateFormat("yyyy-dd-MM HH:mm:ss").format(new Date(t));
 	}
@@ -77,8 +77,10 @@ public class Application extends Controller {
 
 		final Form<Accept> filledForm = ACCEPT_FORM.bindFromRequest();
 		if (filledForm.hasErrors()) {
+			// User did not select whether to link or not link
 			return badRequest(ask_link.render(filledForm, u));
 		} else {
+			// User made a choice :)
 			return PlayAuthenticate.link(ctx(), filledForm.get().accept);
 		}
 	}
@@ -114,8 +116,10 @@ public class Application extends Controller {
 
 		final Form<Accept> filledForm = ACCEPT_FORM.bindFromRequest();
 		if (filledForm.hasErrors()) {
+			// User did not select whether to merge or not merge
 			return badRequest(ask_merge.render(filledForm, aUser, bUser));
 		} else {
+			// User made a choice :)
 			return PlayAuthenticate.merge(ctx(), filledForm.get().accept);
 		}
 	}

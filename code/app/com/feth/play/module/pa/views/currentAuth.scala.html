@@ -1,0 +1,7 @@
+@()(body: com.feth.play.module.pa.user.AuthUser => Html)
+
+@import com.feth.play.module.pa.PlayAuthenticate
+
+@defining(PlayAuthenticate.getUser(session())) { auth =>
+	@body(auth)
+}

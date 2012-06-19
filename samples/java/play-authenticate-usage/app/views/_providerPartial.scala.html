@@ -1,11 +1,9 @@
+@(skipCurrent: Boolean = true)
 
-@import com.feth.play.module.pa.PlayAuthenticate
-@import com.feth.play.module.pa.providers.AuthProvider.Registry
+@import com.feth.play.module.pa.views.html._
 
-    <ul>
-    @for(p <- Registry.getProviders()) {
-    	@if(!PlayAuthenticate.isLoggedIn(session()) || (PlayAuthenticate.isLoggedIn(session()) && !PlayAuthenticate.getUser(session()).getProvider().equals(p.getKey()))) {
-    	<li><a href="@p.getUrl()"><img src="@routes.Assets.at("images/icons/"+p.getKey()+".png")"></a></li>
-    	}
-    }
-    </ul>
+<ul>
+@forProviders(skipCurrent) { p =>
+	<li><a href="@p.getUrl()">@_providerIcon(p.getKey())</a></li>
+}
+</ul>

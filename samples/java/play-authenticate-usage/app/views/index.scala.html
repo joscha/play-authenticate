@@ -1,20 +1,14 @@
 
-@import com.feth.play.module.pa.PlayAuthenticate
+@import be.objectify.deadbolt.Deadbolt
 
 @main("Welcome to Play Authenticate") {
     <h1>Play Authenticate sample app</h1>
     <a href="@routes.Application.restricted()">To restricted page</a>
     <br/>
-    @if(PlayAuthenticate.isLoggedIn(session())) {
-    @defining(PlayAuthenticate.getUser(session())) { user =>
-    	You are logged in with: <img src="@routes.Assets.at("images/icons/"+user.getProvider()+".png")"><br/>
-    	Your user ID is @user.getId() and your session will expire @if(user.expires() == -1) { never } else { on @Application.formatTimestamp(user.expires()) }
-    	<br/>
+    @if(Deadbolt.viewRoleHolderPresent()) {
     	<a href="@routes.Application.add()">Link additional providers</a>
     	<br/>
     	<a href="@routes.Application.logout()">logout</a>
-    	
-    }
     } else {
     	<a href="@routes.Application.login()">login</a>
     }

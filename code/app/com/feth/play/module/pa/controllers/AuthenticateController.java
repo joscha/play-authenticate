@@ -39,8 +39,30 @@ public class AuthenticateController extends Controller {
 				// 4. The account is not linked to a local account and a session
 				// cookie is present --> Linking Additional account
 
-				final boolean isLoggedIn = PlayAuthenticate
+				// get the user with which we are logged in - is null if we
+				// are
+				// not logged in (does NOT check expiration)
+				AuthUser oldUser = PlayAuthenticate.getUser(ctx());
+				
+				// checks if the user is logged in (also checks the expiration!)
+				boolean isLoggedIn = PlayAuthenticate
 						.isLoggedIn(session());
+				
+				Object oldIdentity = null;
+				
+				// check if local user still exists - it might have been deactivated/deleted,
+				// so this is a signup, not a link
+				if(isLoggedIn) {
+					oldIdentity = PlayAuthenticate.getUserService().getLocalIdentity(oldUser);
+					isLoggedIn &= oldIdentity != null;
+					if(!isLoggedIn) {
+						// if isLoggedIn is false here, then the local user has been deleted/deactivated
+						// so kill the session
+						PlayAuthenticate.logout(session());
+						oldUser = null;
+					}
+				}
+				
 				final Object loginIdentity = PlayAuthenticate.getUserService()
 						.getLocalIdentity(u);
 				final boolean isLinked = loginIdentity != null;
@@ -48,21 +70,19 @@ public class AuthenticateController extends Controller {
 				final AuthUser loginUser;
 				if (isLinked && !isLoggedIn) {
 					// 1. -> Login
-					loginUser = u;
+					// User logged in once more - wanna make some updates?
+					loginUser = PlayAuthenticate.getUserService().update(u);
+					
 				} else if (isLinked && isLoggedIn) {
 					// 2. -> Merge
 
-					// get the user with which we are logged in - is null if we
-					// are
-					// not logged in
-					final AuthUser oldUser = PlayAuthenticate.getUser(ctx());
+
 
 					// merge the two identities and return the AuthUser we want
 					// to use for the log in
 					if (PlayAuthenticate.isAccountMergeEnabled()
 							&& !loginIdentity
-									.equals(PlayAuthenticate.getUserService()
-											.getLocalIdentity(oldUser))) {
+									.equals(oldIdentity)) {
 						// account merge is enabled
 						// and
 						// The currently logged in user and the one to log in
@@ -97,15 +117,10 @@ public class AuthenticateController extends Controller {
 					loginUser = PlayAuthenticate.signupUser(u);
 				} else {
 					// !isLinked && isLoggedIn:
+					
 					// 4. -> Link additional
 					if (PlayAuthenticate.isAccountAutoLink()) {
 						// Account auto linking is enabled
-
-						// get the user with which we are logged in - is null if
-						// we are
-						// not logged in
-						final AuthUser oldUser = PlayAuthenticate
-								.getUser(ctx());
 
 						loginUser = PlayAuthenticate.getUserService().link(
 								oldUser, u);

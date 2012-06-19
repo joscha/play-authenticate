@@ -2,7 +2,9 @@ package models;
 
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -123,6 +125,14 @@ public class User extends Model implements RoleHolder {
 	public static void merge(final AuthUser oldUser, final AuthUser newUser) {
 		User.findByAuthUserIdentity(oldUser).merge(
 				User.findByAuthUserIdentity(newUser));
+	}
+	
+	public Set<String> getProviders() {
+		final Set<String> providerKeys = new HashSet<String>(linkedAccounts.size());
+		for(final LinkedAccount acc: linkedAccounts) {
+			providerKeys.add(acc.providerKey);
+		}
+		return providerKeys;
 	}
 
 	public static void addLinkedAccount(final AuthUser oldUser,

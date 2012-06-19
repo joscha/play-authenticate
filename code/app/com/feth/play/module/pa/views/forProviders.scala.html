@@ -1,0 +1,18 @@
+@(skipCurrent: Boolean = false)(body: com.feth.play.module.pa.providers.AuthProvider => Html)
+
+@import com.feth.play.module.pa.PlayAuthenticate
+@import com.feth.play.module.pa.providers.AuthProvider.Registry
+
+@defining(Registry.getProviders()) { providers =>
+	@if(providers != null && providers.size() > 0) {
+		@defining(PlayAuthenticate.isLoggedIn(session())) { loggedIn =>
+			@defining(PlayAuthenticate.getUser(session())) { auth =>
+			    @for(p <- providers) {
+			    	@if(!loggedIn || !skipCurrent || (skipCurrent && (loggedIn && !p.getKey().equals(auth.getProvider())))) {
+			    		@body(p)
+			    	}
+			    }
+		    }
+	    }
+	}
+}

@@ -1,7 +1,7 @@
 @(acceptForm: Form[Application.Accept], newAccount: com.feth.play.module.pa.user.AuthUser)
 
 @label = {
-	Link '@newAccount.getProvider()' with your user?
+	Link @_providerIcon(newAccount.getProvider()) (@newAccount) with your user?
 }
 
 @main("Link account") {

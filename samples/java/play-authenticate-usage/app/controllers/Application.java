@@ -3,6 +3,8 @@ package controllers;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import models.User;
+
 import play.data.Form;
 import play.data.format.Formats.NonEmpty;
 import play.data.validation.Constraints.Required;
@@ -33,10 +35,11 @@ public class Application extends Controller {
 	public static Result index() {
 		return ok(index.render());
 	}
-
+	
 	@Restrict("user")
 	public static Result restricted() {
-		return ok(restricted.render());
+		final User localUser = User.findByAuthUserIdentity(PlayAuthenticate.getUser(session()));
+		return ok(restricted.render(localUser));
 	}
 
 	public static Result login() {

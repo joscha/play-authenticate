@@ -6,7 +6,7 @@
     <a href="@routes.Application.restricted()">To restricted page</a>
     <br/>
     @if(Deadbolt.viewRoleHolderPresent()) {
-    	<a href="@routes.Application.add()">Link additional providers</a>
+    	<a href="@routes.Account.link()">Link additional providers</a>
     	<br/>
     	<a href="@com.feth.play.module.pa.controllers.routes.Authenticate.logout()">logout</a>
     } else {

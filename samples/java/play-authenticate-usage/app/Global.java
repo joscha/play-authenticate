@@ -44,12 +44,12 @@ public class Global extends GlobalSettings {
 
 			@Override
 			public Call askMerge() {
-				return routes.Application.merge();
+				return routes.Account.askMerge();
 			}
 
 			@Override
 			public Call askLink() {
-				return routes.Application.link();
+				return routes.Account.askLink();
 			}
 		});
 

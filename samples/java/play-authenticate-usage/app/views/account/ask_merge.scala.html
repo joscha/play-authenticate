@@ -1,4 +1,4 @@
-@(acceptForm: Form[Application.Accept], aUser: com.feth.play.module.pa.user.AuthUser, bUser: com.feth.play.module.pa.user.AuthUser)
+@(acceptForm: Form[Account.Accept], aUser: com.feth.play.module.pa.user.AuthUser, bUser: com.feth.play.module.pa.user.AuthUser)
 
 @label = {
 	Do you want to merge the account you are currently logged in with (@aUser),
@@ -9,7 +9,7 @@
 
 	<h1>Merge accounts</h1>
 	
-	@helper.form(routes.Application.doMerge) {
+	@helper.form(routes.Account.doMerge) {
 	   
 	   @if(acceptForm.hasGlobalErrors) { 
 	       <p class="error">

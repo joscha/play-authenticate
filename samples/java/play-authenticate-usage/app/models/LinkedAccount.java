@@ -31,7 +31,7 @@ public class LinkedAccount extends Model {
 	}
 
 
-	public static LinkedAccount create(LinkedAccount acc) {
+	public static LinkedAccount create(final LinkedAccount acc) {
 		final LinkedAccount ret = new LinkedAccount();
 		ret.providerKey = acc.providerKey;
 		ret.providerUserId = acc.providerUserId;

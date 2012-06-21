@@ -16,7 +16,7 @@ public class GoogleAuthProvider extends
 		OAuth2AuthProvider<GoogleAuthUser, GoogleAuthInfo> {
 
 	private static final String USER_INFO_URL_SETTING_KEY = "userInfoUrl";
-	static final String PROVIDER_KEY = "google";
+	static final String PROVIDER_KEY = PROVIDER_KEY_BASE+"."+"google";
 
 	public GoogleAuthProvider(Application app) {
 		super(app);

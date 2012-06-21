@@ -16,7 +16,7 @@ import com.feth.play.module.pa.user.AuthUserIdentity;
 public class FoursquareAuthProvider extends
 		OAuth2AuthProvider<FoursquareAuthUser, FoursquareAuthInfo> {
 
-	public static final String PROVIDER_KEY = "foursquare";
+	public static final String PROVIDER_KEY = PROVIDER_KEY_BASE+"."+"foursquare";
 	private static final String USER_INFO_URL_SETTING_KEY = "userInfoUrl";
 	private static final String OAUTH_TOKEN = "oauth_token";
 	private static final String VERSION = "20120617";

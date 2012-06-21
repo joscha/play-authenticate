@@ -22,7 +22,8 @@ import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
 public class FacebookAuthProvider extends
 		OAuth2AuthProvider<FacebookAuthUser, FacebookAuthInfo> {
 
-	public static final String PROVIDER_KEY = PROVIDER_KEY_BASE+"."+"facebook";
+	static final String PROVIDER_KEY = "facebook";
+	
 	private static final String USER_INFO_URL_SETTING_KEY = "userInfoUrl";
 
 	public FacebookAuthProvider(Application app) {

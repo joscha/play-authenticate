@@ -28,8 +28,6 @@ import com.feth.play.module.pa.user.AuthUserIdentity;
 public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends OAuth2AuthInfo>
 		extends AuthProvider {
 	
-	protected static final String PROVIDER_KEY_BASE = "oauth2";
-	
 	public OAuth2AuthProvider(final Application app) {
 		super(app);
 	}

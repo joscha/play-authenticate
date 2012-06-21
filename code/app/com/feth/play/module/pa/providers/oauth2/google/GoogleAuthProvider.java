@@ -15,8 +15,9 @@ import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
 public class GoogleAuthProvider extends
 		OAuth2AuthProvider<GoogleAuthUser, GoogleAuthInfo> {
 
+	static final String PROVIDER_KEY = "google";
+	
 	private static final String USER_INFO_URL_SETTING_KEY = "userInfoUrl";
-	static final String PROVIDER_KEY = PROVIDER_KEY_BASE+"."+"google";
 
 	public GoogleAuthProvider(Application app) {
 		super(app);

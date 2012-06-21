@@ -125,7 +125,7 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 	}
 
 	@Override
-	public Object authenticate(final Context context) throws AuthException {
+	public Object authenticate(final Context context, final Object payload) throws AuthException {
 
 		final Request request = context.request();
 		final String error = request.getQueryString(Constants.ERROR);

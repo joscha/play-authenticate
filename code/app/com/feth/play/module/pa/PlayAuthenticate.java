@@ -78,6 +78,17 @@ public abstract class PlayAuthenticate {
 		 * @return
 		 */
 		public abstract Call askLink();
+
+		/**
+		 * Route to redirect to after logout has been finished.
+		 * If you return null here, the user will get redirected to the URL of
+		 * the setting
+		 * afterLogoutFallback
+		 * You can use this to redirect to an external URL for example.
+		 * 
+		 * @return
+		 */
+		public abstract Call afterLogout();
 	}
 
 	private static Resolver resolver;
@@ -172,7 +183,7 @@ public abstract class PlayAuthenticate {
 		return ret;
 	}
 
-	public static void logout(final Session session) {
+	public static Result logout(final Session session) {
 		session.remove(USER_KEY);
 		session.remove(PROVIDER_KEY);
 		session.remove(EXPIRES_KEY);
@@ -180,6 +191,8 @@ public abstract class PlayAuthenticate {
 		// shouldn't be in any more, but just in case lets kill it from the
 		// cookie
 		session.remove(ORIGINAL_URL);
+		
+		return Controller.redirect(getUrl(getResolver().afterLogout(), "afterLogoutFallback"));
 	}
 
 	public static String peekOriginalUrl(final Context context) {
@@ -304,24 +317,28 @@ public abstract class PlayAuthenticate {
 		if (originalUrl != null) {
 			return originalUrl;
 		} else {
-			// this can be null if the user did not correctly define the
-			// resolver
-			final Call c = getResolver().afterAuth();
-			if (c != null) {
-				return c.url();
-			} else {
-				// go to root instead, but log this
-				Logger.warn("Resolver did not contain information about where to go after authentication - redirecting to /");
-				final String afterAuthFallback = getConfiguration().getString(
-						"afterAuthFallback");
-				if (afterAuthFallback != null && !afterAuthFallback.equals("")) {
-					return afterAuthFallback;
-				}
+			return getUrl(getResolver().afterAuth(), "afterAuthFallback");
+		}
+	}
+	
 
-				// Not even the config setting was there or valid...meh
-				Logger.error("Config setting 'afterAuthFallback' was not present!");
-				return "/";
+	private static String getUrl(final Call c, final String settingFallback) {
+		// this can be null if the user did not correctly define the
+		// resolver
+		if (c != null) {
+			return c.url();
+		} else {
+			// go to root instead, but log this
+			Logger.warn("Resolver did not contain information about where to go - redirecting to /");
+			final String afterAuthFallback = getConfiguration().getString(
+					settingFallback);
+			if (afterAuthFallback != null && !afterAuthFallback.equals("")) {
+				return afterAuthFallback;
 			}
+			// Not even the config setting was there or valid...meh
+			Logger.error("Config setting '" + settingFallback
+					+ "' was not present!");
+			return "/";
 		}
 	}
 
@@ -386,15 +403,15 @@ public abstract class PlayAuthenticate {
 	}
 
 	public static Result handleAuthentication(final String provider,
-			final Context context) {
-		final AuthProvider ap = AuthProvider.Registry.get(provider);
+			final Context context, final Object payload) {
+		final AuthProvider ap = getProvider(provider);
 		if (ap == null) {
 			// Provider wasn't found and/or user was fooling with our stuff -
 			// tell him off:
-			return Controller.notFound();
+			return Controller.notFound(provider+" could not be found");
 		}
 		try {
-			final Object o = ap.authenticate(context);
+			final Object o = ap.authenticate(context, payload);
 			if (o instanceof String) {
 				return Controller.redirect((String) o);
 			} else if (o instanceof AuthUser) {
@@ -523,5 +540,9 @@ public abstract class PlayAuthenticate {
 			}
 			return Controller.internalServerError(e.getMessage());
 		}
+	}
+
+	public static AuthProvider getProvider(final String providerKey) {
+		return AuthProvider.Registry.get(providerKey);
 	}
 }

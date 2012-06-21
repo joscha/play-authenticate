@@ -7,8 +7,8 @@ GET     /                           controllers.Application.index()
 GET     /restricted                 controllers.Application.restricted()
 
 GET     /login                      controllers.Application.login()
-GET     /logout                     controllers.Application.logout()
-GET     /authenticate/:provider     com.feth.play.module.pa.controllers.AuthenticateController.authenticate(provider: String)
+GET     /logout                     com.feth.play.module.pa.controllers.Authenticate.logout
+GET     /authenticate/:provider     com.feth.play.module.pa.controllers.Authenticate.authenticate(provider: String)
 
 GET     /accounts/add               controllers.Application.add()
 GET     /accounts/link              controllers.Application.link()

@@ -8,7 +8,7 @@
     @if(Deadbolt.viewRoleHolderPresent()) {
     	<a href="@routes.Application.add()">Link additional providers</a>
     	<br/>
-    	<a href="@routes.Application.logout()">logout</a>
+    	<a href="@com.feth.play.module.pa.controllers.routes.Authenticate.logout()">logout</a>
     } else {
     	<a href="@routes.Application.login()">login</a>
     }

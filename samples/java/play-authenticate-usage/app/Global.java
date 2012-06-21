@@ -30,10 +30,15 @@ public class Global extends GlobalSettings {
 			}
 
 			@Override
+			public Call afterLogout() {
+				return routes.Application.index();
+			}
+
+			@Override
 			public Call auth(final String provider) {
 				// You can provide your own authentication implementation,
 				// however the default should be sufficient for most cases
-				return com.feth.play.module.pa.controllers.routes.AuthenticateController
+				return com.feth.play.module.pa.controllers.routes.Authenticate
 						.authenticate(provider);
 			}
 
@@ -53,7 +58,8 @@ public class Global extends GlobalSettings {
 
 	private void initialData() {
 		if (SecurityRole.find.findRowCount() == 0) {
-			for (final String roleName : Arrays.asList(controllers.Application.USER_ROLE)) {
+			for (final String roleName : Arrays
+					.asList(controllers.Application.USER_ROLE)) {
 				final SecurityRole role = new SecurityRole();
 				role.roleName = roleName;
 				role.save();

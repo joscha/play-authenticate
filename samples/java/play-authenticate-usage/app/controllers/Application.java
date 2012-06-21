@@ -55,11 +55,6 @@ public class Application extends Controller {
 		return new SimpleDateFormat("yyyy-dd-MM HH:mm:ss").format(new Date(t));
 	}
 
-	public static Result logout() {
-		PlayAuthenticate.logout(session());
-		return redirect(routes.Application.index());
-	}
-
 	@RoleHolderPresent
 	public static Result link() {
 		final AuthUser u = PlayAuthenticate.getLinkUser(session());

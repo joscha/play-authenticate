@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
@@ -21,9 +22,13 @@ import be.objectify.deadbolt.models.RoleHolder;
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.ExpressionList;
 import com.avaje.ebean.validation.Email;
+import com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider.UsernamePassword;
+import com.feth.play.module.pa.providers.password.UsernamePasswordAuthUser;
 import com.feth.play.module.pa.user.AuthUser;
 import com.feth.play.module.pa.user.AuthUserIdentity;
 import com.feth.play.module.pa.user.BasicIdentity;
+import com.feth.play.module.pa.user.EmailIdentity;
+import com.feth.play.module.pa.user.NameIdentity;
 
 /**
  * Initial version based on work by Steve Chaloner (steve@objectify.be) for
@@ -40,13 +45,16 @@ public class User extends Model implements RoleHolder {
 	public Long id;
 
 	@Email
+	@Column(unique = true)
 	public String email;
 
 	public String name;
-	
+
 	public Date lastLogin;
 
 	public boolean active;
+
+	public boolean emailValidated;
 
 	@ManyToMany
 	public List<SecurityRole> roles;
@@ -70,19 +78,39 @@ public class User extends Model implements RoleHolder {
 
 	public static boolean existsByAuthUserIdentity(
 			final AuthUserIdentity identity) {
-		return getAuthUserFind(identity).findRowCount() > 0;
+		final ExpressionList<User> exp;
+		if(identity instanceof UsernamePasswordAuthUser) {
+			exp = getUsernamePasswordAuthUserFind((UsernamePasswordAuthUser) identity);
+		} else {
+			exp = getAuthUserFind(identity);
+		}
+		return exp.findRowCount() > 0;
 	}
 
 	private static ExpressionList<User> getAuthUserFind(
 			final AuthUserIdentity identity) {
-		return find.where()
+		return find.where().eq("active", true)
 				.eq("linkedAccounts.providerUserId", identity.getId())
-				.eq("linkedAccounts.providerKey", identity.getProvider())
-				.eq("active", true);
+				.eq("linkedAccounts.providerKey", identity.getProvider());
 	}
 
 	public static User findByAuthUserIdentity(final AuthUserIdentity identity) {
-		return getAuthUserFind(identity).findUnique();
+		if (identity instanceof UsernamePasswordAuthUser) {
+			return findByUsernamePasswordIdentity((UsernamePasswordAuthUser) identity);
+		} else {
+			return getAuthUserFind(identity).findUnique();
+		}
+	}
+
+	public static User findByUsernamePasswordIdentity(
+			final UsernamePasswordAuthUser identity) {
+		return getUsernamePasswordAuthUserFind(identity).findUnique();
+	}
+
+	private static ExpressionList<User> getUsernamePasswordAuthUserFind(
+			final UsernamePasswordAuthUser identity) {
+		return getEmailUserFind(identity.getEmail()).eq(
+				"linkedAccounts.providerKey", identity.getProvider());
 	}
 
 	public void merge(final User otherUser) {
@@ -107,13 +135,21 @@ public class User extends Model implements RoleHolder {
 		user.linkedAccounts = Collections.singletonList(LinkedAccount
 				.create(authUser));
 
-		if (authUser instanceof BasicIdentity) {
-			final BasicIdentity identity = (BasicIdentity) authUser;
-			user.name = identity.getName();
-
+		if (authUser instanceof EmailIdentity) {
+			final EmailIdentity identity = (EmailIdentity) authUser;
 			// Remember, even when getting them from FB & Co., emails should be
-			// verified within the application!
+			// verified within the application as a security breach there might
+			// break your security as well!
 			user.email = identity.getEmail();
+			user.emailValidated = false;
+		}
+
+		if (authUser instanceof NameIdentity) {
+			final NameIdentity identity = (NameIdentity) authUser;
+			final String name = identity.getName();
+			if (name != null) {
+				user.name = name;
+			}
 		}
 
 		user.save();
@@ -126,10 +162,11 @@ public class User extends Model implements RoleHolder {
 		User.findByAuthUserIdentity(oldUser).merge(
 				User.findByAuthUserIdentity(newUser));
 	}
-	
+
 	public Set<String> getProviders() {
-		final Set<String> providerKeys = new HashSet<String>(linkedAccounts.size());
-		for(final LinkedAccount acc: linkedAccounts) {
+		final Set<String> providerKeys = new HashSet<String>(
+				linkedAccounts.size());
+		for (final LinkedAccount acc : linkedAccounts) {
 			providerKeys.add(acc.providerKey);
 		}
 		return providerKeys;
@@ -146,5 +183,13 @@ public class User extends Model implements RoleHolder {
 		final User u = User.findByAuthUserIdentity(knownUser);
 		u.lastLogin = new Date();
 		u.save();
+	}
+
+	public static User findByEmail(final String email) {
+		return getEmailUserFind(email).findUnique();
+	}
+
+	private static ExpressionList<User> getEmailUserFind(final String email) {
+		return find.where().eq("active", true).eq("email", email);
 	}
 }

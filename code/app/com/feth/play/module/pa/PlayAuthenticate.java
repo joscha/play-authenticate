@@ -223,7 +223,7 @@ public abstract class PlayAuthenticate {
 		final long expires = getExpiration(session);
 
 		if (provider != null && id != null) {
-			return new SessionAuthUser(provider, id, expires);
+			return getProvider(provider).getSessionAuthUser(id, expires);
 		} else {
 			return null;
 		}

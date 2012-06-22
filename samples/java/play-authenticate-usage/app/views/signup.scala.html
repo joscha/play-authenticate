@@ -1,0 +1,40 @@
+@(signupForm: Form[_])
+
+@import helper._
+
+@main("Signup") {
+    
+    <h1>Signup</h1>
+    
+	@_providerPartial(skipCurrent=false)
+	
+	@helper.form(routes.Application.doSignup) {
+	
+            @if(signupForm.hasGlobalErrors) { 
+                <p class="error">
+                    @signupForm.globalError.message
+                </p>
+            }
+
+            @inputText(
+                signupForm("name")
+            )
+            
+            @inputText(
+                signupForm("email")
+            )
+            
+            @inputPassword(
+                signupForm("password")
+            )
+            
+            @inputPassword(
+                signupForm("repeatPassword"),
+                '_error -> signupForm.error("password")
+            )
+            
+            <input type="submit" value="OK">
+	}
+    <br/>
+    <a href="@routes.Application.index()">Back to index</a>
+}

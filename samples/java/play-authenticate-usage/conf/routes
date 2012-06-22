@@ -7,8 +7,16 @@ GET     /                           controllers.Application.index()
 GET     /restricted                 controllers.Application.restricted()
 
 GET     /login                      controllers.Application.login()
+POST    /login                      controllers.Application.doLogin()
+
 GET     /logout                     com.feth.play.module.pa.controllers.Authenticate.logout
 GET     /authenticate/:provider     com.feth.play.module.pa.controllers.Authenticate.authenticate(provider: String)
+
+GET     /signup                     controllers.Application.signup
+POST    /signup                     controllers.Application.doSignup
+
+GET     /accounts/verify            controllers.Signup.unverified
+GET     /accounts/exists            controllers.Signup.exists
 
 GET     /accounts/add               controllers.Account.link
 

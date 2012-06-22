@@ -1,14 +1,37 @@
+@(loginForm: Form[_])
 
+@import helper._
 
 @main("Login") {
     
-    <h1>Login</h1>
+    <h1>Login with</h1>
     
     @if(flash.contains("error")) {
       <p>@flash().get("error")</p>
     }
     
 	@_providerPartial(skipCurrent=false)
+	
+	@helper.form(routes.Application.doLogin) {
+	
+            @if(loginForm.hasGlobalErrors) { 
+                <p class="error">
+                    @loginForm.globalError.message
+                </p>
+            }
+            
+            @inputText(
+                loginForm("email"),
+                '_showConstraints -> false
+            )
+            
+            @inputPassword(
+                loginForm("password"),
+                '_showConstraints -> false
+            )
+            
+            <input type="submit" value="OK">
+	}
     <br/>
     <a href="@routes.Application.index()">Back to index</a>
 }

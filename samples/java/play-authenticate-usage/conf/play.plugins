@@ -3,3 +3,4 @@
 10010:com.feth.play.module.pa.providers.oauth2.google.GoogleAuthProvider
 10020:com.feth.play.module.pa.providers.oauth2.facebook.FacebookAuthProvider
 10030:com.feth.play.module.pa.providers.oauth2.foursquare.FoursquareAuthProvider
+10040:providers.MyUsernamePasswordAuthProvider

@@ -23,7 +23,9 @@ import com.feth.play.module.pa.exceptions.AccessTokenException;
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.exceptions.RedirectUriMismatch;
 import com.feth.play.module.pa.providers.AuthProvider;
+import com.feth.play.module.pa.user.AuthUser;
 import com.feth.play.module.pa.user.AuthUserIdentity;
+import com.feth.play.module.pa.user.SessionAuthUser;
 
 public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends OAuth2AuthInfo>
 		extends AuthProvider {
@@ -155,6 +157,11 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 			Logger.debug("generated redirect URL for dialog: "+url);
 			return url;
 		}
+	}
+	
+	@Override
+	public AuthUser getSessionAuthUser(String id, long expires) {
+		return new SessionAuthUser(getKey(), id, expires);
 	}
 
 	/**

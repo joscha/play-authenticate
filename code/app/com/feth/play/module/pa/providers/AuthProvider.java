@@ -14,6 +14,7 @@ import play.mvc.Http.Request;
 
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.exceptions.AuthException;
+import com.feth.play.module.pa.user.AuthUser;
 
 public abstract class AuthProvider extends Plugin {
 
@@ -113,5 +114,7 @@ public abstract class AuthProvider extends Plugin {
 	protected List<String> neededSettingKeys() {
 		return null;
 	}
+
+	public abstract AuthUser getSessionAuthUser(String id, long expires);
 
 }

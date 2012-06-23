@@ -5,6 +5,7 @@ import java.util.Date;
 import play.Configuration;
 import play.Logger;
 import play.Play;
+import play.i18n.Messages;
 import play.mvc.Call;
 import play.mvc.Controller;
 import play.mvc.Http;
@@ -17,7 +18,6 @@ import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.AuthProvider;
 import com.feth.play.module.pa.service.UserService;
 import com.feth.play.module.pa.user.AuthUser;
-import com.feth.play.module.pa.user.SessionAuthUser;
 
 public abstract class PlayAuthenticate {
 
@@ -111,7 +111,8 @@ public abstract class PlayAuthenticate {
 
 	public static UserService getUserService() {
 		if (userService == null) {
-			throw new RuntimeException("No UserService registered!");
+			throw new RuntimeException(
+					Messages.get("playauthenticate.core.exception.no_user_service"));
 		}
 		return userService;
 	}
@@ -395,11 +396,12 @@ public abstract class PlayAuthenticate {
 		return loginAndRedirect(context, loginUser);
 	}
 
-	public static AuthUser signupUser(final AuthUser u) throws AuthException {
+	private static AuthUser signupUser(final AuthUser u) throws AuthException {
 		final AuthUser loginUser;
 		final Object id = getUserService().save(u);
 		if (id == null) {
-			throw new AuthException("Could not sign you up");
+			throw new AuthException(
+					Messages.get("playauthenticate.core.exception.singupuser_failed"));
 		}
 		loginUser = u;
 		return loginUser;
@@ -411,7 +413,9 @@ public abstract class PlayAuthenticate {
 		if (ap == null) {
 			// Provider wasn't found and/or user was fooling with our stuff -
 			// tell him off:
-			return Controller.notFound(provider+" could not be found");
+			return Controller.notFound(Messages.get(
+					"playauthenticate.core.exception.provider_not_found",
+					provider));
 		}
 		try {
 			final Object o = ap.authenticate(context, payload);
@@ -492,7 +496,9 @@ public abstract class PlayAuthenticate {
 							final Call c = getResolver().askMerge();
 							if (c == null) {
 								throw new RuntimeException(
-										"Merge controller not defined, even though accountAutoMerge is set to false");
+										Messages.get(
+												"playauthenticate.core.exception.merge.controller_undefined",
+												SETTING_KEY_ACCOUNT_AUTO_MERGE));
 							}
 							storeMergeUser(newUser, session);
 							return Controller.redirect(c);
@@ -522,7 +528,9 @@ public abstract class PlayAuthenticate {
 						final Call c = getResolver().askLink();
 						if (c == null) {
 							throw new RuntimeException(
-									"Link controller not defined, even though accountAutoLink is set to false");
+									Messages.get(
+											"playauthenticate.core.exception.link.controller_undefined",
+											SETTING_KEY_ACCOUNT_AUTO_LINK));
 						}
 						storeLinkUser(newUser, session);
 						return Controller.redirect(c);
@@ -532,7 +540,8 @@ public abstract class PlayAuthenticate {
 
 				return loginAndRedirect(context, loginUser);
 			} else {
-				return Controller.internalServerError("Something went wrong");
+				return Controller.internalServerError(Messages
+						.get("playauthenticate.core.exception.general"));
 			}
 		} catch (final AuthException e) {
 			if (e instanceof AccessDeniedException) {

@@ -1,0 +1,7 @@
+playauthenticate.core.exception.no_user_service=No UserService registered!
+playauthenticate.core.exception.singupuser_failed=Could not sign you up
+playauthenticate.core.exception.provider_not_found=Provider {0} could not be found!
+playauthenticate.core.exception.merge.controller_undefined=Merge Call in resolver not properly defined, even though setting '{0}' is set to false!
+playauthenticate.core.exception.link.controller_undefined=Link Call in resolver not defined, even though setting '{0}' is set to false!
+
+playauthenticate.core.exception.general=Something went wrong

@@ -13,7 +13,6 @@ import play.mvc.Http.Session;
 import play.mvc.Result;
 
 import com.feth.play.module.pa.exceptions.AccessDeniedException;
-import com.feth.play.module.pa.exceptions.AccessTokenException;
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.AuthProvider;
 import com.feth.play.module.pa.service.UserService;
@@ -536,10 +535,7 @@ public abstract class PlayAuthenticate {
 				return Controller.internalServerError("Something went wrong");
 			}
 		} catch (final AuthException e) {
-			if (e instanceof AccessTokenException) {
-				return Controller
-						.internalServerError("Exchanging request token for access token failed");
-			} else if (e instanceof AccessDeniedException) {
+			if (e instanceof AccessDeniedException) {
 				return Controller.forbidden(e.getMessage());
 			}
 			return Controller.internalServerError(e.getMessage());

@@ -16,6 +16,8 @@ GET     /signup                     controllers.Application.signup
 POST    /signup                     controllers.Application.doSignup
 
 GET     /accounts/verify            controllers.Signup.unverified
+
+GET     /accounts/verify/:token     controllers.Signup.verify(token: String)
 GET     /accounts/exists            controllers.Signup.exists
 
 GET     /accounts/add               controllers.Account.link

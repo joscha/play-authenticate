@@ -10,6 +10,10 @@
       <p>@flash().get("error")</p>
     }
     
+    @if(flash.contains("message")) {
+      <p>@flash().get("message")</p>
+    }
+    
 	@_providerPartial(skipCurrent=false)
 	
 	@helper.form(routes.Application.doLogin) {

@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
+import play.data.format.Formats;
 import play.db.ebean.Model;
 import scala.actors.threadpool.Arrays;
 import be.objectify.deadbolt.models.Permission;
@@ -22,11 +23,9 @@ import be.objectify.deadbolt.models.RoleHolder;
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.ExpressionList;
 import com.avaje.ebean.validation.Email;
-import com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider.UsernamePassword;
 import com.feth.play.module.pa.providers.password.UsernamePasswordAuthUser;
 import com.feth.play.module.pa.user.AuthUser;
 import com.feth.play.module.pa.user.AuthUserIdentity;
-import com.feth.play.module.pa.user.BasicIdentity;
 import com.feth.play.module.pa.user.EmailIdentity;
 import com.feth.play.module.pa.user.NameIdentity;
 
@@ -50,6 +49,7 @@ public class User extends Model implements RoleHolder {
 
 	public String name;
 
+	@Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
 	public Date lastLogin;
 
 	public boolean active;
@@ -79,7 +79,7 @@ public class User extends Model implements RoleHolder {
 	public static boolean existsByAuthUserIdentity(
 			final AuthUserIdentity identity) {
 		final ExpressionList<User> exp;
-		if(identity instanceof UsernamePasswordAuthUser) {
+		if (identity instanceof UsernamePasswordAuthUser) {
 			exp = getUsernamePasswordAuthUserFind((UsernamePasswordAuthUser) identity);
 		} else {
 			exp = getAuthUserFind(identity);
@@ -191,5 +191,12 @@ public class User extends Model implements RoleHolder {
 
 	private static ExpressionList<User> getEmailUserFind(final String email) {
 		return find.where().eq("active", true).eq("email", email);
+	}
+
+	public static void verify(final User unverified) {
+		// You might want to wrap this into a transaction
+		unverified.emailValidated = true;
+		unverified.save();
+		UserActivation.deleteByUser(unverified);
 	}
 }

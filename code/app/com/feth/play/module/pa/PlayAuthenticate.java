@@ -22,6 +22,9 @@ import com.feth.play.module.pa.user.SessionAuthUser;
 
 public abstract class PlayAuthenticate {
 
+	private static final String SETTING_KEY_PLAY_AUTHENTICATE = "play-authenticate";
+	private static final String SETTING_KEY_AFTER_AUTH_FALLBACK = "afterAuthFallback";
+	private static final String SETTING_KEY_AFTER_LOGOUT_FALLBACK = "afterLogoutFallback";
 	private static final String SETTING_KEY_ACCOUNT_MERGE_ENABLED = "accountMergeEnabled";
 	private static final String SETTING_KEY_ACCOUNT_AUTO_LINK = "accountAutoLink";
 	private static final String SETTING_KEY_ACCOUNT_AUTO_MERGE = "accountAutoMerge";
@@ -122,7 +125,7 @@ public abstract class PlayAuthenticate {
 
 	public static Configuration getConfiguration() {
 		return Play.application().configuration()
-				.getConfig("play-authenticate");
+				.getConfig(SETTING_KEY_PLAY_AUTHENTICATE);
 	}
 
 	public static final Long TIMEOUT = 10l * 1000;
@@ -191,8 +194,9 @@ public abstract class PlayAuthenticate {
 		// shouldn't be in any more, but just in case lets kill it from the
 		// cookie
 		session.remove(ORIGINAL_URL);
-		
-		return Controller.redirect(getUrl(getResolver().afterLogout(), "afterLogoutFallback"));
+
+		return Controller.redirect(getUrl(getResolver().afterLogout(),
+				SETTING_KEY_AFTER_LOGOUT_FALLBACK));
 	}
 
 	public static String peekOriginalUrl(final Context context) {
@@ -317,10 +321,10 @@ public abstract class PlayAuthenticate {
 		if (originalUrl != null) {
 			return originalUrl;
 		} else {
-			return getUrl(getResolver().afterAuth(), "afterAuthFallback");
+			return getUrl(getResolver().afterAuth(),
+					SETTING_KEY_AFTER_AUTH_FALLBACK);
 		}
 	}
-	
 
 	private static String getUrl(final Call c, final String settingFallback) {
 		// this can be null if the user did not correctly define the

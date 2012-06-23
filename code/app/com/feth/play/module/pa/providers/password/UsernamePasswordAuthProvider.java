@@ -1,5 +1,7 @@
 package com.feth.play.module.pa.providers.password;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import play.Application;
@@ -35,6 +37,13 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 	private static final String SETTING_KEY_MAIL_DELAY = "delay";
 
 	private static final String SETTING_KEY_MAIL_FROM = "from";
+
+	@Override
+	protected List<String> neededSettingKeys() {
+		return Arrays.asList(SETTING_KEY_MAIL + "." + SETTING_KEY_MAIL_DELAY,
+				SETTING_KEY_MAIL + "." + SETTING_KEY_MAIL_FROM + "."
+						+ SETTING_KEY_MAIL_FROM_EMAIL);
+	}
 
 	public static class Mailer {
 

@@ -54,7 +54,11 @@ public class Account extends Controller {
 			return badRequest(ask_link.render(filledForm, u));
 		} else {
 			// User made a choice :)
-			return PlayAuthenticate.link(ctx(), filledForm.get().accept);
+			final boolean link = filledForm.get().accept;
+			if(link) {
+				flash("message","Account linked successfully");
+			}
+			return PlayAuthenticate.link(ctx(), link);
 		}
 	}
 
@@ -93,7 +97,11 @@ public class Account extends Controller {
 			return badRequest(ask_merge.render(filledForm, aUser, bUser));
 		} else {
 			// User made a choice :)
-			return PlayAuthenticate.merge(ctx(), filledForm.get().accept);
+			final boolean merge = filledForm.get().accept;
+			if(merge) {
+				flash("message","Accounts merged successfully");
+			}
+			return PlayAuthenticate.merge(ctx(), merge);
 		}
 	}
 

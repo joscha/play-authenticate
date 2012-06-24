@@ -8,8 +8,9 @@ object ApplicationBuild extends Build {
     val appVersion      = "1.0-SNAPSHOT"
 
     val appDependencies = Seq(
-      "be.objectify" 	%% "deadbolt-2"			% "1.1.3-SNAPSHOT",
-      "com.feth"		%% "play-authenticate"	% "0.1.0-SNAPSHOT"
+      "be.objectify" 	%% 	"deadbolt-2"		% "1.1.3-SNAPSHOT",
+      "com.feth"		%% 	"play-authenticate"	% "0.1.0-SNAPSHOT",
+      "postgresql"		% 	"postgresql"		% "9.1-901.jdbc4"
     )
     
 //    Uncomment this for local development of the Play Authenticate core:

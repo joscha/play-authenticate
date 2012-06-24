@@ -29,14 +29,16 @@ import com.feth.play.module.pa.user.SessionAuthUser;
 
 public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends OAuth2AuthInfo>
 		extends AuthProvider {
-	
+
 	public OAuth2AuthProvider(final Application app) {
 		super(app);
 	}
-	
+
 	@Override
 	protected List<String> neededSettingKeys() {
-		return Arrays.asList(SettingKeys.ACCESS_TOKEN_URL, SettingKeys.AUTHORIZATION_URL, SettingKeys.CLIENT_ID, SettingKeys.CLIENT_SECRET);
+		return Arrays.asList(SettingKeys.ACCESS_TOKEN_URL,
+				SettingKeys.AUTHORIZATION_URL, SettingKeys.CLIENT_ID,
+				SettingKeys.CLIENT_SECRET, SettingKeys.SECURE_REDIRECT_URI);
 	}
 
 	public static abstract class SettingKeys {
@@ -45,6 +47,7 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 		public static final String CLIENT_ID = "clientId";
 		public static final String CLIENT_SECRET = "clientSecret";
 		public static final String SCOPE = "scope";
+		public static final String SECURE_REDIRECT_URI = "secureRedirectUri";
 	}
 
 	public static abstract class Constants {
@@ -64,6 +67,11 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 		public static final String REFRESH_TOKEN = "refresh_token";
 		public static final String ACCESS_DENIED = "access_denied";
 		public static final String REDIRECT_URI_MISMATCH = "redirect_uri_mismatch";
+	}
+
+	protected boolean useSecureRedirectUri() {
+		return getConfiguration().getBoolean(SettingKeys.SECURE_REDIRECT_URI,
+				false);
 	}
 
 	private String getAccessTokenParams(final Configuration c,
@@ -124,11 +132,12 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 
 	private String getRedirectUrl(final Request request) {
 		return PlayAuthenticate.getResolver().auth(getKey())
-				.absoluteURL(request);
+				.absoluteURL(request, useSecureRedirectUri());
 	}
 
 	@Override
-	public Object authenticate(final Context context, final Object payload) throws AuthException {
+	public Object authenticate(final Context context, final Object payload)
+			throws AuthException {
 
 		final Request request = context.request();
 		final String error = request.getQueryString(Constants.ERROR);
@@ -137,9 +146,10 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 		if (error != null) {
 			if (error.equals(Constants.ACCESS_DENIED)) {
 				throw new AccessDeniedException();
-			} else if(error.equals(Constants.REDIRECT_URI_MISMATCH)) {
-				Logger.error("You must set the redirect URI for your provider to whatever you defined in your routes file." +
-						"For this provider it is: '"+getRedirectUrl(request)+"'");
+			} else if (error.equals(Constants.REDIRECT_URI_MISMATCH)) {
+				Logger.error("You must set the redirect URI for your provider to whatever you defined in your routes file."
+						+ "For this provider it is: '"
+						+ getRedirectUrl(request) + "'");
 				throw new RedirectUriMismatch();
 			} else {
 				throw new AuthException(error);
@@ -154,11 +164,11 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 		} else {
 			// no auth, yet
 			final String url = getAuthUrl(request, null);
-			Logger.debug("generated redirect URL for dialog: "+url);
+			Logger.debug("generated redirect URL for dialog: " + url);
 			return url;
 		}
 	}
-	
+
 	@Override
 	public AuthUser getSessionAuthUser(String id, long expires) {
 		return new SessionAuthUser(getKey(), id, expires);
@@ -174,7 +184,7 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 	 */
 	protected abstract AuthUserIdentity transform(final I info)
 			throws AuthException;
-	
+
 	@Override
 	public boolean isExternal() {
 		return true;

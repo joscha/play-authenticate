@@ -365,6 +365,11 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 				new String[] { getEmailName(user) });
 		mailer.sendMail(verifyMail);
 	}
+	
+	@Override
+	public boolean isExternal() {
+		return false;
+	}
 
 	protected abstract String getVerifyEmailMailingSubject(final US user,
 			final Context ctx);

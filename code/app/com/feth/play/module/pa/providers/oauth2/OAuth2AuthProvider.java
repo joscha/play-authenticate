@@ -174,4 +174,9 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 	 */
 	protected abstract AuthUserIdentity transform(final I info)
 			throws AuthException;
+	
+	@Override
+	public boolean isExternal() {
+		return true;
+	}
 }

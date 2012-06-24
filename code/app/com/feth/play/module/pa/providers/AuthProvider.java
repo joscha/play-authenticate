@@ -116,5 +116,7 @@ public abstract class AuthProvider extends Plugin {
 	}
 
 	public abstract AuthUser getSessionAuthUser(String id, long expires);
+	
+	public abstract boolean isExternal();
 
 }

@@ -1,4 +1,4 @@
-@(skipCurrent: Boolean = false)(body: com.feth.play.module.pa.providers.AuthProvider => Html)
+@(skipCurrent: Boolean = false, showInternal: Boolean = false, showExternal: Boolean = true)(body: com.feth.play.module.pa.providers.AuthProvider => Html)
 
 @import com.feth.play.module.pa.PlayAuthenticate
 @import com.feth.play.module.pa.providers.AuthProvider.Registry
@@ -8,7 +8,7 @@
 		@defining(PlayAuthenticate.isLoggedIn(session())) { loggedIn =>
 			@defining(PlayAuthenticate.getUser(session())) { auth =>
 			    @for(p <- providers) {
-			    	@if(!loggedIn || !skipCurrent || (skipCurrent && (loggedIn && !p.getKey().equals(auth.getProvider())))) {
+			    	@if(((showExternal && p.isExternal()) || (showInternal && !p.isExternal())) && (!loggedIn || !skipCurrent || (skipCurrent && (loggedIn && !p.getKey().equals(auth.getProvider()))))) {
 			    		@body(p)
 			    	}
 			    }

@@ -24,7 +24,7 @@ Furthermore:
 ** Linking can be done automatically or after asking the user (default)
 * Merge detection (e.g. a user created two unconnected local accounts)
 ** Account merge can be done automatically or after asking the user (default)
-* Tight [deadbolt2][] integration.
+* Tight [deadbolt2][] authorization integration (Sample included).
 
 
 ## Versions

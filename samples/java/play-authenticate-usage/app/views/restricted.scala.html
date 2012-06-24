@@ -26,6 +26,4 @@
     	Your user ID is @auth.getId() and your session will expire @if(auth.expires() == -1) { never } else { on @Application.formatTimestamp(auth.expires()) }
     	<br/>
     }
-    <br/>
-    <a href="@routes.Application.index()">Back to index</a>
 }

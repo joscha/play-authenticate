@@ -1,6 +1,7 @@
 @(signupForm: Form[_])
 
 @import helper._
+@import helper.twitterBootstrap._
 
 @main("Signup") {
     
@@ -12,8 +13,8 @@
 	
             @if(signupForm.hasGlobalErrors) { 
                 <p class="error">
-                    @signupForm.globalError.message
-                </p>
+		            <span class="label label-important">@signupForm.globalError.message</span>
+		        </p>
             }
 
             @inputText(
@@ -35,6 +36,4 @@
             
             <input type="submit" value="OK">
 	}
-    <br/>
-    <a href="@routes.Application.index()">Back to index</a>
 }

@@ -6,6 +6,7 @@ import java.util.Date;
 import models.User;
 import play.data.Form;
 import play.mvc.*;
+import play.mvc.Http.Session;
 import providers.MyUsernamePasswordAuthProvider;
 import providers.MyUsernamePasswordAuthProvider.MyLogin;
 import providers.MyUsernamePasswordAuthProvider.MySignup;
@@ -24,11 +25,16 @@ public class Application extends Controller {
 	public static Result index() {
 		return ok(index.render());
 	}
+	
+	public static User getLocalUser(final Session session) {
+		final User localUser = User.findByAuthUserIdentity(PlayAuthenticate
+				.getUser(session));
+		return localUser;
+	}
 
 	@Restrict("user")
 	public static Result restricted() {
-		final User localUser = User.findByAuthUserIdentity(PlayAuthenticate
-				.getUser(session()));
+		final User localUser = getLocalUser(session());
 		return ok(restricted.render(localUser));
 	}
 

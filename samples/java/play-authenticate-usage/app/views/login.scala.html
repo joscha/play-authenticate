@@ -1,17 +1,22 @@
 @(loginForm: Form[_])
 
 @import helper._
+@import helper.twitterBootstrap._
 
 @main("Login") {
     
     <h1>Login with</h1>
     
     @if(flash.contains("error")) {
-      <p>@flash().get("error")</p>
+      <div class="alert alert-error">
+      	@flash().get("error")
+      </div>
     }
     
     @if(flash.contains("message")) {
-      <p>@flash().get("message")</p>
+      <div class="alert alert-success">
+      	@flash().get("message")
+      </div>
     }
     
 	@_providerPartial(skipCurrent=false)
@@ -20,22 +25,18 @@
 	
             @if(loginForm.hasGlobalErrors) { 
                 <p class="error">
-                    @loginForm.globalError.message
-                </p>
+		            <span class="label label-important">@loginForm.globalError.message</span>
+		        </p>
             }
             
             @inputText(
-                loginForm("email"),
-                '_showConstraints -> false
+                loginForm("email")
             )
             
             @inputPassword(
-                loginForm("password"),
-                '_showConstraints -> false
+                loginForm("password")
             )
             
             <input type="submit" value="OK">
 	}
-    <br/>
-    <a href="@routes.Application.index()">Back to index</a>
 }

@@ -1,12 +1,86 @@
 @(title: String)(content: Html)
 
-<!DOCTYPE html>
+@import be.objectify.deadbolt.views.html._
+@import be.objectify.deadbolt.Deadbolt
 
-<html>
-    <head>
-        <title>@title</title>
-    </head>
-    <body>
-        @content
-    </body>
+<!DOCTYPE html>
+<html lang="@lang().code()">
+  <head>
+    <meta charset="utf-8">
+    <title>@title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+	<script src="http://code.jquery.com/jquery-1.7.2.min.js" defer="defer"></script>
+	<script src="@routes.Assets.at("js/bootstrap.min.js")" defer="defer"></script>
+    <!-- Le styles -->
+    <link href="@routes.Assets.at("css/bootstrap.min.css")" rel="stylesheet">
+    <style>
+      body {
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+      }
+    </style>
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="@routes.Application.index()">Play Authenticate</a>
+          
+          @roleHolderPresent {
+          	@defining(Application.getLocalUser(session())) { user =>
+          <div class="btn-group pull-right">
+            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+              <i class="icon-user"></i> @user.name
+              <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Profile</a></li>
+              <li><a href="@routes.Account.link()">Link more providers</a></li>
+              <li class="divider"></li>
+              <li><a href="@com.feth.play.module.pa.controllers.routes.Authenticate.logout()">Sign Out</a></li>
+            </ul>
+          </div>
+            }
+          }
+          
+          <div class="nav-collapse">
+            <ul class="nav">
+              <li class="active"><a href="@routes.Application.index()">Home</a></li>
+              <li><a href="@routes.Application.restricted()">Restricted</a></li>
+                @if(!Deadbolt.viewRoleHolderPresent()) {
+			    	<li><a href="@routes.Application.login()">login</a></li>
+			    	<li><a href="@routes.Application.signup()">signup</a></li>
+			    }
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+		@content
+		
+    <hr>
+
+      <footer>
+        <p>&copy; Play Authenticate 2012 | <small><a href="http://icondock.com/free/vector-social-media-icons" target="_blank">Login provider icons by icondock</a></small>
+        </p>
+      </footer>
+    </div> <!-- /container -->
+
+  </body>
 </html>

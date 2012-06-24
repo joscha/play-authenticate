@@ -1,0 +1,16 @@
+.classpath
+.project
+code/.settings
+code/.target
+code/project/project/target
+code/project/target
+code/target
+code/logs
+samples/java/play-authenticate-usage/.settings
+samples/java/play-authenticate-usage/.target
+samples/java/play-authenticate-usage/bin
+samples/java/play-authenticate-usage/conf
+samples/java/play-authenticate-usage/logs
+samples/java/play-authenticate-usage/project/project/target
+samples/java/play-authenticate-usage/project/target
+samples/java/play-authenticate-usage/target

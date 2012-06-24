@@ -11,7 +11,7 @@ import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.user.AuthUserIdentity;
 
 public class MyDeadboltHandler extends AbstractDeadboltHandler {
-	
+
 	@Override
 	public Result beforeRoleCheck(final Http.Context context) {
 		if (PlayAuthenticate.isLoggedIn(context.session())) {
@@ -41,12 +41,17 @@ public class MyDeadboltHandler extends AbstractDeadboltHandler {
 	}
 
 	@Override
-	public DynamicResourceHandler getDynamicResourceHandler(final Http.Context context) {
+	public DynamicResourceHandler getDynamicResourceHandler(
+			final Http.Context context) {
 		return null;
 	}
 
 	@Override
-	public Result onAccessFailure(final Http.Context context, final String content) {
-		return forbidden();
+	public Result onAccessFailure(final Http.Context context,
+			final String content) {
+		// if the user has a cookie with a valid user and the local user has
+		// been deactivated/deleted in between, it is possible that this gets
+		// shown. You might want to consider to sign the user out in this case.
+		return forbidden("Forbidden");
 	}
 }

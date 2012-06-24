@@ -3,15 +3,16 @@
 @import helper._
 @import helper.twitterBootstrap._
 
-@main("Login") {
-    
-    <h1>Login with</h1>
-    
+@main("Login","login") {
     @if(flash.contains("error")) {
       <div class="alert alert-error">
       	@flash().get("error")
       </div>
     }
+    
+    <h1>Login with</h1>
+    <p>
+
     
     @if(flash.contains("message")) {
       <div class="alert alert-success">
@@ -37,6 +38,7 @@
                 loginForm("password")
             )
             
-            <input type="submit" value="OK">
+            <input type="submit" value="Log in" class="btn btn-primary">
 	}
+	</p>
 }

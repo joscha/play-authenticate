@@ -8,20 +8,20 @@
 @main("Merge accounts") {
 
 	<h1>Merge accounts</h1>
-	
+	<p>
 	@helper.form(routes.Account.doMerge) {
-	   
-	   @if(acceptForm.hasGlobalErrors) { 
-	       <p class="error">
-	           @acceptForm.globalError.message
-	       </p>
-	   }
+            @if(acceptForm.hasGlobalErrors) { 
+                <p class="error">
+		            <span class="label label-important">@acceptForm.globalError.message</span>
+		        </p>
+            }
 	   
 	   @helper.inputRadioGroup(
             acceptForm("accept"),
             options = Seq("true"-> "Yes, merge these two accounts","false"->"No, end my current session and log in with the new user"),
             '_label -> label)
            
-		<input type="submit" value="OK">
+		<input type="submit" value="OK" class="btn btn-primary">
 	}
+	</p>
 }

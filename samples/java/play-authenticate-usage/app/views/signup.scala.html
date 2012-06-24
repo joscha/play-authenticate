@@ -3,10 +3,10 @@
 @import helper._
 @import helper.twitterBootstrap._
 
-@main("Signup") {
+@main("Signup","signup") {
     
     <h1>Signup</h1>
-    
+    <p>
 	@_providerPartial(skipCurrent=false)
 	
 	@helper.form(routes.Application.doSignup) {
@@ -34,6 +34,7 @@
                 '_error -> signupForm.error("password")
             )
             
-            <input type="submit" value="OK">
+            <input type="submit" value="Sign up" class="btn btn-primary">
 	}
+	</p>
 }

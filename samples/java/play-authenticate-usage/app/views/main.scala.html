@@ -1,4 +1,4 @@
-@(title: String)(content: Html)
+@(title: String, nav: String = "")(content: Html)
 
 @import be.objectify.deadbolt.views.html._
 @import be.objectify.deadbolt.Deadbolt
@@ -14,6 +14,7 @@
 	<script src="http://code.jquery.com/jquery-1.7.2.min.js" defer="defer"></script>
 	<script src="@routes.Assets.at("js/bootstrap.min.js")" defer="defer"></script>
     <!-- Le styles -->
+    <link href="@routes.Assets.at("stylesheets/main.min.css")" rel="stylesheet">
     <link href="@routes.Assets.at("css/bootstrap.min.css")" rel="stylesheet">
     <style>
       body {
@@ -40,30 +41,33 @@
           </a>
           <a class="brand" href="@routes.Application.index()">Play Authenticate</a>
           
-          @roleHolderPresent {
-          	@defining(Application.getLocalUser(session())) { user =>
           <div class="btn-group pull-right">
+          @if(Deadbolt.viewRoleHolderPresent()) {
+          	@defining(Application.getLocalUser(session())) { user =>
             <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
               <i class="icon-user"></i> @user.name
               <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
-              <li><a href="#">Profile</a></li>
+              <li><a href="@routes.Application.profile()">Profile</a></li>
               <li><a href="@routes.Account.link()">Link more providers</a></li>
               <li class="divider"></li>
               <li><a href="@com.feth.play.module.pa.controllers.routes.Authenticate.logout()">Sign Out</a></li>
             </ul>
-          </div>
             }
+          } else {
+          <a href="@routes.Application.login()" class="btn btn-primary btn-mini @("disabled".when(nav == "login"))">Log in</a>
           }
+          </div>
+
           
           <div class="nav-collapse">
             <ul class="nav">
-              <li class="active"><a href="@routes.Application.index()">Home</a></li>
-              <li><a href="@routes.Application.restricted()">Restricted</a></li>
+              <li class="@("active".when(nav == ""))"><a href="@routes.Application.index()">Home</a></li>
+              <li class="@("active".when(nav == "restricted"))"><a href="@routes.Application.restricted()">Restricted page</a></li>
+                
                 @if(!Deadbolt.viewRoleHolderPresent()) {
-			    	<li><a href="@routes.Application.login()">login</a></li>
-			    	<li><a href="@routes.Application.signup()">signup</a></li>
+			    	<li class="@("active".when(nav == "signup"))"><a href="@routes.Application.signup()">Sign up</a></li>
 			    }
             </ul>
           </div><!--/.nav-collapse -->

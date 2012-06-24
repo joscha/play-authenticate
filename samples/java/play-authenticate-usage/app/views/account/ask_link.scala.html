@@ -6,21 +6,22 @@
 
 @main("Link account") {
 
-	<h1>Link new account</h1>
-	
+	<h1>Link new account?</h1>
+	<p>
 	@helper.form(routes.Account.doLink) {
 	   
-	   @if(acceptForm.hasGlobalErrors) { 
-	       <p class="error">
-	           @acceptForm.globalError.message
-	       </p>
-	   }
+            @if(acceptForm.hasGlobalErrors) { 
+                <p class="error">
+		            <span class="label label-important">@acceptForm.globalError.message</span>
+		        </p>
+            }
 	   
 	   @helper.inputRadioGroup(
             acceptForm("accept"),
             options = Seq("true"-> "Yes, link this account to my user","false"->"No, log out and create a new user with this account"),
             '_label -> label)
            
-		<input type="submit" value="OK"> 
+		<input type="submit" value="OK" class="btn btn-primary"> 
 	}
+	</p>
 }

@@ -1,29 +1,9 @@
 @(localUser: models.User = null)
 
-@import com.feth.play.module.pa.views.html._
-
-@main("Restricted content") {
+@main("Restricted content", "restricted") {
     
     <h1>Restricted page</h1>
-    
-    Secrets, everywhere:
-    
-    Your name is @localUser.name and your email address is @localUser.email!
-    <br/>
-    @defining(localUser.getProviders()) { providers =>
-    	@if(providers.size() > 0) {
-    	There are @providers.size() providers linked with your account:
-    	@for(p <- providers) {
-    		@_providerIcon(p)
-    	}
-    	<br/>
-    	}
-    }
-    
-    <br/>
-    @currentAuth() { auth =>
-    	You are currently logged in with: @_providerIcon(auth.getProvider())<br/>
-    	Your user ID is @auth.getId() and your session will expire @if(auth.expires() == -1) { never } else { on @Application.formatTimestamp(auth.expires()) }
-    	<br/>
-    }
+    <p>
+    Secrets, everywhere!
+    </p>
 }

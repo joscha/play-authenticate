@@ -30,7 +30,7 @@ public class Signup extends Controller {
 		}
 		
 		User.verify(ua.unverified);
-		flash("message","email address successfully verified");
+		flash("message","Email address successfully verified");
 		
 		return redirect(routes.Application.login());
 	}

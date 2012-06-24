@@ -12,6 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import play.data.format.Formats;
 import play.db.ebean.Model;
@@ -34,6 +35,7 @@ import com.feth.play.module.pa.user.NameIdentity;
  * Deadbolt2
  */
 @Entity
+@Table(name = "users")
 public class User extends Model implements RoleHolder {
 	/**
 	 * 

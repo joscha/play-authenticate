@@ -9,36 +9,50 @@
       	@flash().get("error")
       </div>
     }
-    
-    <h1>Login with</h1>
-    <p>
 
+  <div class="row">
+    <div class="span6">
+      <h1>Log in</h1>
+    </div>
+  </div>
     
     @if(flash.contains("message")) {
       <div class="alert alert-success">
       	@flash().get("message")
       </div>
     }
-    
-	@_providerPartial(skipCurrent=false)
-	
-	@helper.form(routes.Application.doLogin) {
-	
-            @if(loginForm.hasGlobalErrors) { 
-                <p class="error">
-		            <span class="label label-important">@loginForm.globalError.message</span>
-		        </p>
-            }
-            
-            @inputText(
-                loginForm("email")
-            )
-            
-            @inputPassword(
-                loginForm("password")
-            )
-            
-            <input type="submit" value="Log in" class="btn btn-primary">
-	}
-	</p>
+
+  <div id="login" class="row">
+
+    <div class="span3">
+      @* Display proprietary login form *@
+    	@helper.form(routes.Application.doLogin) {
+    	
+        @if(loginForm.hasGlobalErrors) { 
+          <p class="error">
+            <span class="label label-important">@loginForm.globalError.message</span>
+          </p>
+        }
+        
+        @inputText(
+          loginForm("E-mail")
+        )
+          
+        @inputPassword(
+          loginForm("Password")
+        )
+          
+        <input type="submit" value="Log in now" class="btn btn-primary">
+
+    	}
+    </div>
+
+    <div class="span3">
+      or log in using one of the following providers:
+      @* Display list of available providers *@
+      @_providerPartial(skipCurrent=false)
+    </div>
+
+  </div>
+
 }

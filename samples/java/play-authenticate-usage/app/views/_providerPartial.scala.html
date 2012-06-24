@@ -2,8 +2,8 @@
 
 @import com.feth.play.module.pa.views.html._
 
-<ul>
-@forProviders(skipCurrent) { p =>
-	<li><a href="@p.getUrl()">@_providerIcon(p.getKey())</a></li>
-}
+<ul class="providers">
+	@forProviders(skipCurrent) { p =>
+		<li><a href="@p.getUrl()">@_providerIcon(p.getKey())</a></li>
+	}
 </ul>

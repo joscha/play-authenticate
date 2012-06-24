@@ -10,4 +10,4 @@ dist
 .settings
 .target
 bin
-conf/evolutions
+RUNNING_PID

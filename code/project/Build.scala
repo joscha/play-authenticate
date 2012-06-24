@@ -5,9 +5,10 @@ import PlayProject._
 object ApplicationBuild extends Build {
 
     val appName         = "play-authenticate"
-    val appVersion      = "1.0-SNAPSHOT"
+    val appVersion      = "0.1.0-SNAPSHOT"
 
     val appDependencies = Seq(
+      "org.apache.httpcomponents" % "httpclient" % "4.2",
       "com.typesafe" %% "play-plugins-mailer" % "2.0.2",
       "org.mindrot" % "jbcrypt" % "0.3m"
     )

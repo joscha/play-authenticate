@@ -1,5 +1,8 @@
 @(acceptForm: Form[Account.Accept], newAccount: com.feth.play.module.pa.user.AuthUser)
 
+@import helper._
+@import helper.twitterBootstrap._
+
 @label = {
 	Link @_providerIcon(newAccount.getProvider()) (@newAccount) with your user?
 }
@@ -8,7 +11,7 @@
 
 	<h1>Link new account?</h1>
 	<p>
-	@helper.form(routes.Account.doLink) {
+	@form(routes.Account.doLink) {
 	   
             @if(acceptForm.hasGlobalErrors) { 
                 <p class="error">
@@ -16,10 +19,12 @@
 		        </p>
             }
 	   
-	   @helper.inputRadioGroup(
+	   @inputRadioGroup(
             acceptForm("accept"),
             options = Seq("true"-> "Yes, link this account to my user","false"->"No, log out and create a new user with this account"),
-            '_label -> label)
+            '_label -> label,
+            '_showConstraints -> false
+            )
            
 		<input type="submit" value="OK" class="btn btn-primary"> 
 	}

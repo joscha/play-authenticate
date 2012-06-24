@@ -1,5 +1,8 @@
 @(acceptForm: Form[Account.Accept], aUser: com.feth.play.module.pa.user.AuthUser, bUser: com.feth.play.module.pa.user.AuthUser)
 
+@import helper._
+@import helper.twitterBootstrap._
+
 @label = {
 	Do you want to merge the account you are currently logged in with (@aUser),
 	with this account: '@bUser'?
@@ -9,17 +12,19 @@
 
 	<h1>Merge accounts</h1>
 	<p>
-	@helper.form(routes.Account.doMerge) {
+	@form(routes.Account.doMerge) {
             @if(acceptForm.hasGlobalErrors) { 
                 <p class="error">
 		            <span class="label label-important">@acceptForm.globalError.message</span>
 		        </p>
             }
 	   
-	   @helper.inputRadioGroup(
+	   @inputRadioGroup(
             acceptForm("accept"),
             options = Seq("true"-> "Yes, merge these two accounts","false"->"No, end my current session and log in with the new user"),
-            '_label -> label)
+            '_label -> label,
+            '_showConstraints -> false
+            )
            
 		<input type="submit" value="OK" class="btn btn-primary">
 	}

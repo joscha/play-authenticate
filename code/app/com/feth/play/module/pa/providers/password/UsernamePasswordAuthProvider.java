@@ -299,8 +299,7 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 
 	@Override
 	public AuthUser getSessionAuthUser(final String id, final long expires) {
-		// TODO implement expiry and use a custom impl
-		return new DefaultUsernamePasswordAuthUser(null, id);
+		return new SessionUsernamePasswordAuthUser(getKey(), id, expires);
 	}
 
 	public static Result handleSignup(final Context ctx) {

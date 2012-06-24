@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ivy-module version="2.0" xmlns:e="http://ant.apache.org/ivy/extra">
-	<info organisation="com.feth" module="play-authenticate_2.9.1" revision="0.1.0-SNAPSHOT" status="release" publication="20120624173806">
+	<info organisation="com.feth" module="play-authenticate_2.9.1" revision="0.1.0-SNAPSHOT" status="release" publication="20120625005307">
 		<description>
 		play-authenticate
 		</description>

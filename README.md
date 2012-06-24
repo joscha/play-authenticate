@@ -3,7 +3,7 @@
 This plugin uses concepts from [securesocial2][] and [Play20StartApp][] and provides a sample containing code from [deadbolt2][].
 
 ## Live demo
-You can find a live demo on [heroku](https://play-authenticate.herokuapp.com/ "Play Authenticate sample app").
+You can find a live demo on [heroku](https://play-authenticate.herokuapp.com/ "Play Authenticate sample app") and there are some screens on our [website](http://joscha.github.com/play-authenticate/).
 
 ## Features
 As of now, the following authentication providers are supported out of the box:

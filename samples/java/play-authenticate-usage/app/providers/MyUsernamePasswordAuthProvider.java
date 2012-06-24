@@ -1,6 +1,8 @@
 package providers;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import models.LinkedAccount;
@@ -27,6 +29,16 @@ import controllers.routes;
 public class MyUsernamePasswordAuthProvider
 		extends
 		UsernamePasswordAuthProvider<String, MyLoginUsernamePasswordAuthUser, MyUsernamePasswordAuthUser, MyUsernamePasswordAuthProvider.MyLogin, MyUsernamePasswordAuthProvider.MySignup> {
+
+	private static final String SETTING_KEY_VERIFICATION_LINK_SECURE = "verificationLink.secure";
+
+	@Override
+	protected List<String> neededSettingKeys() {
+		final List<String> needed = new ArrayList<String>(
+				super.neededSettingKeys());
+		needed.add(SETTING_KEY_VERIFICATION_LINK_SECURE);
+		return needed;
+	}
 
 	public static class MyLogin
 			implements
@@ -181,8 +193,11 @@ public class MyUsernamePasswordAuthProvider
 	protected Body getVerifyEmailMailingBody(final String token,
 			final MyUsernamePasswordAuthUser user, final Context ctx) {
 
+		final boolean isSecure = getConfiguration().getBoolean(
+				SETTING_KEY_VERIFICATION_LINK_SECURE, false);
+
 		final String url = routes.Signup.verify(token).absoluteURL(
-				ctx.request());
+				ctx.request(), isSecure);
 
 		final String html = views.html.account.signup.verify_email_body.render(
 				url, token, user.getName()).toString();

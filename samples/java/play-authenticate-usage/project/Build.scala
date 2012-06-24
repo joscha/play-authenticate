@@ -20,7 +20,8 @@ object ApplicationBuild extends Build {
       resolvers += Resolver.url("Objectify Play Repository", url("http://schaloner.github.com/releases/"))(Resolver.ivyStylePatterns),
       resolvers += Resolver.url("Objectify Play Repository", url("http://schaloner.github.com/snapshots/"))(Resolver.ivyStylePatterns),
       //resolvers += "jBCrypt Repository" at "http://repo1.maven.org/maven2/org/"
-      resolvers += "Play Authenticate Repository" at "http://joscha.github.com/play-authenticate/repo/"
+      resolvers += Resolver.url("Play Authenticate Repositor (release)", url("http://joscha.github.com/play-authenticate/repo/releases/"))(Resolver.ivyStylePatterns),
+      resolvers += Resolver.url("Play Authenticate Repositor (snapshot)", url("http://joscha.github.com/play-authenticate/repo/snapshots/"))(Resolver.ivyStylePatterns)
     )
     //.dependsOn(playAuthenticate)
 

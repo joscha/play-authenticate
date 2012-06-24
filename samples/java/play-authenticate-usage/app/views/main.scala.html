@@ -76,6 +76,16 @@
     </div>
 
     <div class="container">
+	    @if(flash.contains("error")) {
+	      <div class="alert alert-error">
+	      	@flash().get("error")
+	      </div>
+	    }
+	    @if(flash.contains("message")) {
+	      <div class="alert alert-success">
+	      	@flash().get("message")
+	      </div>
+	    }
 		@content
 		
     <hr>

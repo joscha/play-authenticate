@@ -4,11 +4,6 @@
 @import helper.twitterBootstrap._
 
 @main("Login","login") {
-    @if(flash.contains("error")) {
-      <div class="alert alert-error">
-      	@flash().get("error")
-      </div>
-    }
 
   <div class="row">
     <div class="span6">
@@ -16,12 +11,6 @@
     </div>
   </div>
     
-    @if(flash.contains("message")) {
-      <div class="alert alert-success">
-      	@flash().get("message")
-      </div>
-    }
-
   <div id="login" class="row">
 
     <div class="span3">
@@ -35,11 +24,13 @@
         }
         
         @inputText(
-          loginForm("E-mail")
+          loginForm("email"),
+          '_label -> "E-mail"
         )
           
         @inputPassword(
-          loginForm("Password")
+          loginForm("password"),
+          '_label -> "Password"
         )
           
         <input type="submit" value="Log in now" class="btn btn-primary">

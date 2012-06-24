@@ -22,24 +22,29 @@
 		            <span class="label label-important">@signupForm.globalError.message</span>
 		        </p>
             }
-
-            @inputText(
-                signupForm("Your name")
-            )
             
-            @inputText(
-                signupForm("Your e-mail address")
-            )
-            
-            @inputPassword(
-                signupForm("Choose a password")
-            )
-            
-            @inputPassword(
-                signupForm("Repeat chosen password"),
+             @inputText(
+                signupForm("name"),
+                '_label -> "Your name"
+             )
+             
+             @inputText(
+                signupForm("email"),
+                '_label -> "Your e-mail address"
+             )
+             
+             @inputPassword(
+                signupForm("password"),
+                '_label -> "Choose a password"
+             )
+             
+             @inputPassword(
+                signupForm("repeatPassword"),
+                '_label -> "Repeat chosen password",
+                '_showConstraints -> false,
                 '_error -> signupForm.error("password")
-            )
-            
+             )
+
             <input type="submit" value="Sign up now" class="btn btn-primary">
     	}
     </div>

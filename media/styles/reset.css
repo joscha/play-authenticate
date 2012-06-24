@@ -1,0 +1,44 @@
+/* ~
+==========================================================*/
+a, abbr, address, article, aside, audio, b, blockquote, body, canvas,
+caption, cite, code, dd, del, details, dfn, div, dl, dt, em, embed, fieldset,
+figcaption, figure, footer, form, h1, h2, h3, h4, h5, h6, header, hgroup,
+html, i, iframe, img, ins, kbd, label, legend, li, mark, menu, nav,
+object, ol, p, pre, q, samp, section, small, span, strong, sub, summary,
+sup, table, tbody, td, tfoot, th, thead, time, tr, ul, var, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font-weight: inherit;
+	font-style: inherit;
+	vertical-align: baseline;
+}
+
+article, aside, canvas, details, figcaption, figure, footer, header,
+hgroup, menu, nav, section, summary { display: block; }
+
+a, ins, del { text-decoration: none; }
+
+ul, ol { list-style: none; }
+
+table {
+	border-spacing: 0;
+	border-collapse: collapse;
+}
+
+caption, th { text-align: left; }
+
+q:after, q:before { content: ""; }
+
+input[type]:focus { outline: 0; }
+
+button::-moz-focus-inner {
+	border: 0;
+	margin: 0;
+	padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 { font-weight: 400; }
+strong { font-weight: bold; }
+em { font-style: italic; }

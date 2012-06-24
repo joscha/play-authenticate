@@ -30,7 +30,7 @@ public class MyUsernamePasswordAuthProvider
 		extends
 		UsernamePasswordAuthProvider<String, MyLoginUsernamePasswordAuthUser, MyUsernamePasswordAuthUser, MyUsernamePasswordAuthProvider.MyLogin, MyUsernamePasswordAuthProvider.MySignup> {
 
-	private static final String SETTING_KEY_VERIFICATION_LINK_SECURE = "verificationLink.secure";
+	private static final String SETTING_KEY_VERIFICATION_LINK_SECURE = SETTING_KEY_MAIL+"."+"verificationLink.secure";
 
 	@Override
 	protected List<String> neededSettingKeys() {

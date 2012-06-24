@@ -28,7 +28,7 @@ import com.typesafe.plugin.MailerPlugin;
 public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswordAuthUser, US extends UsernamePasswordAuthUser, L extends UsernamePasswordAuthProvider.UsernamePassword, S extends UsernamePasswordAuthProvider.UsernamePassword>
 		extends AuthProvider {
 
-	private static final String SETTING_KEY_MAIL = "mail";
+	protected static final String SETTING_KEY_MAIL = "mail";
 
 	private static final String SETTING_KEY_MAIL_FROM_EMAIL = "email";
 

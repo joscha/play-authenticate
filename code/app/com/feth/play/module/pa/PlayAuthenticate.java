@@ -547,7 +547,12 @@ public abstract class PlayAuthenticate {
 			if (e instanceof AccessDeniedException) {
 				return Controller.forbidden(e.getMessage());
 			}
-			return Controller.internalServerError(e.getMessage());
+			final String message = e.getMessage();
+			if (message != null) {
+				return Controller.internalServerError(message);
+			} else {
+				return Controller.internalServerError();
+			}
 		}
 	}
 

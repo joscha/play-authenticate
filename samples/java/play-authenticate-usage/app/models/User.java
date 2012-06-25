@@ -71,11 +71,13 @@ public class User extends Model implements RoleHolder {
 
 	public static final Finder<Long, User> find = new Finder<Long, User>(
 			Long.class, User.class);
-
+	
+	@Override
 	public List<? extends Role> getRoles() {
 		return roles;
 	}
-
+	
+	@Override
 	public List<? extends Permission> getPermissions() {
 		return permissions;
 	}

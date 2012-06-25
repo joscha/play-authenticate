@@ -19,12 +19,15 @@ The included sample application shows how to use all of those providers.
 Furthermore:
 
 * Fully customizable and localizable controllers and views (e.g. Play Authenticate allows you to define your own controllers and views for every visual step of the signup and/or log in process)
+* Completely dynamic URL generation for all views (uses the route file - means you can adapt the look and feel as much as you like).
 ** The sample shows how to do this with Twitter bootstrap
 * Linking of accounts (e.g. one local user with multiple authentication providers)
 ** Linking can be done automatically or after asking the user (default)
 * Merge detection (e.g. a user created two unconnected local accounts)
 ** Account merge can be done automatically or after asking the user (default)
 * Tight [deadbolt2][] authorization integration (Sample included).
+* HTTPS support (for OAuth2 redirect links and email verification).
+* Verification email used by Email/Password provider is fully customizable and localizable and can be sent in either text or HTML or both.
 
 
 ## Versions

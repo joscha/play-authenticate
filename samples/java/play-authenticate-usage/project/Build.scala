@@ -9,7 +9,7 @@ object ApplicationBuild extends Build {
 
     val appDependencies = Seq(
       "be.objectify" 	%% 	"deadbolt-2"		% "1.1.3-SNAPSHOT",
-      "com.feth"		%% 	"play-authenticate"	% "0.1.1-SNAPSHOT",
+      "com.feth"		%% 	"play-authenticate"	% "0.1.2-SNAPSHOT",
       "postgresql"		% 	"postgresql"		% "9.1-901.jdbc4"
     )
     

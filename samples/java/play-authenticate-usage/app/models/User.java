@@ -101,6 +101,9 @@ public class User extends Model implements RoleHolder {
 	}
 
 	public static User findByAuthUserIdentity(final AuthUserIdentity identity) {
+		if(identity == null)  {
+			return null;
+		}
 		if (identity instanceof UsernamePasswordAuthUser) {
 			return findByUsernamePasswordIdentity((UsernamePasswordAuthUser) identity);
 		} else {

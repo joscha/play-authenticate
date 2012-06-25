@@ -5,7 +5,7 @@ import PlayProject._
 object ApplicationBuild extends Build {
 
     val appName         = "play-authenticate"
-    val appVersion      = "0.1.1-SNAPSHOT"
+    val appVersion      = "0.1.2-SNAPSHOT"
 
     val appDependencies = Seq(
       "org.apache.httpcomponents" % "httpclient" % "4.2",

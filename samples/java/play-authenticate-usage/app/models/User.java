@@ -46,7 +46,9 @@ public class User extends Model implements RoleHolder {
 	public Long id;
 
 	@Email
-	@Column(unique = true)
+	// if you make this unique, keep in mind that users *must* merge/link their
+	// accounts then on signup with additional providers
+	// @Column(unique = true)
 	public String email;
 
 	public String name;

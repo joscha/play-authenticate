@@ -17,9 +17,10 @@
 
 			<div id="navigation">
 				<ul>
-					<li class="current-menu-item"><a href="index.html">Home</a></li>
+					<li class="current-menu-item"><a href="/">Home</a></li>
 					<li><a href="#supported">Supported Providers</a></li>
 					<li><a href="#advantages">Advantages</a></li>
+					<li><a href="#sample_application">Sample application screens</a></li>
 					<li><a href="#showcase">Showcase</a></li>
 				</ul>	
 			</div>
@@ -31,9 +32,10 @@
 	<div id="content" class="home">
 		<div class="inner">
 			<div id="logo" class="section logo">
-				<img src="media/images/logo.png" width="303" height="49" alt="Blanka - Personal page WordPress Theme" />
+				<a href="https://github.com/joscha/play-authenticate"><img src="media/images/logo.png" width="303" height="49" alt="Play! Authenticate logo" /></a>
 				<div id="github">
-					<iframe src="http://markdotto.github.com/github-buttons/github-btn.html?user=joscha&repo=play-authenticate&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="110px" height="20px"></iframe>
+					<iframe src="github-buttons/github-btn.html?user=joscha&repo=play-authenticate&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="110px" height="20px"></iframe>
+
 				</div>
 			</div>
 
@@ -44,10 +46,10 @@
 
 
 			<div class="section about">
-				<h3>Looking for your next social plugin?</h3>
+				<h3>Looking for your next authentication plugin?</h3>
 
-				<p><span class="brand">Play! Authenticate</span> is a brand-new choice for Java-based authentication<br> within <a href="#">Play framework</a> applications, supporting common OAuth providers<br> such as Facebook in parallel with your own user account service.</p>
-				<p>Check out the <a href="#showcase">showcase</a> to see examples of <span class="brand">Play! Authenticate</span> in action.</p>
+				<p><span class="brand">Play! Authenticate</span> is a brand-new choice for Java-based authentication<br> within <a href="https://github.com/playframework/Play20">Play! Framework 2.0</a> applications, supporting common OAuth2 providers<br> such as Facebook or Google in parallel with your own user account service or an out-of-the-box username/password provider.</p>
+				<p>Check out the <a href="#sample_application">sample application</a> and the <a href="#showcase">showcase</a> to see examples of <span class="brand">Play! Authenticate</span> in action.</p>
 			</div>
 
 			<hr />
@@ -62,11 +64,14 @@
 					</tr>
 					<tr>
 						<td>✔ Foursquare</td>
-						<td>✔ Proprietary<super>*</super></td>
+						<td>✔ Email/Pass</td>
+					</tr>
+					<tr>
+						<td colspan="2">✔ Proprietary<super>*</super></td>
 					</tr>
 				</table>
 				<div class="hint">
-					<super>*</super> Using <span class="brand">Play! Authenticate</span>, you can even offer your very own account management
+					<super>*</super> Using <span class="brand">Play! Authenticate</span>, you can even offer your very own account management.
 				</div>
 			</div>
 
@@ -78,32 +83,65 @@
 				<div class="text">
 					<h3 class="with-icon checkmark">Fully customizable</h3>
 
-					<p><span class="brand">Play! Authenticate</span> supports customization of views, allowing you to define your own look and feel for all pages. Built with simplicity and openess in mind, it is extendable in nearly every direction.</p>
+					<p><span class="brand">Play! Authenticate</span> supports customization of views, controllers and routes, allowing you to define your own look and feel for all pages. Built with simplicity and openess in mind, it is extendable in nearly every direction.</p>
 				</div>
 				<div class="text">
-					<h3 class="with-icon checkmark">Linking and merger</h3>
+					<h3 class="with-icon checkmark">Linking and merging</h3>
 
-					<p><span class="brand">Play! Authenticate</span> has built-in support for account linking and merger, allowing your users to link new providers to their accounts and merge them.</p>
+					<p><span class="brand">Play! Authenticate</span> has built-in support for account linking and merging, allowing your users to link new providers to their accounts and merge accounts if needed.</p>
 				</div>
 				<div class="text">
-					<h3 class="with-icon checkmark">Deadbolt support</h3>
+					<h3 class="with-icon checkmark">Deadbolt 2 support</h3>
 
-					<p><span class="brand">Play! Authenticate</span> works hand in hand with authorization module <a href="http://www.playframework.org/modules/deadbolt-1.5.1/home">Deadbolt</a>, pushing your app to a full-fledged web application immediately.</p>
+					<p><span class="brand">Play! Authenticate</span> works hand in hand with authorization module <a href="https://github.com/schaloner/deadbolt-2/">Deadbolt 2</a>, pushing your app to a full-fledged web application immediately.</p>
 				</div>
 			</div>
 
 			<hr />
+
+			<h2 id="sample_application"><span>Sample application screens</span></h2>
+			<div id="others">
+				<p>
+					Here you can see the <span class="brand">Play! Authenticate</span> <a href="https://play-authenticate.herokuapp.com/">sample application</a> on heroku.<br/>
+					This is also the application that comes with <span class="brand">Play! Authenticate</span> to give you a kickstart.
+				</p>
+			</div>
+			<div id="sample">
+				<ul class="bjqs">
+					<li><img src="media/images/sample/1.png" width="800" height="611" alt="sample screen" title="Welcome page"></li>
+					<li><img src="media/images/sample/2.png" width="800" height="611" alt="sample screen" title="The restriction warning after trying to access a secured page"></li>
+					<li><img src="media/images/sample/3.png" width="800" height="611" alt="sample screen" title="Signup page for creating a new user"></li>
+					<li><img src="media/images/sample/4.png" width="800" height="611" alt="sample screen" title="Verification message after signing up with email/password"></li>
+					<li><img src="media/images/sample/5.png" width="800" height="611" alt="sample screen" title="Verification email (shown in GMail here) after signing up with email/password"></li>
+					<li><img src="media/images/sample/6.png" width="800" height="611" alt="sample screen" title="Email was successfully verified"></li>
+					<li><img src="media/images/sample/7.png" width="800" height="611" alt="sample screen" title="Profile page with one linked provider (username/password)"></li>
+					<li><img src="media/images/sample/8.png" width="800" height="611" alt="sample screen" title="Additional providers can be easily linked."></li>
+					<li><img src="media/images/sample/9.png" width="800" height="611" alt="sample screen" title="Access confirmation page when signing up via OAuth2 (Google)"></li>
+					<li><img src="media/images/sample/10.png" width="800" height="611" alt="sample screen" title="The user is getting asked whether to link the new account to the current user or create a new one (automatic linking configurable)"></a></li>
+					<li><img src="media/images/sample/11.png" width="800" height="611" alt="sample screen" title="Profile page with two linked providers"></li>
+					<li><img src="media/images/sample/12.png" width="800" height="611" alt="sample screen" title="Merge accounts choice page (automatic merging and deactivation of account merges configurable)"></li>
+					<li><img src="media/images/sample/13.png" width="800" height="611" alt="sample screen" title="Message after a successful account merge"></li>
+					<li><img src="media/images/sample/14.png" width="800" height="611" alt="sample screen" title="User profile page with 4 linked providers"></li>
+				</ul>
+			</div>
+			<br/>
+
+			<hr />
+
 			<h2 id="showcase"><span>Showcase</span></h2>
 			<div id="others">
 				<p>See what others are using <span class="brand">Play! Authenticate</span> for:</p>
 			</div>
 			<div id="slider">
 				<ul class="bjqsPAUSE">
-					<li><a href="http://www.entitag.com/"><img src="media/images/1.png" width="800" height="545" alt="Entitag.com" title="Entitag.com"></a></li>
+					<li>
+						<a href="http://www.entitag.com2"><img src="media/images/showcase/1.png" width="800" height="545" alt="Entitag.com" title="Entitag.com"></a>
+					</li>
 				</ul>
 			</div>
 			<div id="submit">
-				<p>Want to see your own project featured here? <a href="#">Submit link and screenshot</a></p>
+				<p>Want to see your own project featured here? <a href="mailto:&#106;&#111;&#115;&#99;&#104;&#97;&#43;&#112;&#108;&#97;&#121;&#97;&#117;&#116;&#104;&#101;&#110;&#116;&#105;&#99;&#97;&#116;&#101;@
+&#102;&#101;&#116;&#104;.&#99;&#111;&#109;">Submit link and screenshot</a></p>
 				<div class="hint">Screenshot must be 800x545px including browser chrome and shadow</div>
 			</div>
 		</div>
@@ -118,7 +156,7 @@
 				<a href="http://github.com/joscha/play-authenticate">GitHub</a>
 			</p>
 			<p>
-				<small>Initiated in 2012 by <a href="http://www.feth.com">Joscha Feth</a> &middot; Inspired by <a href="http://github.com/joscha/play-authenticate">SecureSocial</a><br> Webdesign by <a href="http://highonpixels.com">High on Pixels</a>, forked by <a href="http://www.kwiat.org">Andreas Kwiatkowski</a></small>
+				<small>Initiated in 2012 by <a target="_blank" href="http://www.feth.com">Joscha Feth</a> &middot; Inspired by <a target="_blank" href="https://github.com/jaliss/securesocial/">SecureSocial</a><br> Webdesign by <a target="_blank" href="http://highonpixels.com">High on Pixels</a>, forked by <a target="_blank" href="http://www.kwiat.org">Andreas Kwiatkowski</a></small>
 			</p>
 		</div>
 	</div>

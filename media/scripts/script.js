@@ -9,4 +9,15 @@ $('#slider').bjqs({
 'animation' : 'fade',
 'hoverPause' : true
 });
+
+$('#sample').bjqs({
+'width' : 800,
+'height' : 611,
+'showMarkers' : false,
+'showControls' : false,
+'centerMarkers' : false,
+'automatic' : true,
+'animation' : 'fade',
+'hoverPause' : true
+});
 });

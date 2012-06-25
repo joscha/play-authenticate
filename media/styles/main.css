@@ -70,6 +70,13 @@ small {
 	text-align: center;
 }
 
+#sample {
+	width: 1200px;
+	height: 900px;
+	margin: 0 auto;
+	text-align: center;
+}
+
 #submit {
 	width: 800px;
 	margin: 0 auto 50px auto;

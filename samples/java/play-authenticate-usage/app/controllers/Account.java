@@ -1,6 +1,5 @@
 package controllers;
 
-import be.objectify.deadbolt.actions.Restrict;
 import be.objectify.deadbolt.actions.RoleHolderPresent;
 
 import com.feth.play.module.pa.PlayAuthenticate;
@@ -25,7 +24,7 @@ public class Account extends Controller {
 	
 	public static Form<Accept> ACCEPT_FORM = form(Accept.class);
 	
-	@Restrict("user")
+	@RoleHolderPresent
 	public static Result link() {
 		return ok(link.render());
 	}

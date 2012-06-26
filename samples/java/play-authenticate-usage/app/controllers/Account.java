@@ -22,7 +22,7 @@ public class Account extends Controller {
 
 	}
 	
-	public static Form<Accept> ACCEPT_FORM = form(Accept.class);
+	public static final Form<Accept> ACCEPT_FORM = form(Accept.class);
 	
 	@RoleHolderPresent
 	public static Result link() {

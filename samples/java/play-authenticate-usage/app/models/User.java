@@ -126,7 +126,7 @@ public class User extends Model implements RoleHolder {
 		for (final LinkedAccount acc : otherUser.linkedAccounts) {
 			this.linkedAccounts.add(LinkedAccount.create(acc));
 		}
-		// do all other mergin stuff here - like resources, etc.
+		// do all other merging stuff here - like resources, etc.
 
 		// deactivate the merged user that got added to this one
 		otherUser.active = false;

@@ -140,8 +140,16 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 			throws AuthException {
 
 		final Request request = context.request();
+
+		if (Logger.isDebugEnabled()) {
+			Logger.debug("Returned with URL: '" + request.uri() + "'");
+		}
+
 		final String error = request.getQueryString(Constants.ERROR);
 		final String code = request.getQueryString(Constants.CODE);
+		
+		// Attention: facebook does *not* support state that is non-ASCII - not even encoded.
+		final String state = request.getQueryString(Constants.STATE);
 
 		if (error != null) {
 			if (error.equals(Constants.ACCESS_DENIED)) {
@@ -158,12 +166,12 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 			// second step in auth process
 			final I info = getAccessToken(code, request);
 
-			final AuthUserIdentity u = transform(info);
+			final AuthUserIdentity u = transform(info, state);
 			return u;
 			// System.out.println(accessToken.getAccessToken());
 		} else {
 			// no auth, yet
-			final String url = getAuthUrl(request, null);
+			final String url = getAuthUrl(request, state);
 			Logger.debug("generated redirect URL for dialog: " + url);
 			return url;
 		}
@@ -179,11 +187,12 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 	 * provide their own implementaion
 	 * 
 	 * @param info
+	 * @param state
 	 * @return
 	 * @throws AuthException
 	 */
-	protected abstract AuthUserIdentity transform(final I info)
-			throws AuthException;
+	protected abstract AuthUserIdentity transform(final I info,
+			final String state) throws AuthException;
 
 	@Override
 	public boolean isExternal() {

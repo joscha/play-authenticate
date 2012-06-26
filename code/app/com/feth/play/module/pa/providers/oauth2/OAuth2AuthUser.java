@@ -11,10 +11,13 @@ public abstract class OAuth2AuthUser extends AuthUser {
 	
 	private OAuth2AuthInfo info;
 	private String id;
+
+	private final String state;
 	
-	public OAuth2AuthUser(final String id, final OAuth2AuthInfo info) {
+	public OAuth2AuthUser(final String id, final OAuth2AuthInfo info, final String state) {
 		this.info = info;
 		this.id = id;
+		this.state = state;
 	}
 	
 	public OAuth2AuthInfo getOAuth2AuthInfo() {
@@ -29,5 +32,9 @@ public abstract class OAuth2AuthUser extends AuthUser {
 	@Override
 	public long expires() {
 		return getOAuth2AuthInfo().getExpiration();
+	}
+	
+	public String getState() {
+		return state;
 	}
 }

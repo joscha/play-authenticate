@@ -55,8 +55,8 @@ public class FoursquareAuthUser extends OAuth2AuthUser implements ExtendedIdenti
 	private final String bio;
 	private final Map<String, String> contact;
 
-	public FoursquareAuthUser(final JsonNode node, final OAuth2AuthInfo info) {
-		super(node.get(Constants.ID).asText(), info);
+	public FoursquareAuthUser(final JsonNode node, final OAuth2AuthInfo info, final String state) {
+		super(node.get(Constants.ID).asText(), info, state);
 
 		this.firstName = node.get(Constants.FIRST_NAME).asText();
 		this.lastName = node.get(Constants.LAST_NAME).asText();

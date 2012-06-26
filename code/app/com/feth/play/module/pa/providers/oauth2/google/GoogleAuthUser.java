@@ -43,8 +43,8 @@ public class GoogleAuthUser extends OAuth2AuthUser implements ExtendedIdentity, 
 	private final String locale;
 	private final String link;
 
-	public GoogleAuthUser(final JsonNode n, final GoogleAuthInfo info) {
-		super(n.get(Constants.ID).asText(), info);
+	public GoogleAuthUser(final JsonNode n, final GoogleAuthInfo info, final String state) {
+		super(n.get(Constants.ID).asText(), info, state);
 
 		this.email = n.get(Constants.EMAIL).asText();
 		this.emailIsVerified = n.get(Constants.EMAIL_IS_VERIFIED).asBoolean(

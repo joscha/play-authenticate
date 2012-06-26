@@ -41,8 +41,10 @@ public class FoursquareAuthProvider extends
 	}
 
 	@Override
-	protected AuthUserIdentity transform(final FoursquareAuthInfo info)
+	protected AuthUserIdentity transform(final FoursquareAuthInfo info, final String state)
 			throws AuthException {
+		
+		
 		final String url = getConfiguration().getString(
 				USER_INFO_URL_SETTING_KEY);
 		final Response r = WS
@@ -58,7 +60,7 @@ public class FoursquareAuthProvider extends
 			throw new AuthException(result.get("meta").get("errorDetail").asText());
 		} else {
 			Logger.debug(result.toString());
-			return new FoursquareAuthUser(result.get("response").get("user"), info);
+			return new FoursquareAuthUser(result.get("response").get("user"), info, state);
 		}
 	}
 

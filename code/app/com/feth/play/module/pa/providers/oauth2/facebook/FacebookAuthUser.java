@@ -44,8 +44,8 @@ public class FacebookAuthUser extends OAuth2AuthUser implements ExtendedIdentity
 	private final String locale;
 	private final String updateTime;
 
-	public FacebookAuthUser(final JsonNode node, final FacebookAuthInfo info) {
-		super(node.get(Constants.ID).asText(), info);
+	public FacebookAuthUser(final JsonNode node, final FacebookAuthInfo info, final String state) {
+		super(node.get(Constants.ID).asText(), info, state);
 
 		this.name = node.get(Constants.NAME).asText();
 		this.firstName = node.get(Constants.FIRST_NAME).asText();

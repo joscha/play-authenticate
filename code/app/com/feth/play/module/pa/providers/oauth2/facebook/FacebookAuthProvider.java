@@ -31,7 +31,7 @@ public class FacebookAuthProvider extends
 	}
 
 	@Override
-	protected FacebookAuthUser transform(FacebookAuthInfo info)
+	protected FacebookAuthUser transform(FacebookAuthInfo info, final String state)
 			throws AuthException {
 
 		final String url = getConfiguration().getString(
@@ -47,7 +47,7 @@ public class FacebookAuthProvider extends
 			throw new AuthException(result.get("message").asText());
 		} else {
 			Logger.debug(result.toString());
-			return new FacebookAuthUser(result, info);
+			return new FacebookAuthUser(result, info, state);
 		}
 	}
 

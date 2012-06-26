@@ -29,7 +29,7 @@ public class GoogleAuthProvider extends
 	}
 
 	@Override
-	protected GoogleAuthUser transform(final GoogleAuthInfo info)
+	protected GoogleAuthUser transform(final GoogleAuthInfo info, final String state)
 			throws AuthException {
 
 		final String url = getConfiguration().getString(
@@ -46,7 +46,7 @@ public class GoogleAuthProvider extends
 					OAuth2AuthProvider.Constants.ERROR).asText());
 		} else {
 			Logger.debug(result.toString());
-			return new GoogleAuthUser(result, info);
+			return new GoogleAuthUser(result, info, state);
 		}
 	}
 

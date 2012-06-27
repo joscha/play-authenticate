@@ -34,9 +34,10 @@ Furthermore:
 
 ## Versions
 
-* *0.1.2-SNAPSHOT* [2012-06-25] bug fixes
-* *0.1.1-SNAPSHOT* [2012-06-24] lots of options, refined interface for sample app, etc.
-* *0.1.0* [2012-06-19] Initial release
+* **0.1.3-SNAPSHOT** [2012-06-27] bug fixes, state parameter for OAuth2 providers
+* **0.1.2-SNAPSHOT** [2012-06-25] bug fixes
+* **0.1.1-SNAPSHOT** [2012-06-24] lots of options, refined interface for sample app, etc.
+* **0.1.0** [2012-06-19] Initial release
 
 ## License
 

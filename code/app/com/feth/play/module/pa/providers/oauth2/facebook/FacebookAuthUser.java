@@ -4,13 +4,14 @@ import java.util.Locale;
 
 import org.codehaus.jackson.JsonNode;
 
-import com.feth.play.module.pa.providers.oauth2.OAuth2AuthUser;
+import com.feth.play.module.pa.providers.oauth2.BasicOAuth2AuthUser;
 import com.feth.play.module.pa.user.ExtendedIdentity;
 import com.feth.play.module.pa.user.LocaleIdentity;
 import com.feth.play.module.pa.user.PicturedIdentity;
 import com.feth.play.module.pa.user.ProfiledIdentity;
 
-public class FacebookAuthUser extends OAuth2AuthUser implements ExtendedIdentity, PicturedIdentity, ProfiledIdentity, LocaleIdentity {
+public class FacebookAuthUser extends BasicOAuth2AuthUser implements
+		ExtendedIdentity, PicturedIdentity, ProfiledIdentity, LocaleIdentity {
 
 	/**
 	 * 
@@ -32,32 +33,55 @@ public class FacebookAuthUser extends OAuth2AuthUser implements ExtendedIdentity
 		public static final String UPDATE_TIME = "updated_time"; // "2012-04-26T20:22:52+0000"}
 	}
 
-	private final String name;
-	private final String firstName;
-	private final String lastName;
-	private final String link;
-	private final String username;
-	private final String gender;
-	private final String email;
-	private final boolean verified;
-	private final int timezone;
-	private final String locale;
-	private final String updateTime;
+	private String name;
+	private String firstName;
+	private String lastName;
+	private String link;
+	private String username;
+	private String gender;
+	private String email;
+	private boolean verified = false;
+	private int timezone;
+	private String locale;
+	private String updateTime;
 
-	public FacebookAuthUser(final JsonNode node, final FacebookAuthInfo info, final String state) {
+	public FacebookAuthUser(final JsonNode node, final FacebookAuthInfo info,
+			final String state) {
 		super(node.get(Constants.ID).asText(), info, state);
 
-		this.name = node.get(Constants.NAME).asText();
-		this.firstName = node.get(Constants.FIRST_NAME).asText();
-		this.lastName = node.get(Constants.LAST_NAME).asText();
-		this.link = node.get(Constants.LINK).asText();
-		this.username = node.get(Constants.USERNAME).asText();
-		this.gender = node.get(Constants.GENDER).asText();
-		this.email = node.get(Constants.EMAIL).asText();
-		this.verified = node.get(Constants.VERIFIED).asBoolean(false);
-		this.timezone = node.get(Constants.TIME_ZONE).asInt();
-		this.locale = node.get(Constants.LOCALE).asText();
-		this.updateTime = node.get(Constants.UPDATE_TIME).asText();
+		if (node.has(Constants.NAME)) {
+			this.name = node.get(Constants.NAME).asText();
+		}
+		if (node.has(Constants.FIRST_NAME)) {
+			this.firstName = node.get(Constants.FIRST_NAME).asText();
+		}
+		if (node.has(Constants.LAST_NAME)) {
+			this.lastName = node.get(Constants.LAST_NAME).asText();
+		}
+		if (node.has(Constants.LINK)) {
+			this.link = node.get(Constants.LINK).asText();
+		}
+		if (node.has(Constants.USERNAME)) {
+			this.username = node.get(Constants.USERNAME).asText();
+		}
+		if (node.has(Constants.GENDER)) {
+			this.gender = node.get(Constants.GENDER).asText();
+		}
+		if (node.has(Constants.EMAIL)) {
+			this.email = node.get(Constants.EMAIL).asText();
+		}
+		if (node.has(Constants.VERIFIED)) {
+			this.verified = node.get(Constants.VERIFIED).asBoolean(false);
+		}
+		if (node.has(Constants.TIME_ZONE)) {
+			this.timezone = node.get(Constants.TIME_ZONE).asInt();
+		}
+		if (node.has(Constants.LOCALE)) {
+			this.locale = node.get(Constants.LOCALE).asText();
+		}
+		if (node.has(Constants.UPDATE_TIME)) {
+			this.updateTime = node.get(Constants.UPDATE_TIME).asText();
+		}
 	}
 
 	@Override
@@ -100,22 +124,26 @@ public class FacebookAuthUser extends OAuth2AuthUser implements ExtendedIdentity
 	public int getTimezone() {
 		return timezone;
 	}
-	
+
 	public String getPicture() {
-		// According to https://developers.facebook.com/docs/reference/api/#pictures
-		return getProfileLink()+"/picture";
+		if (link != null && !link.isEmpty()) {
+			// According to
+			// https://developers.facebook.com/docs/reference/api/#pictures
+			return getProfileLink() + "/picture";
+		} else {
+			return null;
+		}
 	}
 
 	public Locale getLocale() {
-		return new Locale(locale);
+		if (locale != null && !locale.isEmpty()) {
+			return new Locale(locale);
+		} else {
+			return null;
+		}
 	}
 
 	public String getUpdateTime() {
 		return updateTime;
-	}
-
-	@Override
-	public String toString() {
-		return getName() + " ("+getEmail()+") @ "+getProvider();
 	}
 }

@@ -4,13 +4,14 @@ import java.util.Locale;
 
 import org.codehaus.jackson.JsonNode;
 
-import com.feth.play.module.pa.providers.oauth2.OAuth2AuthUser;
+import com.feth.play.module.pa.providers.oauth2.BasicOAuth2AuthUser;
 import com.feth.play.module.pa.user.ExtendedIdentity;
 import com.feth.play.module.pa.user.LocaleIdentity;
 import com.feth.play.module.pa.user.PicturedIdentity;
 import com.feth.play.module.pa.user.ProfiledIdentity;
 
-public class GoogleAuthUser extends OAuth2AuthUser implements ExtendedIdentity, PicturedIdentity, ProfiledIdentity, LocaleIdentity {
+public class GoogleAuthUser extends BasicOAuth2AuthUser implements ExtendedIdentity,
+		PicturedIdentity, ProfiledIdentity, LocaleIdentity {
 
 	/**
 	 * 
@@ -33,29 +34,50 @@ public class GoogleAuthUser extends OAuth2AuthUser implements ExtendedIdentity, 
 		public static final String LINK = "link"; // "https://plus.google.com/107424373956322297554"
 	}
 
-	private final String email;
-	private final boolean emailIsVerified;
-	private final String name;
-	private final String firstName;
-	private final String lastName;
-	private final String picture;
-	private final String gender;
-	private final String locale;
-	private final String link;
+	private String email;
+	private boolean emailIsVerified = false;
+	private String name;
+	private String firstName;
+	private String lastName;
+	private String picture;
+	private String gender;
+	private String locale;
+	private String link;
 
-	public GoogleAuthUser(final JsonNode n, final GoogleAuthInfo info, final String state) {
+	public GoogleAuthUser(final JsonNode n, final GoogleAuthInfo info,
+			final String state) {
 		super(n.get(Constants.ID).asText(), info, state);
 
-		this.email = n.get(Constants.EMAIL).asText();
-		this.emailIsVerified = n.get(Constants.EMAIL_IS_VERIFIED).asBoolean(
-				false);
-		this.name = n.get(Constants.NAME).asText();
-		this.firstName = n.get(Constants.FIRST_NAME).asText();
-		this.lastName = n.get(Constants.LAST_NAME).asText();
-		this.picture = n.get(Constants.PICTURE).asText();
-		this.gender = n.get(Constants.GENDER).asText();
-		this.locale = n.get(Constants.LOCALE).asText();
-		this.link = n.get(Constants.LINK).asText();
+		if (n.has(Constants.EMAIL)) {
+			this.email = n.get(Constants.EMAIL).asText();
+		}
+		if (n.has(Constants.EMAIL_IS_VERIFIED)) {
+			this.emailIsVerified = n.get(Constants.EMAIL_IS_VERIFIED)
+					.asBoolean();
+		}
+
+		if (n.has(Constants.NAME)) {
+			this.name = n.get(Constants.NAME).asText();
+		}
+
+		if (n.has(Constants.FIRST_NAME)) {
+			this.firstName = n.get(Constants.FIRST_NAME).asText();
+		}
+		if (n.has(Constants.LAST_NAME)) {
+			this.lastName = n.get(Constants.LAST_NAME).asText();
+		}
+		if (n.has(Constants.PICTURE)) {
+			this.picture = n.get(Constants.PICTURE).asText();
+		}
+		if (n.has(Constants.GENDER)) {
+			this.gender = n.get(Constants.GENDER).asText();
+		}
+		if (n.has(Constants.LOCALE)) {
+			this.locale = n.get(Constants.LOCALE).asText();
+		}
+		if (n.has(Constants.LINK)) {
+			this.link = n.get(Constants.LINK).asText();
+		}
 	}
 
 	@Override
@@ -96,11 +118,10 @@ public class GoogleAuthUser extends OAuth2AuthUser implements ExtendedIdentity, 
 	}
 
 	public Locale getLocale() {
-		return new Locale(locale);
-	}
-
-	@Override
-	public String toString() {
-		return getName() + " ("+getEmail()+") @ "+getProvider();
+		if (locale != null) {
+			return new Locale(locale);
+		} else {
+			return null;
+		}
 	}
 }

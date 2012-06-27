@@ -8,12 +8,13 @@ import java.util.Map.Entry;
 
 import org.codehaus.jackson.JsonNode;
 
+import com.feth.play.module.pa.providers.oauth2.BasicOAuth2AuthUser;
 import com.feth.play.module.pa.providers.oauth2.OAuth2AuthInfo;
-import com.feth.play.module.pa.providers.oauth2.OAuth2AuthUser;
 import com.feth.play.module.pa.user.ExtendedIdentity;
 import com.feth.play.module.pa.user.PicturedIdentity;
 
-public class FoursquareAuthUser extends OAuth2AuthUser implements ExtendedIdentity, PicturedIdentity {
+public class FoursquareAuthUser extends BasicOAuth2AuthUser implements
+		ExtendedIdentity, PicturedIdentity {
 
 	/**
 	 * 
@@ -45,26 +46,41 @@ public class FoursquareAuthUser extends OAuth2AuthUser implements ExtendedIdenti
 	public static final String CONTACT_DETAIL_EMAIL = "email";
 	public static final String CONTACT_DETAIL_TWITTER = "contact";
 	public static final String CONTACT_DETAIL_FACEBOOK = "contact";
-	
-	private final String firstName;
-	private final String lastName;
-	private final String homeCity;
-	private final String picture;
-	private final String gender;
-	private final String type;
-	private final String bio;
+
+	private String firstName;
+	private String lastName;
+	private String homeCity;
+	private String picture;
+	private String gender;
+	private String type;
+	private String bio;
 	private final Map<String, String> contact;
 
-	public FoursquareAuthUser(final JsonNode node, final OAuth2AuthInfo info, final String state) {
+	public FoursquareAuthUser(final JsonNode node, final OAuth2AuthInfo info,
+			final String state) {
 		super(node.get(Constants.ID).asText(), info, state);
 
-		this.firstName = node.get(Constants.FIRST_NAME).asText();
-		this.lastName = node.get(Constants.LAST_NAME).asText();
-		this.homeCity = node.get(Constants.HOME_CITY).asText();
-		this.picture = node.get(Constants.PHOTO).asText();
-		this.gender = node.get(Constants.GENDER).asText();
-		this.type = node.get(Constants.TYPE).asText();
-		this.bio = node.get(Constants.BIO).asText();
+		if (node.has(Constants.FIRST_NAME)) {
+			this.firstName = node.get(Constants.FIRST_NAME).asText();
+		}
+		if (node.has(Constants.LAST_NAME)) {
+			this.lastName = node.get(Constants.LAST_NAME).asText();
+		}
+		if (node.has(Constants.HOME_CITY)) {
+			this.homeCity = node.get(Constants.HOME_CITY).asText();
+		}
+		if (node.has(Constants.PHOTO)) {
+			this.picture = node.get(Constants.PHOTO).asText();
+		}
+		if (node.has(Constants.GENDER)) {
+			this.gender = node.get(Constants.GENDER).asText();
+		}
+		if (node.has(Constants.TYPE)) {
+			this.type = node.get(Constants.TYPE).asText();
+		}
+		if (node.has(Constants.BIO)) {
+			this.bio = node.get(Constants.BIO).asText();
+		}
 
 		final JsonNode contactNode = node.get(Constants.CONTACT);
 		if (contactNode != null) {
@@ -129,11 +145,21 @@ public class FoursquareAuthUser extends OAuth2AuthUser implements ExtendedIdenti
 
 	@Override
 	public String getName() {
-		return getFirstName() + " " + getLastName();
-	}
+		final StringBuilder sb = new StringBuilder();
+		final boolean hasFirstName = getFirstName() != null
+				&& !getFirstName().isEmpty();
+		final boolean hasLastName = getLastName() != null
+				&& !getLastName().isEmpty();
+		if (hasFirstName) {
+			sb.append(getFirstName());
+			if (hasLastName) {
+				sb.append(" ");
+			}
+		}
+		if (hasLastName) {
+			sb.append(getLastName());
+		}
 
-	@Override
-	public String toString() {
-		return getName() + " ("+getEmail()+") @ "+getProvider();
+		return sb.toString();
 	}
 }

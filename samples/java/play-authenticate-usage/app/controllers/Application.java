@@ -38,7 +38,7 @@ public class Application extends Controller {
 		return ok(restricted.render(localUser));
 	}
 	
-	@Restrict(Application.USER_ROLE
+	@Restrict(Application.USER_ROLE)
 	public static Result profile() {
 		final User localUser = getLocalUser(session());
 		return ok(profile.render(localUser));

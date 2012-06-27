@@ -38,7 +38,6 @@ public class Application extends Controller {
 		return ok(restricted.render(localUser));
 	}
 	
-	// Fixing missing right paren
 	@Restrict(Application.USER_ROLE)
 	public static Result profile() {
 		final User localUser = getLocalUser(session());

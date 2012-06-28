@@ -153,7 +153,7 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 
 		if (error != null) {
 			if (error.equals(Constants.ACCESS_DENIED)) {
-				throw new AccessDeniedException();
+				throw new AccessDeniedException(getKey());
 			} else if (error.equals(Constants.REDIRECT_URI_MISMATCH)) {
 				Logger.error("You must set the redirect URI for your provider to whatever you defined in your routes file."
 						+ "For this provider it is: '"

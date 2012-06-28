@@ -91,6 +91,10 @@ public abstract class PlayAuthenticate {
 		 * @return
 		 */
 		public abstract Call afterLogout();
+
+		public Call onException(final AuthException e) {
+			return null;
+		}
 	}
 
 	private static Resolver resolver;
@@ -544,14 +548,16 @@ public abstract class PlayAuthenticate {
 						.get("playauthenticate.core.exception.general"));
 			}
 		} catch (final AuthException e) {
-			if (e instanceof AccessDeniedException) {
-				return Controller.forbidden(e.getMessage());
-			}
-			final String message = e.getMessage();
-			if (message != null) {
-				return Controller.internalServerError(message);
+			final Call c = getResolver().onException(e);
+			if (c != null) {
+				return Controller.redirect(c);
 			} else {
-				return Controller.internalServerError();
+				final String message = e.getMessage();
+				if (message != null) {
+					return Controller.internalServerError(message);
+				} else {
+					return Controller.internalServerError();
+				}
 			}
 		}
 	}

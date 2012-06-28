@@ -1,0 +1,10 @@
+@(providerKey: String)
+
+@main("OAuth access denied") {
+
+	<h1>OAuth access denied</h1>
+	<p>
+	If you want to use PlayAuthenticate with OAuth, you must accept the connection to @providerKey.<br/>
+	If you don't like to do this, you can also <a href="@routes.Application.signup">sign up with a username/password</a>.
+	</p>
+}

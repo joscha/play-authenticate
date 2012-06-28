@@ -4,6 +4,8 @@ import models.SecurityRole;
 
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.PlayAuthenticate.Resolver;
+import com.feth.play.module.pa.exceptions.AccessDeniedException;
+import com.feth.play.module.pa.exceptions.AuthException;
 
 import controllers.routes;
 
@@ -50,6 +52,14 @@ public class Global extends GlobalSettings {
 			@Override
 			public Call askLink() {
 				return routes.Account.askLink();
+			}
+			
+			@Override
+			public Call onException(final AuthException e) {
+				if(e instanceof AccessDeniedException) {
+					return routes.Signup.oAuthDenied(((AccessDeniedException) e).getProviderKey());
+				}
+				return super.onException(e);
 			}
 		});
 

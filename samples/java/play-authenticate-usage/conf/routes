@@ -18,6 +18,7 @@ GET     /signup                     controllers.Application.signup
 POST    /signup                     controllers.Application.doSignup
 
 GET     /accounts/verify            controllers.Signup.unverified
+GET     /authenticate/:provider/denied     controllers.Signup.oAuthDenied(provider: String)
 
 GET     /accounts/verify/:token     controllers.Signup.verify(token: String)
 GET     /accounts/exists            controllers.Signup.exists

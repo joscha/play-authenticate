@@ -242,18 +242,18 @@ public abstract class PlayAuthenticate {
 	}
 
 	public static boolean isAccountAutoMerge() {
-		return getConfiguration().getBoolean(SETTING_KEY_ACCOUNT_AUTO_MERGE,
-				false);
+		return getConfiguration().getBoolean(SETTING_KEY_ACCOUNT_AUTO_MERGE
+			);
 	}
 
 	public static boolean isAccountAutoLink() {
-		return getConfiguration().getBoolean(SETTING_KEY_ACCOUNT_AUTO_LINK,
-				false);
+		return getConfiguration().getBoolean(SETTING_KEY_ACCOUNT_AUTO_LINK
+				);
 	}
 
 	public static boolean isAccountMergeEnabled() {
-		return getConfiguration().getBoolean(SETTING_KEY_ACCOUNT_MERGE_ENABLED,
-				true);
+		return getConfiguration().getBoolean(SETTING_KEY_ACCOUNT_MERGE_ENABLED
+				);
 	}
 
 	private static String getPlayAuthSessionId(final Session session) {
@@ -272,7 +272,13 @@ public abstract class PlayAuthenticate {
 	}
 
 	private static void removeFromCache(final Session session, final String key) {
-		play.cache.Cache.remove(getCacheKey(session, key));
+		final String k = getCacheKey(session, key);
+		
+		// TODO change on Play 2.1
+		play.cache.Cache.set(k, null, 0);
+		
+		// POST-2.0/
+		//play.cache.Cache.remove(k);
 	}
 
 	private static String getCacheKey(final Session session, final String key) {

@@ -70,8 +70,7 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 	}
 
 	protected boolean useSecureRedirectUri() {
-		return getConfiguration().getBoolean(SettingKeys.SECURE_REDIRECT_URI,
-				false);
+		return getConfiguration().getBoolean(SettingKeys.SECURE_REDIRECT_URI);
 	}
 
 	private String getAccessTokenParams(final Configuration c,
@@ -134,6 +133,15 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 		return PlayAuthenticate.getResolver().auth(getKey())
 				.absoluteURL(request, useSecureRedirectUri());
 	}
+	
+	// TODO remove on Play 2.1
+	private String getQueryString(final Request r, final Object key) {
+		final String[] m = r.queryString().get(key);
+		if(m != null && m.length > 0) {
+			return m[0];
+		}
+		return null;
+	}
 
 	@Override
 	public Object authenticate(final Context context, final Object payload)
@@ -145,11 +153,12 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 			Logger.debug("Returned with URL: '" + request.uri() + "'");
 		}
 
-		final String error = request.getQueryString(Constants.ERROR);
-		final String code = request.getQueryString(Constants.CODE);
-		
-		// Attention: facebook does *not* support state that is non-ASCII - not even encoded.
-		final String state = request.getQueryString(Constants.STATE);
+		final String error = getQueryString(request,Constants.ERROR);
+		final String code = getQueryString(request,Constants.CODE);
+
+		// Attention: facebook does *not* support state that is non-ASCII - not
+		// even encoded.
+		final String state = getQueryString(request,Constants.STATE);
 
 		if (error != null) {
 			if (error.equals(Constants.ACCESS_DENIED)) {

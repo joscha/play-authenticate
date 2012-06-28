@@ -2,8 +2,8 @@
 
 This plugin uses concepts from [securesocial2][] and [Play20StartApp][] and provides a sample containing code from [deadbolt2][].
 
-#### Info
-**Play Authenticate currently does not work with Play 2.0.2 and prior - you need to use Play 2.1-SNAPSHOT or if you want a prebuild version you can use 2.1-06212012 - which is available in the typesafe repo. If you run sbt and don't specify play.version it should just work out of the box as Build.scala defines this as fallback version.**
+#### Version information
+**Play Authenticate currently needs Play! Framework 2.0.2 or later**
 
 ## Live demo
 You can find a live demo on [heroku](https://play-authenticate.herokuapp.com/ "Play Authenticate sample app") and there are some screens on our [website](http://joscha.github.com/play-authenticate/).
@@ -34,6 +34,7 @@ Furthermore:
 
 ## Versions
 
+* **0.1.4-SNAPSHOT** [2012-06-29] bug fixes, nice message page if OAuth access gets denied and most important support for play 2.0.2
 * **0.1.3-SNAPSHOT** [2012-06-27] bug fixes, state parameter for OAuth2 providers
 * **0.1.2-SNAPSHOT** [2012-06-25] bug fixes
 * **0.1.1-SNAPSHOT** [2012-06-24] lots of options, refined interface for sample app, etc.

@@ -31,7 +31,7 @@ public class FoursquareAuthProvider extends
 			throws AccessTokenException {
 
 		if (r.getStatus() >= 400) {
-			throw new AccessTokenException(r.getStatusText());
+			throw new AccessTokenException(r.toString());
 		} else {
 			final JsonNode result = r.asJson();
 			Logger.debug(result.asText());

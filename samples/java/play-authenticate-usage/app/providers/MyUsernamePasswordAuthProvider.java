@@ -17,8 +17,6 @@ import play.i18n.Messages;
 import play.mvc.Call;
 import play.mvc.Controller;
 import play.mvc.Http.Context;
-import providers.MyUsernamePasswordAuthProvider.MyLogin.LoginGroup;
-import providers.MyUsernamePasswordAuthProvider.MyLogin.SignupGroup;
 
 import com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider;
 import com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider.Mailer.Mail.Body;
@@ -30,7 +28,8 @@ public class MyUsernamePasswordAuthProvider
 		extends
 		UsernamePasswordAuthProvider<String, MyLoginUsernamePasswordAuthUser, MyUsernamePasswordAuthUser, MyUsernamePasswordAuthProvider.MyLogin, MyUsernamePasswordAuthProvider.MySignup> {
 
-	private static final String SETTING_KEY_VERIFICATION_LINK_SECURE = SETTING_KEY_MAIL+"."+"verificationLink.secure";
+	private static final String SETTING_KEY_VERIFICATION_LINK_SECURE = SETTING_KEY_MAIL
+			+ "." + "verificationLink.secure";
 
 	@Override
 	protected List<String> neededSettingKeys() {
@@ -43,23 +42,14 @@ public class MyUsernamePasswordAuthProvider
 	public static class MyLogin
 			implements
 			com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider.UsernamePassword {
-		public static interface SignupGroup {
-		}
 
-		public static interface LoginGroup {
-		}
-
-		@Required(groups = { SignupGroup.class, LoginGroup.class })
-		@Email(groups = { SignupGroup.class, LoginGroup.class })
+		@Required
+		@Email
 		public String email;
 
-		@Required(groups = { SignupGroup.class, LoginGroup.class })
-		@MinLength(value = 5, groups = { SignupGroup.class })
+		@Required
+		@MinLength(5)
 		public String password;
-
-		@Required(groups = { SignupGroup.class })
-		@MinLength(value = 5, groups = { SignupGroup.class })
-		public String repeatPassword;
 
 		@Override
 		public String getEmail() {
@@ -73,7 +63,12 @@ public class MyUsernamePasswordAuthProvider
 	}
 
 	public static class MySignup extends MyLogin {
-		@Required(groups = { SignupGroup.class })
+		
+		@Required
+		@MinLength(5)
+		public String repeatPassword;
+		
+		@Required
 		public String name;
 
 		public String validate() {
@@ -84,10 +79,8 @@ public class MyUsernamePasswordAuthProvider
 		}
 	}
 
-	public static Form<MySignup> SIGNUP_FORM = Controller.form(MySignup.class,
-			SignupGroup.class);
-	public static Form<MyLogin> LOGIN_FORM = Controller.form(MyLogin.class,
-			LoginGroup.class);
+	public static Form<MySignup> SIGNUP_FORM = Controller.form(MySignup.class);
+	public static Form<MyLogin> LOGIN_FORM = Controller.form(MyLogin.class);
 
 	public MyUsernamePasswordAuthProvider(Application app) {
 		super(app);
@@ -194,7 +187,7 @@ public class MyUsernamePasswordAuthProvider
 			final MyUsernamePasswordAuthUser user, final Context ctx) {
 
 		final boolean isSecure = getConfiguration().getBoolean(
-				SETTING_KEY_VERIFICATION_LINK_SECURE, false);
+				SETTING_KEY_VERIFICATION_LINK_SECURE);
 
 		final String url = routes.Signup.verify(token).absoluteURL(
 				ctx.request(), isSecure);

@@ -9,6 +9,7 @@ import play.Configuration;
 import play.data.Form;
 import play.libs.Akka;
 import play.mvc.Call;
+import play.mvc.Http;
 import play.mvc.Http.Context;
 import play.mvc.Http.Request;
 import play.mvc.Result;
@@ -55,7 +56,8 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 
 		public Mailer(final MailerPlugin plugin, final Configuration config) {
 			this.plugin = plugin;
-			delay = Duration.create(config.getLong(SETTING_KEY_MAIL_DELAY),
+			// TODO exchange by config.getLong after 2.1 release
+			delay = Duration.create(Long.parseLong(config.getString(SETTING_KEY_MAIL_DELAY)),
 					TimeUnit.SECONDS);
 
 			final Configuration fromConfig = config
@@ -240,7 +242,7 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 			throws AuthException {
 
 		if (payload == Case.SIGNUP) {
-			final S signup = getSignup(context.request());
+			final S signup = getSignup(context);
 			final US authUser = buildSignupAuthUser(signup);
 			final SignupResult r = signupUser(authUser);
 
@@ -263,7 +265,7 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 				throw new AuthException("Something in signup went wrong");
 			}
 		} else if (payload == Case.LOGIN) {
-			final L login = getLogin(context.request());
+			final L login = getLogin(context);
 			final UL authUser = buildLoginAuthUser(login);
 			final LoginResult r = loginUser(authUser);
 			switch (r) {
@@ -307,13 +309,17 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 				Case.SIGNUP);
 	}
 
-	private S getSignup(final Request request) {
-		final Form<S> filledForm = getSignupForm().bindFromRequest(request);
+	private S getSignup(final Context ctx) {
+		// TODO change to getSignupForm().bindFromRequest(request) after 2.1
+		Http.Context.current.set(ctx);
+		final Form<S> filledForm = getSignupForm().bindFromRequest();
 		return filledForm.get();
 	}
 
-	private L getLogin(final Request request) {
-		final Form<L> filledForm = getLoginForm().bindFromRequest(request);
+	private L getLogin(final Context ctx) {
+		// TODO change to getSignupForm().bindFromRequest(request) after 2.1
+		Http.Context.current.set(ctx);
+		final Form<L> filledForm = getLoginForm().bindFromRequest();
 		return filledForm.get();
 	}
 

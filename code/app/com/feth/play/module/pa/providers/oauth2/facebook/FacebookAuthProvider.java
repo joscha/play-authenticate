@@ -22,6 +22,8 @@ import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
 public class FacebookAuthProvider extends
 		OAuth2AuthProvider<FacebookAuthUser, FacebookAuthInfo> {
 
+	private static final String MESSAGE = "message";
+
 	static final String PROVIDER_KEY = "facebook";
 	
 	private static final String USER_INFO_URL_SETTING_KEY = "userInfoUrl";
@@ -44,7 +46,7 @@ public class FacebookAuthProvider extends
 
 		final JsonNode result = r.asJson();
 		if (result.get(OAuth2AuthProvider.Constants.ERROR) != null) {
-			throw new AuthException(result.get("message").asText());
+			throw new AuthException(result.get(MESSAGE).asText());
 		} else {
 			Logger.debug(result.toString());
 			return new FacebookAuthUser(result, info, state);
@@ -60,7 +62,7 @@ public class FacebookAuthProvider extends
 	protected FacebookAuthInfo buildInfo(final Response r)
 			throws AccessTokenException {
 		if (r.getStatus() >= 400) {
-			throw new AccessTokenException(r.asJson().get("message").asText());
+			throw new AccessTokenException(r.asJson().get(MESSAGE).asText());
 		} else {
 			final String query = r.getBody();
 			Logger.debug(query);

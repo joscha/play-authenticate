@@ -18,6 +18,7 @@ import play.mvc.Http.Context;
 import play.mvc.Http.Request;
 
 import com.feth.play.module.pa.PlayAuthenticate;
+import com.feth.play.module.pa.controllers.Authenticate;
 import com.feth.play.module.pa.exceptions.AccessDeniedException;
 import com.feth.play.module.pa.exceptions.AccessTokenException;
 import com.feth.play.module.pa.exceptions.AuthException;
@@ -134,15 +135,6 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 				.absoluteURL(request, useSecureRedirectUri());
 	}
 	
-	// TODO remove on Play 2.1
-	private String getQueryString(final Request r, final Object key) {
-		final String[] m = r.queryString().get(key);
-		if(m != null && m.length > 0) {
-			return m[0];
-		}
-		return null;
-	}
-
 	@Override
 	public Object authenticate(final Context context, final Object payload)
 			throws AuthException {
@@ -153,12 +145,15 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 			Logger.debug("Returned with URL: '" + request.uri() + "'");
 		}
 
-		final String error = getQueryString(request,Constants.ERROR);
-		final String code = getQueryString(request,Constants.CODE);
+		final String error = Authenticate.getQueryString(request,
+				Constants.ERROR);
+		final String code = Authenticate
+				.getQueryString(request, Constants.CODE);
 
 		// Attention: facebook does *not* support state that is non-ASCII - not
 		// even encoded.
-		final String state = getQueryString(request,Constants.STATE);
+		final String state = Authenticate.getQueryString(request,
+				Constants.STATE);
 
 		if (error != null) {
 			if (error.equals(Constants.ACCESS_DENIED)) {

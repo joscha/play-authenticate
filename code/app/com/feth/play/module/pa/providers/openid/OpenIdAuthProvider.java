@@ -123,9 +123,4 @@ public class OpenIdAuthProvider extends ExternalAuthProvider {
 		return new SessionAuthUser(getKey(), id, expires);
 	}
 
-	@Override
-	public boolean isExternal() {
-		return true;
-	}
-
 }

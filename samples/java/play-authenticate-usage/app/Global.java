@@ -53,13 +53,15 @@ public class Global extends GlobalSettings {
 			public Call askLink() {
 				return routes.Account.askLink();
 			}
-			
+
 			@Override
 			public Call onException(final AuthException e) {
-				if(e instanceof AccessDeniedException) {
-					return routes.Signup.oAuthDenied(((AccessDeniedException) e).getProviderKey());
+				if (e instanceof AccessDeniedException) {
+					return routes.Signup
+							.oAuthDenied(((AccessDeniedException) e)
+									.getProviderKey());
 				}
-				
+
 				// more custom problem handling here...
 				return super.onException(e);
 			}

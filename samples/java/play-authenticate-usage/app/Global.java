@@ -59,6 +59,8 @@ public class Global extends GlobalSettings {
 				if(e instanceof AccessDeniedException) {
 					return routes.Signup.oAuthDenied(((AccessDeniedException) e).getProviderKey());
 				}
+				
+				// more custom problem handling here...
 				return super.onException(e);
 			}
 		});

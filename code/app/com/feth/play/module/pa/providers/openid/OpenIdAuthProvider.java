@@ -18,8 +18,6 @@ import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.ext.ExternalAuthProvider;
 import com.feth.play.module.pa.providers.openid.exceptions.NoOpenIdAuthException;
 import com.feth.play.module.pa.providers.openid.exceptions.OpenIdConnectException;
-import com.feth.play.module.pa.user.AuthUser;
-import com.feth.play.module.pa.user.SessionAuthUser;
 
 public class OpenIdAuthProvider extends ExternalAuthProvider {
 
@@ -116,11 +114,6 @@ public class OpenIdAuthProvider extends ExternalAuthProvider {
 		}
 
 		return null;
-	}
-
-	@Override
-	public AuthUser getSessionAuthUser(final String id, final long expires) {
-		return new SessionAuthUser(getKey(), id, expires);
 	}
 
 }

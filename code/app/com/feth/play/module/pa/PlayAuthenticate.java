@@ -13,7 +13,6 @@ import play.mvc.Http.Context;
 import play.mvc.Http.Session;
 import play.mvc.Result;
 
-import com.feth.play.module.pa.exceptions.AccessDeniedException;
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.AuthProvider;
 import com.feth.play.module.pa.service.UserService;

@@ -73,6 +73,9 @@ public class OpenIdAuthProvider extends ExternalAuthProvider {
 		}
 		if (hasInfo) {
 
+			// Siwtch to passing the UserInfo only, when the fix for:
+			// https://play.lighthouseapp.com/projects/82401-play-20/tickets/578-202-java-openid-userinfo-id-always-null
+			// has been incorporated.
 			return new OpenIdAuthUser(Authenticate.getQueryString(request,
 					"openid.claimed_id"), u);
 

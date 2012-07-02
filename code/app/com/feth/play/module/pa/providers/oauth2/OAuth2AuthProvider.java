@@ -1,7 +1,6 @@
 package com.feth.play.module.pa.providers.oauth2;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
@@ -23,13 +22,13 @@ import com.feth.play.module.pa.exceptions.AccessDeniedException;
 import com.feth.play.module.pa.exceptions.AccessTokenException;
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.exceptions.RedirectUriMismatch;
-import com.feth.play.module.pa.providers.AuthProvider;
+import com.feth.play.module.pa.providers.ext.ExternalAuthProvider;
 import com.feth.play.module.pa.user.AuthUser;
 import com.feth.play.module.pa.user.AuthUserIdentity;
 import com.feth.play.module.pa.user.SessionAuthUser;
 
 public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends OAuth2AuthInfo>
-		extends AuthProvider {
+		extends ExternalAuthProvider {
 
 	public OAuth2AuthProvider(final Application app) {
 		super(app);
@@ -37,9 +36,13 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 
 	@Override
 	protected List<String> neededSettingKeys() {
-		return Arrays.asList(SettingKeys.ACCESS_TOKEN_URL,
-				SettingKeys.AUTHORIZATION_URL, SettingKeys.CLIENT_ID,
-				SettingKeys.CLIENT_SECRET, SettingKeys.SECURE_REDIRECT_URI);
+		final List<String> ret = new ArrayList<String>();
+		ret.addAll(super.neededSettingKeys());
+		ret.add(SettingKeys.ACCESS_TOKEN_URL);
+		ret.add(SettingKeys.AUTHORIZATION_URL);
+		ret.add(SettingKeys.CLIENT_ID);
+		ret.add(SettingKeys.CLIENT_SECRET);
+		return ret;
 	}
 
 	public static abstract class SettingKeys {
@@ -48,7 +51,6 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 		public static final String CLIENT_ID = "clientId";
 		public static final String CLIENT_SECRET = "clientSecret";
 		public static final String SCOPE = "scope";
-		public static final String SECURE_REDIRECT_URI = "secureRedirectUri";
 	}
 
 	public static abstract class Constants {
@@ -68,10 +70,6 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 		public static final String REFRESH_TOKEN = "refresh_token";
 		public static final String ACCESS_DENIED = "access_denied";
 		public static final String REDIRECT_URI_MISMATCH = "redirect_uri_mismatch";
-	}
-
-	protected boolean useSecureRedirectUri() {
-		return getConfiguration().getBoolean(SettingKeys.SECURE_REDIRECT_URI);
 	}
 
 	private String getAccessTokenParams(final Configuration c,
@@ -130,11 +128,6 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 		return params;
 	}
 
-	private String getRedirectUrl(final Request request) {
-		return PlayAuthenticate.getResolver().auth(getKey())
-				.absoluteURL(request, useSecureRedirectUri());
-	}
-	
 	@Override
 	public Object authenticate(final Context context, final Object payload)
 			throws AuthException {
@@ -197,9 +190,4 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 	 */
 	protected abstract AuthUserIdentity transform(final I info,
 			final String state) throws AuthException;
-
-	@Override
-	public boolean isExternal() {
-		return true;
-	}
 }

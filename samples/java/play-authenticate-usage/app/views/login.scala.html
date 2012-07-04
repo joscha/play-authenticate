@@ -23,11 +23,7 @@
           </p>
         }
         
-        @inputText(
-          loginForm("email"),
-          '_showConstraints -> false,
-          '_label -> "E-mail"
-        )
+        @_emailPartial(loginForm)
           
         @inputPassword(
           loginForm("password"),
@@ -35,7 +31,9 @@
           '_label -> "Password"
         )
           
-        <input type="submit" value="Log in now" class="btn btn-primary">
+        <input type="submit" value="Log in now" class="btn btn-primary"><br/>
+        <br/>
+        <a href="javascript:void(0);" onclick="window.location.href = jsRoutes.controllers.Signup.forgotPassword($('#email').val() || null).absoluteURL();">Forgot your password?</a>
 
     	}
     </div>

@@ -1,0 +1,10 @@
+@(verificationUrl: String, token: String, name: String, email: String)
+
+Hello @name,
+
+Follow this link to verify your email address now:
+
+@verificationUrl
+
+Cheers,
+The PlayAuthenticate Team

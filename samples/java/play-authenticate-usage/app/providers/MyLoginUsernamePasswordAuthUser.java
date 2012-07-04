@@ -16,6 +16,15 @@ public class MyLoginUsernamePasswordAuthUser extends
 	final static long SESSION_TIMEOUT = 24 * 14 * 3600;
 	private long expiration;
 
+	/**
+	 * For logging the user in automatically
+	 * 
+	 * @param email
+	 */
+	public MyLoginUsernamePasswordAuthUser(final String email) {
+		this(null, email);
+	}
+
 	public MyLoginUsernamePasswordAuthUser(final String clearPassword,
 			final String email) {
 		super(clearPassword, email);

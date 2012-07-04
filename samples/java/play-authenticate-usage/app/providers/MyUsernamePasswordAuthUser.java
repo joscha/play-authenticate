@@ -19,6 +19,15 @@ public class MyUsernamePasswordAuthUser extends UsernamePasswordAuthUser
 		this.name = signup.name;
 	}
 
+	/**
+	 * Used for password reset only - do not use this to signup a user!
+	 * @param password
+	 */
+	public MyUsernamePasswordAuthUser(final String password) {
+		super(password, null);
+		name = null;
+	}
+
 	@Override
 	public String getName() {
 		return name;

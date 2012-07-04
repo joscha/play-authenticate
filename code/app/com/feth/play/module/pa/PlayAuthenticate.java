@@ -161,7 +161,11 @@ public abstract class PlayAuthenticate {
 		return context.session().get(ORIGINAL_URL);
 	}
 
-	public static void storeUser(final Session session, final AuthUser u) {
+	public static void storeUser(final Session session, final AuthUser authUser) {
+		
+		// User logged in once more - wanna make some updates?
+		final AuthUser u = getUserService().update(authUser);
+		
 		session.put(PlayAuthenticate.USER_KEY, u.getId());
 		session.put(PlayAuthenticate.PROVIDER_KEY, u.getProvider());
 		if (u.expires() != AuthUser.NO_EXPIRATION) {
@@ -480,8 +484,7 @@ public abstract class PlayAuthenticate {
 				final AuthUser loginUser;
 				if (isLinked && !isLoggedIn) {
 					// 1. -> Login
-					// User logged in once more - wanna make some updates?
-					loginUser = getUserService().update(newUser);
+					loginUser = newUser;
 
 				} else if (isLinked && isLoggedIn) {
 					// 2. -> Merge

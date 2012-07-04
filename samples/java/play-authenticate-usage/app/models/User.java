@@ -7,12 +7,13 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import models.TokenAction.Type;
 
 import play.data.format.Formats;
 import play.db.ebean.Model;
@@ -71,12 +72,12 @@ public class User extends Model implements RoleHolder {
 
 	public static final Finder<Long, User> find = new Finder<Long, User>(
 			Long.class, User.class);
-	
+
 	@Override
 	public List<? extends Role> getRoles() {
 		return roles;
 	}
-	
+
 	@Override
 	public List<? extends Permission> getPermissions() {
 		return permissions;
@@ -101,7 +102,7 @@ public class User extends Model implements RoleHolder {
 	}
 
 	public static User findByAuthUserIdentity(final AuthUserIdentity identity) {
-		if(identity == null)  {
+		if (identity == null) {
 			return null;
 		}
 		if (identity instanceof UsernamePasswordAuthUser) {
@@ -202,10 +203,36 @@ public class User extends Model implements RoleHolder {
 		return find.where().eq("active", true).eq("email", email);
 	}
 
+	public LinkedAccount getAccountByProvider(final String providerKey) {
+		return LinkedAccount.findByProviderKey(this, providerKey);
+	}
+
 	public static void verify(final User unverified) {
 		// You might want to wrap this into a transaction
 		unverified.emailValidated = true;
 		unverified.save();
-		UserActivation.deleteByUser(unverified);
+		TokenAction.deleteByUser(unverified, Type.EMAIL_VERIFICATION);
+	}
+
+	public void changePassword(final UsernamePasswordAuthUser authUser,
+			final boolean create) {
+		LinkedAccount a = this.getAccountByProvider(authUser.getProvider());
+		if (a == null) {
+			if (create) {
+				a = LinkedAccount.create(authUser);
+				a.user = this;
+			} else {
+				throw new RuntimeException(
+						"Account not enabled for password usage");
+			}
+		}
+		a.providerUserId = authUser.getHashedPassword();
+		a.save();
+	}
+
+	public void resetPassword(final UsernamePasswordAuthUser authUser) {
+		// You might want to wrap this into a transaction
+		this.changePassword(authUser, false);
+		TokenAction.deleteByUser(this, Type.PASSWORD_RESET);
 	}
 }

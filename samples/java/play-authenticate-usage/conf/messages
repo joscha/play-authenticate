@@ -1,1 +1,3 @@
+password.verify_signup.subject=PlayAuthenticate: Finish your signup
 password.verify_email.subject=PlayAuthenticate: Confirm your email address
+password.reset_email.subject=PlayAuthenticate: Instructions on how to reset your password

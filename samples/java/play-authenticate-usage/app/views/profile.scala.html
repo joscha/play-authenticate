@@ -7,6 +7,12 @@
     <h1>User profile</h1>
     <p>
     Your name is @localUser.name and your email address is @localUser.email!
+    <i>
+    @if(!localUser.emailValidated) {
+      (<a href="@routes.Account.verifyEmail">unverified - click to verify</a>)
+    } else {
+      (verified)
+    }</i>
     <br/>
     @defining(localUser.getProviders()) { providers =>
     	@if(providers.size() > 0) {
@@ -24,5 +30,9 @@
     	Your user ID is @auth.getId() and your session will expire @if(auth.expires() == -1) { never } else { on @Application.formatTimestamp(auth.expires()) }
     	<br/>
     }
+    <br/>
+    <ul>
+    	<li><a href="@routes.Account.changePassword">Change/set a password for your account</a></li>
+    </ul>
     </p>
 }

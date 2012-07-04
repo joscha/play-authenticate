@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import models.User;
+import play.Routes;
 import play.data.Form;
 import play.mvc.*;
 import play.mvc.Http.Session;
@@ -20,12 +21,13 @@ import com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider;
 
 public class Application extends Controller {
 
+	public static final String FLASH_MESSAGE_KEY = "message";
 	public static final String USER_ROLE = "user";
 
 	public static Result index() {
 		return ok(index.render());
 	}
-	
+
 	public static User getLocalUser(final Session session) {
 		final User localUser = User.findByAuthUserIdentity(PlayAuthenticate
 				.getUser(session));
@@ -37,7 +39,7 @@ public class Application extends Controller {
 		final User localUser = getLocalUser(session());
 		return ok(restricted.render(localUser));
 	}
-	
+
 	@Restrict(Application.USER_ROLE)
 	public static Result profile() {
 		final User localUser = getLocalUser(session());
@@ -49,7 +51,8 @@ public class Application extends Controller {
 	}
 
 	public static Result doLogin() {
-		final Form<MyLogin> filledForm = MyUsernamePasswordAuthProvider.LOGIN_FORM.bindFromRequest();
+		final Form<MyLogin> filledForm = MyUsernamePasswordAuthProvider.LOGIN_FORM
+				.bindFromRequest();
 		if (filledForm.hasErrors()) {
 			// User did not fill everything properly
 			return badRequest(login.render(filledForm));
@@ -63,8 +66,16 @@ public class Application extends Controller {
 		return ok(signup.render(MyUsernamePasswordAuthProvider.SIGNUP_FORM));
 	}
 
+	public static Result jsRoutes() {
+		return ok(
+				Routes.javascriptRouter("jsRoutes",
+						controllers.routes.javascript.Signup.forgotPassword()))
+				.as("text/javascript");
+	}
+
 	public static Result doSignup() {
-		final Form<MySignup> filledForm = MyUsernamePasswordAuthProvider.SIGNUP_FORM.bindFromRequest();
+		final Form<MySignup> filledForm = MyUsernamePasswordAuthProvider.SIGNUP_FORM
+				.bindFromRequest();
 		if (filledForm.hasErrors()) {
 			// User did not fill everything properly
 			return badRequest(signup.render(filledForm));

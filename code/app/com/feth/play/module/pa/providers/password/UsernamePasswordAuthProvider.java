@@ -12,6 +12,7 @@ import play.mvc.Call;
 import play.mvc.Http;
 import play.mvc.Http.Context;
 import play.mvc.Result;
+import akka.actor.Cancellable;
 import akka.util.Duration;
 import akka.util.FiniteDuration;
 
@@ -27,6 +28,8 @@ import com.typesafe.plugin.MailerPlugin;
 
 public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswordAuthUser, US extends UsernamePasswordAuthUser, L extends UsernamePasswordAuthProvider.UsernamePassword, S extends UsernamePasswordAuthProvider.UsernamePassword>
 		extends AuthProvider {
+	
+	protected static final String PROVIDER_KEY = "password";
 
 	protected static final String SETTING_KEY_MAIL = "mail";
 
@@ -37,7 +40,7 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 	private static final String SETTING_KEY_MAIL_DELAY = "delay";
 
 	private static final String SETTING_KEY_MAIL_FROM = "from";
-
+	
 	@Override
 	protected List<String> neededSettingKeys() {
 		return Arrays.asList(SETTING_KEY_MAIL + "." + SETTING_KEY_MAIL_DELAY,
@@ -56,7 +59,8 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 		public Mailer(final MailerPlugin plugin, final Configuration config) {
 			this.plugin = plugin;
 			// TODO exchange by config.getLong after 2.1 release
-			delay = Duration.create(Long.parseLong(config.getString(SETTING_KEY_MAIL_DELAY)),
+			delay = Duration.create(
+					Long.parseLong(config.getString(SETTING_KEY_MAIL_DELAY)),
 					TimeUnit.SECONDS);
 
 			final Configuration fromConfig = config
@@ -190,16 +194,21 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 
 		}
 
-		public void sendMail(final Mail email) {
+		public Cancellable sendMail(final Mail email) {
 			email.setFrom(sender);
-			Akka.system().scheduler().scheduleOnce(delay, new MailJob(email));
+			return Akka.system().scheduler().scheduleOnce(delay, new MailJob(email));
+		}
+
+		public Cancellable sendMail(final String subject, final Body body,
+				final String recipient) {
+			final Mail mail = new Mail(subject, body,
+					new String[] { recipient });
+			return sendMail(mail);
 		}
 
 	}
 
 	protected Mailer mailer;
-
-	static final String PROVIDER_KEY = "password";
 
 	private enum Case {
 		SIGNUP, LOGIN
@@ -251,6 +260,7 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 				return userExists(authUser).url();
 			case USER_EXISTS_UNVERIFIED:
 				// TODO: resend validation email after X minutes?
+				sendVerifyEmailMailing(context, authUser);
 				return userUnverified(authUser).url();
 			case USER_CREATED_UNVERIFIED:
 				// User got created as unverified
@@ -370,7 +380,7 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 				new String[] { getEmailName(user) });
 		mailer.sendMail(verifyMail);
 	}
-	
+
 	@Override
 	public boolean isExternal() {
 		return false;

@@ -1,5 +1,7 @@
 package controllers;
 
+import models.User;
+import be.objectify.deadbolt.actions.Restrict;
 import be.objectify.deadbolt.actions.RoleHolderPresent;
 
 import com.feth.play.module.pa.PlayAuthenticate;
@@ -7,9 +9,12 @@ import com.feth.play.module.pa.user.AuthUser;
 
 import play.data.Form;
 import play.data.format.Formats.NonEmpty;
+import play.data.validation.Constraints.MinLength;
 import play.data.validation.Constraints.Required;
 import play.mvc.Controller;
 import play.mvc.Result;
+import providers.MyUsernamePasswordAuthProvider;
+import providers.MyUsernamePasswordAuthUser;
 import views.html.account.*;
 
 public class Account extends Controller {
@@ -21,12 +26,75 @@ public class Account extends Controller {
 		public Boolean accept;
 
 	}
+
+	public static class PasswordChange {
+		@MinLength(5)
+		@Required
+		public String password;
 	
-	public static final Form<Accept> ACCEPT_FORM = form(Accept.class);
+		@MinLength(5)
+		@Required
+		public String repeatPassword;
 	
+		public String validate() {
+			if (password == null || !password.equals(repeatPassword)) {
+				return "Passwords don't match!";
+			}
+			return null;
+		}
+	}
+
+	private static final Form<Accept> ACCEPT_FORM = form(Accept.class);
+	private static final Form<Account.PasswordChange> PASSWORD_CHANGE_FORM = form(Account.PasswordChange.class);
+
 	@RoleHolderPresent
 	public static Result link() {
 		return ok(link.render());
+	}
+
+	@Restrict(Application.USER_ROLE)
+	public static Result verifyEmail() {
+		final User user = Application.getLocalUser(session());
+		if (user.emailValidated) {
+			// E-Mail has been validated already
+			return forbidden();
+		} else {
+			flash(Application.FLASH_MESSAGE_KEY,
+					"Instructions on how to verify your email address have been sent to "
+							+ user.email);
+			MyUsernamePasswordAuthProvider.getProvider()
+					.sendVerifyEmailMailingAfterSignup(user, ctx());
+			return redirect(routes.Application.profile());
+		}
+	}
+
+	@Restrict(Application.USER_ROLE)
+	public static Result changePassword() {
+		final User u = Application.getLocalUser(session());
+
+		if (!u.emailValidated) {
+			return ok(unverified.render());
+		} else {
+			return ok(password_change.render(PASSWORD_CHANGE_FORM));
+		}
+	}
+
+	@Restrict(Application.USER_ROLE)
+	public static Result doChangePassword() {
+		final Form<Account.PasswordChange> filledForm = PASSWORD_CHANGE_FORM
+				.bindFromRequest();
+		if (filledForm.hasErrors()) {
+			// User did not select whether to link or not link
+			return badRequest(password_change.render(filledForm));
+		} else {
+			final User user = Application.getLocalUser(session());
+			final String newPassword = filledForm.get().password;
+			user.changePassword(new MyUsernamePasswordAuthUser(newPassword),
+					true);
+			flash(Application.FLASH_MESSAGE_KEY,
+					"Password has been changed successfully!");
+			return redirect(routes.Application.profile());
+		}
 	}
 
 	@RoleHolderPresent
@@ -46,7 +114,7 @@ public class Account extends Controller {
 			// account to link could not be found, silently redirect to login
 			return redirect(routes.Application.index());
 		}
-	
+
 		final Form<Accept> filledForm = ACCEPT_FORM.bindFromRequest();
 		if (filledForm.hasErrors()) {
 			// User did not select whether to link or not link
@@ -54,8 +122,9 @@ public class Account extends Controller {
 		} else {
 			// User made a choice :)
 			final boolean link = filledForm.get().accept;
-			if(link) {
-				flash("message","Account linked successfully");
+			if (link) {
+				flash(Application.FLASH_MESSAGE_KEY,
+						"Account linked successfully");
 			}
 			return PlayAuthenticate.link(ctx(), link);
 		}
@@ -65,14 +134,14 @@ public class Account extends Controller {
 	public static Result askMerge() {
 		// this is the currently logged in user
 		final AuthUser aUser = PlayAuthenticate.getUser(session());
-	
+
 		// this is the user that was selected for a login
 		final AuthUser bUser = PlayAuthenticate.getMergeUser(session());
 		if (bUser == null) {
 			// user to merge with could not be found, silently redirect to login
 			return redirect(routes.Application.index());
 		}
-	
+
 		// You could also get the local user object here via
 		// User.findByAuthUserIdentity(newUser)
 		return ok(ask_merge.render(ACCEPT_FORM, aUser, bUser));
@@ -82,14 +151,14 @@ public class Account extends Controller {
 	public static Result doMerge() {
 		// this is the currently logged in user
 		final AuthUser aUser = PlayAuthenticate.getUser(session());
-	
+
 		// this is the user that was selected for a login
 		final AuthUser bUser = PlayAuthenticate.getMergeUser(session());
 		if (bUser == null) {
 			// user to merge with could not be found, silently redirect to login
 			return redirect(routes.Application.index());
 		}
-	
+
 		final Form<Accept> filledForm = ACCEPT_FORM.bindFromRequest();
 		if (filledForm.hasErrors()) {
 			// User did not select whether to merge or not merge
@@ -97,8 +166,9 @@ public class Account extends Controller {
 		} else {
 			// User made a choice :)
 			final boolean merge = filledForm.get().accept;
-			if(merge) {
-				flash("message","Accounts merged successfully");
+			if (merge) {
+				flash(Application.FLASH_MESSAGE_KEY,
+						"Accounts merged successfully");
 			}
 			return PlayAuthenticate.merge(ctx(), merge);
 		}

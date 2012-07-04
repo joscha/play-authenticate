@@ -6,16 +6,23 @@
 <!DOCTYPE html>
 <html lang="@lang().code()">
   <head>
-    <meta charset="utf-8">
     <title>@title</title>
+    
+    <!-- Le meta -->
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Play Authenticate - an authentication module for the Play! Framework 2.0">
     <meta name="author" content="The Play Authenticate Team">
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" defer="defer"></script>
-	<script src="@routes.Assets.at("js/bootstrap.min.js")" defer="defer"></script>
+    
+    <!-- Le scripts -->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script src="@routes.Assets.at("js/bootstrap.min.js")"></script>
+	<script src="@routes.Application.jsRoutes" defer="defer"></script>
+	
     <!-- Le styles -->
     <link href="@routes.Assets.at("stylesheets/main.min.css")" rel="stylesheet">
     <link href="@routes.Assets.at("css/bootstrap.min.css")" rel="stylesheet">
+    
     <style>
       body {
         padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
@@ -52,11 +59,11 @@
               <li><a href="@routes.Application.profile()">Profile</a></li>
               <li><a href="@routes.Account.link()">Link more providers</a></li>
               <li class="divider"></li>
-              <li><a href="@com.feth.play.module.pa.controllers.routes.Authenticate.logout()">Sign Out</a></li>
+              <li><a href="@com.feth.play.module.pa.controllers.routes.Authenticate.logout()"><i class="icon-off"></i> Sign out</a></li>
             </ul>
             }
           } else {
-          <a href="@routes.Application.login()" class="btn btn-primary btn-mini @("disabled".when(nav == "login"))">Log in</a>
+            <a href="@routes.Application.login()" class="btn btn-primary btn-mini @("disabled".when(nav == "login"))">Log in</a>
           }
           </div>
 
@@ -81,9 +88,9 @@
 	      	@flash().get("error")
 	      </div>
 	    }
-	    @if(flash.contains("message")) {
+	    @if(flash.contains(Application.FLASH_MESSAGE_KEY)) {
 	      <div class="alert alert-success">
-	      	@flash().get("message")
+	      	@flash().get(Application.FLASH_MESSAGE_KEY)
 	      </div>
 	    }
 		@content

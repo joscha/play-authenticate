@@ -22,7 +22,7 @@ public abstract class AuthProvider extends Plugin {
 	public abstract static class Registry {
 		private static Map<String, AuthProvider> providers = new HashMap<String, AuthProvider>();
 
-		public static void register(String provider, AuthProvider p) {
+		public static void register(final String provider, final AuthProvider p) {
 			final Object previous = providers.put(provider, p);
 			if (previous != null) {
 				Logger.warn("There are multiple AuthProviders registered for key '"
@@ -30,11 +30,11 @@ public abstract class AuthProvider extends Plugin {
 			}
 		}
 
-		public static void unregister(String provider) {
+		public static void unregister(final String provider) {
 			providers.remove(provider);
 		}
 
-		public static AuthProvider get(String provider) {
+		public static AuthProvider get(final String provider) {
 			return providers.get(provider);
 		}
 
@@ -119,7 +119,7 @@ public abstract class AuthProvider extends Plugin {
 	public AuthUser getSessionAuthUser(final String id, final long expires) {
 		return new SessionAuthUser(getKey(), id, expires);
 	}
-	
+
 	public abstract boolean isExternal();
 
 }

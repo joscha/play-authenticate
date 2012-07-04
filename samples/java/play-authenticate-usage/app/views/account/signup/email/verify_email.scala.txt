@@ -10,5 +10,4 @@ To activate your account, follow the link below:
 @verificationUrl
 
 Cheers,
-
 The PlayAuthenticate Team

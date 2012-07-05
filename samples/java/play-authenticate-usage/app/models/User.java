@@ -230,9 +230,10 @@ public class User extends Model implements RoleHolder {
 		a.save();
 	}
 
-	public void resetPassword(final UsernamePasswordAuthUser authUser) {
+	public void resetPassword(final UsernamePasswordAuthUser authUser,
+			final boolean create) {
 		// You might want to wrap this into a transaction
-		this.changePassword(authUser, false);
+		this.changePassword(authUser, create);
 		TokenAction.deleteByUser(this, Type.PASSWORD_RESET);
 	}
 }

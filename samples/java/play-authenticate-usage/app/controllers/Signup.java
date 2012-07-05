@@ -138,7 +138,16 @@ public class Signup extends Controller {
 				return badRequest(no_token_or_invalid.render());
 			}
 			final User u = ta.targetUser;
-			u.resetPassword(new MyUsernamePasswordAuthUser(newPassword));
+			try {
+				// Pass true for the second parameter if you want to
+				// automatically create a password and the exception never to
+				// happen
+				u.resetPassword(new MyUsernamePasswordAuthUser(newPassword),
+						false);
+			} catch (final RuntimeException re) {
+				flash(Application.FLASH_MESSAGE_KEY,
+						"Your user has not been set up for password usage, yet");
+			}
 			final boolean login = MyUsernamePasswordAuthProvider.getProvider()
 					.isLoginAfterPasswordReset();
 			if (login) {
@@ -152,9 +161,8 @@ public class Signup extends Controller {
 				// send the user to the login page
 				flash(Application.FLASH_MESSAGE_KEY,
 						"Your password has been reset - please log in with your new password now");
-
-				return redirect(routes.Application.login());
 			}
+			return redirect(routes.Application.login());
 		}
 	}
 

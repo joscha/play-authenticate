@@ -31,11 +31,11 @@ public class Account extends Controller {
 		@MinLength(5)
 		@Required
 		public String password;
-	
+
 		@MinLength(5)
 		@Required
 		public String repeatPassword;
-	
+
 		public String validate() {
 			if (password == null || !password.equals(repeatPassword)) {
 				return "Passwords don't match!";
@@ -57,15 +57,16 @@ public class Account extends Controller {
 		final User user = Application.getLocalUser(session());
 		if (user.emailValidated) {
 			// E-Mail has been validated already
-			return forbidden();
+			flash(Application.FLASH_MESSAGE_KEY,
+					"Your email has already been validated!");
 		} else {
 			flash(Application.FLASH_MESSAGE_KEY,
 					"Instructions on how to verify your email address have been sent to "
 							+ user.email);
 			MyUsernamePasswordAuthProvider.getProvider()
 					.sendVerifyEmailMailingAfterSignup(user, ctx());
-			return redirect(routes.Application.profile());
 		}
+		return redirect(routes.Application.profile());
 	}
 
 	@Restrict(Application.USER_ROLE)

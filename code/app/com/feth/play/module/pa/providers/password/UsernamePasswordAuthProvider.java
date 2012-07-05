@@ -259,9 +259,6 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 				// The user exists already
 				return userExists(authUser).url();
 			case USER_EXISTS_UNVERIFIED:
-				// TODO: resend validation email after X minutes?
-				sendVerifyEmailMailing(context, authUser);
-				return userUnverified(authUser).url();
 			case USER_CREATED_UNVERIFIED:
 				// User got created as unverified
 				// Send validation email

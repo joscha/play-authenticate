@@ -101,8 +101,8 @@ public class MyUsernamePasswordAuthProvider
 		}
 	}
 
-	public static Form<MySignup> SIGNUP_FORM = Controller.form(MySignup.class);
-	public static Form<MyLogin> LOGIN_FORM = Controller.form(MyLogin.class);
+	private static final Form<MySignup> SIGNUP_FORM = Controller.form(MySignup.class);
+	private static final Form<MyLogin> LOGIN_FORM = Controller.form(MyLogin.class);
 
 	public MyUsernamePasswordAuthProvider(Application app) {
 		super(app);

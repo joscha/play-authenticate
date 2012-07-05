@@ -22,7 +22,7 @@ public abstract class UserServicePlugin extends Plugin implements UserService {
 	@Override
 	public void onStart() {
 		if(PlayAuthenticate.hasUserService()) {
-			Logger.warn("A user service was already registered - replacing the old one," +
+			Logger.warn("A user service was already registered - replacing the old one, " +
 					"however this might hint to a configuration problem if this is a production environment.");
 		}
 		PlayAuthenticate.setUserService(this);

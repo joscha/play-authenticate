@@ -5,7 +5,7 @@ import PlayProject._
 object ApplicationBuild extends Build {
 
     val appName         = "play-authenticate"
-    val appVersion      = "0.1.5-SNAPSHOT"
+    val appVersion      = "0.1.6-SNAPSHOT"
 
     val appDependencies = Seq(
       "org.apache.httpcomponents" % "httpclient" % "4.2",
@@ -17,9 +17,6 @@ object ApplicationBuild extends Build {
       organization := "com.feth",
       resolvers += "Apache" at "http://repo1.maven.org/maven2/",
       resolvers += "jBCrypt Repository" at "http://repo1.maven.org/maven2/org/"
-//      publishTo := Some(
-//        "My resolver" at "http://mycompany.com/repo"
-//      )
     )
 
 }

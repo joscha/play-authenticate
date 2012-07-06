@@ -33,6 +33,8 @@ Furthermore:
 * Verification email used by Email/Password provider is fully customizable and localizable and can be sent in either text or HTML or both.
 
 ## Versions
+* **0.1.6-SNAPSHOT** [2012-07-07]
+  * fix bugs, added setting for overriding the redirect_uri callback for OAuth providers to enable usage through CDNs, etc.
 * **0.1.5-SNAPSHOT** [2012-07-05]
   * password reset, password change, email verification
 * **0.1.4-SNAPSHOT** [2012-06-29]

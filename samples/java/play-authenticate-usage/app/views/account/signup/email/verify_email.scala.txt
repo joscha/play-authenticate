@@ -1,6 +1,4 @@
-@(verificationUrl: String, token: String, name: String)
-
-Hello @name,
+@(verificationUrl: String, token: String, name: String)Hello @name,
 
 You recently signed up for PlayAuthenticate. Yay!
 There is only one more step needed before you can make use of PlayAuthenticate.

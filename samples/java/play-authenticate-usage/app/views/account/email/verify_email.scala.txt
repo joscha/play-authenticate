@@ -1,8 +1,6 @@
-@(verificationUrl: String, token: String, name: String, email: String)
+@(verificationUrl: String, token: String, name: String, email: String)Hello @name,
 
-Hello @name,
-
-Follow this link to verify your email address now:
+Follow this link to verify your email address (@email) now:
 
 @verificationUrl
 

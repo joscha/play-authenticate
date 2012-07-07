@@ -61,12 +61,16 @@ public class Account extends Controller {
 			// E-Mail has been validated already
 			flash(Application.FLASH_MESSAGE_KEY,
 					Messages.get("playauthenticate.verify_email.error.already_validated"));
-		} else {
+		} else if(user.email != null && !user.email.trim().isEmpty()){
 			flash(Application.FLASH_MESSAGE_KEY, Messages.get(
 					"playauthenticate.verify_email.message.instructions_sent",
 					user.email));
 			MyUsernamePasswordAuthProvider.getProvider()
 					.sendVerifyEmailMailingAfterSignup(user, ctx());
+		} else {
+			flash(Application.FLASH_MESSAGE_KEY, Messages.get(
+					"playauthenticate.verify_email.error.set_email_first",
+					user.email));
 		}
 		return redirect(routes.Application.profile());
 	}

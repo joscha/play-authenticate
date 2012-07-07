@@ -2,8 +2,10 @@ playauthenticate.accounts.link.success=Account linked successfully
 playauthenticate.accounts.merge.success=Accounts merged successfully
 
 playauthenticate.verify_email.error.already_validated=Your email has already been validated!
+playauthenticate.verify_email.error.set_email_first=You need to set an email address first!
 playauthenticate.verify_email.message.instructions_sent=Instructions on how to verify your email address have been sent to {0}.
 playauthenticate.verify_email.success=Email address ({0}) successfully verified!
+
 
 playauthenticate.reset_password.message.instructions_sent=Instructions on how to reset the password have been sent to {0}.
 playauthenticate.reset_password.message.email_not_verified=Your account has not been verified, yet. An email has been sent with instructions on how to verify it. Retry resetting your password afterwards.

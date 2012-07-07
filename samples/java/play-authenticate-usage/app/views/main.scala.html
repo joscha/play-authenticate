@@ -83,9 +83,9 @@
     </div>
 
     <div class="container">
-	    @if(flash.contains("error")) {
+	    @if(flash.contains(Application.FLASH_ERROR_KEY)) {
 	      <div class="alert alert-error">
-	      	@flash().get("error")
+	      	@flash().get(Application.FLASH_ERROR_KEY)
 	      </div>
 	    }
 	    @if(flash.contains(Application.FLASH_MESSAGE_KEY)) {

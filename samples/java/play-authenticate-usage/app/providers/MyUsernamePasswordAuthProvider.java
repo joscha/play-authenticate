@@ -203,7 +203,7 @@ public class MyUsernamePasswordAuthProvider
 	@Override
 	protected String onLoginUserNotFound(final Context context) {
 		context.flash()
-				.put("error",
+				.put(controllers.Application.FLASH_ERROR_KEY,
 						Messages.get("playauthenticate.password.login.unknown_user_or_pw"));
 		return super.onLoginUserNotFound(context);
 	}

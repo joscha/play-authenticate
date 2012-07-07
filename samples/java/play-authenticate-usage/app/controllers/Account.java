@@ -11,6 +11,7 @@ import play.data.Form;
 import play.data.format.Formats.NonEmpty;
 import play.data.validation.Constraints.MinLength;
 import play.data.validation.Constraints.Required;
+import play.i18n.Messages;
 import play.mvc.Controller;
 import play.mvc.Result;
 import providers.MyUsernamePasswordAuthProvider;
@@ -38,7 +39,8 @@ public class Account extends Controller {
 
 		public String validate() {
 			if (password == null || !password.equals(repeatPassword)) {
-				return "Passwords don't match!";
+				return Messages
+						.get("playauthenticate.change_password.error.passwords_not_same");
 			}
 			return null;
 		}
@@ -58,11 +60,11 @@ public class Account extends Controller {
 		if (user.emailValidated) {
 			// E-Mail has been validated already
 			flash(Application.FLASH_MESSAGE_KEY,
-					"Your email has already been validated!");
+					Messages.get("playauthenticate.verify_email.error.already_validated"));
 		} else {
-			flash(Application.FLASH_MESSAGE_KEY,
-					"Instructions on how to verify your email address have been sent to "
-							+ user.email);
+			flash(Application.FLASH_MESSAGE_KEY, Messages.get(
+					"playauthenticate.verify_email.message.instructions_sent",
+					user.email));
 			MyUsernamePasswordAuthProvider.getProvider()
 					.sendVerifyEmailMailingAfterSignup(user, ctx());
 		}
@@ -93,7 +95,7 @@ public class Account extends Controller {
 			user.changePassword(new MyUsernamePasswordAuthUser(newPassword),
 					true);
 			flash(Application.FLASH_MESSAGE_KEY,
-					"Password has been changed successfully!");
+					Messages.get("playauthenticate.change_password.success"));
 			return redirect(routes.Application.profile());
 		}
 	}
@@ -125,7 +127,7 @@ public class Account extends Controller {
 			final boolean link = filledForm.get().accept;
 			if (link) {
 				flash(Application.FLASH_MESSAGE_KEY,
-						"Account linked successfully");
+						Messages.get("playauthenticate.accounts.link.success"));
 			}
 			return PlayAuthenticate.link(ctx(), link);
 		}
@@ -169,7 +171,7 @@ public class Account extends Controller {
 			final boolean merge = filledForm.get().accept;
 			if (merge) {
 				flash(Application.FLASH_MESSAGE_KEY,
-						"Accounts merged successfully");
+						Messages.get("playauthenticate.accounts.merge.success"));
 			}
 			return PlayAuthenticate.merge(ctx(), merge);
 		}

@@ -95,14 +95,17 @@ public class MyUsernamePasswordAuthProvider
 
 		public String validate() {
 			if (password == null || !password.equals(repeatPassword)) {
-				return "Passwords don't match!";
+				return Messages
+						.get("playauthenticate.password.signup.error.passwords_not_same");
 			}
 			return null;
 		}
 	}
 
-	public static final Form<MySignup> SIGNUP_FORM = Controller.form(MySignup.class);
-	public static final Form<MyLogin> LOGIN_FORM = Controller.form(MyLogin.class);
+	public static final Form<MySignup> SIGNUP_FORM = Controller
+			.form(MySignup.class);
+	public static final Form<MyLogin> LOGIN_FORM = Controller
+			.form(MyLogin.class);
 
 	public MyUsernamePasswordAuthProvider(Application app) {
 		super(app);
@@ -194,13 +197,14 @@ public class MyUsernamePasswordAuthProvider
 	@Override
 	protected String getVerifyEmailMailingSubject(
 			final MyUsernamePasswordAuthUser user, final Context ctx) {
-		return Messages.get("password.verify_signup.subject");
+		return Messages.get("playauthenticate.password.verify_signup.subject");
 	}
 
 	@Override
 	protected String onLoginUserNotFound(final Context context) {
-		context.flash().put("error",
-				"User could not be found or password was wrong.");
+		context.flash()
+				.put("error",
+						Messages.get("playauthenticate.password.login.unknown_user_or_pw"));
 		return super.onLoginUserNotFound(context);
 	}
 
@@ -246,7 +250,7 @@ public class MyUsernamePasswordAuthProvider
 
 	protected String getPasswordResetMailingSubject(final User user,
 			final Context ctx) {
-		return Messages.get("password.reset_email.subject");
+		return Messages.get("playauthenticate.password.reset_email.subject");
 	}
 
 	protected Body getPasswordResetMailingBody(final String token,
@@ -279,7 +283,7 @@ public class MyUsernamePasswordAuthProvider
 
 	protected String getVerifyEmailMailingSubjectAfterSignup(final User user,
 			final Context ctx) {
-		return Messages.get("password.verify_email.subject");
+		return Messages.get("playauthenticate.password.verify_email.subject");
 	}
 
 	protected Body getVerifyEmailMailingBodyAfterSignup(final String token,
@@ -298,7 +302,8 @@ public class MyUsernamePasswordAuthProvider
 		return new Body(text, html);
 	}
 
-	public void sendVerifyEmailMailingAfterSignup(final User user, final Context ctx) {
+	public void sendVerifyEmailMailingAfterSignup(final User user,
+			final Context ctx) {
 
 		final String subject = getVerifyEmailMailingSubjectAfterSignup(user,
 				ctx);

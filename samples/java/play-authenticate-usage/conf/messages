@@ -1,3 +1,22 @@
-password.verify_signup.subject=PlayAuthenticate: Finish your signup
-password.verify_email.subject=PlayAuthenticate: Confirm your email address
-password.reset_email.subject=PlayAuthenticate: Instructions on how to reset your password
+playauthenticate.accounts.link.success=Account linked successfully
+playauthenticate.accounts.merge.success=Accounts merged successfully
+
+playauthenticate.verify_email.error.already_validated=Your email has already been validated!
+playauthenticate.verify_email.message.instructions_sent=Instructions on how to verify your email address have been sent to {0}.
+playauthenticate.verify_email.success=Email address ({0}) successfully verified!
+
+playauthenticate.reset_password.message.instructions_sent=Instructions on how to reset the password have been sent to {0}.
+playauthenticate.reset_password.message.email_not_verified=Your account has not been verified, yet. An email has been sent with instructions on how to verify it. Retry resetting your password afterwards.
+playauthenticate.reset_password.message.no_password_account=Your user has not been set up for password usage, yet
+playauthenticate.reset_password.message.success.auto_login=Your password has been reset
+playauthenticate.reset_password.message.success.manual_login=Your password has been reset - please log in with your new password now
+
+playauthenticate.change_password.error.passwords_not_same=Passwords don't match!
+playauthenticate.change_password.success=Password has been changed successfully!
+
+playauthenticate.password.signup.error.passwords_not_same=Passwords don't match!
+playauthenticate.password.login.unknown_user_or_pw=User could not be found or password was wrong.
+
+playauthenticate.password.verify_signup.subject=PlayAuthenticate: Finish your signup
+playauthenticate.password.verify_email.subject=PlayAuthenticate: Confirm your email address
+playauthenticate.password.reset_email.subject=PlayAuthenticate: Instructions on how to reset your password

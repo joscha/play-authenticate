@@ -4,6 +4,7 @@ import models.TokenAction;
 import models.TokenAction.Type;
 import models.User;
 import play.data.Form;
+import play.i18n.Messages;
 import play.mvc.Controller;
 import play.mvc.Result;
 import providers.MyLoginUsernamePasswordAuthUser;
@@ -61,8 +62,9 @@ public class Signup extends Controller {
 			// up, so just say an email has been sent, even though it might not
 			// be true - that's protecting our user privacy.
 			flash(Application.FLASH_MESSAGE_KEY,
-					"Instructions on how to reset the password have been sent to "
-							+ email + ".");
+					Messages.get(
+							"playauthenticate.reset_password.message.instructions_sent",
+							email));
 
 			final User user = User.findByEmail(email);
 			if (user != null) {
@@ -84,7 +86,7 @@ public class Signup extends Controller {
 					// up with a fake email via OAuth and get it verified by an
 					// a unsuspecting user that clicks the link.
 					flash(Application.FLASH_MESSAGE_KEY,
-							"Your account has not been verified, yet. An email has been sent with instructions on how to verify it. Retry resetting your password afterwards.");
+							Messages.get("playauthenticate.reset_password.message.email_not_verified"));
 
 					// You might want to re-send the verification email here...
 					provider.sendVerifyEmailMailingAfterSignup(user, ctx());
@@ -146,21 +148,21 @@ public class Signup extends Controller {
 						false);
 			} catch (final RuntimeException re) {
 				flash(Application.FLASH_MESSAGE_KEY,
-						"Your user has not been set up for password usage, yet");
+						Messages.get("playauthenticate.reset_password.message.no_password_account"));
 			}
 			final boolean login = MyUsernamePasswordAuthProvider.getProvider()
 					.isLoginAfterPasswordReset();
 			if (login) {
 				// automatically log in
 				flash(Application.FLASH_MESSAGE_KEY,
-						"Your password has been reset");
+						Messages.get("playauthenticate.reset_password.message.success.auto_login"));
 
 				return PlayAuthenticate.loginAndRedirect(ctx(),
 						new MyLoginUsernamePasswordAuthUser(u.email));
 			} else {
 				// send the user to the login page
 				flash(Application.FLASH_MESSAGE_KEY,
-						"Your password has been reset - please log in with your new password now");
+						Messages.get("playauthenticate.reset_password.message.success.manual_login"));
 			}
 			return redirect(routes.Application.login());
 		}
@@ -179,10 +181,10 @@ public class Signup extends Controller {
 		if (ta == null) {
 			return badRequest(no_token_or_invalid.render());
 		}
-
+		final String email = ta.targetUser.email;
 		User.verify(ta.targetUser);
 		flash(Application.FLASH_MESSAGE_KEY,
-				"Email address successfully verified!");
+				Messages.get("playauthenticate.verify_email.success", email));
 		if (Application.getLocalUser(session()) != null) {
 			return redirect(routes.Application.index());
 		} else {

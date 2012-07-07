@@ -14,6 +14,7 @@ As of now, the following authentication providers are supported out of the box:
 * Google (OAuth2)
 * Facebook (OAuth2)
 * Foursquare (OAuth2)
+* OpenID (experimental)
 * Email/Password (with email verification, password security/encryption is fully customizable)
 * Your very own authentication provider (LDAP, DB, you-name-it) via an extensible, easy-to-use plugin mechanism based on Play Plugins
 

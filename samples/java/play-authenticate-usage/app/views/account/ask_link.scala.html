@@ -7,9 +7,9 @@
 	Link @_providerIcon(newAccount.getProvider()) (@newAccount) with your user?
 }
 
-@main("Link account") {
+@main(Messages("playauthenticate.link.account.title")) {
 
-	<h1>Link new account?</h1>
+	<h1>@Messages("playauthenticate.link.account.title")</h1>
 	<p>
 	@form(routes.Account.doLink) {
 	   
@@ -21,10 +21,10 @@
 	   
 	   @inputRadioGroup(
             acceptForm("accept"),
-            options = Seq("true"-> "Yes, link this account to my user","false"->"No, log out and create a new user with this account"),
+            options = Seq("true"-> Messages("playauthenticate.link.account.true"),"false"->Messages("playauthenticate.link.account.false")),
             '_label -> label,
             '_showConstraints -> false
-            )
+        )
            
 		<input type="submit" value="OK" class="btn btn-primary"> 
 	}

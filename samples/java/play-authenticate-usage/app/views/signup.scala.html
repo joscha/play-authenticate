@@ -3,11 +3,11 @@
 @import helper._
 @import helper.twitterBootstrap._
 
-@main("Signup","signup") {
+@main(Messages("playauthenticate.signup.title"),"signup") {
     
   <div class="row">
     <div class="span6">
-      <h1>Sign up</h1>
+      <h1>@Messages("playauthenticate.signup.title")</h1>
     </div>
   </div>
 
@@ -25,19 +25,19 @@
             
              @inputText(
                 signupForm("name"),
-                '_label -> "Your name"
+                '_label -> Messages("playauthenticate.signup.name")
              )
              
              @_emailPartial(signupForm)
              
              @_passwordPartial(signupForm)
 
-            <input type="submit" value="Sign up now" class="btn btn-primary">
+            <input type="submit" value="@Messages("playauthenticate.signup.now")" class="btn btn-primary">
     	}
     </div>
 
     <div class="span3">
-        or log in using one of the following providers:
+        @Messages("playauthenticate.signup.oauth")
         @* Display list of available providers *@
         @_providerPartial(skipCurrent=false)
     </div>

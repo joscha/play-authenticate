@@ -4,13 +4,12 @@
 @import helper.twitterBootstrap._
 
 @label = {
-	Do you want to merge the account you are currently logged in with (@aUser),
-	with this account: '@bUser'?
+	@Messages("playauthenticate.merge.accounts.success",aUser,bUser)
 }
 
-@main("Merge accounts") {
+@main(Messages("playauthenticate.merge.accounts.title")) {
 
-	<h1>Merge accounts</h1>
+	<h1>@Messages("playauthenticate.merge.accounts.title")</h1>
 	<p>
 	@form(routes.Account.doMerge) {
             @if(acceptForm.hasGlobalErrors) { 
@@ -21,10 +20,10 @@
 	   
 	   @inputRadioGroup(
             acceptForm("accept"),
-            options = Seq("true"-> "Yes, merge these two accounts","false"->"No, end my current session and log in with the new user"),
+            options = Seq("true"-> Messages("playauthenticate.merge.accounts.true"),"false"->Messages("playauthenticate.merge.accounts.false")),
             '_label -> label,
             '_showConstraints -> false
-            )
+        )
            
 		<input type="submit" value="OK" class="btn btn-primary">
 	}

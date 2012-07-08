@@ -1,8 +1,8 @@
 
-@main("Email unverified") {
+@main(Messages("playauthenticate.verify.title")) {
 
-	<h1>You need to verify your email address</h1>
+	<h1>@Messages("playauthenticate.verify.title")</h1>
 	<p>
-	Before you can set a password, you need to <a href="@routes.Account.verifyEmail">verify your email address</a> first.<br/>
+	@Messages("playauthenticate.verify.title")<a href="@routes.Account.verifyEmail">@Messages("playauthenticate.verify.title")</a>.<br/>
 	</p>
 }

@@ -1,3 +1,5 @@
+# Initial translations
+
 playauthenticate.accounts.link.success=Account linked successfully
 playauthenticate.accounts.merge.success=Accounts merged successfully
 
@@ -5,7 +7,6 @@ playauthenticate.verify_email.error.already_validated=Your email has already bee
 playauthenticate.verify_email.error.set_email_first=You need to set an email address first!
 playauthenticate.verify_email.message.instructions_sent=Instructions on how to verify your email address have been sent to {0}.
 playauthenticate.verify_email.success=Email address ({0}) successfully verified!
-
 
 playauthenticate.reset_password.message.instructions_sent=Instructions on how to reset the password have been sent to {0}.
 playauthenticate.reset_password.message.email_not_verified=Your account has not been verified, yet. An email has been sent with instructions on how to verify it. Retry resetting your password afterwards.
@@ -22,3 +23,36 @@ playauthenticate.password.login.unknown_user_or_pw=User could not be found or pa
 playauthenticate.password.verify_signup.subject=PlayAuthenticate: Finish your signup
 playauthenticate.password.verify_email.subject=PlayAuthenticate: Confirm your email address
 playauthenticate.password.reset_email.subject=PlayAuthenticate: Instructions on how to reset your password
+
+# Additional translations
+
+playauthenticate.login.email.placeholder=Your e-mail address
+playauthenticate.login.password.placeholder=Choose a password
+playauthenticate.login.password.repeat=Repeat chosen password"
+playauthenticate.login.title=Login
+playauthenticate.login.password.placeholder=Password
+playauthenticate.login.now=Login now
+playauthenticate.login.forgot.password=Forgot your password?
+playauthenticate.login.oauth=or log in using one of the following providers:
+
+playauthenticate.signup.title=Signup
+playauthenticate.signup.name=Your name
+playauthenticate.signup.now=Sign up now
+playauthenticate.signup.oauth=or sign up using one of the following providers:
+
+playauthenticate.verify.title=E-mail verification required
+playauthenticate.verify.before=Before you can set a password, you need to
+playauthenticate.verify.first=first verify your email address
+
+playauthenticate.change.email.title=Change your password here
+playauthenticate.change.email.cta=Change my password
+
+playauthenticate.merge.accounts.title=Merge accounts
+playauthenticate.merge.accounts.success=Do you want to merge the account you are currently logged in with ({0}),	with this account: '{1}'?
+
+playauthenticate.merge.accounts.true=Yes, merge these two accounts
+playauthenticate.merge.accounts.false=No, end my current session and log in with the new user
+
+playauthenticate.link.account.title=Link account
+playauthenticate.link.account.true=Yes, link this account to my user
+playauthenticate.link.account.false=No, log out and create a new user with this account

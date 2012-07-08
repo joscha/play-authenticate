@@ -3,11 +3,11 @@
 @import helper._
 @import helper.twitterBootstrap._
 
-@main("Login","login") {
+@main(Messages("playauthenticate.login.title"),"login") {
 
   <div class="row">
     <div class="span6">
-      <h1>Log in</h1>
+      <h1>@Messages("playauthenticate.login.title")</h1>
     </div>
   </div>
     
@@ -28,18 +28,18 @@
         @inputPassword(
           loginForm("password"),
           '_showConstraints -> false,
-          '_label -> "Password"
+          '_label -> Messages("playauthenticate.login.password.placeholder")
         )
           
-        <input type="submit" value="Log in now" class="btn btn-primary"><br/>
+        <input type="submit" value="@Messages("playauthenticate.login.now")" class="btn btn-primary"><br/>
         <br/>
-        <a href="javascript:void(0);" onclick="window.location.href = jsRoutes.controllers.Signup.forgotPassword($('#email').val() || null).absoluteURL();">Forgot your password?</a>
+        <a href="javascript:void(0);" onclick="window.location.href = jsRoutes.controllers.Signup.forgotPassword($('#email').val() || null).absoluteURL();">@Messages("playauthenticate.login.forgot.password")</a>
 
     	}
     </div>
 
     <div class="span3">
-      or log in using one of the following providers:
+      @Messages("playauthenticate.login.oauth")
       @* Display list of available providers *@
       @_providerPartial(skipCurrent=false)
     </div>

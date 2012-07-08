@@ -23,8 +23,8 @@ object ApplicationBuild extends Build {
       resolvers += Resolver.url("Objectify Play Repository", url("http://schaloner.github.com/snapshots/"))(Resolver.ivyStylePatterns),
       // Uncomment this for local development of the Play Authenticate core:
       //resolvers += "jBCrypt Repository" at "http://repo1.maven.org/maven2/org/",
-      resolvers += Resolver.url("Play Authenticate Repositor (release)", url("http://joscha.github.com/play-authenticate/repo/releases/"))(Resolver.ivyStylePatterns),
-      resolvers += Resolver.url("Play Authenticate Repositor (snapshot)", url("http://joscha.github.com/play-authenticate/repo/snapshots/"))(Resolver.ivyStylePatterns)
+      resolvers += Resolver.url("play-authenticate (release)", url("http://joscha.github.com/play-authenticate/repo/releases/"))(Resolver.ivyStylePatterns),
+      resolvers += Resolver.url("play-authenticate (snapshot)", url("http://joscha.github.com/play-authenticate/repo/snapshots/"))(Resolver.ivyStylePatterns)
     )
     // Uncomment this for local development of the Play Authenticate core:
     //.dependsOn(playAuthenticate)

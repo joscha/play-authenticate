@@ -20,8 +20,8 @@ import play.mvc.Http.Context;
 
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider;
-import com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider.Mailer.Mail.Body;
 import com.feth.play.module.pa.providers.password.UsernamePasswordAuthUser;
+import com.feth.play.module.mail.Mailer.Mail.Body;
 
 import controllers.routes;
 

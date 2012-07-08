@@ -2,210 +2,41 @@ package com.feth.play.module.pa.providers.password;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import play.Application;
-import play.Configuration;
 import play.data.Form;
-import play.libs.Akka;
 import play.mvc.Call;
 import play.mvc.Http;
 import play.mvc.Http.Context;
 import play.mvc.Result;
-import akka.actor.Cancellable;
-import akka.util.Duration;
-import akka.util.FiniteDuration;
 
+import com.feth.play.module.mail.Mailer;
+import com.feth.play.module.mail.Mailer.Mail;
+import com.feth.play.module.mail.Mailer.Mail.Body;
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.AuthProvider;
-import com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider.Mailer.Mail;
-import com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider.Mailer.Mail.Body;
 import com.feth.play.module.pa.user.AuthUser;
 import com.feth.play.module.pa.user.NameIdentity;
-import com.typesafe.plugin.MailerAPI;
-import com.typesafe.plugin.MailerPlugin;
 
 public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswordAuthUser, US extends UsernamePasswordAuthUser, L extends UsernamePasswordAuthProvider.UsernamePassword, S extends UsernamePasswordAuthProvider.UsernamePassword>
 		extends AuthProvider {
-	
+
 	protected static final String PROVIDER_KEY = "password";
 
 	protected static final String SETTING_KEY_MAIL = "mail";
 
-	private static final String SETTING_KEY_MAIL_FROM_EMAIL = "email";
+	private static final String SETTING_KEY_MAIL_FROM_EMAIL = Mailer.SettingKeys.SETTING_KEY_FROM_EMAIL;
 
-	private static final String SETTING_KEY_MAIL_FROM_NAME = "name";
+	private static final String SETTING_KEY_MAIL_DELAY = Mailer.SettingKeys.SETTING_KEY_DELAY;
 
-	private static final String SETTING_KEY_MAIL_DELAY = "delay";
+	private static final String SETTING_KEY_MAIL_FROM = Mailer.SettingKeys.SETTING_KEY_FROM;
 
-	private static final String SETTING_KEY_MAIL_FROM = "from";
-	
 	@Override
 	protected List<String> neededSettingKeys() {
 		return Arrays.asList(SETTING_KEY_MAIL + "." + SETTING_KEY_MAIL_DELAY,
 				SETTING_KEY_MAIL + "." + SETTING_KEY_MAIL_FROM + "."
 						+ SETTING_KEY_MAIL_FROM_EMAIL);
-	}
-
-	public static class Mailer {
-
-		private final MailerPlugin plugin;
-
-		private final FiniteDuration delay;
-
-		private final String sender;
-
-		public Mailer(final MailerPlugin plugin, final Configuration config) {
-			this.plugin = plugin;
-			// TODO exchange by config.getLong after 2.1 release
-			delay = Duration.create(
-					Long.parseLong(config.getString(SETTING_KEY_MAIL_DELAY)),
-					TimeUnit.SECONDS);
-
-			final Configuration fromConfig = config
-					.getConfig(SETTING_KEY_MAIL_FROM);
-			sender = getEmailName(
-					fromConfig.getString(SETTING_KEY_MAIL_FROM_EMAIL),
-					fromConfig.getString(SETTING_KEY_MAIL_FROM_NAME));
-		}
-
-		public static class Mail {
-
-			public static class Body {
-				private final String html;
-				private final String text;
-				private final boolean isHtml;
-				private final boolean isText;
-
-				public Body(final String text) {
-					this(text, null);
-				}
-
-				public Body(final String text, final String html) {
-					this.isHtml = html != null && !html.trim().isEmpty();
-					this.isText = text != null && !text.trim().isEmpty();
-
-					if (!this.isHtml && !this.isText) {
-						throw new RuntimeException(
-								"Text and HTML cannot both be empty or null");
-					}
-					this.html = (this.isHtml) ? html : null;
-					this.text = (this.isText) ? text : null;
-				}
-
-				public boolean isHtml() {
-					return isHtml;
-				}
-
-				public boolean isText() {
-					return isText;
-				}
-
-				public boolean isBoth() {
-					return isText() && isHtml();
-				}
-
-				public String getHtml() {
-					return html;
-				}
-
-				public String getText() {
-					return text;
-				}
-			}
-
-			private final String subject;
-			private final String[] recipients;
-			private String from;
-			private final Body body;
-
-			public Mail(final String subject, final Body body,
-					final String[] recipients) {
-				if (subject == null || subject.trim().isEmpty()) {
-					throw new RuntimeException(
-							"Subject must not be null or empty");
-				}
-				this.subject = subject;
-
-				if (body == null) {
-					throw new RuntimeException("Body must not be null or empty");
-				}
-
-				this.body = body;
-
-				if (recipients == null || recipients.length == 0) {
-					throw new RuntimeException(
-							"There must be at least one recipient");
-				}
-				this.recipients = recipients;
-			}
-
-			public String getSubject() {
-				return subject;
-			}
-
-			public String[] getRecipients() {
-				return recipients;
-			}
-
-			public String getFrom() {
-				return from;
-			}
-
-			private void setFrom(final String from) {
-				this.from = from;
-			}
-
-			public Body getBody() {
-				return body;
-			}
-
-		}
-
-		private class MailJob implements Runnable {
-
-			private Mail mail;
-
-			public MailJob(final Mail m) {
-				mail = m;
-			}
-
-			@Override
-			public void run() {
-				final MailerAPI api = plugin.email();
-
-				api.setSubject(mail.getSubject());
-				api.addRecipient(mail.getRecipients());
-				api.addFrom(mail.getFrom());
-
-				if (mail.getBody().isBoth()) {
-					// sends both text and html
-					api.send(mail.getBody().getText(), mail.getBody().getHtml());
-				} else if (mail.getBody().isText()) {
-					// sends text/text
-					api.send(mail.getBody().getText());
-				} else {
-					// if(mail.isHtml())
-					// sends html
-					api.sendHtml(mail.getBody().getHtml());
-				}
-			}
-
-		}
-
-		public Cancellable sendMail(final Mail email) {
-			email.setFrom(sender);
-			return Akka.system().scheduler().scheduleOnce(delay, new MailJob(email));
-		}
-
-		public Cancellable sendMail(final String subject, final Body body,
-				final String recipient) {
-			final Mail mail = new Mail(subject, body,
-					new String[] { recipient });
-			return sendMail(mail);
-		}
-
 	}
 
 	protected Mailer mailer;
@@ -236,8 +67,8 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 	@Override
 	public void onStart() {
 		super.onStart();
-		mailer = new Mailer(play.Play.application().plugin(MailerPlugin.class),
-				getConfiguration().getConfig(SETTING_KEY_MAIL));
+		mailer = Mailer.getCustomMailer(getConfiguration().getConfig(
+				SETTING_KEY_MAIL));
 	}
 
 	@Override
@@ -346,25 +177,8 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 		return getEmailName(user.getEmail(), name);
 	}
 
-	protected static String getEmailName(final String email, final String name) {
-		if (email == null || email.trim().isEmpty()) {
-			throw new RuntimeException("email must not be null");
-		}
-		final StringBuilder sb = new StringBuilder();
-		final boolean hasName = name != null && !name.trim().isEmpty();
-		if (hasName) {
-			sb.append("\"");
-			sb.append(name);
-			sb.append("\" <");
-		}
-
-		sb.append(email);
-
-		if (hasName) {
-			sb.append(">");
-		}
-
-		return sb.toString();
+	protected String getEmailName(final String email, final String name) {
+		return Mailer.getEmailName(email, name);
 	}
 
 	protected abstract R generateVerificationRecord(final US user);

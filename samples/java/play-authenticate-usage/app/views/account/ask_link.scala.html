@@ -4,7 +4,7 @@
 @import helper.twitterBootstrap._
 
 @label = {
-	Link @_providerIcon(newAccount.getProvider()) (@newAccount) with your user?
+	@_providerIcon(newAccount.getProvider()) @Messages("playauthenticate.link.account.question",newAccount)
 }
 
 @main(Messages("playauthenticate.link.account.title")) {

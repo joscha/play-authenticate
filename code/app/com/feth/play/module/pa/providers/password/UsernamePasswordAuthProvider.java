@@ -26,11 +26,11 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 
 	protected static final String SETTING_KEY_MAIL = "mail";
 
-	private static final String SETTING_KEY_MAIL_FROM_EMAIL = Mailer.SettingKeys.SETTING_KEY_FROM_EMAIL;
+	private static final String SETTING_KEY_MAIL_FROM_EMAIL = Mailer.SettingKeys.FROM_EMAIL;
 
-	private static final String SETTING_KEY_MAIL_DELAY = Mailer.SettingKeys.SETTING_KEY_DELAY;
+	private static final String SETTING_KEY_MAIL_DELAY = Mailer.SettingKeys.DELAY;
 
-	private static final String SETTING_KEY_MAIL_FROM = Mailer.SettingKeys.SETTING_KEY_FROM;
+	private static final String SETTING_KEY_MAIL_FROM = Mailer.SettingKeys.FROM;
 
 	@Override
 	protected List<String> neededSettingKeys() {

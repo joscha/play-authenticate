@@ -21,12 +21,15 @@
 	   
 	   @inputRadioGroup(
             acceptForm("accept"),
-            options = Seq("true"-> Messages("playauthenticate.link.account.true"),"false"->Messages("playauthenticate.link.account.false")),
+            options = Seq(
+            	"true"-> Messages("playauthenticate.link.account.true"),
+            	"false"->Messages("playauthenticate.link.account.false")
+            ),
             '_label -> label,
             '_showConstraints -> false
         )
            
-		<input type="submit" value="OK" class="btn btn-primary"> 
+		<input type="submit" value="@Messages("playauthenticate.link.account.ok")" class="btn btn-primary"> 
 	}
 	</p>
 }

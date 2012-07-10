@@ -12,6 +12,7 @@
 	<h1>@Messages("playauthenticate.merge.accounts.title")</h1>
 	<p>
 	@form(routes.Account.doMerge) {
+
             @if(acceptForm.hasGlobalErrors) { 
                 <p class="error">
 		            <span class="label label-important">@acceptForm.globalError.message</span>
@@ -20,12 +21,15 @@
 	   
 	   @inputRadioGroup(
             acceptForm("accept"),
-            options = Seq("true"-> Messages("playauthenticate.merge.accounts.true"),"false"->Messages("playauthenticate.merge.accounts.false")),
+            options = Seq(
+            	"true"-> Messages("playauthenticate.merge.accounts.true"),
+            	"false"->Messages("playauthenticate.merge.accounts.false")
+            ),
             '_label -> label,
             '_showConstraints -> false
         )
            
-		<input type="submit" value="OK" class="btn btn-primary">
+		<input type="submit" value="@Messages("playauthenticate.merge.accounts.ok")" class="btn btn-primary">
 	}
 	</p>
 }

@@ -49,11 +49,12 @@ playauthenticate.change.email.cta=Mein Passwort ändern
 
 playauthenticate.merge.accounts.title=Konten zusammenführen
 playauthenticate.merge.accounts.success=Möchtest du das Konto mit dem du im Moment angemeldet bist ({0}) mit diesem zusammenführen: {1}?
-
 playauthenticate.merge.accounts.true=Ja, diese zwei Konten zusammenführen
 playauthenticate.merge.accounts.false=Nein, meine momentane Sizung beenden und mit dem neuen Benutzer anmelden
+playauthenticate.merge.accounts.ok=OK
 
 playauthenticate.link.account.title=Konto verknüpfen
 playauthenticate.link.account.question=Konto ({0}) mit deinem Benutzer verknüpfen?
 playauthenticate.link.account.true=Ja, dieses Konto mit meinem Benutzer verknüpfen
 playauthenticate.link.account.false=Nein, abmelden und einen neuen Benutzer mit diesem Konto erstellen
+playauthenticate.link.account.ok=OK

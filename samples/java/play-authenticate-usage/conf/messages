@@ -52,8 +52,10 @@ playauthenticate.merge.accounts.success=Do you want to merge the account you are
 
 playauthenticate.merge.accounts.true=Yes, merge these two accounts
 playauthenticate.merge.accounts.false=No, end my current session and log in with the new user
+playauthenticate.merge.accounts.ok=OK
 
 playauthenticate.link.account.title=Link account
 playauthenticate.link.account.question=Link ({0}) with your user?
 playauthenticate.link.account.true=Yes, link this account to my user
 playauthenticate.link.account.false=No, log out and create a new user with this account
+playauthenticate.link.account.ok=OK

@@ -28,7 +28,7 @@ playauthenticate.password.reset_email.subject=PlayAuthenticate: Instructions on 
 
 playauthenticate.login.email.placeholder=Your e-mail address
 playauthenticate.login.password.placeholder=Choose a password
-playauthenticate.login.password.repeat=Repeat chosen password"
+playauthenticate.login.password.repeat=Repeat chosen password
 playauthenticate.login.title=Login
 playauthenticate.login.password.placeholder=Password
 playauthenticate.login.now=Login now

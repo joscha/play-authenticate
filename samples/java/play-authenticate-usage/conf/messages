@@ -58,3 +58,9 @@ playauthenticate.link.account.question=Link ({0}) with your user?
 playauthenticate.link.account.true=Yes, link this account to my user
 playauthenticate.link.account.false=No, log out and create a new user with this account
 playauthenticate.link.account.ok=OK
+
+# Signup folder translations
+
+playauthenticate.verify.email.title=Verify your e-mail
+playauthenticate.verify.email.requirement=Before you can use PlayAuthenticate, you must verify your email address.
+playauthenticate.verify.email.cta=An e-mail has been sent to the registered address. Please open it and click on the provided link to activate your account.

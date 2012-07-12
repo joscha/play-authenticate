@@ -58,3 +58,9 @@ playauthenticate.link.account.question=Konto ({0}) mit deinem Benutzer verknüpf
 playauthenticate.link.account.true=Ja, dieses Konto mit meinem Benutzer verknüpfen
 playauthenticate.link.account.false=Nein, abmelden und einen neuen Benutzer mit diesem Konto erstellen
 playauthenticate.link.account.ok=OK
+
+# Signup folder translations
+
+playauthenticate.verify.email.title=Verify your e-mail
+playauthenticate.verify.email.requirement=Before you can use PlayAuthenticate, you must verify your email address.
+playauthenticate.verify.email.cta=An e-mail has been sent to the registered address. Please open it and click on the provided link to activate your account.

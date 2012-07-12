@@ -1,9 +1,11 @@
 
-@main("Email unverified") {
+@main(Messages("playauthenticate.verify.email.title")) {
 
-	<h1>Thank you for signing up</h1>
+	<h1>@Messages("playauthenticate.verify.email.title")</h1>
 	<p>
-	Before you can use PlayAuthenticate, you must verify your email address.<br/>
-	An email has been sent to the registered address. Please open it and click on the provided link to activate your account.
+		@Messages("playauthenticate.verify.email.requirement")<br>
+		@Messages("playauthenticate.verify.email.cta")
+	<br/>
+	
 	</p>
 }

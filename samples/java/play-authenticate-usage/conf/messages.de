@@ -67,3 +67,6 @@ playauthenticate.verify.email.cta=Eine E-Mail wurde zur registrierten E-Mail-Adr
 
 playauthenticate.password.reset.title=Passwort zurücksetzen
 playauthenticate.password.reset.cta=Passwort zurücksetzen
+
+playauthenticate.password.forgot.title=Passwort vergessen
+playauthenticate.password.forgot.cta=Informationen zum Zurücksetzen versenden

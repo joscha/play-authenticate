@@ -67,3 +67,6 @@ playauthenticate.verify.email.cta=An e-mail has been sent to the registered addr
 
 playauthenticate.password.reset.title=Reset password
 playauthenticate.password.reset.cta=Reset my password
+
+playauthenticate.password.forgot.title=Forgot password
+playauthenticate.password.forgot.cta=Send reset instructions

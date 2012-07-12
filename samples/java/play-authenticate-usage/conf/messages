@@ -44,8 +44,8 @@ playauthenticate.verify.account.title=E-mail verification required
 playauthenticate.verify.account.before=Before you can set a password, you need to
 playauthenticate.verify.account.first=first verify your email address
 
-playauthenticate.change.email.title=Change your password here
-playauthenticate.change.email.cta=Change my password
+playauthenticate.change.password.title=Change your password here
+playauthenticate.change.password.cta=Change my password
 
 playauthenticate.merge.accounts.title=Merge accounts
 playauthenticate.merge.accounts.success=Do you want to merge the account you are currently logged in with ({0}), with this account: {1}?

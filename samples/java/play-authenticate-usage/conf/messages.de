@@ -44,8 +44,8 @@ playauthenticate.verify.account.title=Verifikation der E-Mail-Adresse erforderli
 playauthenticate.verify.account.before=Bevor du ein Passwort vergeben kannst,
 playauthenticate.verify.account.first=musst du zuerst deine E-Mail-Adresse verifizieren
 
-playauthenticate.change.email.title=Ändere dein Passwort hier
-playauthenticate.change.email.cta=Mein Passwort ändern
+playauthenticate.change.password.title=Ändere dein Passwort hier
+playauthenticate.change.password.cta=Mein Passwort ändern
 
 playauthenticate.merge.accounts.title=Konten zusammenführen
 playauthenticate.merge.accounts.success=Möchtest du das Konto mit dem du im Moment angemeldet bist ({0}) mit diesem zusammenführen: {1}?

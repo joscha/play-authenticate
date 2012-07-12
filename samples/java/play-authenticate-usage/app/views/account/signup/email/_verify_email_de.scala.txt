@@ -1,6 +1,10 @@
 @(verificationUrl: String, token: String, name: String)Hey @name,
 
-um deine E-Mail-Adresse zu bestätigen, folge einfach diesem Link:
+Du hast dich kürzlich bei PlayAuthenticate registriert. Juhu!
+
+
+Folge diesem Link um dein Konto jetzt zu aktivieren:
+
 @verificationUrl
 
 Cheers,

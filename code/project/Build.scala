@@ -17,6 +17,7 @@ object ApplicationBuild extends Build {
 
       libraryDependencies += "org.apache.httpcomponents" % "httpclient" % "4.2",
       libraryDependencies += "com.feth" %% "play-easymail" % "0.1-SNAPSHOT",
-      libraryDependencies += "org.mindrot" % "jbcrypt" % "0.3m"
+      libraryDependencies += "org.mindrot" % "jbcrypt" % "0.3m",
+      libraryDependencies += "commons-lang" % "commons-lang" % "2.6"
     )
 }

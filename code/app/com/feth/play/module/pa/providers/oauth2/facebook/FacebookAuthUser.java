@@ -2,6 +2,7 @@ package com.feth.play.module.pa.providers.oauth2.facebook;
 
 import java.util.Locale;
 
+import org.apache.commons.lang.LocaleUtils;
 import org.codehaus.jackson.JsonNode;
 
 import com.feth.play.module.pa.providers.oauth2.BasicOAuth2AuthUser;
@@ -137,7 +138,7 @@ public class FacebookAuthUser extends BasicOAuth2AuthUser implements
 
 	public Locale getLocale() {
 		if (locale != null && !locale.isEmpty()) {
-			return new Locale(locale);
+			return LocaleUtils.toLocale(locale);
 		} else {
 			return null;
 		}

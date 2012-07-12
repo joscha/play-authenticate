@@ -2,6 +2,7 @@ package com.feth.play.module.pa.providers.oauth2.google;
 
 import java.util.Locale;
 
+import org.apache.commons.lang.LocaleUtils;
 import org.codehaus.jackson.JsonNode;
 
 import com.feth.play.module.pa.providers.oauth2.BasicOAuth2AuthUser;
@@ -10,8 +11,8 @@ import com.feth.play.module.pa.user.LocaleIdentity;
 import com.feth.play.module.pa.user.PicturedIdentity;
 import com.feth.play.module.pa.user.ProfiledIdentity;
 
-public class GoogleAuthUser extends BasicOAuth2AuthUser implements ExtendedIdentity,
-		PicturedIdentity, ProfiledIdentity, LocaleIdentity {
+public class GoogleAuthUser extends BasicOAuth2AuthUser implements
+		ExtendedIdentity, PicturedIdentity, ProfiledIdentity, LocaleIdentity {
 
 	/**
 	 * 
@@ -119,7 +120,7 @@ public class GoogleAuthUser extends BasicOAuth2AuthUser implements ExtendedIdent
 
 	public Locale getLocale() {
 		if (locale != null) {
-			return new Locale(locale);
+			return LocaleUtils.toLocale(locale);
 		} else {
 			return null;
 		}

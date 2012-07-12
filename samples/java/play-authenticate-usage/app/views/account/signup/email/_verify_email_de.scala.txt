@@ -1,4 +1,4 @@
-@(verificationUrl: String, token: String, name: String, email: String)Hey @name, 
+@(verificationUrl: String, token: String, name: String)Hey @name,
 
 um deine E-Mail-Adresse zu bestätigen, folge einfach diesem Link:
 @verificationUrl

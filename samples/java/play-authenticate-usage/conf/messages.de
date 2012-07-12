@@ -81,3 +81,12 @@ playauthenticate.token.error.message=Der Token ist entweder abgelaufen oder exis
 
 playauthenticate.user.exists.title=Benutzer vorhanden
 playauthenticate.user.exists.message=Dieser Benutzer existiert bereits.
+
+# Navigation
+navigation.profile=Profil
+navigation.link_more=Mehr Zugänge verknüpfen
+navigation.logout=Abmelden
+navigation.login=Anmelden
+navigation.home=Startseite
+navigation.restricted=Geschützte Seite
+navigation.signup=Registrieren

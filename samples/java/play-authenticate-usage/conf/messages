@@ -81,3 +81,13 @@ playauthenticate.token.error.message=The given token has either expired or does 
 
 playauthenticate.user.exists.title=User exists
 playauthenticate.user.exists.message=This user already exists.
+
+# Navigation
+navigation.profile=Profile
+navigation.link_more=Link more providers
+navigation.logout=Sign out
+navigation.login=Log in
+navigation.home=Home
+navigation.restricted=Restricted page
+navigation.signup=Sign up
+

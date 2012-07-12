@@ -70,3 +70,8 @@ playauthenticate.password.reset.cta=Reset my password
 
 playauthenticate.password.forgot.title=Forgot password
 playauthenticate.password.forgot.cta=Send reset instructions
+
+playauthenticate.oauth.access.denied.title=OAuth access denied
+playauthenticate.oauth.access.denied.explanation=If you want to use enti:tag with OAuth, you must accept the connection.
+playauthenticate.oauth.access.denied.alternative=If you rather not like to do this, you can also 
+playauthenticate.oauth.access.denied.alternative.cta=sign up with a username and password instead

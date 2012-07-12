@@ -48,7 +48,7 @@ playauthenticate.change.password.title=Ändere dein Passwort hier
 playauthenticate.change.password.cta=Mein Passwort ändern
 
 playauthenticate.merge.accounts.title=Konten zusammenführen
-playauthenticate.merge.accounts.success=Möchtest du das Konto mit dem du im Moment angemeldet bist ({0}) mit diesem zusammenführen: {1}?
+playauthenticate.merge.accounts.question=Möchtest du das Konto mit dem du im Moment angemeldet bist ({0}) mit diesem zusammenführen: {1}?
 playauthenticate.merge.accounts.true=Ja, diese zwei Konten zusammenführen
 playauthenticate.merge.accounts.false=Nein, meine momentane Sizung beenden und mit dem neuen Benutzer anmelden
 playauthenticate.merge.accounts.ok=OK

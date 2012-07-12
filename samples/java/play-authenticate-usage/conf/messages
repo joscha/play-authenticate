@@ -48,8 +48,7 @@ playauthenticate.change.password.title=Change your password here
 playauthenticate.change.password.cta=Change my password
 
 playauthenticate.merge.accounts.title=Merge accounts
-playauthenticate.merge.accounts.success=Do you want to merge the account you are currently logged in with ({0}), with this account: {1}?
-
+playauthenticate.merge.accounts.question=Do you want to merge the account you are currently logged in with ({0}), with this account: {1}?
 playauthenticate.merge.accounts.true=Yes, merge these two accounts
 playauthenticate.merge.accounts.false=No, end my current session and log in with the new user
 playauthenticate.merge.accounts.ok=OK

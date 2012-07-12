@@ -75,3 +75,6 @@ playauthenticate.oauth.access.denied.title=OAuth-Zugriff abgelehnt
 playauthenticate.oauth.access.denied.explanation=Wenn du enti:tag mit OAuth nutzen möchtest, musst du die Verbindung akzeptieren.
 playauthenticate.oauth.access.denied.alternative=Falls du dies lieber nicht tun möchtest, kannst du dich auch
 playauthenticate.oauth.access.denied.alternative.cta=mit Benutzername und Passwort registrieren
+
+playauthenticate.token.error.title=Token-Fehler
+playauthenticate.token.error.message=Der Token ist entweder abgelaufen oder existiert nicht.

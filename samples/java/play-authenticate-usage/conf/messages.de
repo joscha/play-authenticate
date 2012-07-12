@@ -3,26 +3,26 @@
 playauthenticate.accounts.link.success=Das Konto wurde erfolgreich verknüpft.
 playauthenticate.accounts.merge.success=Die Konten wurden erfolgreich zusammengeführt.
 
-playauthenticate.verify_email.error.already_validated=Deine E-Mail-Adresse wurde bereits verifiziert!
-playauthenticate.verify_email.error.set_email_first=Du musst zuerst eine E-Mail-Adresse definieren!
-playauthenticate.verify_email.message.instructions_sent=Instruktionen zur Verifikation deiner E-Mail-Adresse wurden an {0} gesendet.
-playauthenticate.verify_email.success=E-Mail-Adresse ({0}) wurde erfolgreich verifiziert!
+playauthenticate.verify_email.error.already_validated=Deine E-Mail-Adresse wurde bereits verifiziert.
+playauthenticate.verify_email.error.set_email_first=Du musst zuerst eine E-Mail-Adresse definieren.
+playauthenticate.verify_email.message.instructions_sent=Instruktionen zur Bestätigung deiner E-Mail-Adresse wurden an {0} gesendet.
+playauthenticate.verify_email.success=E-Mail-Adresse ({0}) wurde erfolgreich verifiziert.
 
-playauthenticate.reset_password.message.instructions_sent=Instruktionen um dein Passwort zurückzusetzen wurden an {0} versandt.
+playauthenticate.reset_password.message.instructions_sent=Instruktionen zum Zurücksetzen deines Passwortes wurden an {0} versandt.
 playauthenticate.reset_password.message.email_not_verified=Deine E-Mail-Adresse wurde noch nicht verifiziert. Instruktionen um deine E-Mail-Adresse zu verifizieren wurden versendet. Versuche danach nochmals dein Passwort zurückzusetzen.
 playauthenticate.reset_password.message.no_password_account=Dein Benutzer wurde für die Verwendung eines Passwort-basierten Zugangs noch nicht aktiviert.
 playauthenticate.reset_password.message.success.auto_login=Dein Passwort wurde erfolgreich zurückgesetzt.
-playauthenticate.reset_password.message.success.manual_login=Dein Passwort wurde erfolgreich zurückgesetzt - bitte logge dich mit deinem neuen Passwort ein.
+playauthenticate.reset_password.message.success.manual_login=Dein Passwort wurde erfolgreich zurückgesetzt. Bitte melde dich jetzt mit deinem neuen Passwort an.
 
-playauthenticate.change_password.error.passwords_not_same=Die Passwörter stimmen nicht überein!
-playauthenticate.change_password.success=Das Passwort wurde erfolgreich geändert!
+playauthenticate.change_password.error.passwords_not_same=Die Passwörter stimmen nicht überein.
+playauthenticate.change_password.success=Das Passwort wurde erfolgreich geändert.
 
-playauthenticate.password.signup.error.passwords_not_same=Die Passwörter stimmen nicht überein!
+playauthenticate.password.signup.error.passwords_not_same=Die Passwörter stimmen nicht überein.
 playauthenticate.password.login.unknown_user_or_pw=Der Benutzer wurde nicht gefunden oder das Passwort stimmt nicht überein.
 
-playauthenticate.password.verify_signup.subject=Play! Authenticate | Vervollständige deine Anmeldung
-playauthenticate.password.verify_email.subject=Play! Authenticate | Verifiziere deine E-Mail-Adresse
-playauthenticate.password.reset_email.subject=Play! Authenticate | Instuktionen um dein Passwort zurückzusetzen
+playauthenticate.password.verify_signup.subject=PlayAuthenticate: Vervollständige deine Anmeldung
+playauthenticate.password.verify_email.subject=PlayAuthenticate: E-Mail-Adresse bestätigen
+playauthenticate.password.reset_email.subject=PlayAuthenticate: Anleitung zum Passwortzurücksetzen
 
 # Additional translations
 
@@ -48,9 +48,9 @@ playauthenticate.change.password.title=Ändere dein Passwort hier
 playauthenticate.change.password.cta=Mein Passwort ändern
 
 playauthenticate.merge.accounts.title=Konten zusammenführen
-playauthenticate.merge.accounts.question=Möchtest du das Konto mit dem du im Moment angemeldet bist ({0}) mit diesem zusammenführen: {1}?
-playauthenticate.merge.accounts.true=Ja, diese zwei Konten zusammenführen
-playauthenticate.merge.accounts.false=Nein, meine momentane Sizung beenden und mit dem neuen Benutzer anmelden
+playauthenticate.merge.accounts.question=Möchtest du dein aktuelles Konto ({0}) mit diesem zusammenführen: {1}?
+playauthenticate.merge.accounts.true=Ja, diese Konten zusammenführen
+playauthenticate.merge.accounts.false=Nein, meine aktuelle Sizung beenden und mit dem neuen Benutzer anmelden
 playauthenticate.merge.accounts.ok=OK
 
 playauthenticate.link.account.title=Konto verknüpfen
@@ -72,7 +72,7 @@ playauthenticate.password.forgot.title=Passwort vergessen
 playauthenticate.password.forgot.cta=Informationen zum Zurücksetzen versenden
 
 playauthenticate.oauth.access.denied.title=OAuth-Zugriff abgelehnt
-playauthenticate.oauth.access.denied.explanation=Wenn du enti:tag mit OAuth nutzen möchtest, musst du die Verbindung akzeptieren.
+playauthenticate.oauth.access.denied.explanation=Wenn du PlayAuthenticate mit OAuth nutzen möchtest, musst du die Verbindung akzeptieren.
 playauthenticate.oauth.access.denied.alternative=Falls du dies lieber nicht tun möchtest, kannst du dich auch
 playauthenticate.oauth.access.denied.alternative.cta=mit Benutzername und Passwort registrieren
 

@@ -3,26 +3,26 @@
 playauthenticate.accounts.link.success=Account linked successfully
 playauthenticate.accounts.merge.success=Accounts merged successfully
 
-playauthenticate.verify_email.error.already_validated=Your email has already been validated!
-playauthenticate.verify_email.error.set_email_first=You need to set an email address first!
-playauthenticate.verify_email.message.instructions_sent=Instructions on how to verify your email address have been sent to {0}.
-playauthenticate.verify_email.success=Email address ({0}) successfully verified!
+playauthenticate.verify_email.error.already_validated=Your e-mail has already been validated.
+playauthenticate.verify_email.error.set_email_first=You need to set an e-mail address first.
+playauthenticate.verify_email.message.instructions_sent=Instructions on how to verify your e-mail address have been sent to {0}.
+playauthenticate.verify_email.success=E-mail address ({0}) successfully verified.
 
-playauthenticate.reset_password.message.instructions_sent=Instructions on how to reset the password have been sent to {0}.
-playauthenticate.reset_password.message.email_not_verified=Your account has not been verified, yet. An email has been sent with instructions on how to verify it. Retry resetting your password afterwards.
-playauthenticate.reset_password.message.no_password_account=Your user has not been set up for password usage, yet
-playauthenticate.reset_password.message.success.auto_login=Your password has been reset
-playauthenticate.reset_password.message.success.manual_login=Your password has been reset - please log in with your new password now
+playauthenticate.reset_password.message.instructions_sent=Instructions on how to reset your password have been sent to {0}.
+playauthenticate.reset_password.message.email_not_verified=Your account has not been verified, yet. An e-mail including instructions on how to verify it has been sent out. Retry resetting your password afterwards.
+playauthenticate.reset_password.message.no_password_account=Your user has not yet been set up for password usage.
+playauthenticate.reset_password.message.success.auto_login=Your password has been reset.
+playauthenticate.reset_password.message.success.manual_login=Your password has been reset. Please now log in using your new password.
 
-playauthenticate.change_password.error.passwords_not_same=Passwords don't match!
-playauthenticate.change_password.success=Password has been changed successfully!
+playauthenticate.change_password.error.passwords_not_same=Passwords do not match.
+playauthenticate.change_password.success=Password has been changed successfully.
 
-playauthenticate.password.signup.error.passwords_not_same=Passwords don't match!
-playauthenticate.password.login.unknown_user_or_pw=User could not be found or password was wrong.
+playauthenticate.password.signup.error.passwords_not_same=Passwords do not match.
+playauthenticate.password.login.unknown_user_or_pw=Unknown user or password.
 
-playauthenticate.password.verify_signup.subject=PlayAuthenticate: Finish your signup
-playauthenticate.password.verify_email.subject=PlayAuthenticate: Confirm your email address
-playauthenticate.password.reset_email.subject=PlayAuthenticate: Instructions on how to reset your password
+playauthenticate.password.verify_signup.subject=PlayAuthenticate: Complete your signup
+playauthenticate.password.verify_email.subject=PlayAuthenticate: Confirm your e-mail address
+playauthenticate.password.reset_email.subject=PlayAuthenticate: How to reset your password
 
 # Additional translations
 
@@ -41,29 +41,29 @@ playauthenticate.signup.now=Sign up now
 playauthenticate.signup.oauth=or sign up using one of the following providers:
 
 playauthenticate.verify.account.title=E-mail verification required
-playauthenticate.verify.account.before=Before you can set a password, you need to
-playauthenticate.verify.account.first=first verify your email address
+playauthenticate.verify.account.before=Before setting a password, you need to
+playauthenticate.verify.account.first=first verify your e-mail address
 
 playauthenticate.change.password.title=Change your password here
 playauthenticate.change.password.cta=Change my password
 
 playauthenticate.merge.accounts.title=Merge accounts
-playauthenticate.merge.accounts.question=Do you want to merge the account you are currently logged in with ({0}), with this account: {1}?
+playauthenticate.merge.accounts.question=Do you want to merge your current account ({0}) with this account? {1}
 playauthenticate.merge.accounts.true=Yes, merge these two accounts
-playauthenticate.merge.accounts.false=No, end my current session and log in with the new user
+playauthenticate.merge.accounts.false=No, exit my current session and log in as a new user
 playauthenticate.merge.accounts.ok=OK
 
 playauthenticate.link.account.title=Link account
 playauthenticate.link.account.question=Link ({0}) with your user?
-playauthenticate.link.account.true=Yes, link this account to my user
+playauthenticate.link.account.true=Yes, link this account
 playauthenticate.link.account.false=No, log out and create a new user with this account
 playauthenticate.link.account.ok=OK
 
 # Signup folder translations
 
 playauthenticate.verify.email.title=Verify your e-mail
-playauthenticate.verify.email.requirement=Before you can use PlayAuthenticate, you must verify your email address.
-playauthenticate.verify.email.cta=An e-mail has been sent to the registered address. Please open it and click on the provided link to activate your account.
+playauthenticate.verify.email.requirement=Before you can use PlayAuthenticate, you first need to verify your e-mail address.
+playauthenticate.verify.email.cta=An e-mail has been sent to the registered address. Please follow the embedded link to activate your account.
 
 playauthenticate.password.reset.title=Reset password
 playauthenticate.password.reset.cta=Reset my password
@@ -72,7 +72,7 @@ playauthenticate.password.forgot.title=Forgot password
 playauthenticate.password.forgot.cta=Send reset instructions
 
 playauthenticate.oauth.access.denied.title=OAuth access denied
-playauthenticate.oauth.access.denied.explanation=If you want to use enti:tag with OAuth, you must accept the connection.
+playauthenticate.oauth.access.denied.explanation=If you want to use PlayAuthenticate with OAuth, you must accept the connection.
 playauthenticate.oauth.access.denied.alternative=If you rather not like to do this, you can also 
 playauthenticate.oauth.access.denied.alternative.cta=sign up with a username and password instead
 

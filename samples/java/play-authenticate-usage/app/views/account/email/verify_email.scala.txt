@@ -1,4 +1,4 @@
-@(verificationUrl: String, token: String, name: String, email: String)Howdy, 
+@(verificationUrl: String, token: String, name: String, email: String)Howdy @name, 
 
 To verify your e-mail address, follow this link now:
 @verificationUrl

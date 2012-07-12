@@ -1,15 +1,9 @@
-@(verificationUrl: String, token: String, name: String)
-
-Hello <b>@name</b>,
-
+@(verificationUrl: String, token: String, name: String)Howdy @name,
 <p>
-	You recently signed up for PlayAuthenticate. Yay!<br />
-	There is only one more step needed before you can make use of PlayAuthenticate:
-	<br />
-	<br />
-	Follow this link to <a href="@verificationUrl">activate your account</a>
+	To verify your e-mail address, <a href="@verificationUrl">now follow this link</a>.
 </p>
 <br />
 <p>
-	Cheers,<br /> <i>The PlayAuthenticate Team</i>
+	Cheers,<br /> 
+	<i>The PlayAuthenticate Team</i>
 </p>

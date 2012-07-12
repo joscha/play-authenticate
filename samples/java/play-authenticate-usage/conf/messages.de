@@ -61,6 +61,9 @@ playauthenticate.link.account.ok=OK
 
 # Signup folder translations
 
-playauthenticate.verify.email.title=Verify your e-mail
-playauthenticate.verify.email.requirement=Before you can use PlayAuthenticate, you must verify your email address.
-playauthenticate.verify.email.cta=An e-mail has been sent to the registered address. Please open it and click on the provided link to activate your account.
+playauthenticate.verify.email.title=E-Mail-Adresse bestätigen
+playauthenticate.verify.email.requirement=Du musst deine E-Mail-Adresse bestätigen, bevor du PlayAuthenticate nutzen kannst.
+playauthenticate.verify.email.cta=Eine E-Mail wurde zur registrierten E-Mail-Adresse versandt. Bitte öffne sie und klicke auf den enthaltenen Link, um deinen Account zu aktivieren.
+
+playauthenticate.password.reset.title=Passwort zurücksetzen
+playauthenticate.password.reset.cta=Passwort zurücksetzen

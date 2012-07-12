@@ -64,3 +64,6 @@ playauthenticate.link.account.ok=OK
 playauthenticate.verify.email.title=Verify your e-mail
 playauthenticate.verify.email.requirement=Before you can use PlayAuthenticate, you must verify your email address.
 playauthenticate.verify.email.cta=An e-mail has been sent to the registered address. Please open it and click on the provided link to activate your account.
+
+playauthenticate.password.reset.title=Reset password
+playauthenticate.password.reset.cta=Reset my password

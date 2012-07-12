@@ -40,9 +40,9 @@ playauthenticate.signup.name=Dein Name
 playauthenticate.signup.now=Jetzt registrieren
 playauthenticate.signup.oauth=oder registriere dich mit einem der folgenden Dienste:
 
-playauthenticate.verify.title=Verifikation der E-Mail-Adresse erforderlich
-playauthenticate.verify.before=Bevor du ein Passwort vergeben kannst,
-playauthenticate.verify.first=musst du zuerst deine E-Mail-Adresse verifizieren
+playauthenticate.verify.account.title=Verifikation der E-Mail-Adresse erforderlich
+playauthenticate.verify.account.before=Bevor du ein Passwort vergeben kannst,
+playauthenticate.verify.account.first=musst du zuerst deine E-Mail-Adresse verifizieren
 
 playauthenticate.change.email.title=Ändere dein Passwort hier
 playauthenticate.change.email.cta=Mein Passwort ändern

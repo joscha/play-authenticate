@@ -1,0 +1,7 @@
+@(verificationUrl: String, token: String, name: String, email: String)Hey, 
+
+um deine E-Mail-Adresse zu bestätigen, folge einfach diesem Link:
+@verificationUrl
+
+Cheers,
+Das PlayAuthenticate-Team

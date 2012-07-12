@@ -82,7 +82,7 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 
 		if (payload == Case.SIGNUP) {
 			final S signup = getSignup(context);
-			final US authUser = buildSignupAuthUser(signup);
+			final US authUser = buildSignupAuthUser(signup, context);
 			final SignupResult r = signupUser(authUser);
 
 			switch (r) {
@@ -103,7 +103,7 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 			}
 		} else if (payload == Case.LOGIN) {
 			final L login = getLogin(context);
-			final UL authUser = buildLoginAuthUser(login);
+			final UL authUser = buildLoginAuthUser(login, context);
 			final LoginResult r = loginUser(authUser);
 			switch (r) {
 			case USER_UNVERIFIED:
@@ -203,9 +203,9 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 	protected abstract Body getVerifyEmailMailingBody(
 			final R verificationRecord, final US user, final Context ctx);
 
-	protected abstract UL buildLoginAuthUser(final L login);
+	protected abstract UL buildLoginAuthUser(final L login, final Context ctx);
 
-	protected abstract US buildSignupAuthUser(final S signup);
+	protected abstract US buildSignupAuthUser(final S signup, final Context ctx);
 
 	protected abstract LoginResult loginUser(final UL authUser);
 

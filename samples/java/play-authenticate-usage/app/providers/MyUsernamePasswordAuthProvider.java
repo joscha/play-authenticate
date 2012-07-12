@@ -184,12 +184,13 @@ public class MyUsernamePasswordAuthProvider
 
 	@Override
 	protected MyUsernamePasswordAuthUser buildSignupAuthUser(
-			final MySignup signup) {
+			final MySignup signup, final Context ctx) {
 		return new MyUsernamePasswordAuthUser(signup);
 	}
 
 	@Override
-	protected MyLoginUsernamePasswordAuthUser buildLoginAuthUser(MyLogin login) {
+	protected MyLoginUsernamePasswordAuthUser buildLoginAuthUser(
+			final MyLogin login, final Context ctx) {
 		return new MyLoginUsernamePasswordAuthUser(login.getPassword(),
 				login.getEmail());
 	}

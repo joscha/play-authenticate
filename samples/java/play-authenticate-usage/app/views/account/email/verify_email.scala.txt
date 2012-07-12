@@ -1,7 +1,1 @@
-@(verificationUrl: String, token: String, name: String, email: String)Howdy @name, 
-
-To verify your e-mail address, follow this link now:
-@verificationUrl
-
-Cheers,
-The PlayAuthenticate Team
+@(verificationUrl: String, token: String, name: String, email: String)@if(lang() == "de") {@_verify_email_de(verificationUrl,token,name,email)} else {@_verify_email_en(verificationUrl,token,name,email)}

@@ -1,10 +1,1 @@
-@(verificationUrl: String, token: String, name: String)Howdy @name,
-
-You recently signed up for PlayAuthenticate. Yay!
-
-
-To activate your accound, follow this link now:
-@verificationUrl
-
-Cheers,
-The PlayAuthenticate Team
+@(verificationUrl: String, token: String, name: String)@if(lang().code == "de") {@_verify_email_de(verificationUrl,token,name)} else {@_verify_email_en(verificationUrl,token,name)}

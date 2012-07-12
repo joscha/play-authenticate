@@ -36,7 +36,7 @@ Furthermore:
 ## Versions
 * **0.1.8-SNAPSHOT** [2012-07-12]
   * Change: Password auth provider now gets Context passed in `buildLoginAuthUser` and `buildSignupAuthUser` so you can get the locale of the user signing up for example. This change affects prior written auth providers based on `UsernamePasswordAuthProvider` - see the sample app or just add an additional `Context` parameter to fix it.
-  * More localization
+  * More localization (emails, parts of navigation)
   * Fix of `LocaleIdentity` implementation for facebook and google.
 * **0.1.7-SNAPSHOT** [2012-07-09]
   * i18n message bundle update, email formatting, use play-easymail module, fix when user has not set an email and tries to log in via password

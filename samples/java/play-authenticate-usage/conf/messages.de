@@ -78,3 +78,6 @@ playauthenticate.oauth.access.denied.alternative.cta=mit Benutzername und Passwo
 
 playauthenticate.token.error.title=Token-Fehler
 playauthenticate.token.error.message=Der Token ist entweder abgelaufen oder existiert nicht.
+
+playauthenticate.user.exists.title=Benutzer vorhanden
+playauthenticate.user.exists.message=Dieser Benutzer existiert bereits.

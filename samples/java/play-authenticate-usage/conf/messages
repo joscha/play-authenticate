@@ -78,3 +78,6 @@ playauthenticate.oauth.access.denied.alternative.cta=sign up with a username and
 
 playauthenticate.token.error.title=Token error
 playauthenticate.token.error.message=The given token has either expired or does not exist.
+
+playauthenticate.user.exists.title=User exists
+playauthenticate.user.exists.message=This user already exists.

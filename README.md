@@ -34,6 +34,8 @@ Furthermore:
 * Verification email used by Email/Password provider is fully customizable and localizable and can be sent in either text or HTML or both.
 
 ## Versions
+* **0.1.9-SNAPSHOT** [2012-07-16]
+  * Fix for invalid locale formats (e.g. en-GB) coming from   Google and/or facebook OAuth.
 * **0.1.8-SNAPSHOT** [2012-07-12]
   * Change: Password auth provider now gets Context passed in `buildLoginAuthUser` and `buildSignupAuthUser` so you can get the locale of the user signing up for example. This change affects prior written auth providers based on `UsernamePasswordAuthProvider` - see the sample app or just add an additional `Context` parameter to fix it.
   * More localization (emails, parts of navigation)

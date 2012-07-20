@@ -127,13 +127,9 @@ public class FacebookAuthUser extends BasicOAuth2AuthUser implements
 	}
 
 	public String getPicture() {
-		if (link != null && !link.isEmpty()) {
-			// According to
-			// https://developers.facebook.com/docs/reference/api/#pictures
-			return getProfileLink() + "/picture";
-		} else {
-			return null;
-		}
+		// According to
+		// https://developers.facebook.com/docs/reference/api/#pictures
+		return String.format("https://graph.facebook.com/%s/picture", getUsername());
 	}
 
 	public Locale getLocale() {

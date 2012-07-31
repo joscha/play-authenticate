@@ -103,7 +103,7 @@ public abstract class OAuth1AuthProvider<U extends AuthUserIdentity, I extends O
 			}
 		} else {
 
-			final String callbackURL = getAbsoluteUrl(request);
+			final String callbackURL = getRedirectUrl(request);
 
 			final Either<OAuthException, RequestToken> reponse = service
 					.retrieveRequestToken(callbackURL);

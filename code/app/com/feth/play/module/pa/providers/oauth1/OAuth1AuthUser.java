@@ -1,9 +1,5 @@
 package com.feth.play.module.pa.providers.oauth1;
 
-import java.util.Locale;
-
-import org.apache.commons.lang.LocaleUtils;
-
 import com.feth.play.module.pa.user.AuthUser;
 
 public abstract class OAuth1AuthUser extends AuthUser {
@@ -37,21 +33,5 @@ public abstract class OAuth1AuthUser extends AuthUser {
 
 	public String getState() {
 		return state;
-	}
-
-	public static Locale getLocaleFromString(final String locale) {
-		if (locale != null && !locale.isEmpty()) {
-			try {
-				return LocaleUtils.toLocale(locale);
-			} catch (final java.lang.IllegalArgumentException iae) {
-				try {
-					return LocaleUtils.toLocale(locale.replace('-', '_'));
-				} catch (final java.lang.IllegalArgumentException iae2) {
-					return null;
-				}
-			}
-		} else {
-			return null;
-		}
 	}
 }

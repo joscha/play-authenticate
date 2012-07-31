@@ -1,6 +1,9 @@
 package com.feth.play.module.pa.user;
 
 import java.io.Serializable;
+import java.util.Locale;
+
+import org.apache.commons.lang.LocaleUtils;
 
 public abstract class AuthUser implements AuthUserIdentity, Serializable {
 
@@ -8,8 +11,7 @@ public abstract class AuthUser implements AuthUserIdentity, Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
-	
+
 	public static final long NO_EXPIRATION = -1L;
 
 	public long expires() {
@@ -50,6 +52,41 @@ public abstract class AuthUser implements AuthUserIdentity, Serializable {
 
 	@Override
 	public String toString() {
-		return getId()+"@"+getProvider();
+		return getId() + "@" + getProvider();
+	}
+
+	public static Locale getLocaleFromString(final String locale) {
+		if (locale != null && !locale.isEmpty()) {
+			try {
+				return LocaleUtils.toLocale(locale);
+			} catch (final java.lang.IllegalArgumentException iae) {
+				try {
+					return LocaleUtils.toLocale(locale.replace('-', '_'));
+				} catch (final java.lang.IllegalArgumentException iae2) {
+					return null;
+				}
+			}
+		} else {
+			return null;
+		}
+	}
+
+	public static String toString(final BasicIdentity identity) {
+		final StringBuilder sb = new StringBuilder();
+		if (identity.getName() != null) {
+			sb.append(identity.getName());
+			sb.append(" ");
+		}
+		if (identity.getEmail() != null) {
+			sb.append("(");
+			sb.append(identity.getEmail());
+			sb.append(") ");
+		}
+		if (identity.getEmail() != null || identity.getName() != null) {
+			sb.append("@ ");
+		}
+		sb.append(identity.getProvider());
+
+		return sb.toString();
 	}
 }

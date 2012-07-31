@@ -6,7 +6,7 @@ import org.codehaus.jackson.JsonNode;
 
 import com.feth.play.module.pa.providers.oauth1.BasicOAuth1AuthUser;
 import com.feth.play.module.pa.providers.oauth1.OAuth1AuthInfo;
-import com.feth.play.module.pa.providers.oauth1.OAuth1AuthUser;
+import com.feth.play.module.pa.user.AuthUser;
 import com.feth.play.module.pa.user.ExtendedIdentity;
 import com.feth.play.module.pa.user.LocaleIdentity;
 import com.feth.play.module.pa.user.PicturedIdentity;
@@ -106,7 +106,7 @@ public class TwitterAuthUser extends BasicOAuth1AuthUser implements
 	}
 
 	public Locale getLocale() {
-		return OAuth1AuthUser.getLocaleFromString(locale);
+		return AuthUser.getLocaleFromString(locale);
 	}
 
 	public String getUpdateTime() {

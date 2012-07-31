@@ -1,5 +1,6 @@
 package com.feth.play.module.pa.providers.oauth1;
 
+import com.feth.play.module.pa.user.AuthUser;
 import com.feth.play.module.pa.user.BasicIdentity;
 
 public abstract class BasicOAuth1AuthUser extends OAuth1AuthUser implements
@@ -17,22 +18,7 @@ public abstract class BasicOAuth1AuthUser extends OAuth1AuthUser implements
 
 	@Override
 	public String toString() {
-		final StringBuilder sb = new StringBuilder();
-		if (getName() != null) {
-			sb.append(getName());
-			sb.append(" ");
-		}
-		if (getEmail() != null) {
-			sb.append("(");
-			sb.append(getEmail());
-			sb.append(") ");
-		}
-		if (getEmail() != null || getName() != null) {
-			sb.append("@ ");
-		}
-		sb.append(getProvider());
-
-		return sb.toString();
+		return AuthUser.toString(this);
 	}
 
 }

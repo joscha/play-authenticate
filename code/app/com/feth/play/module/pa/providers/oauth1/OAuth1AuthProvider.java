@@ -11,23 +11,28 @@ import play.api.libs.oauth.ConsumerKey;
 import play.api.libs.oauth.OAuth;
 import play.api.libs.oauth.RequestToken;
 import play.api.libs.oauth.ServiceInfo;
-import play.cache.Cache;
 import play.mvc.Http.Context;
 import play.mvc.Http.Request;
 import scala.Either;
-import scala.Either.RightProjection;
 
+import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.controllers.Authenticate;
+import com.feth.play.module.pa.exceptions.AccessTokenException;
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.ext.ExternalAuthProvider;
 import com.feth.play.module.pa.user.AuthUserIdentity;
 
-public abstract class OAuth1AuthProvider<U extends AuthUserIdentity> extends
-		ExternalAuthProvider {
+public abstract class OAuth1AuthProvider<U extends AuthUserIdentity, I extends OAuth1AuthInfo>
+		extends ExternalAuthProvider {
+
+	private static final String CACHE_TOKEN = "pa.oauth1.rtoken";
 
 	public OAuth1AuthProvider(final Application app) {
 		super(app);
 	}
+
+	protected abstract I buildInfo(final RequestToken rtoken)
+			throws AccessTokenException;
 
 	@Override
 	protected List<String> neededSettingKeys() {
@@ -53,8 +58,6 @@ public abstract class OAuth1AuthProvider<U extends AuthUserIdentity> extends
 		public static final String OAUTH_TOKEN_SECRET = "oauth_token_secret";
 		public static final String OAUTH_TOKEN = "oauth_token";
 		public static final String OAUTH_VERIFIER = "oauth_verifier";
-		public static final String CACHE_TOKEN = "token";
-
 	}
 
 	@Override
@@ -62,7 +65,7 @@ public abstract class OAuth1AuthProvider<U extends AuthUserIdentity> extends
 			throws AuthException {
 
 		final Request request = context.request();
-		String uri = request.uri();
+		final String uri = request.uri();
 
 		if (Logger.isDebugEnabled()) {
 			Logger.debug("Returned with URL: '" + uri + "'");
@@ -70,57 +73,54 @@ public abstract class OAuth1AuthProvider<U extends AuthUserIdentity> extends
 
 		final Configuration c = getConfiguration();
 
-		ConsumerKey key = new ConsumerKey(c.getString(SettingKeys.CLIENT_ID),
-				c.getString(SettingKeys.CLIENT_SECRET));
-		String requestTokenURL = c.getString(SettingKeys.REQUEST_TOKEN_URL);
-		String accessTokenURL = c.getString(SettingKeys.ACCESS_TOKEN_URL);
-		String authorizationURL = c.getString(SettingKeys.AUTHORIZATION_URL);
-		ServiceInfo info = new ServiceInfo(requestTokenURL, accessTokenURL,
-				authorizationURL, key);
-		OAuth service = new OAuth(info, true);
+		final ConsumerKey key = new ConsumerKey(
+				c.getString(SettingKeys.CONSUMER_KEY),
+				c.getString(SettingKeys.CONSUMER_SECRET));
+		final String requestTokenURL = c
+				.getString(SettingKeys.REQUEST_TOKEN_URL);
+		final String accessTokenURL = c.getString(SettingKeys.ACCESS_TOKEN_URL);
+		final String authorizationURL = c
+				.getString(SettingKeys.AUTHORIZATION_URL);
+		final ServiceInfo info = new ServiceInfo(requestTokenURL,
+				accessTokenURL, authorizationURL, key);
+		final OAuth service = new OAuth(info, true);
 
 		if (uri.contains(Constants.OAUTH_VERIFIER)) {
 
-			RequestToken rtoken = (RequestToken) Cache
-					.get(Constants.CACHE_TOKEN);
-			String verifier = Authenticate.getQueryString(request,
+			final RequestToken rtoken = (RequestToken) PlayAuthenticate
+					.removeFromCache(context.session(), CACHE_TOKEN);
+			final String verifier = Authenticate.getQueryString(request,
 					Constants.OAUTH_VERIFIER);
-			Either<OAuthException, RequestToken> retrieveAccessToken = service
+			final Either<OAuthException, RequestToken> retrieveAccessToken = service
 					.retrieveAccessToken(rtoken, verifier);
 
 			if (retrieveAccessToken.isLeft()) {
 				throw new AuthException(retrieveAccessToken.left().get()
 						.getLocalizedMessage());
 			} else {
-				RightProjection<OAuthException, RequestToken> right = retrieveAccessToken
-						.right();
-
-				final String token = right.get().token();
-				final String secret = right.get().secret();
-
-				OAuth1AuthInfo I = new OAuth1AuthInfo(token, secret);
-				final AuthUserIdentity u = transform(I);
-				return u;
-
+				final I i = buildInfo(retrieveAccessToken.right().get());
+				return transform(i);
 			}
 		} else {
 
-			String callbackURL = getAbsoluteUrl(request);
+			final String callbackURL = getAbsoluteUrl(request);
 
-			Either<OAuthException, RequestToken> reponse = service
+			final Either<OAuthException, RequestToken> reponse = service
 					.retrieveRequestToken(callbackURL);
 
 			if (reponse.isLeft()) {
+				// Exception happened
 				throw new AuthException(reponse.left().get()
 						.getLocalizedMessage());
 			} else {
-				RightProjection<OAuthException, RequestToken> right = reponse
-						.right();
+				// All good, we have the request token
+				final RequestToken rtoken = reponse.right().get();
 
-				final String token = right.get().token();
-				String redirectUrl = service.redirectUrl(token);
+				final String token = rtoken.token();
+				final String redirectUrl = service.redirectUrl(token);
 
-				Cache.set(Constants.CACHE_TOKEN, right.get());
+				PlayAuthenticate.storeInCache(context.session(), CACHE_TOKEN,
+						rtoken);
 				return redirectUrl;
 			}
 		}
@@ -129,13 +129,12 @@ public abstract class OAuth1AuthProvider<U extends AuthUserIdentity> extends
 
 	/**
 	 * This allows custom implementations to enrich an AuthUser object or
-	 * provide their own implementaion
+	 * provide their own implementation
 	 * 
 	 * @param i
 	 * @param state
 	 * @return
 	 * @throws AuthException
 	 */
-	protected abstract AuthUserIdentity transform(final OAuth1AuthInfo i)
-			throws AuthException;
+	protected abstract U transform(final I identity) throws AuthException;
 }

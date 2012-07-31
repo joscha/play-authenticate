@@ -14,6 +14,7 @@ As of now, the following authentication providers are supported out of the box:
 * Google (OAuth2)
 * Facebook (OAuth2)
 * Foursquare (OAuth2)
+* Twitter (OAuth1)
 * OpenID (experimental)
 * Email/Password (with email verification, password security/encryption is fully customizable)
 * Your very own authentication provider (LDAP, DB, you-name-it) via an extensible, easy-to-use plugin mechanism based on Play Plugins
@@ -34,6 +35,8 @@ Furthermore:
 * Verification email used by Email/Password provider is fully customizable and localizable and can be sent in either text or HTML or both.
 
 ## Versions
+* **0.2.0-SNAPSHOT** [2012-08-01]
+  * Add twitter provider (many thanks to Fred Cecilia (@naiky) for the intial version)
 * **0.1.9-SNAPSHOT** [2012-07-16]
   * Fix for invalid locale formats (e.g. en-GB) coming from   Google and/or facebook OAuth.
 * **0.1.8-SNAPSHOT** [2012-07-12]

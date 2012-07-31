@@ -5,7 +5,7 @@ import PlayProject._
 object ApplicationBuild extends Build {
 
     val appName         = "play-authenticate"
-    val appVersion      = "0.1.9-SNAPSHOT"
+    val appVersion      = "0.2.0-SNAPSHOT"
 
     val main = PlayProject(appName, appVersion, mainLang = JAVA).settings(
       organization := "com.feth",

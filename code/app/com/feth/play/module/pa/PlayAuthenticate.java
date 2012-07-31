@@ -268,17 +268,24 @@ public abstract class PlayAuthenticate {
 
 	private static void storeUserInCache(final Session session,
 			final String key, final AuthUser identity) {
-		play.cache.Cache.set(getCacheKey(session, key), identity);
+		storeInCache(session, key, identity);
 	}
 
-	private static void removeFromCache(final Session session, final String key) {
-		final String k = getCacheKey(session, key);
+	public static void storeInCache(final Session session, final String key,
+			final Object o) {
+		play.cache.Cache.set(getCacheKey(session, key), o);
+	}
+
+	public static Object removeFromCache(final Session session, final String key) {
+		final Object o = getFromCache(session, key);
 		
+		final String k = getCacheKey(session, key);
 		// TODO change on Play 2.1
 		play.cache.Cache.set(k, null, 0);
-		
+
 		// POST-2.0/
-		//play.cache.Cache.remove(k);
+		// play.cache.Cache.remove(k);
+		return o;
 	}
 
 	private static String getCacheKey(final Session session, final String key) {
@@ -286,10 +293,14 @@ public abstract class PlayAuthenticate {
 		return id + "_" + key;
 	}
 
+	public static Object getFromCache(final Session session, final String key) {
+		return play.cache.Cache.get(getCacheKey(session, key));
+	}
+
 	private static AuthUser getUserFromCache(final Session session,
 			final String key) {
 
-		final Object o = play.cache.Cache.get(getCacheKey(session, key));
+		final Object o = getFromCache(session, key);
 		if (o != null && o instanceof AuthUser) {
 			return (AuthUser) o;
 		}

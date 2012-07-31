@@ -36,8 +36,8 @@ public abstract class OAuth1AuthProvider<U extends AuthUserIdentity> extends
 		ret.add(SettingKeys.ACCESS_TOKEN_URL);
 		ret.add(SettingKeys.AUTHORIZATION_URL);
 		ret.add(SettingKeys.REQUEST_TOKEN_URL);
-		ret.add(SettingKeys.CLIENT_ID);
-		ret.add(SettingKeys.CLIENT_SECRET);
+		ret.add(SettingKeys.CONSUMER_KEY);
+		ret.add(SettingKeys.CONSUMER_SECRET);
 		return ret;
 	}
 
@@ -45,13 +45,11 @@ public abstract class OAuth1AuthProvider<U extends AuthUserIdentity> extends
 		public static final String REQUEST_TOKEN_URL = "requestTokenUrl";
 		public static final String AUTHORIZATION_URL = "authorizationUrl";
 		public static final String ACCESS_TOKEN_URL = "accessTokenUrl";
-		public static final String CLIENT_ID = "clientId";
-		public static final String CLIENT_SECRET = "clientSecret";
+		public static final String CONSUMER_KEY = "consumerKey";
+		public static final String CONSUMER_SECRET = "consumerSecret";
 	}
 
 	public static abstract class Constants {
-		public static final String CLIENT_ID = "clientId";
-		public static final String CLIENT_SECRET = "clientSecret";
 		public static final String OAUTH_TOKEN_SECRET = "oauth_token_secret";
 		public static final String OAUTH_TOKEN = "oauth_token";
 		public static final String OAUTH_VERIFIER = "oauth_verifier";

@@ -162,10 +162,10 @@ public abstract class PlayAuthenticate {
 	}
 
 	public static void storeUser(final Session session, final AuthUser authUser) {
-		
+
 		// User logged in once more - wanna make some updates?
 		final AuthUser u = getUserService().update(authUser);
-		
+
 		session.put(PlayAuthenticate.USER_KEY, u.getId());
 		session.put(PlayAuthenticate.PROVIDER_KEY, u.getProvider());
 		if (u.expires() != AuthUser.NO_EXPIRATION) {
@@ -245,18 +245,15 @@ public abstract class PlayAuthenticate {
 	}
 
 	public static boolean isAccountAutoMerge() {
-		return getConfiguration().getBoolean(SETTING_KEY_ACCOUNT_AUTO_MERGE
-			);
+		return getConfiguration().getBoolean(SETTING_KEY_ACCOUNT_AUTO_MERGE);
 	}
 
 	public static boolean isAccountAutoLink() {
-		return getConfiguration().getBoolean(SETTING_KEY_ACCOUNT_AUTO_LINK
-				);
+		return getConfiguration().getBoolean(SETTING_KEY_ACCOUNT_AUTO_LINK);
 	}
 
 	public static boolean isAccountMergeEnabled() {
-		return getConfiguration().getBoolean(SETTING_KEY_ACCOUNT_MERGE_ENABLED
-				);
+		return getConfiguration().getBoolean(SETTING_KEY_ACCOUNT_MERGE_ENABLED);
 	}
 
 	private static String getPlayAuthSessionId(final Session session) {

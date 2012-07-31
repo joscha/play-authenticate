@@ -71,20 +71,24 @@ public abstract class AuthUser implements AuthUserIdentity, Serializable {
 		}
 	}
 
-	public static String toString(final BasicIdentity identity) {
+	public static <T extends AuthUserIdentity & NameIdentity> String toString(final T identity) {
 		final StringBuilder sb = new StringBuilder();
 		if (identity.getName() != null) {
 			sb.append(identity.getName());
 			sb.append(" ");
 		}
-		if (identity.getEmail() != null) {
-			sb.append("(");
-			sb.append(identity.getEmail());
-			sb.append(") ");
+		if(identity instanceof EmailIdentity) {
+			final EmailIdentity i2 = (EmailIdentity) identity;
+			if (i2.getEmail() != null) {
+				sb.append("(");
+				sb.append(i2.getEmail());
+				sb.append(") ");
+			}
 		}
-		if (identity.getEmail() != null || identity.getName() != null) {
-			sb.append("@ ");
+		if (sb.length() == 0) {
+			sb.append(identity.getId());
 		}
+		sb.append(" @ ");
 		sb.append(identity.getProvider());
 
 		return sb.toString();

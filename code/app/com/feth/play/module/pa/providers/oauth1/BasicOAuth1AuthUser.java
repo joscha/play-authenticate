@@ -1,10 +1,10 @@
 package com.feth.play.module.pa.providers.oauth1;
 
 import com.feth.play.module.pa.user.AuthUser;
-import com.feth.play.module.pa.user.BasicIdentity;
+import com.feth.play.module.pa.user.AuthUserIdentity;
+import com.feth.play.module.pa.user.NameIdentity;
 
-public abstract class BasicOAuth1AuthUser extends OAuth1AuthUser implements
-		BasicIdentity {
+public abstract class BasicOAuth1AuthUser extends OAuth1AuthUser implements NameIdentity, AuthUserIdentity {
 
 	/**
 	 * 

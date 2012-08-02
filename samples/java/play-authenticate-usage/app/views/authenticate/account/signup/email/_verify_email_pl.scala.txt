@@ -1,0 +1,10 @@
+@(verificationUrl: String, token: String, name: String)Cześć @name,
+
+
+Twoje konto w PlayAuthenticate zostało utworzone.
+
+Aby je aktywować, użyj ten link
+@verificationUrl
+
+Pozdrawiamy,
+Ekipa PlayAuthenticate

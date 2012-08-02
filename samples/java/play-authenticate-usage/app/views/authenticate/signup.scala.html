@@ -1,0 +1,47 @@
+@(signupForm: Form[_])
+
+@import helper._
+@import helper.twitterBootstrap._
+
+@authenticate.main(Language.message("playauthenticate.signup.title"),"signup") {
+    
+  <div class="row">
+    <div class="span6">
+      <h1>@Language.message("playauthenticate.signup.title")</h1>
+    </div>
+  </div>
+
+  <div id="signup" class="row">
+
+    <div class="span3">
+        @* Display proprietary login form *@
+        @helper.form(routes.Authenticate.doSignup) {
+
+            @if(signupForm.hasGlobalErrors) { 
+                <p class="error">
+                    <span class="label label-important">@signupForm.globalError.message</span>
+                </p>
+            }
+            
+             @inputText(
+                signupForm("name"),
+                '_label -> Language.message("playauthenticate.signup.name")
+             )
+             
+             @_emailPartial(signupForm)
+             
+             @_passwordPartial(signupForm)
+
+            <input type="submit" value='@Language.message("playauthenticate.signup.now")' class="btn btn-primary">
+        }
+    </div>
+
+    <div class="span3">
+        @Language.message("playauthenticate.signup.oauth")
+        @* Display list of available providers *@
+        @_providerPartial(skipCurrent=false)
+    </div>
+
+  </div>
+
+}

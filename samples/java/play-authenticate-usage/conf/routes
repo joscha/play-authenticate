@@ -2,46 +2,60 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-# Home page
-GET     /                           controllers.Application.index
-GET     /restricted                 controllers.Application.restricted
-GET     /assets/javascript/routes.js    controllers.Application.jsRoutes
+# Dummy root page, use it only if testing play-authenticate in stand-alone mode, otherwise point your own main action
+GET     /                                 controllers.Authenticate.redirectToIndex
 
-GET     /profile                    controllers.Application.profile
+# --- Play Authenticate routes START
 
-GET     /login                      controllers.Application.login
-POST    /login                      controllers.Application.doLogin
+GET     /authenticate                     controllers.Authenticate.index
 
-GET     /logout                     com.feth.play.module.pa.controllers.Authenticate.logout
-GET     /authenticate/:provider     com.feth.play.module.pa.controllers.Authenticate.authenticate(provider: String)
+GET     /restricted                       controllers.Authenticate.restricted
+GET     /assets/javascript/routes.js      controllers.Authenticate.jsRoutes
 
-GET     /signup                     controllers.Application.signup
-POST    /signup                     controllers.Application.doSignup
+GET     /profile                          controllers.Authenticate.profile
 
-GET     /accounts/unverified        controllers.Signup.unverified
-GET     /authenticate/:provider/denied     controllers.Signup.oAuthDenied(provider: String)
+GET     /login                            controllers.Authenticate.login
+POST    /login                            controllers.Authenticate.doLogin
 
-GET     /accounts/verify/:token     controllers.Signup.verify(token: String)
-GET     /accounts/exists            controllers.Signup.exists
+GET     /logout                           com.feth.play.module.pa.controllers.Authenticate.logout
+GET     /authenticate/:provider           com.feth.play.module.pa.controllers.Authenticate.authenticate(provider: String)
 
-GET     /accounts/password/reset/:token     controllers.Signup.resetPassword(token: String)
-POST    /accounts/password/reset            controllers.Signup.doResetPassword
+GET     /signup                           controllers.Authenticate.signup
+POST    /signup                           controllers.Authenticate.doSignup
 
-GET    /accounts/password/change    controllers.Account.changePassword
-POST   /accounts/password/change    controllers.Account.doChangePassword
+GET     /accounts/unverified              controllers.AuthenticateSignup.unverified
+GET     /authenticate/:provider/denied    controllers.AuthenticateSignup.oAuthDenied(provider: String)
 
-GET     /accounts/verify            controllers.Account.verifyEmail
+GET     /accounts/verify/:token           controllers.AuthenticateSignup.verify(token: String)
+GET     /accounts/exists                  controllers.AuthenticateSignup.exists
 
-GET     /accounts/add               controllers.Account.link
+GET     /accounts/password/reset/:token   controllers.AuthenticateSignup.resetPassword(token: String)
+POST    /accounts/password/reset          controllers.AuthenticateSignup.doResetPassword
 
-GET     /accounts/link              controllers.Account.askLink
-POST    /accounts/link              controllers.Account.doLink
+GET     /accounts/password/change         controllers.AuthenticateAccount.changePassword
+POST    /accounts/password/change         controllers.AuthenticateAccount.doChangePassword
 
-GET     /accounts/merge             controllers.Account.askMerge
-POST    /accounts/merge             controllers.Account.doMerge
+GET     /accounts/verify                  controllers.AuthenticateAccount.verifyEmail
 
-GET     /login/password/forgot     controllers.Signup.forgotPassword(email: String ?= "")
-POST    /login/password/forgot     controllers.Signup.doForgotPassword
+GET     /accounts/add                     controllers.AuthenticateAccount.link
+
+GET     /accounts/link                    controllers.AuthenticateAccount.askLink
+POST    /accounts/link                    controllers.AuthenticateAccount.doLink
+
+GET     /accounts/merge                   controllers.AuthenticateAccount.askMerge
+POST    /accounts/merge                   controllers.AuthenticateAccount.doMerge
+
+GET     /login/password/forgot            controllers.AuthenticateSignup.forgotPassword(email: String ?= "")
+POST    /login/password/forgot            controllers.AuthenticateSignup.doForgotPassword
+
+# --- Play Authenticate routes END
+
+# --- Language class routes START
+
+GET     /language/:code/*returnpath     controllers.Language.changeLanguage(code: String, returnpath:String)
+GET     /language/:code/                controllers.Language.changeLanguageHome(code: String)
+
+# --- Language class routes END
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

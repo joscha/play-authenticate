@@ -1,0 +1,35 @@
+@(acceptForm: Form[AuthenticateAccount.Accept], newAccount: com.feth.play.module.pa.user.AuthUser)
+
+@import helper._
+@import helper.twitterBootstrap._
+
+@label = {
+    @authenticate._providerIcon(newAccount.getProvider()) @Language.message("playauthenticate.link.account.question",newAccount)
+}
+
+@authenticate.main(Language.message("playauthenticate.link.account.title")) {
+
+    <h1>@Language.message("playauthenticate.link.account.title")</h1>
+    <p>
+    @form(routes.AuthenticateAccount.doLink) {
+
+            @if(acceptForm.hasGlobalErrors) {
+                <p class="error">
+                    <span class="label label-important">@acceptForm.globalError.message</span>
+                </p>
+            }
+
+       @inputRadioGroup(
+            acceptForm("accept"),
+            options = Seq(
+                "true"-> Language.message("playauthenticate.link.account.true"),
+                "false"->Language.message("playauthenticate.link.account.false")
+            ),
+            '_label -> label,
+            '_showConstraints -> false
+        )
+
+        <input type="submit" value="@Language.message("playauthenticate.link.account.ok")" class="btn btn-primary">
+    }
+    </p>
+}

@@ -1,0 +1,9 @@
+@(localUser: models.AuthenticateUser = null)
+
+@authenticate.main(Language.message("playauthenticate.navigation.restricted"), "restricted") {
+    
+    <h1>@Language.message("playauthenticate.navigation.restricted")</h1>
+    <p>
+    @Language.message("playauthenticate.restricted.secrets")
+    </p>
+}

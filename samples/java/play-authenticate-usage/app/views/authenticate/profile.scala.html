@@ -1,0 +1,48 @@
+@(localUser: models.AuthenticateUser = null)
+
+@import com.feth.play.module.pa.views.html._
+
+@authenticate.main(Language.message("playauthenticate.profile.title"),"profile") {
+    
+    <h1>@Language.message("playauthenticate.profile.title")</h1>
+    <p>
+        @Language.message("playauthenticate.profile.mail", localUser.name, localUser.email)
+
+    <i>
+    @if(!localUser.emailValidated) {
+      (<a href="@routes.AuthenticateAccount.verifyEmail">@Language.message("playauthenticate.profile.unverified")</a>)
+    } else {
+      (@Language.message("playauthenticate.profile.verified"))
+    }</i>
+    <br/>
+    @defining(localUser.getProviders()) { providers =>
+        @if(providers.size() > 0) {
+        @if(providers.size() ==1) {
+        @Language.message("playauthenticate.profile.providers_one")
+        } else {
+        @Language.message("playauthenticate.profile.providers_many",providers.size().toString())
+        }
+        @for(p <- providers) {
+            @_providerIcon(p)
+        }
+        <br/>
+        }
+    }
+    
+    <br/>
+    @currentAuth() { auth =>
+        @Language.message("playauthenticate.profile.logged") @_providerIcon(auth.getProvider())<br/>
+        @if(auth.expires() == -1){
+        @Language.message("playauthenticate.profile.session", auth.getId(), Authenticate.formatTimestamp(auth.expires()))
+        } else {
+        @Language.message("playauthenticate.profile.session_endless", auth.getId())
+        }
+
+        <br/>
+    }
+    <br/>
+    <ul>
+        <li><a href="@routes.AuthenticateAccount.changePassword">@Language.message("playauthenticate.profile.password_change")</a></li>
+    </ul>
+    </p>
+}

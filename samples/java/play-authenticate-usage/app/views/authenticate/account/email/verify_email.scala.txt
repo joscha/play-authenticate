@@ -1,0 +1,6 @@
+@(verificationUrl: String, token: String, name: String, email: String)@defining(lang().code) { langcode =>
+@langcode match {
+case "de" => {@_verify_email_de(verificationUrl,token,name,email)}
+case "pl" => {@_verify_email_pl(verificationUrl,token,name,email)}
+case _ => {@_verify_email_en(verificationUrl,token,name,email)}
+}}

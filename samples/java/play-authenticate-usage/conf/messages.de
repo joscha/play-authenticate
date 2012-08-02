@@ -1,4 +1,31 @@
-# Initial translations
+# Override default Play's validation messages
+
+# --- Constraints
+constraint.required=Required
+constraint.min=Minimum value: {0}
+constraint.max=Maximum value: {0}
+constraint.minLength=Minimum length: {0}
+constraint.maxLength=Maximum length: {0}
+constraint.email=Email
+
+# --- Formats
+format.date=Date (''{0}'')
+format.numeric=Numeric
+format.real=Real
+
+# --- Errors
+error.invalid=Invalid value
+error.required=This field is required
+error.number=Numeric value expected
+error.real=Real number value expected
+error.min=Must be greater or equal to {0}
+error.max=Must be less or equal to {0}
+error.minLength=Minimum length is {0}
+error.maxLength=Maximum length is {0}
+error.email=Valid email required
+error.pattern=Must satisfy {0}
+
+### --- play-authenticate START
 
 playauthenticate.accounts.link.success=Das Konto wurde erfolgreich verknüpft.
 playauthenticate.accounts.merge.success=Die Konten wurden erfolgreich zusammengeführt.
@@ -24,7 +51,7 @@ playauthenticate.password.verify_signup.subject=PlayAuthenticate: Vervollständi
 playauthenticate.password.verify_email.subject=PlayAuthenticate: E-Mail-Adresse bestätigen
 playauthenticate.password.reset_email.subject=PlayAuthenticate: Anleitung zum Passwortzurücksetzen
 
-# Additional translations
+#  play-authenticate: Additional translations
 
 playauthenticate.login.email.placeholder=Deine E-Mail-Adresse
 playauthenticate.login.password.placeholder=Wähle ein Passwort
@@ -59,7 +86,7 @@ playauthenticate.link.account.true=Ja, dieses Konto mit meinem Benutzer verknüp
 playauthenticate.link.account.false=Nein, abmelden und einen neuen Benutzer mit diesem Konto erstellen
 playauthenticate.link.account.ok=OK
 
-# Signup folder translations
+#  play-authenticate: Signup folder translations
 
 playauthenticate.verify.email.title=E-Mail-Adresse bestätigen
 playauthenticate.verify.email.requirement=Du musst deine E-Mail-Adresse bestätigen, bevor du PlayAuthenticate nutzen kannst.
@@ -82,11 +109,41 @@ playauthenticate.token.error.message=Der Token ist entweder abgelaufen oder exis
 playauthenticate.user.exists.title=Benutzer vorhanden
 playauthenticate.user.exists.message=Dieser Benutzer existiert bereits.
 
-# Navigation
-navigation.profile=Profil
-navigation.link_more=Mehr Zugänge verknüpfen
-navigation.logout=Abmelden
-navigation.login=Anmelden
-navigation.home=Startseite
-navigation.restricted=Geschützte Seite
-navigation.signup=Registrieren
+#  play-authenticate: Navigation
+playauthenticate.navigation.profile=Profil
+playauthenticate.navigation.link_more=Mehr Zugänge verknüpfen
+playauthenticate.navigation.logout=Abmelden
+playauthenticate.navigation.login=Anmelden
+playauthenticate.navigation.home=Startseite
+playauthenticate.navigation.restricted=Geschützte Seite
+playauthenticate.navigation.signup=Registrieren
+
+# play-authenticate: Handler
+playauthenticate.handler.loginfirst=You need to log in first, to view ''{0}''
+
+
+# play-authenticate: Profile
+playauthenticate.profile.title=User profile
+playauthenticate.profile.mail=Your name is {0} and your email address is {1}!
+playauthenticate.profile.unverified=unverified - click to verify
+playauthenticate.profile.verified=verified
+playauthenticate.profile.providers_many=There are {0} providers linked with your account:
+playauthenticate.profile.providers_one = There is one provider linked with your account:
+playauthenticate.profile.logged=You are currently logged in with:
+playauthenticate.profile.session=Your user ID is {0} and your session will expire on {1}
+playauthenticate.profile.session_endless=Your user ID is {0} and your session will not expire, as it is endless
+playauthenticate.profile.password_change=Change/set a password for your account
+
+# play-authenticate - sample: Index page
+playauthenticate.index.title=Welcome to Play Authenticate
+playauthenticate.index.intro=Play Authenticate sample app
+playauthenticate.index.intro_2=This is a template for a simple application with authentication.
+playauthenticate.index.intro_3=Check the main navigation above for simple page examples including supported authentication features.
+playauthenticate.index.heading=Heading
+playauthenticate.index.details=View details
+
+# play-authenticate - sample: Restricted page
+playauthenticate.restricted.secrets=Secrets, everywhere!
+
+
+### --- play-authenticate END

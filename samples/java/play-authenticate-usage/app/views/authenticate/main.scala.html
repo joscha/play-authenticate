@@ -42,14 +42,6 @@
           </a>
           <a class="brand" href="@routes.Authenticate.index()">Play! Authenticate</a>
 
-            <div class="btn-group pull-right">
-                <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"> @defining(Language.currentLanguageItem()) {current => @current.name} <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    @for(lang <- Language.otherLanguageItems()){
-                        <li><a href="@lang.switchUrl">@lang.name</a></li>
-                    }
-                </ul>
-            </div>
           <div class="btn-group pull-right">
           @if(Deadbolt.viewRoleHolderPresent()) {
               @defining(Authenticate.getLocalUser(session())) { user =>
@@ -64,9 +56,20 @@
             </ul>
             }
           } else {
-            <a href="@routes.Authenticate.login()" class="btn btn-primary btn-mini @("disabled".when(nav == "login"))">@Language.message("playauthenticate.navigation.login")</a>
+            <a href="@routes.Authenticate.login()" class="btn btn-primary btn-mini @("disabled".when(nav == "login"))"><span class="hidden-phone">@Language.message("playauthenticate.navigation.login")</span><span class="visible-phone"><i class="icon-user icon-white"></i></span></a>
           }
           </div>
+
+            <div class="btn-group pull-right">
+                <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                    @defining(Language.currentLanguageItem()) {current =><span class="hidden-phone"> @current.name  <span class="caret"></span></span><span class="visible-phone upper-case">@current.code <span class="caret"></span></span>}</a>
+                <ul class="dropdown-menu">
+                    <li class="visible-phone active">@defining(Language.currentLanguageItem()) {current => <a href="@current.switchUrl"> @current.name</a>}</li>
+                    @for(lang <- Language.otherLanguageItems()){
+                    <li><a href="@lang.switchUrl">@lang.name</a></li>
+                    }
+                </ul>
+            </div>
 
 
           <div class="nav-collapse">

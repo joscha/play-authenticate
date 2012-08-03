@@ -9,5 +9,7 @@ dist
 .project
 .settings
 .target
+.idea
+.idea_modules
 bin
 RUNNING_PID

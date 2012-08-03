@@ -2,9 +2,9 @@
 
 @import com.feth.play.module.pa.views.html._
 
-@main("User profile","profile") {
+@main(Messages("playauthenticate.profile.title"),"profile") {
     
-    <h1>User profile</h1>
+    <h1>@Messages("playauthenticate.profile.title")</h1>
     <p>
     Your name is @localUser.name and your email address is @localUser.email!
     <i>
@@ -15,24 +15,31 @@
     }</i>
     <br/>
     @defining(localUser.getProviders()) { providers =>
-    	@if(providers.size() > 0) {
-    	There are @providers.size() providers linked with your account:
-    	@for(p <- providers) {
-    		@_providerIcon(p)
-    	}
-    	<br/>
-    	}
+        @if(providers.size() > 0) {
+        @if(providers.size() ==1) {
+            @Messages("playauthenticate.profile.providers_one")
+        } else {
+            @Messages("playauthenticate.profile.providers_many",providers.size().toString())
+        }
+        @for(p <- providers) {
+            @_providerIcon(p)
+        }
+        <br/>
+        }
     }
     
     <br/>
     @currentAuth() { auth =>
-    	You are currently logged in with: @_providerIcon(auth.getProvider())<br/>
-    	Your user ID is @auth.getId() and your session will expire @if(auth.expires() == -1) { never } else { on @Application.formatTimestamp(auth.expires()) }
-    	<br/>
+        @Messages("playauthenticate.profile.logged") @_providerIcon(auth.getProvider())<br/>
+        @if(auth.expires() == -1){
+            @Messages("playauthenticate.profile.session", auth.getId(), Application.formatTimestamp(auth.expires()))
+        } else {
+            @Messages("playauthenticate.profile.session_endless", auth.getId())
+        }
     }
     <br/>
     <ul>
-    	<li><a href="@routes.Account.changePassword">Change/set a password for your account</a></li>
+    	<li><a href="@routes.Account.changePassword">@Messages("playauthenticate.profile.password_change")</a></li>
     </ul>
     </p>
 }

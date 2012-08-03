@@ -9,6 +9,19 @@ This plugin uses concepts from [securesocial2][] and [Play20StartApp][] and prov
 You can find a live demo on [heroku](https://play-authenticate.herokuapp.com/ "Play Authenticate sample app") and there are some screens on our [website](http://joscha.github.com/play-authenticate/).
 
 ## Features
+
+* Fully customizable and localizable controllers and views (e.g. Play Authenticate allows you to define your own controllers and views for every visual step of the signup and/or log in process)
+* Completely dynamic URL generation for all views (uses the route file - means you can adapt the look and feel as much as you like).
+	* The sample shows how to do this with Twitter bootstrap
+* Linking of accounts (e.g. one local user with multiple authentication providers)
+	* Linking can be done automatically or after asking the user (default)
+* Merge detection (e.g. a user created two unconnected local accounts)
+	* Account merge can be done automatically or after asking the user (default)
+* Tight [deadbolt2][] authorization integration (Sample included).
+* HTTPS support (for OAuth2 redirect links and email verification).
+* Verification email used by Email/Password provider is fully customizable and localizable and can be sent in either text or HTML or both.
+
+### Providers
 As of now, the following authentication providers are supported out of the box:
 
 * Google (OAuth2)
@@ -21,18 +34,10 @@ As of now, the following authentication providers are supported out of the box:
 
 The included sample application shows how to use all of those providers.
 
-Furthermore:
-
-* Fully customizable and localizable controllers and views (e.g. Play Authenticate allows you to define your own controllers and views for every visual step of the signup and/or log in process)
-* Completely dynamic URL generation for all views (uses the route file - means you can adapt the look and feel as much as you like).
-	* The sample shows how to do this with Twitter bootstrap
-* Linking of accounts (e.g. one local user with multiple authentication providers)
-	* Linking can be done automatically or after asking the user (default)
-* Merge detection (e.g. a user created two unconnected local accounts)
-	* Account merge can be done automatically or after asking the user (default)
-* Tight [deadbolt2][] authorization integration (Sample included).
-* HTTPS support (for OAuth2 redirect links and email verification).
-* Verification email used by Email/Password provider is fully customizable and localizable and can be sent in either text or HTML or both.
+### Languages
+* English
+* German (as of 2012-07-09)
+* Polish (as of 2012-08-03)
 
 ## Versions
 * **0.2.0-SNAPSHOT** [2012-08-01]

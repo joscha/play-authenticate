@@ -1,9 +1,9 @@
 @(localUser: models.User = null)
 
-@main("Restricted content", "restricted") {
+@main(Messages("playauthenticate.navigation.restricted"), "restricted") {
     
-    <h1>Restricted page</h1>
+    <h1>@Messages("playauthenticate.navigation.restricted")</h1>
     <p>
-    Secrets, everywhere!
+        @Messages("playauthenticate.restricted.secrets")
     </p>
 }

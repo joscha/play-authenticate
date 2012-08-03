@@ -1,4 +1,33 @@
-# Initial translations
+# Override default Play's validation messages
+
+# --- Constraints
+constraint.required=Required
+constraint.min=Minimum value: {0}
+constraint.max=Maximum value: {0}
+constraint.minLength=Minimum length: {0}
+constraint.maxLength=Maximum length: {0}
+constraint.email=Email
+
+# --- Formats
+format.date=Date (''{0}'')
+format.numeric=Numeric
+format.real=Real
+
+# --- Errors
+error.invalid=Invalid value
+error.required=This field is required
+error.number=Numeric value expected
+error.real=Real number value expected
+error.min=Must be greater or equal to {0}
+error.max=Must be less or equal to {0}
+error.minLength=Minimum length is {0}
+error.maxLength=Maximum length is {0}
+error.email=Valid email required
+error.pattern=Must satisfy {0}
+
+### --- play-authenticate START
+
+# play-authenticate: Initial translations
 
 playauthenticate.accounts.link.success=Account linked successfully
 playauthenticate.accounts.merge.success=Accounts merged successfully
@@ -24,7 +53,7 @@ playauthenticate.password.verify_signup.subject=PlayAuthenticate: Complete your 
 playauthenticate.password.verify_email.subject=PlayAuthenticate: Confirm your e-mail address
 playauthenticate.password.reset_email.subject=PlayAuthenticate: How to reset your password
 
-# Additional translations
+# play-authenticate: Additional translations
 
 playauthenticate.login.email.placeholder=Your e-mail address
 playauthenticate.login.password.placeholder=Choose a password
@@ -59,7 +88,7 @@ playauthenticate.link.account.true=Yes, link this account
 playauthenticate.link.account.false=No, log out and create a new user with this account
 playauthenticate.link.account.ok=OK
 
-# Signup folder translations
+# play-authenticate: Signup folder translations
 
 playauthenticate.verify.email.title=Verify your e-mail
 playauthenticate.verify.email.requirement=Before you can use PlayAuthenticate, you first need to verify your e-mail address.
@@ -73,7 +102,7 @@ playauthenticate.password.forgot.cta=Send reset instructions
 
 playauthenticate.oauth.access.denied.title=OAuth access denied
 playauthenticate.oauth.access.denied.explanation=If you want to use PlayAuthenticate with OAuth, you must accept the connection.
-playauthenticate.oauth.access.denied.alternative=If you rather not like to do this, you can also 
+playauthenticate.oauth.access.denied.alternative=If you rather not like to do this, you can also
 playauthenticate.oauth.access.denied.alternative.cta=sign up with a username and password instead
 
 playauthenticate.token.error.title=Token error
@@ -82,12 +111,39 @@ playauthenticate.token.error.message=The given token has either expired or does 
 playauthenticate.user.exists.title=User exists
 playauthenticate.user.exists.message=This user already exists.
 
-# Navigation
-navigation.profile=Profile
-navigation.link_more=Link more providers
-navigation.logout=Sign out
-navigation.login=Log in
-navigation.home=Home
-navigation.restricted=Restricted page
-navigation.signup=Sign up
+# play-authenticate: Navigation
+playauthenticate.navigation.profile=Profile
+playauthenticate.navigation.link_more=Link more providers
+playauthenticate.navigation.logout=Sign out
+playauthenticate.navigation.login=Log in
+playauthenticate.navigation.home=Home
+playauthenticate.navigation.restricted=Restricted page
+playauthenticate.navigation.signup=Sign up
 
+# play-authenticate: Handler
+playauthenticate.handler.loginfirst=You need to log in first, to view ''{0}''
+
+# play-authenticate: Profile
+playauthenticate.profile.title=User profile
+playauthenticate.profile.mail=Your name is {0} and your email address is {1}!
+playauthenticate.profile.unverified=unverified - click to verify
+playauthenticate.profile.verified=verified
+playauthenticate.profile.providers_many=There are {0} providers linked with your account:
+playauthenticate.profile.providers_one = There is one provider linked with your account:
+playauthenticate.profile.logged=You are currently logged in with:
+playauthenticate.profile.session=Your user ID is {0} and your session will expire on {1}
+playauthenticate.profile.session_endless=Your user ID is {0} and your session will not expire, as it is endless
+playauthenticate.profile.password_change=Change/set a password for your account
+
+# play-authenticate - sample: Index page
+playauthenticate.index.title=Welcome to Play Authenticate
+playauthenticate.index.intro=Play Authenticate sample app
+playauthenticate.index.intro_2=This is a template for a simple application with authentication.
+playauthenticate.index.intro_3=Check the main navigation above for simple page examples including supported authentication features.
+playauthenticate.index.heading=Heading
+playauthenticate.index.details=View details
+
+# play-authenticate - sample: Restricted page
+playauthenticate.restricted.secrets=Secrets, everywhere!
+
+### --- play-authenticate END

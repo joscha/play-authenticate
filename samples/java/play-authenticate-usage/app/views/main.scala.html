@@ -56,25 +56,25 @@
               <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
-              <li><a href="@routes.Application.profile()">@Messages("navigation.profile")</a></li>
-              <li><a href="@routes.Account.link()">@Messages("navigation.link_more")</a></li>
+              <li><a href="@routes.Application.profile()">@Messages("playauthenticate.navigation.profile")</a></li>
+              <li><a href="@routes.Account.link()">@Messages("playauthenticate.navigation.link_more")</a></li>
               <li class="divider"></li>
-              <li><a href="@com.feth.play.module.pa.controllers.routes.Authenticate.logout()"><i class="icon-off"></i> @Messages("navigation.logout")</a></li>
+              <li><a href="@com.feth.play.module.pa.controllers.routes.Authenticate.logout()"><i class="icon-off"></i> @Messages("playauthenticate.navigation.logout")</a></li>
             </ul>
             }
           } else {
-            <a href="@routes.Application.login()" class="btn btn-primary btn-mini @("disabled".when(nav == "login"))">@Messages("navigation.login")</a>
+            <a href="@routes.Application.login()" class="btn btn-primary btn-mini @("disabled".when(nav == "login"))">@Messages("playauthenticate.navigation.login")</a>
           }
           </div>
 
           
           <div class="nav-collapse">
             <ul class="nav">
-              <li class="@("active".when(nav == ""))"><a href="@routes.Application.index()">@Messages("navigation.home")</a></li>
-              <li class="@("active".when(nav == "restricted"))"><a href="@routes.Application.restricted()">@Messages("navigation.restricted")</a></li>
+              <li class="@("active".when(nav == ""))"><a href="@routes.Application.index()">@Messages("playauthenticate.navigation.home")</a></li>
+              <li class="@("active".when(nav == "restricted"))"><a href="@routes.Application.restricted()">@Messages("playauthenticate.navigation.restricted")</a></li>
                 
                 @if(!Deadbolt.viewRoleHolderPresent()) {
-			    	<li class="@("active".when(nav == "signup"))"><a href="@routes.Application.signup()">@Messages("navigation.signup")</a></li>
+			    	<li class="@("active".when(nav == "signup"))"><a href="@routes.Application.signup()">@Messages("playauthenticate.navigation.signup")</a></li>
 			    }
             </ul>
           </div><!--/.nav-collapse -->

@@ -9,9 +9,9 @@ import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Http.Session;
 import play.mvc.Result;
-import providers.MyUsernamePasswordAuthProvider;
-import providers.MyUsernamePasswordAuthProvider.MyLogin;
-import providers.MyUsernamePasswordAuthProvider.MySignup;
+import providers.PaUsernamePasswordAuthProvider;
+import providers.PaUsernamePasswordAuthProvider.MyLogin;
+import providers.PaUsernamePasswordAuthProvider.MySignup;
 import views.html.pa_views.index;
 import views.html.pa_views.login;
 import views.html.pa_views.profile;
@@ -54,11 +54,11 @@ public class Authenticate extends Controller {
     }
 
     public static Result login() {
-        return ok(login.render(MyUsernamePasswordAuthProvider.LOGIN_FORM));
+        return ok(login.render(PaUsernamePasswordAuthProvider.LOGIN_FORM));
     }
 
     public static Result doLogin() {
-        final Form<MyLogin> filledForm = MyUsernamePasswordAuthProvider.LOGIN_FORM
+        final Form<MyLogin> filledForm = PaUsernamePasswordAuthProvider.LOGIN_FORM
                 .bindFromRequest();
         if (filledForm.hasErrors()) {
             // User did not fill everything properly
@@ -70,7 +70,7 @@ public class Authenticate extends Controller {
     }
 
     public static Result signup() {
-        return ok(signup.render(MyUsernamePasswordAuthProvider.SIGNUP_FORM));
+        return ok(signup.render(PaUsernamePasswordAuthProvider.SIGNUP_FORM));
     }
 
     public static Result jsRoutes() {
@@ -81,7 +81,7 @@ public class Authenticate extends Controller {
     }
 
     public static Result doSignup() {
-        final Form<MySignup> filledForm = MyUsernamePasswordAuthProvider.SIGNUP_FORM
+        final Form<MySignup> filledForm = PaUsernamePasswordAuthProvider.SIGNUP_FORM
                 .bindFromRequest();
         if (filledForm.hasErrors()) {
             // User did not fill everything properly

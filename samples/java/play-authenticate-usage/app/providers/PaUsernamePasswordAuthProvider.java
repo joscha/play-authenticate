@@ -25,9 +25,9 @@ import com.feth.play.module.mail.Mailer.Mail.Body;
 
 import controllers.routes;
 
-public class MyUsernamePasswordAuthProvider
+public class PaUsernamePasswordAuthProvider
         extends
-        UsernamePasswordAuthProvider<String, MyLoginUsernamePasswordAuthUser, MyUsernamePasswordAuthUser, MyUsernamePasswordAuthProvider.MyLogin, MyUsernamePasswordAuthProvider.MySignup> {
+        UsernamePasswordAuthProvider<String, PaLoginUsernamePasswordAuthUser, PaUsernamePasswordAuthUser, PaUsernamePasswordAuthProvider.MyLogin, PaUsernamePasswordAuthProvider.MySignup> {
 
     private static final String SETTING_KEY_VERIFICATION_LINK_SECURE = SETTING_KEY_MAIL
             + "." + "verificationLink.secure";
@@ -45,8 +45,8 @@ public class MyUsernamePasswordAuthProvider
         return needed;
     }
 
-    public static MyUsernamePasswordAuthProvider getProvider() {
-        return (MyUsernamePasswordAuthProvider) PlayAuthenticate
+    public static PaUsernamePasswordAuthProvider getProvider() {
+        return (PaUsernamePasswordAuthProvider) PlayAuthenticate
                 .getProvider(UsernamePasswordAuthProvider.PROVIDER_KEY);
     }
 
@@ -105,7 +105,7 @@ public class MyUsernamePasswordAuthProvider
     public static final Form<MyLogin> LOGIN_FORM = Controller
             .form(MyLogin.class);
 
-    public MyUsernamePasswordAuthProvider(Application app) {
+    public PaUsernamePasswordAuthProvider(Application app) {
         super(app);
     }
 
@@ -118,7 +118,7 @@ public class MyUsernamePasswordAuthProvider
     }
 
     @Override
-    protected SignupResult signupUser(final MyUsernamePasswordAuthUser user) {
+    protected SignupResult signupUser(final PaUsernamePasswordAuthUser user) {
         final User u = User.findByEmail(user.getEmail());
         if (u != null) {
             if (u.emailValidated) {
@@ -142,7 +142,7 @@ public class MyUsernamePasswordAuthProvider
 
     @Override
     protected LoginResult loginUser(
-            final MyLoginUsernamePasswordAuthUser authUser) {
+            final PaLoginUsernamePasswordAuthUser authUser) {
         final User u = User.findByUsernamePasswordIdentity(authUser);
         if (u == null) {
             return LoginResult.NOT_FOUND;
@@ -181,21 +181,21 @@ public class MyUsernamePasswordAuthProvider
     }
 
     @Override
-    protected MyUsernamePasswordAuthUser buildSignupAuthUser(
+    protected PaUsernamePasswordAuthUser buildSignupAuthUser(
             final MySignup signup, final Context ctx) {
-        return new MyUsernamePasswordAuthUser(signup);
+        return new PaUsernamePasswordAuthUser(signup);
     }
 
     @Override
-    protected MyLoginUsernamePasswordAuthUser buildLoginAuthUser(
+    protected PaLoginUsernamePasswordAuthUser buildLoginAuthUser(
             final MyLogin login, final Context ctx) {
-        return new MyLoginUsernamePasswordAuthUser(login.getPassword(),
+        return new PaLoginUsernamePasswordAuthUser(login.getPassword(),
                 login.getEmail());
     }
 
     @Override
     protected String getVerifyEmailMailingSubject(
-            final MyUsernamePasswordAuthUser user, final Context ctx) {
+            final PaUsernamePasswordAuthUser user, final Context ctx) {
         return Messages.get("playauthenticate.password.verify_signup.subject");
     }
 
@@ -209,7 +209,7 @@ public class MyUsernamePasswordAuthProvider
 
     @Override
     protected Body getVerifyEmailMailingBody(final String token,
-                                             final MyUsernamePasswordAuthUser user, final Context ctx) {
+                                             final PaUsernamePasswordAuthUser user, final Context ctx) {
 
         final boolean isSecure = getConfiguration().getBoolean(
                 SETTING_KEY_VERIFICATION_LINK_SECURE);
@@ -230,7 +230,7 @@ public class MyUsernamePasswordAuthProvider
 
     @Override
     protected String generateVerificationRecord(
-            final MyUsernamePasswordAuthUser user) {
+            final PaUsernamePasswordAuthUser user) {
         return generateVerificationRecord(User.findByAuthUserIdentity(user));
     }
 

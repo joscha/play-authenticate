@@ -8,10 +8,10 @@ import play.data.Form;
 import play.i18n.Messages;
 import play.mvc.Controller;
 import play.mvc.Result;
-import providers.MyLoginUsernamePasswordAuthUser;
-import providers.MyUsernamePasswordAuthProvider;
-import providers.MyUsernamePasswordAuthProvider.MyIdentity;
-import providers.MyUsernamePasswordAuthUser;
+import providers.PaLoginUsernamePasswordAuthUser;
+import providers.PaUsernamePasswordAuthProvider;
+import providers.PaUsernamePasswordAuthProvider.MyIdentity;
+import providers.PaUsernamePasswordAuthUser;
 import views.html.pa_views.account.signup.*;
 
 public class AuthenticateSignup extends Controller {
@@ -70,7 +70,7 @@ public class AuthenticateSignup extends Controller {
                 // yep, we have a user with this email that is active - we do
                 // not know if the user owning that account has requested this
                 // reset, though.
-                final MyUsernamePasswordAuthProvider provider = MyUsernamePasswordAuthProvider
+                final PaUsernamePasswordAuthProvider provider = PaUsernamePasswordAuthProvider
                         .getProvider();
                 // User exists
                 if (user.emailValidated) {
@@ -143,13 +143,13 @@ public class AuthenticateSignup extends Controller {
                 // Pass true for the second parameter if you want to
                 // automatically create a password and the exception never to
                 // happen
-                u.resetPassword(new MyUsernamePasswordAuthUser(newPassword),
+                u.resetPassword(new PaUsernamePasswordAuthUser(newPassword),
                         false);
             } catch (final RuntimeException re) {
                 flash(Authenticate.FLASH_MESSAGE_KEY,
                         Messages.get("playauthenticate.reset_password.message.no_password_account"));
             }
-            final boolean login = MyUsernamePasswordAuthProvider.getProvider()
+            final boolean login = PaUsernamePasswordAuthProvider.getProvider()
                     .isLoginAfterPasswordReset();
             if (login) {
                 // automatically log in
@@ -157,7 +157,7 @@ public class AuthenticateSignup extends Controller {
                         Messages.get("playauthenticate.reset_password.message.success.auto_login"));
 
                 return PlayAuthenticate.loginAndRedirect(ctx(),
-                        new MyLoginUsernamePasswordAuthUser(u.email));
+                        new PaLoginUsernamePasswordAuthUser(u.email));
             } else {
                 // send the user to the login page
                 flash(Authenticate.FLASH_MESSAGE_KEY,

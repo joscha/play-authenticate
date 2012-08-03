@@ -9,7 +9,7 @@ import models.pa_models.User;
 import play.mvc.Http;
 import play.mvc.Result;
 
-public class MyDeadboltHandler extends AbstractDeadboltHandler {
+public class PaDeadboltHandler extends AbstractDeadboltHandler {
 
     @Override
     public Result beforeRoleCheck(final Http.Context context) {

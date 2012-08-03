@@ -7,9 +7,9 @@ import com.feth.play.module.pa.user.AuthUser;
 import com.feth.play.module.pa.user.AuthUserIdentity;
 import com.feth.play.module.pa.service.UserServicePlugin;
 
-public class MyUserServicePlugin extends UserServicePlugin {
+public class PaUserServicePlugin extends UserServicePlugin {
 
-    public MyUserServicePlugin(final Application app) {
+    public PaUserServicePlugin(final Application app) {
         super(app);
     }
 

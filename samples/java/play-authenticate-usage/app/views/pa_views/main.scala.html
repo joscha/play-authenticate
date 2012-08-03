@@ -20,7 +20,7 @@
     <script src="@routes.Authenticate.jsRoutes" defer="defer"></script>
 
     <!-- Le styles -->
-    <link href='@routes.Assets.at("stylesheets/main.min.css")' rel="stylesheet">
+    <link href='@routes.Assets.at("stylesheets/authenticate.min.css")' rel="stylesheet">
     <link href='@routes.Assets.at("css/bootstrap.min.css")' rel="stylesheet">
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -46,7 +46,7 @@
           @if(Deadbolt.viewRoleHolderPresent()) {
               @defining(Authenticate.getLocalUser(session())) { user =>
             <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-              <i class="icon-user"></i> @user.name <span class="caret"></span>
+              <i class="icon-user"></i> <span class="hidden-phone">@user.name</span> <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
               <li><a href="@routes.Authenticate.profile()">@Language.message("playauthenticate.navigation.profile")</a></li>
@@ -102,9 +102,9 @@
     <hr>
 
       <footer>
-        <p>&copy; 2012 Play Authenticate. Licensed under Apache License, Version 2.0. View details <a href="https://github.com/joscha/play-authenticate/blob/master/LICENSE">here</a>.</p>
+        <p>&copy; 2012 Play Authenticate. @Language.message("playauthenticate.copyrights.apache") @Language.message("playauthenticate.copyrights.details") <a href="https://github.com/joscha/play-authenticate/blob/master/LICENSE">@Language.message("playauthenticate.copyrights.here")</a>.</p>
         <p>
-        <small>Styles by <a href="http://twitter.github.com/bootstrap/index.html" target="_blank">Twitter Bootstrap</a> &middot; Provider icons by <a href="http://prlloyd.com/b/199" target="_blank">Paul Robert Lloyd</a></small></p>
+        <small>@Language.message("playauthenticate.copyrights.styles_by") <a href="http://twitter.github.com/bootstrap/index.html" target="_blank">Twitter Bootstrap</a> &middot; @Language.message("playauthenticate.copyrights.icons_by") <a href="http://prlloyd.com/b/199" target="_blank">Paul Robert Lloyd</a></small></p>
       </footer>
     </div> <!-- /container -->
 

@@ -134,6 +134,12 @@ playauthenticate.profile.session=Deine Benutzer-Identifikation ist {0} und deine
 playauthenticate.profile.session_endless=Deine Benutzer-Identifikation ist {0} und deine Sitzung läuft nie ab
 playauthenticate.profile.password_change=Ändere/setze ein Passwort für deinen Benutzer
 
+playauthenticate.copyrights.styles_by=Styles by
+playauthenticate.copyrights.icons_by=Provider icons by
+playauthenticate.copyrights.apache=Licensed under Apache License, Version 2.0.
+playauthenticate.copyrights.details=View details
+playauthenticate.copyrights.here=here
+
 # play-authenticate - sample: Index page
 playauthenticate.index.title=Willkommen bei PlayAuthenticate
 playauthenticate.index.intro=PlayAuthenticate Beispiel-Applikation

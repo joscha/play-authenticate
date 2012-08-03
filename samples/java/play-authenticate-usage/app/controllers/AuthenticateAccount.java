@@ -12,8 +12,8 @@ import play.data.validation.Constraints.Required;
 import play.i18n.Messages;
 import play.mvc.Controller;
 import play.mvc.Result;
-import providers.MyUsernamePasswordAuthProvider;
-import providers.MyUsernamePasswordAuthUser;
+import providers.PaUsernamePasswordAuthProvider;
+import providers.PaUsernamePasswordAuthUser;
 import views.html.pa_views.account.*;
 
 public class AuthenticateAccount extends Controller {
@@ -60,7 +60,7 @@ public class AuthenticateAccount extends Controller {
                     Messages.get("playauthenticate.verify_email.error.already_validated"));
         } else if (user.email != null && !user.email.trim().isEmpty()) {
             flash(Authenticate.FLASH_MESSAGE_KEY, Messages.get("playauthenticate.verify_email.message.instructions_sent", user.email));
-            MyUsernamePasswordAuthProvider.getProvider()
+            PaUsernamePasswordAuthProvider.getProvider()
                     .sendVerifyEmailMailingAfterSignup(user, ctx());
         } else {
             flash(Authenticate.FLASH_MESSAGE_KEY, Messages.get(
@@ -91,7 +91,7 @@ public class AuthenticateAccount extends Controller {
         } else {
             final User user = Authenticate.getLocalUser(session());
             final String newPassword = filledForm.get().password;
-            user.changePassword(new MyUsernamePasswordAuthUser(newPassword),
+            user.changePassword(new PaUsernamePasswordAuthUser(newPassword),
                     true);
             flash(Authenticate.FLASH_MESSAGE_KEY,
                     Messages.get("playauthenticate.change_password.success"));

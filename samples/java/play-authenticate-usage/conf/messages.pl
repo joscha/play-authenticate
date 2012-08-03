@@ -135,6 +135,12 @@ playauthenticate.profile.session=ID tego konta to {0} a jego sesja wygaśnie {1}
 playauthenticate.profile.session_endless=ID tego konta to {0}, jego sesja nie wygasa automatycznie
 playauthenticate.profile.password_change=Zmień lub ustaw hasło dla tego konta
 
+playauthenticate.copyrights.styles_by=Style wg
+playauthenticate.copyrights.icons_by=Ikony dostawców wg
+playauthenticate.copyrights.apache=Objęte licencją Apache License, Wersja 2.0.
+playauthenticate.copyrights.details=Szczegóły
+playauthenticate.copyrights.here=tutaj
+
 # play-authenticate - przykład: Index page
 playauthenticate.index.title=Witaj w Play Authenticate
 playauthenticate.index.intro=Przykład Play Authenticate

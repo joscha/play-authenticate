@@ -11,7 +11,7 @@ constraint.email=Email
 # --- Formats
 format.date=Date (''{0}'')
 format.numeric=Numeric
-format.real=Real
+format.real=Liczba rzeczywista
 
 # --- Errors
 error.invalid=Invalid value
@@ -134,6 +134,12 @@ playauthenticate.profile.logged=You are currently logged in with:
 playauthenticate.profile.session=Your user ID is {0} and your session will expire on {1}
 playauthenticate.profile.session_endless=Your user ID is {0} and your session will not expire, as it is endless
 playauthenticate.profile.password_change=Change/set a password for your account
+
+playauthenticate.copyrights.styles_by=Styles by
+playauthenticate.copyrights.icons_by=Provider icons by
+playauthenticate.copyrights.apache=Licensed under Apache License, Version 2.0.
+playauthenticate.copyrights.details=View details
+playauthenticate.copyrights.here=here
 
 # play-authenticate - sample: Index page
 playauthenticate.index.title=Welcome to Play Authenticate

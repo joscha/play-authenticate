@@ -1,8 +1,8 @@
-@(localUser: models.AuthenticateUser = null)
+@(localUser: models.pa_models.User = null)
 
 @import com.feth.play.module.pa.views.html._
 
-@authenticate.main(Language.message("playauthenticate.profile.title"),"profile") {
+@pa_views.main(Language.message("playauthenticate.profile.title"),"profile") {
     
     <h1>@Language.message("playauthenticate.profile.title")</h1>
     <p>

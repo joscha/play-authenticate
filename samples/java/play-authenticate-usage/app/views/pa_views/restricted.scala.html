@@ -1,6 +1,6 @@
-@(localUser: models.AuthenticateUser = null)
+@(localUser: models.pa_models.User = null)
 
-@authenticate.main(Language.message("playauthenticate.navigation.restricted"), "restricted") {
+@pa_views.main(Language.message("playauthenticate.navigation.restricted"), "restricted") {
     
     <h1>@Language.message("playauthenticate.navigation.restricted")</h1>
     <p>

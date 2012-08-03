@@ -1,4 +1,4 @@
-package models;
+package models.pa_models;
 
 import be.objectify.deadbolt.models.Permission;
 import play.db.ebean.Model;
@@ -11,7 +11,7 @@ import javax.persistence.Id;
  * Deadbolt2
  */
 @Entity
-public class AuthenticateUserPermission extends Model implements Permission {
+public class UserPermission extends Model implements Permission {
     /**
      *
      */
@@ -22,14 +22,14 @@ public class AuthenticateUserPermission extends Model implements Permission {
 
     public String value;
 
-    public static final Finder<Long, AuthenticateUserPermission> find = new Finder<Long, AuthenticateUserPermission>(
-            Long.class, AuthenticateUserPermission.class);
+    public static final Finder<Long, UserPermission> find = new Finder<Long, UserPermission>(
+            Long.class, UserPermission.class);
 
     public String getValue() {
         return value;
     }
 
-    public static AuthenticateUserPermission findByValue(String value) {
+    public static UserPermission findByValue(String value) {
         return find.where().eq("value", value).findUnique();
     }
 }

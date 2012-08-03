@@ -1,9 +1,9 @@
 package controllers;
 
 import com.feth.play.module.pa.PlayAuthenticate;
-import models.AuthenticateTokenAction;
-import models.AuthenticateTokenAction.Type;
-import models.AuthenticateUser;
+import models.pa_models.TokenAction;
+import models.pa_models.TokenAction.Type;
+import models.pa_models.User;
 import play.data.Form;
 import play.i18n.Messages;
 import play.mvc.Controller;
@@ -12,7 +12,7 @@ import providers.MyLoginUsernamePasswordAuthUser;
 import providers.MyUsernamePasswordAuthProvider;
 import providers.MyUsernamePasswordAuthProvider.MyIdentity;
 import providers.MyUsernamePasswordAuthUser;
-import views.html.authenticate.account.signup.*;
+import views.html.pa_views.account.signup.*;
 
 public class AuthenticateSignup extends Controller {
 
@@ -65,7 +65,7 @@ public class AuthenticateSignup extends Controller {
                             "playauthenticate.reset_password.message.instructions_sent",
                             email));
 
-            final AuthenticateUser user = AuthenticateUser.findByEmail(email);
+            final User user = User.findByEmail(email);
             if (user != null) {
                 // yep, we have a user with this email that is active - we do
                 // not know if the user owning that account has requested this
@@ -103,10 +103,10 @@ public class AuthenticateSignup extends Controller {
      * @param type type
      * @return mixed
      */
-    private static AuthenticateTokenAction tokenIsValid(final String token, final Type type) {
-        AuthenticateTokenAction ret = null;
+    private static TokenAction tokenIsValid(final String token, final Type type) {
+        TokenAction ret = null;
         if (token != null && !token.trim().isEmpty()) {
-            final AuthenticateTokenAction ta = AuthenticateTokenAction.findByToken(token, type);
+            final TokenAction ta = TokenAction.findByToken(token, type);
             if (ta != null && ta.isValid()) {
                 ret = ta;
             }
@@ -116,7 +116,7 @@ public class AuthenticateSignup extends Controller {
     }
 
     public static Result resetPassword(final String token) {
-        final AuthenticateTokenAction ta = tokenIsValid(token, Type.PASSWORD_RESET);
+        final TokenAction ta = tokenIsValid(token, Type.PASSWORD_RESET);
         if (ta == null) {
             return badRequest(no_token_or_invalid.render());
         }
@@ -134,11 +134,11 @@ public class AuthenticateSignup extends Controller {
             final String token = filledForm.get().token;
             final String newPassword = filledForm.get().password;
 
-            final AuthenticateTokenAction ta = tokenIsValid(token, Type.PASSWORD_RESET);
+            final TokenAction ta = tokenIsValid(token, Type.PASSWORD_RESET);
             if (ta == null) {
                 return badRequest(no_token_or_invalid.render());
             }
-            final AuthenticateUser u = ta.targetUser;
+            final User u = ta.targetUser;
             try {
                 // Pass true for the second parameter if you want to
                 // automatically create a password and the exception never to
@@ -176,12 +176,12 @@ public class AuthenticateSignup extends Controller {
     }
 
     public static Result verify(final String token) {
-        final AuthenticateTokenAction ta = tokenIsValid(token, Type.EMAIL_VERIFICATION);
+        final TokenAction ta = tokenIsValid(token, Type.EMAIL_VERIFICATION);
         if (ta == null) {
             return badRequest(no_token_or_invalid.render());
         }
         final String email = ta.targetUser.email;
-        AuthenticateUser.verify(ta.targetUser);
+        User.verify(ta.targetUser);
         flash(Authenticate.FLASH_MESSAGE_KEY,
                 Messages.get("playauthenticate.verify_email.success", email));
         if (Authenticate.getLocalUser(session()) != null) {

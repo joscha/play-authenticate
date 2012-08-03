@@ -4,10 +4,10 @@
 @import helper.twitterBootstrap._
 
 @label = {
-    @authenticate._providerIcon(newAccount.getProvider()) @Language.message("playauthenticate.link.account.question",newAccount)
+    @pa_views._providerIcon(newAccount.getProvider()) @Language.message("playauthenticate.link.account.question",newAccount)
 }
 
-@authenticate.main(Language.message("playauthenticate.link.account.title")) {
+@pa_views.main(Language.message("playauthenticate.link.account.title")) {
 
     <h1>@Language.message("playauthenticate.link.account.title")</h1>
     <p>

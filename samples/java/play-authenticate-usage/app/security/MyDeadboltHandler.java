@@ -5,7 +5,7 @@ import be.objectify.deadbolt.DynamicResourceHandler;
 import be.objectify.deadbolt.models.RoleHolder;
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.user.AuthUserIdentity;
-import models.AuthenticateUser;
+import models.pa_models.User;
 import play.mvc.Http;
 import play.mvc.Result;
 
@@ -36,7 +36,7 @@ public class MyDeadboltHandler extends AbstractDeadboltHandler {
     public RoleHolder getRoleHolder(final Http.Context context) {
         final AuthUserIdentity u = PlayAuthenticate.getUser(context);
         // Caching might be a good idea here
-        return AuthenticateUser.findByAuthUserIdentity(u);
+        return User.findByAuthUserIdentity(u);
     }
 
     @Override

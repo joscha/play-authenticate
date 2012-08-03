@@ -1,4 +1,4 @@
-package models;
+package models.pa_models;
 
 import be.objectify.deadbolt.models.Permission;
 import be.objectify.deadbolt.models.Role;
@@ -12,7 +12,7 @@ import com.feth.play.module.pa.user.AuthUserIdentity;
 import com.feth.play.module.pa.user.EmailIdentity;
 import com.feth.play.module.pa.user.NameIdentity;
 import controllers.Authenticate;
-import models.AuthenticateTokenAction.Type;
+import models.pa_models.TokenAction.Type;
 import play.data.format.Formats;
 import play.db.ebean.Model;
 import scala.actors.threadpool.Arrays;
@@ -26,7 +26,7 @@ import java.util.*;
  */
 @Entity
 @Table(name = "users")
-public class AuthenticateUser extends Model implements RoleHolder {
+public class User extends Model implements RoleHolder {
     /**
      *
      */
@@ -51,16 +51,16 @@ public class AuthenticateUser extends Model implements RoleHolder {
     public boolean emailValidated;
 
     @ManyToMany
-    public List<AuthenticateSecurityRole> roles;
+    public List<SecurityRole> roles;
 
     @OneToMany(cascade = CascadeType.ALL)
-    public List<AuthenticateLinkedAccount> linkedAccounts;
+    public List<LinkedAccount> linkedAccounts;
 
     @ManyToMany
-    public List<AuthenticateUserPermission> permissions;
+    public List<UserPermission> permissions;
 
-    public static final Finder<Long, AuthenticateUser> find = new Finder<Long, AuthenticateUser>(
-            Long.class, AuthenticateUser.class);
+    public static final Finder<Long, User> find = new Finder<Long, User>(
+            Long.class, User.class);
 
 
     public List<? extends Role> getRoles() {
@@ -73,7 +73,7 @@ public class AuthenticateUser extends Model implements RoleHolder {
 
     public static boolean existsByAuthUserIdentity(
             final AuthUserIdentity identity) {
-        final ExpressionList<AuthenticateUser> exp;
+        final ExpressionList<User> exp;
         if (identity instanceof UsernamePasswordAuthUser) {
             exp = getUsernamePasswordAuthUserFind((UsernamePasswordAuthUser) identity);
         } else {
@@ -82,14 +82,14 @@ public class AuthenticateUser extends Model implements RoleHolder {
         return exp.findRowCount() > 0;
     }
 
-    private static ExpressionList<AuthenticateUser> getAuthUserFind(
+    private static ExpressionList<User> getAuthUserFind(
             final AuthUserIdentity identity) {
         return find.where().eq("active", true)
                 .eq("linkedAccounts.providerUserId", identity.getId())
                 .eq("linkedAccounts.providerKey", identity.getProvider());
     }
 
-    public static AuthenticateUser findByAuthUserIdentity(final AuthUserIdentity identity) {
+    public static User findByAuthUserIdentity(final AuthUserIdentity identity) {
         if (identity == null) {
             return null;
         }
@@ -100,37 +100,37 @@ public class AuthenticateUser extends Model implements RoleHolder {
         }
     }
 
-    public static AuthenticateUser findByUsernamePasswordIdentity(
+    public static User findByUsernamePasswordIdentity(
             final UsernamePasswordAuthUser identity) {
         return getUsernamePasswordAuthUserFind(identity).findUnique();
     }
 
-    private static ExpressionList<AuthenticateUser> getUsernamePasswordAuthUserFind(
+    private static ExpressionList<User> getUsernamePasswordAuthUserFind(
             final UsernamePasswordAuthUser identity) {
         return getEmailUserFind(identity.getEmail()).eq(
                 "linkedAccounts.providerKey", identity.getProvider());
     }
 
-    public void merge(final AuthenticateUser otherUser) {
-        for (final AuthenticateLinkedAccount acc : otherUser.linkedAccounts) {
-            this.linkedAccounts.add(AuthenticateLinkedAccount.create(acc));
+    public void merge(final User otherUser) {
+        for (final LinkedAccount acc : otherUser.linkedAccounts) {
+            this.linkedAccounts.add(LinkedAccount.create(acc));
         }
         // do all other merging stuff here - like resources, etc.
 
         // deactivate the merged user that got added to this one
         otherUser.active = false;
-        Ebean.save(Arrays.asList(new AuthenticateUser[]{otherUser, this}));
+        Ebean.save(Arrays.asList(new User[]{otherUser, this}));
     }
 
-    public static AuthenticateUser create(final AuthUser authUser) {
-        final AuthenticateUser user = new AuthenticateUser();
-        user.roles = Collections.singletonList(AuthenticateSecurityRole
+    public static User create(final AuthUser authUser) {
+        final User user = new User();
+        user.roles = Collections.singletonList(SecurityRole
                 .findByRoleName(Authenticate.USER_ROLE));
-        // user.permissions = new ArrayList<AuthenticateUserPermission>();
-        // user.permissions.add(AuthenticateUserPermission.findByValue("printers.edit"));
+        // user.permissions = new ArrayList<UserPermission>();
+        // user.permissions.add(UserPermission.findByValue("printers.edit"));
         user.active = true;
         user.lastLogin = new Date();
-        user.linkedAccounts = Collections.singletonList(AuthenticateLinkedAccount
+        user.linkedAccounts = Collections.singletonList(LinkedAccount
                 .create(authUser));
 
         if (authUser instanceof EmailIdentity) {
@@ -157,14 +157,14 @@ public class AuthenticateUser extends Model implements RoleHolder {
     }
 
     public static void merge(final AuthUser oldUser, final AuthUser newUser) {
-        AuthenticateUser.findByAuthUserIdentity(oldUser).merge(
-                AuthenticateUser.findByAuthUserIdentity(newUser));
+        User.findByAuthUserIdentity(oldUser).merge(
+                User.findByAuthUserIdentity(newUser));
     }
 
     public Set<String> getProviders() {
         final Set<String> providerKeys = new HashSet<String>(
                 linkedAccounts.size());
-        for (final AuthenticateLinkedAccount acc : linkedAccounts) {
+        for (final LinkedAccount acc : linkedAccounts) {
             providerKeys.add(acc.providerKey);
         }
         return providerKeys;
@@ -172,42 +172,42 @@ public class AuthenticateUser extends Model implements RoleHolder {
 
     public static void addLinkedAccount(final AuthUser oldUser,
                                         final AuthUser newUser) {
-        final AuthenticateUser u = AuthenticateUser.findByAuthUserIdentity(oldUser);
-        u.linkedAccounts.add(AuthenticateLinkedAccount.create(newUser));
+        final User u = User.findByAuthUserIdentity(oldUser);
+        u.linkedAccounts.add(LinkedAccount.create(newUser));
         u.save();
     }
 
     public static void setLastLoginDate(final AuthUser knownUser) {
-        final AuthenticateUser u = AuthenticateUser.findByAuthUserIdentity(knownUser);
+        final User u = User.findByAuthUserIdentity(knownUser);
         u.lastLogin = new Date();
         u.save();
     }
 
-    public static AuthenticateUser findByEmail(final String email) {
+    public static User findByEmail(final String email) {
         return getEmailUserFind(email).findUnique();
     }
 
-    private static ExpressionList<AuthenticateUser> getEmailUserFind(final String email) {
+    private static ExpressionList<User> getEmailUserFind(final String email) {
         return find.where().eq("active", true).eq("email", email);
     }
 
-    public AuthenticateLinkedAccount getAccountByProvider(final String providerKey) {
-        return AuthenticateLinkedAccount.findByProviderKey(this, providerKey);
+    public LinkedAccount getAccountByProvider(final String providerKey) {
+        return LinkedAccount.findByProviderKey(this, providerKey);
     }
 
-    public static void verify(final AuthenticateUser unverified) {
+    public static void verify(final User unverified) {
         // You might want to wrap this into a transaction
         unverified.emailValidated = true;
         unverified.save();
-        AuthenticateTokenAction.deleteByUser(unverified, Type.EMAIL_VERIFICATION);
+        TokenAction.deleteByUser(unverified, Type.EMAIL_VERIFICATION);
     }
 
     public void changePassword(final UsernamePasswordAuthUser authUser,
                                final boolean create) {
-        AuthenticateLinkedAccount a = this.getAccountByProvider(authUser.getProvider());
+        LinkedAccount a = this.getAccountByProvider(authUser.getProvider());
         if (a == null) {
             if (create) {
-                a = AuthenticateLinkedAccount.create(authUser);
+                a = LinkedAccount.create(authUser);
                 a.user = this;
             } else {
                 throw new RuntimeException(
@@ -222,7 +222,7 @@ public class AuthenticateUser extends Model implements RoleHolder {
                               final boolean create) {
         // You might want to wrap this into a transaction
         this.changePassword(authUser, create);
-        AuthenticateTokenAction.deleteByUser(this, Type.PASSWORD_RESET);
+        TokenAction.deleteByUser(this, Type.PASSWORD_RESET);
     }
 
     public String toString(){

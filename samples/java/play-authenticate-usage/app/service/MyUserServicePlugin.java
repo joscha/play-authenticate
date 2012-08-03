@@ -1,7 +1,6 @@
 package service;
 
-import models.AuthenticateUser;
-import models.AuthenticateUser;
+import models.pa_models.User;
 import play.Application;
 
 import com.feth.play.module.pa.user.AuthUser;
@@ -16,9 +15,9 @@ public class MyUserServicePlugin extends UserServicePlugin {
 
     @Override
     public Object save(final AuthUser authUser) {
-        final boolean isLinked = AuthenticateUser.existsByAuthUserIdentity(authUser);
+        final boolean isLinked = User.existsByAuthUserIdentity(authUser);
         if (!isLinked) {
-            return AuthenticateUser.create(authUser).id;
+            return User.create(authUser).id;
         } else {
             // we have this user already, so return null
             return null;
@@ -29,7 +28,7 @@ public class MyUserServicePlugin extends UserServicePlugin {
     public Object getLocalIdentity(final AuthUserIdentity identity) {
         // For production: Caching might be a good idea here...
         // ...and dont forget to sync the cache when users get deactivated/deleted
-        final AuthenticateUser u = AuthenticateUser.findByAuthUserIdentity(identity);
+        final User u = User.findByAuthUserIdentity(identity);
         if (u != null) {
             return u.id;
         } else {
@@ -40,21 +39,21 @@ public class MyUserServicePlugin extends UserServicePlugin {
     @Override
     public AuthUser merge(final AuthUser newUser, final AuthUser oldUser) {
         if (!oldUser.equals(newUser)) {
-            AuthenticateUser.merge(oldUser, newUser);
+            User.merge(oldUser, newUser);
         }
         return oldUser;
     }
 
     @Override
     public AuthUser link(final AuthUser oldUser, final AuthUser newUser) {
-        AuthenticateUser.addLinkedAccount(oldUser, newUser);
+        User.addLinkedAccount(oldUser, newUser);
         return newUser;
     }
 
     @Override
     public AuthUser update(final AuthUser knownUser) {
         // User logged in again, bump last login date
-        AuthenticateUser.setLastLoginDate(knownUser);
+        User.setLastLoginDate(knownUser);
         return knownUser;
     }
 

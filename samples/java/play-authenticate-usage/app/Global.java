@@ -3,7 +3,7 @@ import com.feth.play.module.pa.PlayAuthenticate.Resolver;
 import com.feth.play.module.pa.exceptions.AccessDeniedException;
 import com.feth.play.module.pa.exceptions.AuthException;
 import controllers.routes;
-import models.AuthenticateSecurityRole;
+import models.pa_models.SecurityRole;
 import play.Application;
 import play.GlobalSettings;
 import play.mvc.Call;
@@ -68,10 +68,10 @@ public class Global extends GlobalSettings {
     }
 
     private void initialData() {
-        if (AuthenticateSecurityRole.find.findRowCount() == 0) {
+        if (SecurityRole.find.findRowCount() == 0) {
             for (final String roleName : Arrays
                     .asList(controllers.Authenticate.USER_ROLE)) {
-                final AuthenticateSecurityRole role = new AuthenticateSecurityRole();
+                final SecurityRole role = new SecurityRole();
                 role.roleName = roleName;
                 role.save();
             }

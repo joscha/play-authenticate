@@ -4,11 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import models.AuthenticateLinkedAccount;
-import models.AuthenticateTokenAction;
-import models.AuthenticateTokenAction.Type;
-import models.AuthenticateUser;
-import models.AuthenticateUser;
+import models.pa_models.TokenAction;
+import models.pa_models.TokenAction.Type;
+import models.pa_models.LinkedAccount;
+import models.pa_models.User;
 import play.Application;
 import play.data.Form;
 import play.data.validation.Constraints.Email;
@@ -120,7 +119,7 @@ public class MyUsernamePasswordAuthProvider
 
     @Override
     protected SignupResult signupUser(final MyUsernamePasswordAuthUser user) {
-        final AuthenticateUser u = AuthenticateUser.findByEmail(user.getEmail());
+        final User u = User.findByEmail(user.getEmail());
         if (u != null) {
             if (u.emailValidated) {
                 // This user exists, has its email validated and is active
@@ -133,7 +132,7 @@ public class MyUsernamePasswordAuthProvider
         }
         // The user either does not exist or is inactive - create a new one
         @SuppressWarnings("unused")
-        final AuthenticateUser newUser = AuthenticateUser.create(user);
+        final User newUser = User.create(user);
         // Usually the email should be verified before allowing login, however
         // if you return
         // return SignupResult.USER_CREATED;
@@ -144,14 +143,14 @@ public class MyUsernamePasswordAuthProvider
     @Override
     protected LoginResult loginUser(
             final MyLoginUsernamePasswordAuthUser authUser) {
-        final AuthenticateUser u = AuthenticateUser.findByUsernamePasswordIdentity(authUser);
+        final User u = User.findByUsernamePasswordIdentity(authUser);
         if (u == null) {
             return LoginResult.NOT_FOUND;
         } else {
             if (!u.emailValidated) {
                 return LoginResult.USER_UNVERIFIED;
             } else {
-                for (final AuthenticateLinkedAccount acc : u.linkedAccounts) {
+                for (final LinkedAccount acc : u.linkedAccounts) {
                     if (getKey().equals(acc.providerKey)) {
                         if (authUser.checkPassword(acc.providerUserId,
                                 authUser.getPassword())) {
@@ -218,9 +217,9 @@ public class MyUsernamePasswordAuthProvider
         final String url = routes.AuthenticateSignup.verify(token).absoluteURL(
                 ctx.request(), isSecure);
 
-        final String html = views.html.authenticate.account.signup.email.verify_email
+        final String html = views.html.pa_views.account.signup.email.verify_email
                 .render(url, token, user.getName()).toString();
-        final String text = views.txt.authenticate.account.signup.email.verify_email.render(
+        final String text = views.txt.pa_views.account.signup.email.verify_email.render(
                 url, token, user.getName()).toString();
         return new Body(text, html);
     }
@@ -232,29 +231,29 @@ public class MyUsernamePasswordAuthProvider
     @Override
     protected String generateVerificationRecord(
             final MyUsernamePasswordAuthUser user) {
-        return generateVerificationRecord(AuthenticateUser.findByAuthUserIdentity(user));
+        return generateVerificationRecord(User.findByAuthUserIdentity(user));
     }
 
-    protected String generateVerificationRecord(final AuthenticateUser user) {
+    protected String generateVerificationRecord(final User user) {
         final String token = generateToken();
         // Do database actions, etc.
-        AuthenticateTokenAction.create(Type.EMAIL_VERIFICATION, token, user);
+        TokenAction.create(Type.EMAIL_VERIFICATION, token, user);
         return token;
     }
 
-    protected String generatePasswordResetRecord(final AuthenticateUser u) {
+    protected String generatePasswordResetRecord(final User u) {
         final String token = generateToken();
-        AuthenticateTokenAction.create(Type.PASSWORD_RESET, token, u);
+        TokenAction.create(Type.PASSWORD_RESET, token, u);
         return token;
     }
 
-    protected String getPasswordResetMailingSubject(final AuthenticateUser user,
+    protected String getPasswordResetMailingSubject(final User user,
                                                     final Context ctx) {
         return Messages.get("playauthenticate.password.reset_email.subject");
     }
 
     protected Body getPasswordResetMailingBody(final String token,
-                                               final AuthenticateUser user, final Context ctx) {
+                                               final User user, final Context ctx) {
 
         final boolean isSecure = getConfiguration().getBoolean(
                 SETTING_KEY_PASSWORD_RESET_LINK_SECURE);
@@ -262,14 +261,14 @@ public class MyUsernamePasswordAuthProvider
         final String url = routes.AuthenticateSignup.resetPassword(token).absoluteURL(
                 ctx.request(), isSecure);
 
-        final String html = views.html.authenticate.account.email.password_reset.render(url,
+        final String html = views.html.pa_views.account.email.password_reset.render(url,
                 token, user.name).toString();
-        final String text = views.txt.authenticate.account.email.password_reset.render(url,
+        final String text = views.txt.pa_views.account.email.password_reset.render(url,
                 token, user.name).toString();
         return new Body(text, html);
     }
 
-    public void sendPasswordResetMailing(final AuthenticateUser user, final Context ctx) {
+    public void sendPasswordResetMailing(final User user, final Context ctx) {
         final String token = generatePasswordResetRecord(user);
         final String subject = getPasswordResetMailingSubject(user, ctx);
         final Body body = getPasswordResetMailingBody(token, user, ctx);
@@ -281,13 +280,13 @@ public class MyUsernamePasswordAuthProvider
                 SETTING_KEY_LINK_LOGIN_AFTER_PASSWORD_RESET);
     }
 
-    protected String getVerifyEmailMailingSubjectAfterSignup(final AuthenticateUser user,
+    protected String getVerifyEmailMailingSubjectAfterSignup(final User user,
                                                              final Context ctx) {
         return Messages.get("playauthenticate.password.verify_email.subject");
     }
 
     protected Body getVerifyEmailMailingBodyAfterSignup(final String token,
-                                                        final AuthenticateUser user, final Context ctx) {
+                                                        final User user, final Context ctx) {
 
         final boolean isSecure = getConfiguration().getBoolean(
                 SETTING_KEY_VERIFICATION_LINK_SECURE);
@@ -295,14 +294,14 @@ public class MyUsernamePasswordAuthProvider
         final String url = routes.AuthenticateSignup.verify(token).absoluteURL(
                 ctx.request(), isSecure);
 
-        final String html = views.html.authenticate.account.email.verify_email.render(url,
+        final String html = views.html.pa_views.account.email.verify_email.render(url,
                 token, user.name, user.email).toString();
-        final String text = views.txt.authenticate.account.email.verify_email.render(url,
+        final String text = views.txt.pa_views.account.email.verify_email.render(url,
                 token, user.name, user.email).toString();
         return new Body(text, html);
     }
 
-    public void sendVerifyEmailMailingAfterSignup(final AuthenticateUser user,
+    public void sendVerifyEmailMailingAfterSignup(final User user,
                                                   final Context ctx) {
 
         final String subject = getVerifyEmailMailingSubjectAfterSignup(user,
@@ -312,7 +311,7 @@ public class MyUsernamePasswordAuthProvider
         mailer.sendMail(subject, body, getEmailName(user));
     }
 
-    private String getEmailName(final AuthenticateUser user) {
+    private String getEmailName(final User user) {
         return getEmailName(user.email, user.name);
     }
 }

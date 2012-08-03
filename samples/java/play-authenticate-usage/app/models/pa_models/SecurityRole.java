@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package models;
+package models.pa_models;
 
 import be.objectify.deadbolt.models.Role;
 import play.db.ebean.Model;
@@ -25,7 +25,7 @@ import javax.persistence.Id;
  * @author Steve Chaloner (steve@objectify.be)
  */
 @Entity
-public class AuthenticateSecurityRole extends Model implements Role {
+public class SecurityRole extends Model implements Role {
     /**
      *
      */
@@ -36,14 +36,14 @@ public class AuthenticateSecurityRole extends Model implements Role {
 
     public String roleName;
 
-    public static final Finder<Long, AuthenticateSecurityRole> find = new Finder<Long, AuthenticateSecurityRole>(
-            Long.class, AuthenticateSecurityRole.class);
+    public static final Finder<Long, SecurityRole> find = new Finder<Long, SecurityRole>(
+            Long.class, SecurityRole.class);
 
     public String getRoleName() {
         return roleName;
     }
 
-    public static AuthenticateSecurityRole findByRoleName(String roleName) {
+    public static SecurityRole findByRoleName(String roleName) {
         return find.where().eq("roleName", roleName).findUnique();
     }
 }

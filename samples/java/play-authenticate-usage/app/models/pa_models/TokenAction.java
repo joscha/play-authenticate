@@ -1,4 +1,4 @@
-package models;
+package models.pa_models;
 
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.annotation.EnumValue;
@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 import java.util.Date;
 
 @Entity
-public class AuthenticateTokenAction extends Model {
+public class TokenAction extends Model {
 
     public enum Type {
         @EnumValue("EV")
@@ -41,7 +41,7 @@ public class AuthenticateTokenAction extends Model {
     public String token;
 
     @ManyToOne
-    public AuthenticateUser targetUser;
+    public User targetUser;
 
     public Type type;
 
@@ -51,14 +51,14 @@ public class AuthenticateTokenAction extends Model {
     @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
     public Date expires;
 
-    public static final Finder<Long, AuthenticateTokenAction> find = new Finder<Long, AuthenticateTokenAction>(
-            Long.class, AuthenticateTokenAction.class);
+    public static final Finder<Long, TokenAction> find = new Finder<Long, TokenAction>(
+            Long.class, TokenAction.class);
 
-    public static AuthenticateTokenAction findByToken(final String token, final Type type) {
+    public static TokenAction findByToken(final String token, final Type type) {
         return find.where().eq("token", token).eq("type", type).findUnique();
     }
 
-    public static void deleteByUser(final AuthenticateUser u, final Type type) {
+    public static void deleteByUser(final User u, final Type type) {
         Ebean.delete(find.where().eq("targetUser.id", u.id).eq("type", type)
                 .findIterate());
     }
@@ -67,9 +67,9 @@ public class AuthenticateTokenAction extends Model {
         return this.expires.after(new Date());
     }
 
-    public static AuthenticateTokenAction create(final Type type, final String token,
-                                     final AuthenticateUser targetUser) {
-        final AuthenticateTokenAction ua = new AuthenticateTokenAction();
+    public static TokenAction create(final Type type, final String token,
+                                     final User targetUser) {
+        final TokenAction ua = new TokenAction();
         ua.targetUser = targetUser;
         ua.token = token;
         ua.type = type;

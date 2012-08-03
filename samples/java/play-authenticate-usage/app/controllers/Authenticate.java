@@ -3,7 +3,7 @@ package controllers;
 import be.objectify.deadbolt.actions.Restrict;
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider;
-import models.AuthenticateUser;
+import models.pa_models.User;
 import play.Routes;
 import play.data.Form;
 import play.mvc.Controller;
@@ -12,9 +12,11 @@ import play.mvc.Result;
 import providers.MyUsernamePasswordAuthProvider;
 import providers.MyUsernamePasswordAuthProvider.MyLogin;
 import providers.MyUsernamePasswordAuthProvider.MySignup;
-import views.html.authenticate.profile;
-import views.html.authenticate.restricted;
-import views.html.authenticate.signup;
+import views.html.pa_views.index;
+import views.html.pa_views.login;
+import views.html.pa_views.profile;
+import views.html.pa_views.restricted;
+import views.html.pa_views.signup;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -26,33 +28,33 @@ public class Authenticate extends Controller {
     public static final String USER_ROLE = "user";
 
     public static Result index() {
-        return ok(views.html.authenticate.index.render());
+        return ok(index.render());
     }
 
     public static Result redirectToIndex(){
         return redirect(routes.Authenticate.index());
     }
 
-    public static AuthenticateUser getLocalUser(final Session session) {
-        final AuthenticateUser localUser = AuthenticateUser.findByAuthUserIdentity(PlayAuthenticate
+    public static User getLocalUser(final Session session) {
+        final User localUser = User.findByAuthUserIdentity(PlayAuthenticate
                 .getUser(session));
         return localUser;
     }
 
     @Restrict(Authenticate.USER_ROLE)
     public static Result restricted() {
-        final AuthenticateUser localUser = getLocalUser(session());
+        final User localUser = getLocalUser(session());
         return ok(restricted.render(localUser));
     }
 
     @Restrict(Authenticate.USER_ROLE)
     public static Result profile() {
-        final AuthenticateUser localUser = getLocalUser(session());
+        final User localUser = getLocalUser(session());
         return ok(profile.render(localUser));
     }
 
     public static Result login() {
-        return ok(views.html.authenticate.login.render(MyUsernamePasswordAuthProvider.LOGIN_FORM));
+        return ok(login.render(MyUsernamePasswordAuthProvider.LOGIN_FORM));
     }
 
     public static Result doLogin() {
@@ -60,7 +62,7 @@ public class Authenticate extends Controller {
                 .bindFromRequest();
         if (filledForm.hasErrors()) {
             // User did not fill everything properly
-            return badRequest(views.html.authenticate.login.render(filledForm));
+            return badRequest(login.render(filledForm));
         } else {
             // Everything was filled
             return UsernamePasswordAuthProvider.handleLogin(ctx());

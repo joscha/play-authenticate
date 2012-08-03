@@ -1,4 +1,4 @@
-package models;
+package models.pa_models;
 
 import com.feth.play.module.pa.user.AuthUser;
 import play.db.ebean.Model;
@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class AuthenticateLinkedAccount extends Model {
+public class LinkedAccount extends Model {
 
     /**
      *
@@ -19,21 +19,21 @@ public class AuthenticateLinkedAccount extends Model {
     public Long id;
 
     @ManyToOne
-    public AuthenticateUser user;
+    public User user;
 
     public String providerUserId;
     public String providerKey;
 
-    public static final Finder<Long, AuthenticateLinkedAccount> find = new Finder<Long, AuthenticateLinkedAccount>(
-            Long.class, AuthenticateLinkedAccount.class);
+    public static final Finder<Long, LinkedAccount> find = new Finder<Long, LinkedAccount>(
+            Long.class, LinkedAccount.class);
 
-    public static AuthenticateLinkedAccount findByProviderKey(final AuthenticateUser user, String key) {
+    public static LinkedAccount findByProviderKey(final User user, String key) {
         return find.where().eq("user", user).eq("providerKey", key)
                 .findUnique();
     }
 
-    public static AuthenticateLinkedAccount create(final AuthUser authUser) {
-        final AuthenticateLinkedAccount ret = new AuthenticateLinkedAccount();
+    public static LinkedAccount create(final AuthUser authUser) {
+        final LinkedAccount ret = new LinkedAccount();
         ret.update(authUser);
         return ret;
     }
@@ -43,8 +43,8 @@ public class AuthenticateLinkedAccount extends Model {
         this.providerUserId = authUser.getId();
     }
 
-    public static AuthenticateLinkedAccount create(final AuthenticateLinkedAccount acc) {
-        final AuthenticateLinkedAccount ret = new AuthenticateLinkedAccount();
+    public static LinkedAccount create(final LinkedAccount acc) {
+        final LinkedAccount ret = new LinkedAccount();
         ret.providerKey = acc.providerKey;
         ret.providerUserId = acc.providerUserId;
 

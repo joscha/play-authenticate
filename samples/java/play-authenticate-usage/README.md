@@ -5,7 +5,7 @@
 
 ###WARNING
 
-In this version of sample model names was changed! If you are upgrading from older version of sample and using automatic Ebean's updates you **HAVE TO** backup your tables manually, as they are subject to destroy!
+If you are upgrading from older version of sample and using automatic Ebean's updates you **HAVE TO** backup your tables manually, as they are subject can be destroyed!
 
 
 ----------
@@ -32,9 +32,9 @@ There's a checklist of things you need to copy from the sample into your app. Of
 
 
  1. Prepare a backup ;) **Especially make sure that you saved your DB data**, as Ebean can create evolution, which will drop existing data!
- 2. Copy all controllers into your application. All our controllers contains `Authenticate*` in its names. The only exception is `Language` controller which is a bonus one and can be also used without Play Authenticate. ***Note:*** in this sample `Language` controller is required.
- 3. Copy all models. ***Note:*** The same as in case of controllers, models' names begins with  `Authenticate*`. Therefore Ebean will create tables like `authenticate_user` instead of `user` - that's the reason why you need to backup your data before refactoring existing app.
- 4. Copy `views.authenticate` package and all its content. We don't suspect any conflict in this area.
+ 2. Copy all controllers into your application. All our controllers contains `Authenticate` in its names. The only exception is `Language` controller which is a bonus one and can be also used without Play Authenticate. ***Note:*** in this sample `Language` controller is required.
+ 3. Copy all models. ***Note:*** All models for Play Authenticate are placed in `models.pa_models` package.
+ 4. Copy `views.pa_views` package and all its content. We don't suspect any conflict in this area.
  5. Copy methods `onStart()` and `initialData()` from the `Global` object (`/app/Global.java`) if you haven't that object yet, just copy whole file, otherwise make sure you don't overwrite your previous code.
  6. Copy translated labels into your app's `messages.xy` files. All our labels are prefixed with `playauthenticate.*`
  7. Copy ***Play Authenticate*** and ***Language class*** routes, both marked with START / END comments.

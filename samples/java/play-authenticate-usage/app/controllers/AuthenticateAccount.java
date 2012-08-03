@@ -4,8 +4,7 @@ import be.objectify.deadbolt.actions.Restrict;
 import be.objectify.deadbolt.actions.RoleHolderPresent;
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.user.AuthUser;
-import models.AuthenticateUser;
-import models.AuthenticateUser;
+import models.pa_models.User;
 import play.data.Form;
 import play.data.format.Formats.NonEmpty;
 import play.data.validation.Constraints.MinLength;
@@ -15,7 +14,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import providers.MyUsernamePasswordAuthProvider;
 import providers.MyUsernamePasswordAuthUser;
-import views.html.authenticate.account.*;
+import views.html.pa_views.account.*;
 
 public class AuthenticateAccount extends Controller {
 
@@ -54,7 +53,7 @@ public class AuthenticateAccount extends Controller {
 
     @Restrict(Authenticate.USER_ROLE)
     public static Result verifyEmail() {
-        final AuthenticateUser user = Authenticate.getLocalUser(session());
+        final User user = Authenticate.getLocalUser(session());
         if (user.emailValidated) {
             // E-Mail has been validated already
             flash(Authenticate.FLASH_MESSAGE_KEY,
@@ -73,7 +72,7 @@ public class AuthenticateAccount extends Controller {
 
     @Restrict(Authenticate.USER_ROLE)
     public static Result changePassword() {
-        final AuthenticateUser u = Authenticate.getLocalUser(session());
+        final User u = Authenticate.getLocalUser(session());
 
         if (!u.emailValidated) {
             return ok(unverified.render());
@@ -90,7 +89,7 @@ public class AuthenticateAccount extends Controller {
             // User did not select whether to link or not link
             return badRequest(password_change.render(filledForm));
         } else {
-            final AuthenticateUser user = Authenticate.getLocalUser(session());
+            final User user = Authenticate.getLocalUser(session());
             final String newPassword = filledForm.get().password;
             user.changePassword(new MyUsernamePasswordAuthUser(newPassword),
                     true);
@@ -146,7 +145,7 @@ public class AuthenticateAccount extends Controller {
         }
 
         // You could also get the local user object here via
-        // AuthenticateUser.findByAuthUserIdentity(newUser)
+        // User.findByAuthUserIdentity(newUser)
         return ok(ask_merge.render(ACCEPT_FORM, aUser, bUser));
     }
 

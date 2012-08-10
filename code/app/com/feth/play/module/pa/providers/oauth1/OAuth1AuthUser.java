@@ -34,4 +34,14 @@ public abstract class OAuth1AuthUser extends AuthUser {
 	public String getState() {
 		return state;
 	}
+	
+	@Override
+	public String accessToken() {
+		return getOAuth1AuthInfo().getAccessToken();
+	}
+	
+	@Override
+	public String accessTokenSecret() {
+		return getOAuth1AuthInfo().getAccessTokenSecret();
+	}
 }

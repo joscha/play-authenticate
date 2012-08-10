@@ -36,6 +36,10 @@ public abstract class OAuth2AuthUser extends AuthUser {
 	public long expires() {
 		return getOAuth2AuthInfo().getExpiration();
 	}
+	@Override
+	public String accessToken() {
+		return getOAuth2AuthInfo().getAccessToken();
+	}
 
 	public String getState() {
 		return state;

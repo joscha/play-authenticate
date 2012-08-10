@@ -124,7 +124,13 @@ public abstract class PlayAuthenticate {
 	private static final String USER_KEY = "pa.u.id";
 	private static final String PROVIDER_KEY = "pa.p.id";
 	private static final String EXPIRES_KEY = "pa.u.exp";
+	private static final String ACCESS_TOKEN_KEY = "pa.u.tok";
+	private static final String ACCESS_TOKEN_KEY_SECRET = "pa.u.tok.secr";
 	private static final String SESSION_ID_KEY = "pa.s.id";
+	
+	
+	
+	
 
 	public static Configuration getConfiguration() {
 		return Play.application().configuration()
@@ -170,9 +176,26 @@ public abstract class PlayAuthenticate {
 		session.put(PlayAuthenticate.PROVIDER_KEY, u.getProvider());
 		if (u.expires() != AuthUser.NO_EXPIRATION) {
 			session.put(EXPIRES_KEY, Long.toString(u.expires()));
+			
 		} else {
 			session.remove(EXPIRES_KEY);
 		}
+		
+		if (u.accessToken() != AuthUser.NO_ACCESS_TOKEN) {
+			session.put(ACCESS_TOKEN_KEY, u.accessToken());
+		} else {
+			session.remove(ACCESS_TOKEN_KEY);
+		}
+		
+		session.put(ACCESS_TOKEN_KEY_SECRET,u.accessTokenSecret());
+		if (u.accessTokenSecret() != AuthUser.NO_ACCESS_TOKEN_SECRET) {
+			session.put(ACCESS_TOKEN_KEY_SECRET, u.accessTokenSecret());
+		} else {
+			session.remove(ACCESS_TOKEN_KEY_SECRET);
+		}
+		
+		
+		
 	}
 
 	public static boolean isLoggedIn(final Session session) {
@@ -231,10 +254,13 @@ public abstract class PlayAuthenticate {
 	public static AuthUser getUser(final Session session) {
 		final String provider = session.get(PROVIDER_KEY);
 		final String id = session.get(USER_KEY);
+		 final String token= session.get(ACCESS_TOKEN_KEY);
+		 final String tokenSecret= session.get(ACCESS_TOKEN_KEY_SECRET);
+		
 		final long expires = getExpiration(session);
 
 		if (provider != null && id != null) {
-			return getProvider(provider).getSessionAuthUser(id, expires);
+			return getProvider(provider).getSessionAuthUser(id, expires,token,tokenSecret);
 		} else {
 			return null;
 		}

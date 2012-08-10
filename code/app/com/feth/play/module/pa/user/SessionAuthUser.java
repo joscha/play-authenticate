@@ -10,11 +10,16 @@ public class SessionAuthUser extends AuthUser {
 	private final long expires;
 	private final String provider;
 	private final String id;
+	private final String token;
+	private final String tokenSecret;
 	
-	public SessionAuthUser(final String provider, final String id, final long expires) {
+	
+	public SessionAuthUser(final String provider, final String id, final long expires, final String token, final String tokenSecret) {
 		this.expires = expires;
 		this.provider = provider;
 		this.id = id;
+		this.token = token;
+		this.tokenSecret = tokenSecret;
 	}
 
 	@Override
@@ -30,5 +35,14 @@ public class SessionAuthUser extends AuthUser {
 	@Override
 	public long expires() {
 		return expires;
+	}
+	
+	public String accessToken() {
+		return token;
+	}
+
+	
+	public String accessTokenSecret() {
+		return tokenSecret;
 	}
 }

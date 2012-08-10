@@ -13,11 +13,24 @@ public abstract class AuthUser implements AuthUserIdentity, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public static final long NO_EXPIRATION = -1L;
+	
+	public static final String NO_ACCESS_TOKEN="NO_TOKEN";
+	public static final String NO_ACCESS_TOKEN_SECRET="NO_TOKEN_SECRET";
 
 	public long expires() {
 		return NO_EXPIRATION;
 	}
+	
+	public String accessToken() {
+		return NO_ACCESS_TOKEN;
+	}
 
+	
+	public String accessTokenSecret() {
+		return NO_ACCESS_TOKEN_SECRET;
+	}
+	
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -93,4 +106,6 @@ public abstract class AuthUser implements AuthUserIdentity, Serializable {
 
 		return sb.toString();
 	}
+
+
 }

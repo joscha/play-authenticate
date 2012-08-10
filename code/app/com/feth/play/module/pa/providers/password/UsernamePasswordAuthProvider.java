@@ -137,7 +137,7 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 	}
 
 	@Override
-	public AuthUser getSessionAuthUser(final String id, final long expires) {
+	public AuthUser getSessionAuthUser(final String id, final long expires, final String token, final String tokenSecret) {
 		return new SessionUsernamePasswordAuthUser(getKey(), id, expires);
 	}
 

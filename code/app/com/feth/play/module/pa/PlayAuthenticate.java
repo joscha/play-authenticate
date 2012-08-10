@@ -254,10 +254,13 @@ public abstract class PlayAuthenticate {
 	public static AuthUser getUser(final Session session) {
 		final String provider = session.get(PROVIDER_KEY);
 		final String id = session.get(USER_KEY);
+		 final String token= session.get(ACCESS_TOKEN_KEY);
+		 final String tokenSecret= session.get(ACCESS_TOKEN_KEY_SECRET);
+		
 		final long expires = getExpiration(session);
 
 		if (provider != null && id != null) {
-			return getProvider(provider).getSessionAuthUser(id, expires);
+			return getProvider(provider).getSessionAuthUser(id, expires,token,tokenSecret);
 		} else {
 			return null;
 		}

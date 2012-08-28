@@ -38,6 +38,7 @@ The included sample application shows how to use all of those providers.
 * English
 * German (as of 2012-07-09)
 * Polish (as of 2012-08-03)
+* French (as of 2012-08-28,  commit 967e11e207)
 
 ## Versions
 * **0.2.0-SNAPSHOT** [2012-08-01]

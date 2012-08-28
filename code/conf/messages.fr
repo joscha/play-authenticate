@@ -1,0 +1,7 @@
+playauthenticate.core.exception.no_user_service=Aucun UserService présent!
+playauthenticate.core.exception.singupuser_failed=Inscription impossible
+playauthenticate.core.exception.provider_not_found=Le fournisseur {0} n''a pas été trouvé!
+playauthenticate.core.exception.merge.controller_undefined=le Merge Call du resolver n''est pas défini correctement, même avec ''{0}'' à faux!
+playauthenticate.core.exception.link.controller_undefined=le Link Call du resolver n''est pas défini, même avec ''{0}'' à faux!
+
+playauthenticate.core.exception.general=Il y a eu un problème

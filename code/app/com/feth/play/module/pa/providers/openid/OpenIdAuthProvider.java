@@ -56,15 +56,17 @@ public class OpenIdAuthProvider extends ExternalAuthProvider {
 			u = pu.get();
 			hasInfo = true;
 		} catch (final Throwable t) {
-			if (t instanceof play.api.libs.openid.Errors$BAD_RESPONSE$) {
+			if (t instanceof play.api.libs.openid.OpenIDError) {
 				if (!hasOpenID) {
 					throw new NoOpenIdAuthException(
 							"OpenID endpoint is required");
 				} else {
-					// ignore, its the start of the OpenID dance
+					if(t.getMessage() != null) {
+						throw new AuthException(t.getMessage());
+					} else {
+						throw new AuthException("Bad response from OpenID provider");
+					}
 				}
-			} else if (t instanceof play.api.libs.openid.Errors$BAD_RESPONSE$) {
-				throw new AuthException("Bad response from OpenID provider");
 			} else {
 				throw new AuthException(t.getMessage());
 			}

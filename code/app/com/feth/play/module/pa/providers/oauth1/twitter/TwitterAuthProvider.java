@@ -2,13 +2,15 @@ package com.feth.play.module.pa.providers.oauth1.twitter;
 
 import play.Application;
 import play.Configuration;
-import play.api.libs.concurrent.Promise;
 import play.api.libs.json.JsValue;
 import play.api.libs.oauth.ConsumerKey;
 import play.api.libs.oauth.OAuthCalculator;
 import play.api.libs.oauth.RequestToken;
+import play.api.libs.ws.Response;
 import play.api.libs.ws.WS;
 import play.libs.Json;
+import scala.Either;
+import scala.concurrent.Future;
 
 import com.feth.play.module.pa.exceptions.AccessTokenException;
 import com.feth.play.module.pa.exceptions.AuthException;
@@ -45,10 +47,19 @@ public class TwitterAuthProvider extends
 
 		final OAuthCalculator op = new OAuthCalculator(cK, token);
 
-		final Promise<play.api.libs.ws.Response> promise = WS.url(url).sign(op)
-				.get();
+		final Future<Response> resp = WS.url(url).sign(op).get();
 
-		final JsValue json = promise.value().get().json();
+		final Either<Throwable, Response> either = resp.value().get();
+		if (either.isLeft()) {
+			final Throwable t = either.left().get();
+			if (t.getMessage() == null) {
+				throw new AuthException();
+			} else {
+				throw new AuthException(t.getMessage());
+			}
+		}
+
+		final JsValue json = either.right().get().json();
 		return new TwitterAuthUser(Json.parse(json.toString()), info);
 	}
 

@@ -43,6 +43,13 @@ The included sample application shows how to use all of those providers.
 * French (as of 2012-08-28,  commit 967e11e207)
 
 ## Versions
+* **0.2.1-SNAPSHOT** [2012-10-22]
+  * Added Polish translation (thanks to @biesoir)
+  * Added French translation (thanks to @Mortimerp9)
+  * Added simple OAuth example
+  * Fixed an NPE occuring when signing up with email previously connected to a Google Account
+  * Fixed serialization problem with memcache
+  * Switch to Play 2.0.3
 * **0.2.0-SNAPSHOT** [2012-08-01]
   * Add twitter provider (many thanks to Fred Cecilia (@naiky) for the initial version)
 * **0.1.9-SNAPSHOT** [2012-07-16]

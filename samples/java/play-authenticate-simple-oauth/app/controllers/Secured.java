@@ -22,6 +22,7 @@ public class Secured extends Security.Authenticator {
 
 	@Override
 	public Result onUnauthorized(final Context ctx) {
+		Application.noCache();
 		ctx.flash().put(Application.FLASH_MESSAGE_KEY, "Nice try, but you need to log in first!");
 		return redirect(routes.Application.index());
 	}

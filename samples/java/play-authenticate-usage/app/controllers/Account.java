@@ -51,11 +51,13 @@ public class Account extends Controller {
 
 	@RoleHolderPresent
 	public static Result link() {
+		Application.noCache();
 		return ok(link.render());
 	}
 
 	@Restrict(Application.USER_ROLE)
 	public static Result verifyEmail() {
+		Application.noCache();
 		final User user = Application.getLocalUser(session());
 		if (user.emailValidated) {
 			// E-Mail has been validated already
@@ -77,6 +79,7 @@ public class Account extends Controller {
 
 	@Restrict(Application.USER_ROLE)
 	public static Result changePassword() {
+		Application.noCache();
 		final User u = Application.getLocalUser(session());
 
 		if (!u.emailValidated) {
@@ -88,6 +91,7 @@ public class Account extends Controller {
 
 	@Restrict(Application.USER_ROLE)
 	public static Result doChangePassword() {
+		Application.noCache();
 		final Form<Account.PasswordChange> filledForm = PASSWORD_CHANGE_FORM
 				.bindFromRequest();
 		if (filledForm.hasErrors()) {
@@ -106,6 +110,7 @@ public class Account extends Controller {
 
 	@RoleHolderPresent
 	public static Result askLink() {
+		Application.noCache();
 		final AuthUser u = PlayAuthenticate.getLinkUser(session());
 		if (u == null) {
 			// account to link could not be found, silently redirect to login
@@ -116,6 +121,7 @@ public class Account extends Controller {
 
 	@RoleHolderPresent
 	public static Result doLink() {
+		Application.noCache();
 		final AuthUser u = PlayAuthenticate.getLinkUser(session());
 		if (u == null) {
 			// account to link could not be found, silently redirect to login
@@ -139,6 +145,7 @@ public class Account extends Controller {
 
 	@RoleHolderPresent
 	public static Result askMerge() {
+		Application.noCache();
 		// this is the currently logged in user
 		final AuthUser aUser = PlayAuthenticate.getUser(session());
 
@@ -156,6 +163,7 @@ public class Account extends Controller {
 
 	@RoleHolderPresent
 	public static Result doMerge() {
+		Application.noCache();
 		// this is the currently logged in user
 		final AuthUser aUser = PlayAuthenticate.getUser(session());
 

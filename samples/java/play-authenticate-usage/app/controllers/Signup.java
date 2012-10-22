@@ -32,12 +32,14 @@ public class Signup extends Controller {
 	private static final Form<PasswordReset> PASSWORD_RESET_FORM = form(PasswordReset.class);
 
 	public static Result unverified() {
+		Application.noCache();
 		return ok(unverified.render());
 	}
 
 	private static final Form<MyIdentity> FORGOT_PASSWORD_FORM = form(MyIdentity.class);
 
 	public static Result forgotPassword(final String email) {
+		Application.noCache();
 		Form<MyIdentity> form = FORGOT_PASSWORD_FORM;
 		if (email != null && !email.trim().isEmpty()) {
 			form = FORGOT_PASSWORD_FORM.fill(new MyIdentity(email));
@@ -46,6 +48,7 @@ public class Signup extends Controller {
 	}
 
 	public static Result doForgotPassword() {
+		Application.noCache();
 		final Form<MyIdentity> filledForm = FORGOT_PASSWORD_FORM
 				.bindFromRequest();
 		if (filledForm.hasErrors()) {
@@ -117,6 +120,7 @@ public class Signup extends Controller {
 	}
 
 	public static Result resetPassword(final String token) {
+		Application.noCache();
 		final TokenAction ta = tokenIsValid(token, Type.PASSWORD_RESET);
 		if (ta == null) {
 			return badRequest(no_token_or_invalid.render());
@@ -127,6 +131,7 @@ public class Signup extends Controller {
 	}
 
 	public static Result doResetPassword() {
+		Application.noCache();
 		final Form<PasswordReset> filledForm = PASSWORD_RESET_FORM
 				.bindFromRequest();
 		if (filledForm.hasErrors()) {
@@ -169,14 +174,17 @@ public class Signup extends Controller {
 	}
 
 	public static Result oAuthDenied(final String getProviderKey) {
+		Application.noCache();
 		return ok(oAuthDenied.render(getProviderKey));
 	}
 
 	public static Result exists() {
+		Application.noCache();
 		return ok(exists.render());
 	}
 
 	public static Result verify(final String token) {
+		Application.noCache();
 		final TokenAction ta = tokenIsValid(token, Type.EMAIL_VERIFICATION);
 		if (ta == null) {
 			return badRequest(no_token_or_invalid.render());

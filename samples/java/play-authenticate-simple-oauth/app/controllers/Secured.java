@@ -22,7 +22,6 @@ public class Secured extends Security.Authenticator {
 
 	@Override
 	public Result onUnauthorized(final Context ctx) {
-		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
 		ctx.flash().put(Application.FLASH_MESSAGE_KEY, "Nice try, but you need to log in first!");
 		return redirect(routes.Application.index());
 	}

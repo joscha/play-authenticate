@@ -26,15 +26,7 @@ public class Application extends Controller {
 	public static final String FLASH_ERROR_KEY = "error";
 	public static final String USER_ROLE = "user";
 	
-	public static void noCache() {
-		// http://stackoverflow.com/questions/49547/making-sure-a-web-page-is-not-cached-across-all-browsers
-		response().setHeader(Response.CACHE_CONTROL, "no-cache, no-store, must-revalidate");  // HTTP 1.1
-		response().setHeader(Response.PRAGMA, "no-cache");  // HTTP 1.0.
-		response().setHeader(Response.EXPIRES, "0");  // Proxies.
-	}
-
 	public static Result index() {
-		noCache();
 		return ok(index.render());
 	}
 
@@ -46,25 +38,22 @@ public class Application extends Controller {
 
 	@Restrict(Application.USER_ROLE)
 	public static Result restricted() {
-		noCache();
 		final User localUser = getLocalUser(session());
 		return ok(restricted.render(localUser));
 	}
 
 	@Restrict(Application.USER_ROLE)
 	public static Result profile() {
-		noCache();
 		final User localUser = getLocalUser(session());
 		return ok(profile.render(localUser));
 	}
 
 	public static Result login() {
-		noCache();
 		return ok(login.render(MyUsernamePasswordAuthProvider.LOGIN_FORM));
 	}
 
 	public static Result doLogin() {
-		noCache();
+		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
 		final Form<MyLogin> filledForm = MyUsernamePasswordAuthProvider.LOGIN_FORM
 				.bindFromRequest();
 		if (filledForm.hasErrors()) {
@@ -77,12 +66,10 @@ public class Application extends Controller {
 	}
 
 	public static Result signup() {
-		noCache();
 		return ok(signup.render(MyUsernamePasswordAuthProvider.SIGNUP_FORM));
 	}
 
 	public static Result jsRoutes() {
-		noCache();
 		return ok(
 				Routes.javascriptRouter("jsRoutes",
 						controllers.routes.javascript.Signup.forgotPassword()))
@@ -90,7 +77,7 @@ public class Application extends Controller {
 	}
 
 	public static Result doSignup() {
-		noCache();
+		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
 		final Form<MySignup> filledForm = MyUsernamePasswordAuthProvider.SIGNUP_FORM
 				.bindFromRequest();
 		if (filledForm.hasErrors()) {

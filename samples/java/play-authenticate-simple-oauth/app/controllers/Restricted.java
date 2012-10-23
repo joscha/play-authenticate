@@ -10,7 +10,6 @@ import views.html.restricted;
 public class Restricted extends Controller {
 
 	public static Result index() {
-		Application.noCache();
 		final User localUser = Application.getLocalUser(session());
 		return ok(restricted.render(localUser));
 	}

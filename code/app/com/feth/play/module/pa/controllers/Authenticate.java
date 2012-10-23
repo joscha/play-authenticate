@@ -11,20 +11,23 @@ public class Authenticate extends Controller {
 
 	
 	private static final String PAYLOAD_KEY = "p";
+	
+	public static void noCache(Response response) {
+		// http://stackoverflow.com/questions/49547/making-sure-a-web-page-is-not-cached-across-all-browsers
+		response.setHeader(Response.CACHE_CONTROL, "no-cache, no-store, must-revalidate");  // HTTP 1.1
+		response.setHeader(Response.PRAGMA, "no-cache");  // HTTP 1.0.
+		response.setHeader(Response.EXPIRES, "0");  // Proxies.
+	}
 
 	public static Result authenticate(final String provider) {
-		response().setHeader(Response.CACHE_CONTROL, "no-cache, no-store, must-revalidate");  // HTTP 1.1
-		response().setHeader(Response.PRAGMA, "no-cache");  // HTTP 1.0.
-		response().setHeader(Response.EXPIRES, "0");  // Proxies.
+		noCache(response());
 		
 		final String payload = getQueryString(request(), PAYLOAD_KEY);
 		return PlayAuthenticate.handleAuthentication(provider, ctx(), payload);
 	}
 	
 	public static Result logout() {
-		response().setHeader(Response.CACHE_CONTROL, "no-cache, no-store, must-revalidate");  // HTTP 1.1
-		response().setHeader(Response.PRAGMA, "no-cache");  // HTTP 1.0.
-		response().setHeader(Response.EXPIRES, "0");  // Proxies.
+		noCache(response());
 		
 		return PlayAuthenticate.logout(session());
 	}

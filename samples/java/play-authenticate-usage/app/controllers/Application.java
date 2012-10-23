@@ -7,6 +7,7 @@ import models.User;
 import play.Routes;
 import play.data.Form;
 import play.mvc.*;
+import play.mvc.Http.Response;
 import play.mvc.Http.Session;
 import providers.MyUsernamePasswordAuthProvider;
 import providers.MyUsernamePasswordAuthProvider.MyLogin;
@@ -24,7 +25,7 @@ public class Application extends Controller {
 	public static final String FLASH_MESSAGE_KEY = "message";
 	public static final String FLASH_ERROR_KEY = "error";
 	public static final String USER_ROLE = "user";
-
+	
 	public static Result index() {
 		return ok(index.render());
 	}
@@ -52,6 +53,7 @@ public class Application extends Controller {
 	}
 
 	public static Result doLogin() {
+		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
 		final Form<MyLogin> filledForm = MyUsernamePasswordAuthProvider.LOGIN_FORM
 				.bindFromRequest();
 		if (filledForm.hasErrors()) {
@@ -75,6 +77,7 @@ public class Application extends Controller {
 	}
 
 	public static Result doSignup() {
+		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
 		final Form<MySignup> filledForm = MyUsernamePasswordAuthProvider.SIGNUP_FORM
 				.bindFromRequest();
 		if (filledForm.hasErrors()) {

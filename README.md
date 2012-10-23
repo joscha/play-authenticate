@@ -43,6 +43,9 @@ The included sample application shows how to use all of those providers.
 * French (as of 2012-08-28,  commit 967e11e207)
 
 ## Versions
+* **TRUNK** [not released in the repository, yet]
+  * Fixed caching behaviour for CDNs (thanks @enalmada)
+  * Added initial Getting Started guide (thanks Peter Zeller)
 * **0.2.1-SNAPSHOT** [2012-10-22]
   * Added Polish translation (thanks to @biesoir)
   * Added French translation (thanks to @Mortimerp9)

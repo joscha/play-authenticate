@@ -49,6 +49,7 @@ The included sample application shows how to use all of those providers.
   * Fixed caching behaviour for CDNs (thanks @enalmada)
   * Added initial Getting Started guide (thanks Peter Zeller)
   * Upgraded HttpClient dependency from 4.2 to 4.2.1
+  * Switch to Play 2.0.4
 * **0.2.1-SNAPSHOT** [2012-10-22]
   * Added Polish translation (thanks to @biesoir)
   * Added French translation (thanks to @Mortimerp9)

@@ -41,7 +41,7 @@ Create a new file `play-authenticate/mine.conf` in your conf folder. Include thi
 
 	include "play-authenticate/mine.conf"
 
-In your play-authenticate.conf file you can configure play-authenticate. The following example configuration will disable account merging (e.g. when they log in with an existing account whilst being logged in already with another account) and link users automatically when they authenticate with a new provider while being logged in.
+In your mine.conf file you can configure play-authenticate. The following example configuration will disable account merging (e.g. when they log in with an existing account whilst being logged in already with another account) and link users automatically when they authenticate with a new provider while being logged in.
 
 	play-authenticate {
 		accountMergeEnabled=false

@@ -25,6 +25,8 @@ import com.feth.play.module.mail.Mailer.Mail.Body;
 
 import controllers.routes;
 
+import static play.data.Form.form;
+
 public class MyUsernamePasswordAuthProvider
 		extends
 		UsernamePasswordAuthProvider<String, MyLoginUsernamePasswordAuthUser, MyUsernamePasswordAuthUser, MyUsernamePasswordAuthProvider.MyLogin, MyUsernamePasswordAuthProvider.MySignup> {
@@ -102,10 +104,8 @@ public class MyUsernamePasswordAuthProvider
 		}
 	}
 
-	public static final Form<MySignup> SIGNUP_FORM = Controller
-			.form(MySignup.class);
-	public static final Form<MyLogin> LOGIN_FORM = Controller
-			.form(MyLogin.class);
+	public static final Form<MySignup> SIGNUP_FORM = form(MySignup.class);
+	public static final Form<MyLogin> LOGIN_FORM = form(MyLogin.class);
 
 	public MyUsernamePasswordAuthProvider(Application app) {
 		super(app);

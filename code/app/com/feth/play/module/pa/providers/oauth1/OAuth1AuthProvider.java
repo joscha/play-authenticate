@@ -1,8 +1,11 @@
 package com.feth.play.module.pa.providers.oauth1;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.feth.play.module.pa.PlayAuthenticate;
+import com.feth.play.module.pa.controllers.Authenticate;
+import com.feth.play.module.pa.exceptions.AccessTokenException;
+import com.feth.play.module.pa.exceptions.AuthException;
+import com.feth.play.module.pa.providers.ext.ExternalAuthProvider;
+import com.feth.play.module.pa.user.AuthUserIdentity;
 import oauth.signpost.exception.OAuthException;
 import play.Application;
 import play.Configuration;
@@ -13,14 +16,10 @@ import play.api.libs.oauth.RequestToken;
 import play.api.libs.oauth.ServiceInfo;
 import play.mvc.Http.Context;
 import play.mvc.Http.Request;
-import scala.Either;
+import scala.util.Either;
 
-import com.feth.play.module.pa.PlayAuthenticate;
-import com.feth.play.module.pa.controllers.Authenticate;
-import com.feth.play.module.pa.exceptions.AccessTokenException;
-import com.feth.play.module.pa.exceptions.AuthException;
-import com.feth.play.module.pa.providers.ext.ExternalAuthProvider;
-import com.feth.play.module.pa.user.AuthUserIdentity;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class OAuth1AuthProvider<U extends AuthUserIdentity, I extends OAuth1AuthInfo>
 		extends ExternalAuthProvider {

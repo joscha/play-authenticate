@@ -1,5 +1,8 @@
 package com.feth.play.module.pa.providers.oauth1.twitter;
 
+import com.feth.play.module.pa.exceptions.AccessTokenException;
+import com.feth.play.module.pa.exceptions.AuthException;
+import com.feth.play.module.pa.providers.oauth1.OAuth1AuthProvider;
 import play.Application;
 import play.Configuration;
 import play.api.libs.json.JsValue;
@@ -9,12 +12,9 @@ import play.api.libs.oauth.RequestToken;
 import play.api.libs.ws.Response;
 import play.api.libs.ws.WS;
 import play.libs.Json;
-import scala.Either;
 import scala.concurrent.Future;
-
-import com.feth.play.module.pa.exceptions.AccessTokenException;
-import com.feth.play.module.pa.exceptions.AuthException;
-import com.feth.play.module.pa.providers.oauth1.OAuth1AuthProvider;
+import scala.util.Either;
+import scala.util.Try;
 
 public class TwitterAuthProvider extends
 		OAuth1AuthProvider<TwitterAuthUser, TwitterAuthInfo> {
@@ -49,9 +49,9 @@ public class TwitterAuthProvider extends
 
 		final Future<Response> resp = WS.url(url).sign(op).get();
 
-		final Either<Throwable, Response> either = resp.value().get();
-		if (either.isLeft()) {
-			final Throwable t = either.left().get();
+		final Try<Response> responseTry = resp.value().get();
+		if (responseTry.isFailure()) {
+			final Throwable t = responseTry.failed().get();
 			if (t.getMessage() == null) {
 				throw new AuthException();
 			} else {
@@ -59,7 +59,7 @@ public class TwitterAuthProvider extends
 			}
 		}
 
-		final JsValue json = either.right().get().json();
+		final JsValue json = responseTry.get().json();
 		return new TwitterAuthUser(Json.parse(json.toString()), info);
 	}
 

@@ -8,7 +8,7 @@ object ApplicationBuild extends Build {
     val appVersion      = "1.0-SNAPSHOT"
 
     val appDependencies = Seq(
-      "be.objectify"  %%  "deadbolt-2"        % "1.1.3-SNAPSHOT",
+      "be.objectify"  %%  "deadbolt-2"        % "1.1.4-SNAPSHOT",
       "com.feth"      %%  "play-authenticate" % "0.2.0-SNAPSHOT",
       "postgresql"    %   "postgresql"        % "9.1-901.jdbc4"
     )
@@ -29,6 +29,8 @@ object ApplicationBuild extends Build {
 */
 
     val main = PlayProject(appName, appVersion, appDependencies, mainLang = JAVA).settings(
+      resolvers += "Daniel's Repository" at "http://danieldietrich.net/repository/snapshots/",
+
       resolvers += Resolver.url("Objectify Play Repository", url("http://schaloner.github.com/releases/"))(Resolver.ivyStylePatterns),
       resolvers += Resolver.url("Objectify Play Repository", url("http://schaloner.github.com/snapshots/"))(Resolver.ivyStylePatterns),
 

@@ -49,9 +49,9 @@ public class TwitterAuthProvider extends
 
 		final Future<Response> resp = WS.url(url).sign(op).get();
 
-		final Try<Response> either = resp.value().get();
-		if (either.isFailure()) {
-			final Throwable t = either.failed().get();
+		final Try<Response> responseTry = resp.value().get();
+		if (responseTry.isFailure()) {
+			final Throwable t = responseTry.failed().get();
 			if (t.getMessage() == null) {
 				throw new AuthException();
 			} else {
@@ -59,7 +59,7 @@ public class TwitterAuthProvider extends
 			}
 		}
 
-		final JsValue json = either.get().json();
+		final JsValue json = responseTry.get().json();
 		return new TwitterAuthUser(Json.parse(json.toString()), info);
 	}
 

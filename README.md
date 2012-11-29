@@ -5,7 +5,7 @@ This plugin uses concepts from [securesocial2][] and [Play20StartApp][] and prov
 #### Version information
 **Play Authenticate currently needs Play! Framework 2.0.2 or later**
 
-Works fine with 2.0 to 2.0.4 and there is a 2.1 branch which should work with a current 2.1 snapshot (as of 2012-09-17)
+Works fine with 2.0 to 2.0.4 and there is a 2.1 branch which should work with 2.1rc1
 
 ## Live demo
 You can find a live demo on [heroku](https://play-authenticate.herokuapp.com/ "Play Authenticate sample app") (might not always be the latest version) and there are some screens on our [website](http://joscha.github.com/play-authenticate/).
@@ -45,7 +45,7 @@ The included sample application shows how to use all of those providers.
 ## Versions
 * **TRUNK** [not released in the repository, yet]
   * not much, yet - wanna contribute something? :)
-  * Use reflection for email templates in samples to allow easier addition of new languages
+  * Use reflection for email templates in samples to allow easier addition of new languages (thanks @biesoir for the initial version)
 * **0.2.2-SNAPSHOT** [2012-11-07]
   * Fixed caching behaviour for CDNs (thanks @enalmada)
   * Added initial Getting Started guide (thanks Peter Zeller)

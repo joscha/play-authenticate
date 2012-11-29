@@ -1,4 +1,4 @@
-@(verificationUrl: String, token: String, name: String)Howdy @name,
+@(verificationUrl: String, token: String, name: String, email: String)Howdy @name,
 
 
 You recently signed up for PlayAuthenticate.

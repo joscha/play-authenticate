@@ -19,7 +19,6 @@ import play.i18n.Lang;
 import play.i18n.Messages;
 import play.mvc.Call;
 import play.mvc.Controller;
-import play.mvc.Http;
 import play.mvc.Http.Context;
 
 import java.lang.reflect.InvocationTargetException;
@@ -37,6 +36,8 @@ public class MyUsernamePasswordAuthProvider
 	private static final String SETTING_KEY_PASSWORD_RESET_LINK_SECURE = SETTING_KEY_MAIL
 			+ "." + "passwordResetLink.secure";
 	private static final String SETTING_KEY_LINK_LOGIN_AFTER_PASSWORD_RESET = "loginAfterPasswordReset";
+
+	private static final String EMAIL_TEMPLATE_FALLBACK_LANGUAGE = "en";
 
 	@Override
 	protected List<String> neededSettingKeys() {
@@ -216,65 +217,22 @@ public class MyUsernamePasswordAuthProvider
 	protected Body getVerifyEmailMailingBody(final String token,
 			final MyUsernamePasswordAuthUser user, final Context ctx) {
 
-        Class htmlClass = null;
-        Method htmlRender = null;
-        String html = null;
+		final boolean isSecure = getConfiguration().getBoolean(
+				SETTING_KEY_VERIFICATION_LINK_SECURE);
+		final String url = routes.Signup.verify(token).absoluteURL(
+				ctx.request(), isSecure);
 
-        Class textClass = null;
-        Method textRender = null;
-        String text = null;
+		final Lang lang = Lang.preferred(ctx.request().acceptLanguages());
+		final String langCode = lang.code();
 
-        Lang lang = Lang.preferred(ctx.request().acceptLanguages());
-        String langCode = lang.code();
+		final String html = getEmailTemplate(
+				"views.html.account.signup.email.verify_email", langCode, url,
+				token, user.getName(), user.getEmail());
+		final String text = getEmailTemplate(
+				"views.txt.account.signup.email.verify_email", langCode, url,
+				token, user.getName(), user.getEmail());
 
-		final boolean isSecure = getConfiguration().getBoolean(SETTING_KEY_VERIFICATION_LINK_SECURE);
-		final String url = routes.Signup.verify(token).absoluteURL(ctx.request(), isSecure);
-
-
-        // HTML version
-        try {
-            htmlClass = Class.forName("views.html.account.signup.email.verify_email_" + langCode);
-        } catch (ClassNotFoundException e) {
-            Logger.warn("Template: 'views.html.account.signup.email.verify_email_" + langCode + "' was not found! English template used instead.");
-        }
-
-        if (htmlClass == null) htmlClass = views.html.account.signup.email.verify_email_en.class;
-        if (htmlClass != null) {
-            try {
-                htmlRender = htmlClass.getMethod("render", String.class, String.class, String.class);
-
-            } catch (NoSuchMethodException  e) {
-                e.printStackTrace();
-            }
-            try {
-                html = htmlRender.invoke(null, url, token, user.getName()).toString();
-            } catch (IllegalAccessException | InvocationTargetException e) {
-                e.printStackTrace();
-            }
-        }
-
-        // Text version
-        try {
-            textClass = Class.forName("views.txt.account.signup.email.verify_email_" + langCode);
-        } catch (ClassNotFoundException e) {
-            Logger.warn("Template: 'views.txt.account.signup.email.verify_email_" + langCode + "' was not found! English template used instead.");
-        }
-
-        if (textClass == null) textClass = views.txt.account.signup.email.verify_email_en.class;
-        if (textClass != null) {
-            try {
-                textRender = textClass.getMethod("render", String.class, String.class, String.class);
-            } catch (NoSuchMethodException  e) {
-                e.printStackTrace();
-            }
-            try {
-                text = textRender.invoke(null, url, token, user.getName()).toString();
-            } catch (IllegalAccessException | InvocationTargetException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return new Body(text, html);
+		return new Body(text, html);
 	}
 
 	private static String generateToken() {
@@ -306,71 +264,23 @@ public class MyUsernamePasswordAuthProvider
 	}
 
 	protected Body getPasswordResetMailingBody(final String token,
-			final User user, final Context ctx)  {
+			final User user, final Context ctx) {
 
-        Class htmlClass = null;
-        Method htmlRender = null;
-        String html = null;
+		final boolean isSecure = getConfiguration().getBoolean(
+				SETTING_KEY_PASSWORD_RESET_LINK_SECURE);
+		final String url = routes.Signup.resetPassword(token).absoluteURL(
+				ctx.request(), isSecure);
 
-        Class textClass = null;
-        Method textRender = null;
-        String text = null;
+		final Lang lang = Lang.preferred(ctx.request().acceptLanguages());
+		final String langCode = lang.code();
 
-        Lang lang = Lang.preferred(ctx.request().acceptLanguages());
-        String langCode = lang.code();
+		final String html = getEmailTemplate(
+				"views.html.account.email.password_reset", langCode, url,
+				token, user.name, user.email);
+		final String text = getEmailTemplate(
+				"views.txt.account.email.password_reset", langCode, url, token,
+				user.name, user.email);
 
-
-        final boolean isSecure = getConfiguration().getBoolean(SETTING_KEY_PASSWORD_RESET_LINK_SECURE);
-
-        final String url = routes.Signup.resetPassword(token).absoluteURL(
-                ctx.request(), isSecure);
-
-
-        // HTML version
-        try {
-            htmlClass = Class.forName("views.html.account.email.password_reset_" + langCode);
-        } catch (ClassNotFoundException e) {
-            Logger.warn("Template: 'views.html.account.email.password_reset_" + langCode + "' was not found! English template used instead.");
-        }
-        if (htmlClass == null) htmlClass = views.html.account.email.password_reset_en.class;
-        if (htmlClass != null) {
-            try {
-                htmlRender = htmlClass.getMethod("render", String.class, String.class, String.class);
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
-            }
-            try {
-                html = htmlRender.invoke(null, url, token, user.name).toString();
-            } catch (IllegalAccessException  e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e){
-                e.printStackTrace();
-            }
-
-        }
-
-        // Text version
-        try {
-            textClass = Class.forName("views.txt.account.email.password_reset_" + langCode);
-        } catch (ClassNotFoundException e) {
-            Logger.warn("Template: 'views.txt.account.email.password_reset_" + langCode + "' was not found! English template used instead.");
-        }
-
-        if (textClass == null) textClass = views.txt.account.email.password_reset_en.class;
-        if (textClass != null) {
-            try {
-                textRender = textClass.getMethod("render", String.class, String.class, String.class);
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
-            }
-            try {
-                text = textRender.invoke(null, url, token, user.name).toString();
-            } catch (IllegalAccessException  e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e){
-                e.printStackTrace();
-            }
-        }
 		return new Body(text, html);
 	}
 
@@ -391,75 +301,71 @@ public class MyUsernamePasswordAuthProvider
 		return Messages.get("playauthenticate.password.verify_email.subject");
 	}
 
+	protected String getEmailTemplate(final String template,
+			final String langCode, final String url, final String token,
+			final String name, final String email) {
+		Class<?> cls = null;
+		String ret = null;
+		try {
+			cls = Class.forName(template + "_" + langCode);
+		} catch (ClassNotFoundException e) {
+			Logger.warn("Template: '"
+					+ template
+					+ "_"
+					+ langCode
+					+ "' was not found! Trying to use English fallback template instead.");
+		}
+		if (cls == null) {
+			try {
+				cls = Class.forName(template + "_"
+						+ EMAIL_TEMPLATE_FALLBACK_LANGUAGE);
+			} catch (ClassNotFoundException e) {
+				Logger.error("Fallback template: '" + template + "_"
+						+ EMAIL_TEMPLATE_FALLBACK_LANGUAGE
+						+ "' was not found either!");
+			}
+		}
+		if (cls != null) {
+			Method htmlRender = null;
+			try {
+				htmlRender = cls.getMethod("render", String.class,
+						String.class, String.class, String.class);
+				ret = htmlRender.invoke(null, url, token, name, email)
+						.toString();
+
+			} catch (NoSuchMethodException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				e.printStackTrace();
+			}
+		}
+		return ret;
+	}
+
 	protected Body getVerifyEmailMailingBodyAfterSignup(final String token,
-			final User user, final Context ctx)  {
+			final User user, final Context ctx) {
 
-        Class htmlClass = null;
-        Method htmlRender = null;
-        String html = null;
+		final boolean isSecure = getConfiguration().getBoolean(
+				SETTING_KEY_VERIFICATION_LINK_SECURE);
+		final String url = routes.Signup.verify(token).absoluteURL(
+				ctx.request(), isSecure);
 
-        Class textClass = null;
-        Method textRender = null;
-        String text = null;
+		final Lang lang = Lang.preferred(ctx.request().acceptLanguages());
+		final String langCode = lang.code();
 
-        Lang lang = Lang.preferred(ctx.request().acceptLanguages());
-        String langCode = lang.code();
-
-		final boolean isSecure = getConfiguration().getBoolean(SETTING_KEY_VERIFICATION_LINK_SECURE);
-		final String url = routes.Signup.verify(token).absoluteURL(ctx.request(), isSecure);
-
-        // HTML version
-        try {
-            htmlClass = Class.forName("views.html.account.email.verify_email_" + langCode);
-        } catch (ClassNotFoundException e) {
-            Logger.warn("Template: 'views.html.account.email.verify_email_" + langCode + "' was not found! English template used instead.");
-        }
-        if (htmlClass == null) htmlClass = views.html.account.email.verify_email_en.class;
-
-        if (htmlClass != null) {
-            try {
-                htmlRender = htmlClass.getMethod("render", String.class, String.class, String.class, String.class);
-            } catch (NoSuchMethodException  e) {
-                e.printStackTrace();
-            }
-            try {
-                html = htmlRender.invoke(null, url, token, user.name, user.email).toString();
-            } catch (IllegalAccessException  e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e){
-                e.printStackTrace();
-            }
-        }
-
-        // Text version
-        try {
-            textClass = Class.forName("views.txt.account.email.verify_email_" + langCode);
-        } catch (ClassNotFoundException e) {
-            Logger.warn("Template: 'views.txt.account.email.verify_email_" + langCode + "' was not found! English template used instead.");
-        }
-        if (textClass == null) textClass = views.txt.account.email.verify_email_en.class;
-
-        if (textClass != null) {
-            try {
-                textRender = textClass.getMethod("render", String.class, String.class, String.class, String.class);
-            } catch (NoSuchMethodException  e) {
-                e.printStackTrace();
-            }
-            try {
-                text = textRender.invoke(null, url, token, user.name, user.email).toString();
-            } catch (IllegalAccessException  e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e){
-                e.printStackTrace();
-            }
-        }
+		final String html = getEmailTemplate(
+				"views.html.account.email.verify_email", langCode, url, token,
+				user.name, user.email);
+		final String text = getEmailTemplate(
+				"views.txt.account.email.verify_email", langCode, url, token,
+				user.name, user.email);
 
 		return new Body(text, html);
 	}
 
-
-
-    public void sendVerifyEmailMailingAfterSignup(final User user,
+	public void sendVerifyEmailMailingAfterSignup(final User user,
 			final Context ctx) {
 
 		final String subject = getVerifyEmailMailingSubjectAfterSignup(user,

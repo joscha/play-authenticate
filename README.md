@@ -44,7 +44,8 @@ The included sample application shows how to use all of those providers.
 
 ## Versions
 * **TRUNK** [not released in the repository, yet]
-  * nothing new, yet - wanna contribute something? :)
+  * not much, yet - wanna contribute something? :)
+  * Use reflection for email templates in samples to allow easier addition of new languages
 * **0.2.2-SNAPSHOT** [2012-11-07]
   * Fixed caching behaviour for CDNs (thanks @enalmada)
   * Added initial Getting Started guide (thanks Peter Zeller)

@@ -7,3 +7,4 @@
 10040:providers.MyUsernamePasswordAuthProvider
 10050:com.feth.play.module.pa.providers.openid.OpenIdAuthProvider
 10060:com.feth.play.module.pa.providers.oauth1.twitter.TwitterAuthProvider
+10070:com.feth.play.module.pa.providers.oauth1.linkedin.LinkedinAuthProvider

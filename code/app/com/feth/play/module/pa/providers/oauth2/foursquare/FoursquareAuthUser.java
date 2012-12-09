@@ -31,7 +31,10 @@ public class FoursquareAuthUser extends BasicOAuth2AuthUser implements
 		public static final String FIRST_NAME = "firstName"; // "Joscha"
 		public static final String LAST_NAME = "lastName"; // "Feth"
 		public static final String HOME_CITY = "homeCity"; // "Metzingen, Baden-Württemberg"
-		public static final String PHOTO = "photo"; // "https://is0.4sqi.net/userpix_thumbs/HZGTZQNRLA21ZIAD.jpg"
+		public static final String PHOTO = "photo"; // "<prefix>/original/<suffix>"
+		public static final String PREFIX = "prefix"; // "https://is0.4sqi.net/img/user/"
+		public static final String ORIGINAL = "original"; // "original"
+		public static final String SUFFIX = "suffix"; // "/HZGTZQNRLA21ZIAD.jpg"
 		public static final String GENDER = "gender"; // "male"
 		public static final String TYPE = "type"; // "user"
 		public static final String CONTACT = "contact"; // {"email":
@@ -70,7 +73,11 @@ public class FoursquareAuthUser extends BasicOAuth2AuthUser implements
 			this.homeCity = node.get(Constants.HOME_CITY).asText();
 		}
 		if (node.has(Constants.PHOTO)) {
-			this.picture = node.get(Constants.PHOTO).asText();
+			final StringBuilder sb = new StringBuilder();
+      sb.append(node.get(Constants.PHOTO).get(Constants.PREFIX).asText());
+      sb.append(Constants.ORIGINAL);
+      sb.append(node.get(Constants.PHOTO).get(Constants.SUFFIX).asText());
+			this.picture = sb.toString();
 		}
 		if (node.has(Constants.GENDER)) {
 			this.gender = node.get(Constants.GENDER).asText();

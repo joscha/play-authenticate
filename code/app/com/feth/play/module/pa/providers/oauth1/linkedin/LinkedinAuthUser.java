@@ -17,7 +17,8 @@ import com.feth.play.module.pa.user.FirstLastNameIdentity;
 import com.feth.play.module.pa.user.PicturedIdentity;
 
 public class LinkedinAuthUser extends BasicOAuth1AuthUser implements
-BasicIdentity, FirstLastNameIdentity, PicturedIdentity, EmploymentsIdentity, EducationsIdentity {
+		BasicIdentity, FirstLastNameIdentity, PicturedIdentity,
+		EmploymentsIdentity, EducationsIdentity {
 
 	/**
 	 * 
@@ -56,7 +57,6 @@ BasicIdentity, FirstLastNameIdentity, PicturedIdentity, EmploymentsIdentity, Edu
 
 	}
 
-
 	private String picture;
 	private String firstName;
 	private String lastName;
@@ -65,8 +65,8 @@ BasicIdentity, FirstLastNameIdentity, PicturedIdentity, EmploymentsIdentity, Edu
 	private List<EmploymentInfo> employments;
 	private List<EducationInfo> educations;
 
-
-	public LinkedinAuthUser(final JsonNode nodeInfo, final String email, final OAuth1AuthInfo info) {
+	public LinkedinAuthUser(final JsonNode nodeInfo, final String email,
+			final OAuth1AuthInfo info) {
 		super(nodeInfo.get(Constants.ID).asText(), info, null);
 
 		if (nodeInfo.has(Constants.FIRST_NAME)) {
@@ -116,13 +116,16 @@ BasicIdentity, FirstLastNameIdentity, PicturedIdentity, EmploymentsIdentity, Edu
 			degree = node.get(Constants.Education.DEGREE).asText();
 		}
 		JsonNode childNode;
-		if ((childNode = LinkedinAuthUser.traverse(node, Constants.Education.START_DATE_YEAR)) != null) {
+		if ((childNode = LinkedinAuthUser.traverse(node,
+				Constants.Education.START_DATE_YEAR)) != null) {
 			startDateYear = childNode.asInt();
 		}
-		if ((childNode = LinkedinAuthUser.traverse(node, Constants.Education.END_DATE_YEAR)) != null) {
+		if ((childNode = LinkedinAuthUser.traverse(node,
+				Constants.Education.END_DATE_YEAR)) != null) {
 			endDateYear = childNode.asInt();
 		}
-		return new EducationInfo(id, schoolName, degree, startDateYear, endDateYear);
+		return new EducationInfo(id, schoolName, degree, startDateYear,
+				endDateYear);
 	}
 
 	private static EmploymentInfo makeEmployment(JsonNode node) {
@@ -139,30 +142,38 @@ BasicIdentity, FirstLastNameIdentity, PicturedIdentity, EmploymentsIdentity, Edu
 			summary = node.get(Constants.Employment.SUMMARY).asText();
 		}
 		JsonNode childNode;
-		if ((childNode = LinkedinAuthUser.traverse(node, Constants.Employment.START_DATE_MONTH)) != null) {
+		if ((childNode = LinkedinAuthUser.traverse(node,
+				Constants.Employment.START_DATE_MONTH)) != null) {
 			startDateMonth = childNode.asInt();
 		}
-		if ((childNode = LinkedinAuthUser.traverse(node, Constants.Employment.START_DATE_YEAR)) != null) {
+		if ((childNode = LinkedinAuthUser.traverse(node,
+				Constants.Employment.START_DATE_YEAR)) != null) {
 			startDateYear = childNode.asInt();
 		}
-		if ((childNode = LinkedinAuthUser.traverse(node, Constants.Employment.END_DATE_MONTH)) != null) {
+		if ((childNode = LinkedinAuthUser.traverse(node,
+				Constants.Employment.END_DATE_MONTH)) != null) {
 			endDateMonth = childNode.asInt();
 		}
-		if ((childNode = LinkedinAuthUser.traverse(node, Constants.Employment.END_DATE_YEAR)) != null) {
+		if ((childNode = LinkedinAuthUser.traverse(node,
+				Constants.Employment.END_DATE_YEAR)) != null) {
 			endDateYear = childNode.asInt();
 		}
 		if (node.has(Constants.Employment.IS_CURRENT)) {
 			isCurrent = node.get(Constants.Employment.IS_CURRENT).asBoolean();
 		}
-		if ((childNode = LinkedinAuthUser.traverse(node, Constants.Employment.COMPANY_NAME)) != null) {
+		if ((childNode = LinkedinAuthUser.traverse(node,
+				Constants.Employment.COMPANY_NAME)) != null) {
 			companyName = childNode.asText();
 		}
-		return new EmploymentInfo(id, title, summary, startDateMonth, startDateYear, endDateMonth, endDateYear, isCurrent, companyName);
+		return new EmploymentInfo(id, title, summary, startDateMonth,
+				startDateYear, endDateMonth, endDateYear, isCurrent,
+				companyName);
 	}
 
 	/**
 	 * Gets the child node from a top node, by going going down the json tree
 	 * via consuming '/'s.
+	 * 
 	 * @param topNode
 	 * @return
 	 */

@@ -36,8 +36,8 @@ public class LinkedinAuthProvider extends
 			throws AuthException {
 		final String url = getConfiguration().getString(
 				USER_INFO_URL_SETTING_KEY);
-    final String urlEmail = getConfiguration().getString(
-        USER_EMAIL_URL_SETTING_KEY);
+		final String urlEmail = getConfiguration().getString(
+				USER_EMAIL_URL_SETTING_KEY);
 
 		final RequestToken token = new RequestToken(info.getAccessToken(),
 				info.getAccessTokenSecret());
@@ -50,13 +50,13 @@ public class LinkedinAuthProvider extends
 
 		final Promise<play.api.libs.ws.Response> promise = WS.url(url).sign(op)
 				.get();
-    final Promise<play.api.libs.ws.Response> promiseEmail = WS.url(urlEmail).sign(op)
-        .get();
+		final Promise<play.api.libs.ws.Response> promiseEmail = WS
+				.url(urlEmail).sign(op).get();
 
 		final JsValue json = promise.value().get().json();
 		final JsValue jsonEmail = promiseEmail.value().get().json();
 		final String email = Json.parse(jsonEmail.toString()).asText();
-		
+
 		return new LinkedinAuthUser(Json.parse(json.toString()), email, info);
 	}
 

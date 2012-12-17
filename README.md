@@ -30,7 +30,7 @@ As of now, the following authentication providers are supported out of the box:
 * Facebook (OAuth2)
 * Foursquare (OAuth2)
 * Twitter (OAuth1)
-* Linkedin (OAuth1)
+* LinkedIn (OAuth1)
 * OpenID (experimental)
 * Email/Password (with email verification, password security/encryption is fully customizable)
 * Your very own authentication provider (LDAP, DB, you-name-it) via an extensible, easy-to-use plugin mechanism based on Play Plugins
@@ -45,9 +45,10 @@ The included sample application shows how to use all of those providers.
 
 ## Versions
 * **TRUNK** [not released in the repository, yet]
-  * not much, yet - wanna contribute something? :)
+  * nothing, yet - wanna contribute something? :)
+* **0.2.3-SNAPSHOT**
   * Use reflection for email templates in samples to allow easier addition of new languages (thanks @biesoir for the initial version)
-  * Linkedin added.
+  * Linkedin added (thanks @tonygwu)
 * **0.2.2-SNAPSHOT** [2012-11-07]
   * Fixed caching behaviour for CDNs (thanks @enalmada)
   * Added initial Getting Started guide (thanks Peter Zeller)

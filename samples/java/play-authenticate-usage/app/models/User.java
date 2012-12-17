@@ -30,6 +30,7 @@ import com.feth.play.module.pa.user.AuthUser;
 import com.feth.play.module.pa.user.AuthUserIdentity;
 import com.feth.play.module.pa.user.EmailIdentity;
 import com.feth.play.module.pa.user.NameIdentity;
+import com.feth.play.module.pa.user.FirstLastNameIdentity;
 
 /**
  * Initial version based on work by Steve Chaloner (steve@objectify.be) for
@@ -53,6 +54,10 @@ public class User extends Model implements RoleHolder {
 	public String email;
 
 	public String name;
+	
+	public String firstName;
+	
+	public String lastName;
 
 	@Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
 	public Date lastLogin;
@@ -160,6 +165,18 @@ public class User extends Model implements RoleHolder {
 			if (name != null) {
 				user.name = name;
 			}
+		}
+		
+		if (authUser instanceof FirstLastNameIdentity) {
+		  final FirstLastNameIdentity identity = (FirstLastNameIdentity) authUser;
+		  final String firstName = identity.getFirstName();
+		  final String lastName = identity.getLastName();
+		  if (firstName != null) {
+		    user.firstName = firstName;
+		  }
+		  if (lastName != null) {
+		    user.lastName = lastName;
+		  }
 		}
 
 		user.save();

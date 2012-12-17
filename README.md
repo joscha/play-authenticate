@@ -46,7 +46,7 @@ The included sample application shows how to use all of those providers.
 ## Versions
 * **TRUNK** [not released in the repository, yet]
   * nothing, yet - wanna contribute something? :)
-* **0.2.3-SNAPSHOT**
+* **0.2.3-SNAPSHOT** [2012-12-17]
   * Use reflection for email templates in samples to allow easier addition of new languages (thanks @biesoir for the initial version)
   * Linkedin added (thanks @tonygwu)
 * **0.2.2-SNAPSHOT** [2012-11-07]

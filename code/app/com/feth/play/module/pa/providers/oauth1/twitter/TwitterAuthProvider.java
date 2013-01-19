@@ -13,8 +13,6 @@ import play.api.libs.ws.Response;
 import play.api.libs.ws.WS;
 import play.libs.Json;
 import scala.concurrent.Future;
-import scala.util.Either;
-import scala.util.Try;
 
 public class TwitterAuthProvider extends
 		OAuth1AuthProvider<TwitterAuthUser, TwitterAuthInfo> {
@@ -49,17 +47,10 @@ public class TwitterAuthProvider extends
 
 		final Future<Response> resp = WS.url(url).sign(op).get();
 
-		final Try<Response> responseTry = resp.value().get();
-		if (responseTry.isFailure()) {
-			final Throwable t = responseTry.failed().get();
-			if (t.getMessage() == null) {
-				throw new AuthException();
-			} else {
-				throw new AuthException(t.getMessage());
-			}
-		}
+		final Future<play.api.libs.ws.Response> future = WS.url(url).sign(op).get();
+		play.api.libs.ws.Response response = new play.libs.F.Promise<play.api.libs.ws.Response>(future).get();
 
-		final JsValue json = responseTry.get().json();
+		final JsValue json = response.json();
 		return new TwitterAuthUser(Json.parse(json.toString()), info);
 	}
 

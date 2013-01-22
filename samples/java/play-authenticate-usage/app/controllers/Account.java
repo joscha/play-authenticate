@@ -1,8 +1,9 @@
 package controllers;
 
 import models.User;
-import be.objectify.deadbolt.actions.Restrict;
-import be.objectify.deadbolt.actions.RoleHolderPresent;
+import be.objectify.deadbolt.java.actions.Restrict;
+import be.objectify.deadbolt.java.actions.Group;
+import be.objectify.deadbolt.java.actions.SubjectPresent;
 
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.user.AuthUser;
@@ -75,19 +76,19 @@ public class Account extends Controller {
 	private static final Form<Accept> ACCEPT_FORM = form(Accept.class);
 	private static final Form<Account.PasswordChange> PASSWORD_CHANGE_FORM = form(Account.PasswordChange.class);
 
-	@RoleHolderPresent
+	@SubjectPresent
 	public static Result link() {
 		return ok(link.render());
 	}
 
-	@Restrict(Application.USER_ROLE)
+	@Restrict(@Group(Application.USER_ROLE))
 	public static Result verifyEmail() {
 		final User user = Application.getLocalUser(session());
 		if (user.emailValidated) {
 			// E-Mail has been validated already
 			flash(Application.FLASH_MESSAGE_KEY,
 					Messages.get("playauthenticate.verify_email.error.already_validated"));
-		} else if(user.email != null && !user.email.trim().isEmpty()){
+		} else if (user.email != null && !user.email.trim().isEmpty()) {
 			flash(Application.FLASH_MESSAGE_KEY, Messages.get(
 					"playauthenticate.verify_email.message.instructions_sent",
 					user.email));
@@ -101,7 +102,7 @@ public class Account extends Controller {
 		return redirect(routes.Application.profile());
 	}
 
-	@Restrict(Application.USER_ROLE)
+	@Restrict(@Group(Application.USER_ROLE))
 	public static Result changePassword() {
 		final User u = Application.getLocalUser(session());
 
@@ -112,7 +113,7 @@ public class Account extends Controller {
 		}
 	}
 
-	@Restrict(Application.USER_ROLE)
+	@Restrict(@Group(Application.USER_ROLE))
 	public static Result doChangePassword() {
 		final Form<Account.PasswordChange> filledForm = PASSWORD_CHANGE_FORM
 				.bindFromRequest();
@@ -130,7 +131,7 @@ public class Account extends Controller {
 		}
 	}
 
-	@RoleHolderPresent
+	@SubjectPresent
 	public static Result askLink() {
 		final AuthUser u = PlayAuthenticate.getLinkUser(session());
 		if (u == null) {
@@ -140,7 +141,7 @@ public class Account extends Controller {
 		return ok(ask_link.render(ACCEPT_FORM, u));
 	}
 
-	@RoleHolderPresent
+	@SubjectPresent
 	public static Result doLink() {
 		final AuthUser u = PlayAuthenticate.getLinkUser(session());
 		if (u == null) {
@@ -163,7 +164,7 @@ public class Account extends Controller {
 		}
 	}
 
-	@RoleHolderPresent
+	@SubjectPresent
 	public static Result askMerge() {
 		// this is the currently logged in user
 		final AuthUser aUser = PlayAuthenticate.getUser(session());
@@ -180,7 +181,7 @@ public class Account extends Controller {
 		return ok(ask_merge.render(ACCEPT_FORM, aUser, bUser));
 	}
 
-	@RoleHolderPresent
+	@SubjectPresent
 	public static Result doMerge() {
 		// this is the currently logged in user
 		final AuthUser aUser = PlayAuthenticate.getUser(session());

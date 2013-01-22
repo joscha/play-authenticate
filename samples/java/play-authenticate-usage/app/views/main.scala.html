@@ -1,7 +1,7 @@
 @(title: String, nav: String = "")(content: Html)
 
-@import be.objectify.deadbolt.views.html._
-@import be.objectify.deadbolt.Deadbolt
+@import be.objectify.deadbolt.java.views.html._
+@import be.objectify.deadbolt.core.utils.TemplateUtils._
 
 <!DOCTYPE html>
 <html lang="@lang().code()">
@@ -44,7 +44,7 @@
           <a class="brand" href="@routes.Application.index()">Play! Authenticate</a>
           
           <div class="btn-group pull-right">
-          @if(Deadbolt.viewRoleHolderPresent()) {
+          @subjectPresentOr() {
           	@defining(Application.getLocalUser(session())) { user =>
             <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
               <i class="icon-user"></i> @user.name
@@ -57,7 +57,7 @@
               <li><a href="@com.feth.play.module.pa.controllers.routes.Authenticate.logout()"><i class="icon-off"></i> @Messages("playauthenticate.navigation.logout")</a></li>
             </ul>
             }
-          } else {
+          }{
             <a href="@routes.Application.login()" class="btn btn-primary btn-mini @("disabled".when(nav == "login"))">@Messages("playauthenticate.navigation.login")</a>
           }
           </div>
@@ -68,7 +68,7 @@
               <li class="@("active".when(nav == ""))"><a href="@routes.Application.index()">@Messages("playauthenticate.navigation.home")</a></li>
               <li class="@("active".when(nav == "restricted"))"><a href="@routes.Application.restricted()">@Messages("playauthenticate.navigation.restricted")</a></li>
                 
-                @if(!Deadbolt.viewRoleHolderPresent()) {
+                @subjectNotPresent() {
 			    	<li class="@("active".when(nav == "signup"))"><a href="@routes.Application.signup()">@Messages("playauthenticate.navigation.signup")</a></li>
 			    }
             </ul>

@@ -19,7 +19,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 import play.db.ebean.Model;
-import be.objectify.deadbolt.models.Role;
+import be.objectify.deadbolt.core.models.Role;
 
 /**
  * @author Steve Chaloner (steve@objectify.be)
@@ -39,7 +39,8 @@ public class SecurityRole extends Model implements Role {
 	public static final Finder<Long, SecurityRole> find = new Finder<Long, SecurityRole>(
 			Long.class, SecurityRole.class);
 
-	public String getRoleName() {
+	@Override
+	public String getName() {
 		return roleName;
 	}
 

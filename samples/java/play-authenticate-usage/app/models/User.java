@@ -1,8 +1,8 @@
 package models;
 
-import be.objectify.deadbolt.models.Permission;
-import be.objectify.deadbolt.models.Role;
-import be.objectify.deadbolt.models.RoleHolder;
+import be.objectify.deadbolt.core.models.Permission;
+import be.objectify.deadbolt.core.models.Role;
+import be.objectify.deadbolt.core.models.Subject;
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.ExpressionList;
 import com.avaje.ebean.validation.Email;
@@ -24,7 +24,7 @@ import java.util.*;
  */
 @Entity
 @Table(name = "users")
-public class User extends Model implements RoleHolder {
+public class User extends Model implements Subject {
 	/**
 	 * 
 	 */
@@ -59,6 +59,12 @@ public class User extends Model implements RoleHolder {
 
 	public static final Finder<Long, User> find = new Finder<Long, User>(
 			Long.class, User.class);
+
+	@Override
+	public String getIdentifier()
+	{
+		return Long.toString(id);
+	}
 
 	@Override
 	public List<? extends Role> getRoles() {

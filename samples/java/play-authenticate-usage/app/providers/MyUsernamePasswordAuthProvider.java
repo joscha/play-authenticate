@@ -15,7 +15,6 @@ import play.data.validation.Constraints.MinLength;
 import play.data.validation.Constraints.Required;
 import play.i18n.Messages;
 import play.mvc.Call;
-import play.mvc.Controller;
 import play.mvc.Http.Context;
 
 import com.feth.play.module.pa.PlayAuthenticate;

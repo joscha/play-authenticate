@@ -29,6 +29,14 @@ public class Signup extends Controller {
 		}
 
 		public String token;
+
+		public String getToken() {
+			return token;
+		}
+
+		public void setToken(String token) {
+			this.token = token;
+		}
 	}
 
 	private static final Form<PasswordReset> PASSWORD_RESET_FORM = form(PasswordReset.class);

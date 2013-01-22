@@ -28,6 +28,14 @@ public class Account extends Controller {
 		@NonEmpty
 		public Boolean accept;
 
+		public Boolean getAccept() {
+			return accept;
+		}
+
+		public void setAccept(Boolean accept) {
+			this.accept = accept;
+		}
+
 	}
 
 	public static class PasswordChange {
@@ -38,6 +46,22 @@ public class Account extends Controller {
 		@MinLength(5)
 		@Required
 		public String repeatPassword;
+
+		public String getPassword() {
+			return password;
+		}
+
+		public void setPassword(String password) {
+			this.password = password;
+		}
+
+		public String getRepeatPassword() {
+			return repeatPassword;
+		}
+
+		public void setRepeatPassword(String repeatPassword) {
+			this.repeatPassword = repeatPassword;
+		}
 
 		public String validate() {
 			if (password == null || !password.equals(repeatPassword)) {

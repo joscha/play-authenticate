@@ -1,6 +1,6 @@
 import sbt._
 import Keys._
-import PlayProject._
+import play.Project._
 
 object ApplicationBuild extends Build {
 
@@ -10,12 +10,15 @@ object ApplicationBuild extends Build {
     val appDependencies = Seq(
       "be.objectify"  %%  "deadbolt-2"        % "1.1.4-SNAPSHOT",
       "com.feth"      %%  "play-authenticate" % "0.2.0-SNAPSHOT",
-      "postgresql"    %   "postgresql"        % "9.1-901.jdbc4"
+      "postgresql"    %   "postgresql"        % "9.1-901-1.jdbc4",
+      javaCore,
+      javaJdbc,
+      javaEbean
     )
     
 //  Uncomment this for local development of the Play Authenticate core:
 /*
-    val playAuthenticate = PlayProject(
+    val playAuthenticate = play.Project(
       "play-authenticate", "1.0-SNAPSHOT", mainLang = JAVA, path = file("modules/play-authenticate")
     ).settings(
       libraryDependencies += "org.apache.httpcomponents" % "httpclient" % "4.2",
@@ -28,8 +31,7 @@ object ApplicationBuild extends Build {
     )
 */
 
-    val main = PlayProject(appName, appVersion, appDependencies, mainLang = JAVA).settings(
-      resolvers += "Daniel's Repository" at "http://danieldietrich.net/repository/snapshots/",
+    val main = play.Project(appName, appVersion, appDependencies).settings(
 
       resolvers += Resolver.url("Objectify Play Repository", url("http://schaloner.github.com/releases/"))(Resolver.ivyStylePatterns),
       resolvers += Resolver.url("Objectify Play Repository", url("http://schaloner.github.com/snapshots/"))(Resolver.ivyStylePatterns),

@@ -4,6 +4,11 @@ import com.feth.play.module.pa.providers.AuthInfo;
 import com.feth.play.module.pa.user.AuthUser;
 
 public abstract class OAuth2AuthInfo extends AuthInfo {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private String accessToken;
 	private long expires;
 

@@ -8,6 +8,11 @@ import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
 
 public class FacebookAuthInfo extends OAuth2AuthInfo {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private static final String EXPIRES = "expires";
 	
 	public FacebookAuthInfo(final Map<String, String> m) {

@@ -5,8 +5,14 @@ This plugin uses concepts from [securesocial2][] and [Play20StartApp][] and prov
 #### Version information
 **Play Authenticate currently needs Play! Framework 2.0.2 or later**
 
+Works fine with 2.0 to 2.0.4 and there is a 2.1 branch.
+
+> **Attention 2.1-RC2 developers**  
+>_There is a `0.2.0-SNAPSHOT` binary for Play `2.1-RC2` and an accompanying sample application in the [2.1 branch](https://github.com/joscha/play-authenticate/tree/2_1). This sample differs substantially from the version for `2.0.x` though, because the deadbolt dependency changed. So if you plan on releasing for `2.0.x` don't take the `2.1-RC2` sample and vice versa._
+
+
 ## Live demo
-You can find a live demo on [heroku](https://play-authenticate.herokuapp.com/ "Play Authenticate sample app") and there are some screens on our [website](http://joscha.github.com/play-authenticate/).
+You can find a live demo on [heroku](https://play-authenticate.herokuapp.com/ "Play Authenticate sample app") (might not always be the latest version) and there are some screens on our [website](http://joscha.github.com/play-authenticate/).
 
 ## Features
 
@@ -28,6 +34,7 @@ As of now, the following authentication providers are supported out of the box:
 * Facebook (OAuth2)
 * Foursquare (OAuth2)
 * Twitter (OAuth1)
+* LinkedIn (OAuth1)
 * OpenID (experimental)
 * Email/Password (with email verification, password security/encryption is fully customizable)
 * Your very own authentication provider (LDAP, DB, you-name-it) via an extensible, easy-to-use plugin mechanism based on Play Plugins
@@ -41,8 +48,25 @@ The included sample application shows how to use all of those providers.
 * French (as of 2012-08-28,  commit 967e11e207)
 
 ## Versions
+* **TRUNK** [not released in the repository, yet]
+  * nothing, yet - wanna contribute something? :)
+* **0.2.3-SNAPSHOT** [2012-12-17]
+  * Use reflection for email templates in samples to allow easier addition of new languages (thanks @biesoir for the initial version)
+  * Linkedin added (thanks @tonygwu)
+* **0.2.2-SNAPSHOT** [2012-11-07]
+  * Fixed caching behaviour for CDNs (thanks @enalmada)
+  * Added initial Getting Started guide (thanks Peter Zeller)
+  * Upgraded HttpClient dependency from 4.2 to 4.2.1
+  * Switch to Play 2.0.4
+* **0.2.1-SNAPSHOT** [2012-10-22]
+  * Added Polish translation (thanks to @biesoir)
+  * Added French translation (thanks to @Mortimerp9)
+  * Added simple OAuth example
+  * Fixed an NPE occuring when signing up with email previously connected to a Google Account
+  * Fixed serialization problem with memcache
+  * Switch to Play 2.0.3
 * **0.2.0-SNAPSHOT** [2012-08-01]
-  * Add twitter provider (many thanks to Fred Cecilia (@naiky) for the intial version)
+  * Add twitter provider (many thanks to Fred Cecilia (@naiky) for the initial version)
 * **0.1.9-SNAPSHOT** [2012-07-16]
   * Fix for invalid locale formats (e.g. en-GB) coming from   Google and/or facebook OAuth.
 * **0.1.8-SNAPSHOT** [2012-07-12]

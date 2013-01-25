@@ -9,6 +9,11 @@ import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider.Constants;
 
 public class GoogleAuthInfo extends OAuth2AuthInfo {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private static final String ID_TOKEN = "id_token";
 	private String bearer;
 	private String idToken;

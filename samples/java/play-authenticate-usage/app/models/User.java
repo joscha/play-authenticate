@@ -11,6 +11,7 @@ import com.feth.play.module.pa.user.AuthUser;
 import com.feth.play.module.pa.user.AuthUserIdentity;
 import com.feth.play.module.pa.user.EmailIdentity;
 import com.feth.play.module.pa.user.NameIdentity;
+import com.feth.play.module.pa.user.FirstLastNameIdentity;
 import models.TokenAction.Type;
 import play.data.format.Formats;
 import play.db.ebean.Model;
@@ -40,6 +41,10 @@ public class User extends Model implements Subject {
 	public String email;
 
 	public String name;
+	
+	public String firstName;
+	
+	public String lastName;
 
 	@Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
 	public Date lastLogin;
@@ -124,7 +129,7 @@ public class User extends Model implements Subject {
 
 		// deactivate the merged user that got added to this one
 		otherUser.active = false;
-		Ebean.save(Arrays.asList(new User[]{otherUser, this}));
+		Ebean.save(Arrays.asList(new User[] { otherUser, this }));
 	}
 
 	public static User create(final AuthUser authUser) {
@@ -153,6 +158,18 @@ public class User extends Model implements Subject {
 			if (name != null) {
 				user.name = name;
 			}
+		}
+		
+		if (authUser instanceof FirstLastNameIdentity) {
+		  final FirstLastNameIdentity identity = (FirstLastNameIdentity) authUser;
+		  final String firstName = identity.getFirstName();
+		  final String lastName = identity.getLastName();
+		  if (firstName != null) {
+		    user.firstName = firstName;
+		  }
+		  if (lastName != null) {
+		    user.lastName = lastName;
+		  }
 		}
 
 		user.save();

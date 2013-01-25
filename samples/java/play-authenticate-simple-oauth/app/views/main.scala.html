@@ -1,0 +1,28 @@
+@(title: String)(content: Html)
+
+<!DOCTYPE html>
+<html lang="@lang().code()">
+  <head>
+    <title>@title</title>
+  </head>
+
+  <body>
+	    @if(flash.contains(Application.FLASH_ERROR_KEY)) {
+	      <div style="color: red;">
+	      	@flash().get(Application.FLASH_ERROR_KEY)
+	      </div>
+	    }
+	    @if(flash.contains(Application.FLASH_MESSAGE_KEY)) {
+	      <div style="color: blue;">
+	      	@flash().get(Application.FLASH_MESSAGE_KEY)
+	      </div>
+	    }
+		@content
+		
+	<hr>
+
+	<footer>
+		<p>&copy; 2012 Play Authenticate. Licensed under Apache License, Version 2.0. View details <a href="https://github.com/joscha/play-authenticate/blob/master/LICENSE">here</a>.</p>
+	</footer>
+  </body>
+</html>

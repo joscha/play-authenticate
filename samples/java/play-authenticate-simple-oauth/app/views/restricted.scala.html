@@ -1,0 +1,31 @@
+@(localUser: models.User = null)
+
+@import com.feth.play.module.pa.views.html._
+
+@main("I can haz secrets!") {
+    
+    <h1>Sshhh...don't tell anyone!</h1>
+    <p>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/9bZkp7q19f0" frameborder="0" allowfullscreen></iframe>
+    </p>
+    <p>
+        Your name is @localUser.name and your email address is @localUser.email
+    <i>
+    @if(!localUser.emailValidated) {
+      (unverified)
+    } else {
+      (verified)
+    }</i>!
+    
+    <br/>
+    @currentAuth() { auth =>
+        Logged in with provider '@auth.getProvider()' and the user ID '@auth.getId()'<br/>
+        Your session expires
+        @if(auth.expires() == -1){
+            never
+        } else {
+            at @auth.expires() (UNIX timestamp)
+        }
+    }
+    </p>
+}

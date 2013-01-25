@@ -78,11 +78,13 @@ public class Account extends Controller {
 
 	@SubjectPresent
 	public static Result link() {
+		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
 		return ok(link.render());
 	}
 
 	@Restrict(@Group(Application.USER_ROLE))
 	public static Result verifyEmail() {
+		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
 		final User user = Application.getLocalUser(session());
 		if (user.emailValidated) {
 			// E-Mail has been validated already
@@ -104,6 +106,7 @@ public class Account extends Controller {
 
 	@Restrict(@Group(Application.USER_ROLE))
 	public static Result changePassword() {
+		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
 		final User u = Application.getLocalUser(session());
 
 		if (!u.emailValidated) {
@@ -115,6 +118,7 @@ public class Account extends Controller {
 
 	@Restrict(@Group(Application.USER_ROLE))
 	public static Result doChangePassword() {
+		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
 		final Form<Account.PasswordChange> filledForm = PASSWORD_CHANGE_FORM
 				.bindFromRequest();
 		if (filledForm.hasErrors()) {
@@ -133,6 +137,7 @@ public class Account extends Controller {
 
 	@SubjectPresent
 	public static Result askLink() {
+		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
 		final AuthUser u = PlayAuthenticate.getLinkUser(session());
 		if (u == null) {
 			// account to link could not be found, silently redirect to login
@@ -143,6 +148,7 @@ public class Account extends Controller {
 
 	@SubjectPresent
 	public static Result doLink() {
+		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
 		final AuthUser u = PlayAuthenticate.getLinkUser(session());
 		if (u == null) {
 			// account to link could not be found, silently redirect to login
@@ -166,6 +172,7 @@ public class Account extends Controller {
 
 	@SubjectPresent
 	public static Result askMerge() {
+		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
 		// this is the currently logged in user
 		final AuthUser aUser = PlayAuthenticate.getUser(session());
 
@@ -183,6 +190,7 @@ public class Account extends Controller {
 
 	@SubjectPresent
 	public static Result doMerge() {
+		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
 		// this is the currently logged in user
 		final AuthUser aUser = PlayAuthenticate.getUser(session());
 

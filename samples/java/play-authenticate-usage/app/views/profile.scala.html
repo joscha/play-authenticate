@@ -13,6 +13,8 @@
     } else {
       (verified)
     }</i>
+    <br />
+    Your first name is @localUser.firstName and your last name is @localUser.lastName
     <br/>
     @defining(localUser.getProviders()) { providers =>
         @if(providers.size() > 0) {

@@ -3,6 +3,11 @@ package com.feth.play.module.pa.providers.oauth1;
 import com.feth.play.module.pa.providers.AuthInfo;
 
 public  class OAuth1AuthInfo extends AuthInfo {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private String accessToken;
 	private String accessTokenSecret;
 

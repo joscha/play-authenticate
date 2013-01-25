@@ -1,28 +1,30 @@
 package providers;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
+import com.feth.play.module.mail.Mailer.Mail.Body;
+import com.feth.play.module.pa.PlayAuthenticate;
+import com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider;
+import com.feth.play.module.pa.providers.password.UsernamePasswordAuthUser;
+import controllers.routes;
 import models.LinkedAccount;
 import models.TokenAction;
 import models.TokenAction.Type;
 import models.User;
 import play.Application;
+import play.Logger;
 import play.data.Form;
 import play.data.validation.Constraints.Email;
 import play.data.validation.Constraints.MinLength;
 import play.data.validation.Constraints.Required;
+import play.i18n.Lang;
 import play.i18n.Messages;
 import play.mvc.Call;
 import play.mvc.Http.Context;
 
-import com.feth.play.module.pa.PlayAuthenticate;
-import com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider;
-import com.feth.play.module.pa.providers.password.UsernamePasswordAuthUser;
-import com.feth.play.module.mail.Mailer.Mail.Body;
-
-import controllers.routes;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 import static play.data.Form.form;
 
@@ -35,6 +37,8 @@ public class MyUsernamePasswordAuthProvider
 	private static final String SETTING_KEY_PASSWORD_RESET_LINK_SECURE = SETTING_KEY_MAIL
 			+ "." + "passwordResetLink.secure";
 	private static final String SETTING_KEY_LINK_LOGIN_AFTER_PASSWORD_RESET = "loginAfterPasswordReset";
+
+	private static final String EMAIL_TEMPLATE_FALLBACK_LANGUAGE = "en";
 
 	@Override
 	protected List<String> neededSettingKeys() {
@@ -120,7 +124,7 @@ public class MyUsernamePasswordAuthProvider
 
 	@Override
 	protected SignupResult signupUser(final MyUsernamePasswordAuthUser user) {
-		final User u = User.findByEmail(user.getEmail());
+		final User u = User.findByUsernamePasswordIdentity(user);
 		if (u != null) {
 			if (u.emailValidated) {
 				// This user exists, has its email validated and is active
@@ -214,14 +218,19 @@ public class MyUsernamePasswordAuthProvider
 
 		final boolean isSecure = getConfiguration().getBoolean(
 				SETTING_KEY_VERIFICATION_LINK_SECURE);
-
 		final String url = routes.Signup.verify(token).absoluteURL(
 				ctx.request(), isSecure);
 
-		final String html = views.html.account.signup.email.verify_email
-				.render(url, token, user.getName()).toString();
-		final String text = views.txt.account.signup.email.verify_email.render(
-				url, token, user.getName()).toString();
+		final Lang lang = Lang.preferred(ctx.request().acceptLanguages());
+		final String langCode = lang.code();
+
+		final String html = getEmailTemplate(
+				"views.html.account.signup.email.verify_email", langCode, url,
+				token, user.getName(), user.getEmail());
+		final String text = getEmailTemplate(
+				"views.txt.account.signup.email.verify_email", langCode, url,
+				token, user.getName(), user.getEmail());
+
 		return new Body(text, html);
 	}
 
@@ -258,14 +267,19 @@ public class MyUsernamePasswordAuthProvider
 
 		final boolean isSecure = getConfiguration().getBoolean(
 				SETTING_KEY_PASSWORD_RESET_LINK_SECURE);
-
 		final String url = routes.Signup.resetPassword(token).absoluteURL(
 				ctx.request(), isSecure);
 
-		final String html = views.html.account.email.password_reset.render(url,
-				token, user.name).toString();
-		final String text = views.txt.account.email.password_reset.render(url,
-				token, user.name).toString();
+		final Lang lang = Lang.preferred(ctx.request().acceptLanguages());
+		final String langCode = lang.code();
+
+		final String html = getEmailTemplate(
+				"views.html.account.email.password_reset", langCode, url,
+				token, user.name, user.email);
+		final String text = getEmailTemplate(
+				"views.txt.account.email.password_reset", langCode, url, token,
+				user.name, user.email);
+
 		return new Body(text, html);
 	}
 
@@ -286,19 +300,67 @@ public class MyUsernamePasswordAuthProvider
 		return Messages.get("playauthenticate.password.verify_email.subject");
 	}
 
+	protected String getEmailTemplate(final String template,
+			final String langCode, final String url, final String token,
+			final String name, final String email) {
+		Class<?> cls = null;
+		String ret = null;
+		try {
+			cls = Class.forName(template + "_" + langCode);
+		} catch (ClassNotFoundException e) {
+			Logger.warn("Template: '"
+					+ template
+					+ "_"
+					+ langCode
+					+ "' was not found! Trying to use English fallback template instead.");
+		}
+		if (cls == null) {
+			try {
+				cls = Class.forName(template + "_"
+						+ EMAIL_TEMPLATE_FALLBACK_LANGUAGE);
+			} catch (ClassNotFoundException e) {
+				Logger.error("Fallback template: '" + template + "_"
+						+ EMAIL_TEMPLATE_FALLBACK_LANGUAGE
+						+ "' was not found either!");
+			}
+		}
+		if (cls != null) {
+			Method htmlRender = null;
+			try {
+				htmlRender = cls.getMethod("render", String.class,
+						String.class, String.class, String.class);
+				ret = htmlRender.invoke(null, url, token, name, email)
+						.toString();
+
+			} catch (NoSuchMethodException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				e.printStackTrace();
+			}
+		}
+		return ret;
+	}
+
 	protected Body getVerifyEmailMailingBodyAfterSignup(final String token,
 			final User user, final Context ctx) {
 
 		final boolean isSecure = getConfiguration().getBoolean(
 				SETTING_KEY_VERIFICATION_LINK_SECURE);
-
 		final String url = routes.Signup.verify(token).absoluteURL(
 				ctx.request(), isSecure);
 
-		final String html = views.html.account.email.verify_email.render(url,
-				token, user.name, user.email).toString();
-		final String text = views.txt.account.email.verify_email.render(url,
-				token, user.name, user.email).toString();
+		final Lang lang = Lang.preferred(ctx.request().acceptLanguages());
+		final String langCode = lang.code();
+
+		final String html = getEmailTemplate(
+				"views.html.account.email.verify_email", langCode, url, token,
+				user.name, user.email);
+		final String text = getEmailTemplate(
+				"views.txt.account.email.verify_email", langCode, url, token,
+				user.name, user.email);
+
 		return new Body(text, html);
 	}
 

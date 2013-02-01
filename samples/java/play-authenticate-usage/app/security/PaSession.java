@@ -76,7 +76,7 @@ public class PaSession {
                 ? request.getHeader(PA_CONF.getString("session.forwardIpHeader"))
                 : request.remoteAddress();
 
-        List<String> parts = new ArrayList<>();
+        List<String> parts = new ArrayList<String>();
 
         String ipLockParts[] = ipAddress.split("\\.");
         int i = 0;

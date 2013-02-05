@@ -7,8 +7,8 @@ This plugin uses concepts from [securesocial2][] and [Play20StartApp][] and prov
 
 Works fine with 2.0 to 2.0.4 and there is a 2.1 branch.
 
-> **Attention 2.1-RC2 developers**  
->_There is a `0.2.0-SNAPSHOT` binary for Play `2.1-RC2` and an accompanying sample application in the [2.1 branch](https://github.com/joscha/play-authenticate/tree/2_1). This sample differs substantially from the version for `2.0.x` though, because the deadbolt dependency changed. So if you plan on releasing for `2.0.x` don't take the `2.1-RC2` sample and vice versa._
+> **Attention 2.1-RC4 developers**  
+>_There is a `0.2.3-SNAPSHOT` binary for Play `2.1-RC4` and an accompanying sample application in the [2.1 branch](https://github.com/joscha/play-authenticate/tree/2_1). This sample differs substantially from the version for `2.0.x` though, because the deadbolt dependency changed. So if you plan on releasing for `2.0.x` don't take the `2.1-RC4` sample and vice versa._
 
 
 ## Live demo

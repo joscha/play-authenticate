@@ -3,9 +3,9 @@ package security;
 import models.User;
 import play.mvc.Http;
 import play.mvc.Result;
-import be.objectify.deadbolt.AbstractDeadboltHandler;
-import be.objectify.deadbolt.DynamicResourceHandler;
-import be.objectify.deadbolt.models.RoleHolder;
+import be.objectify.deadbolt.java.AbstractDeadboltHandler;
+import be.objectify.deadbolt.java.DynamicResourceHandler;
+import be.objectify.deadbolt.core.models.Subject;
 
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.user.AuthUserIdentity;
@@ -13,7 +13,7 @@ import com.feth.play.module.pa.user.AuthUserIdentity;
 public class MyDeadboltHandler extends AbstractDeadboltHandler {
 
 	@Override
-	public Result beforeRoleCheck(final Http.Context context) {
+	public Result beforeAuthCheck(final Http.Context context) {
 		if (PlayAuthenticate.isLoggedIn(context.session())) {
 			// user is logged in
 			return null;
@@ -34,7 +34,7 @@ public class MyDeadboltHandler extends AbstractDeadboltHandler {
 	}
 
 	@Override
-	public RoleHolder getRoleHolder(final Http.Context context) {
+	public Subject getSubject(final Http.Context context) {
 		final AuthUserIdentity u = PlayAuthenticate.getUser(context);
 		// Caching might be a good idea here
 		return User.findByAuthUserIdentity(u);
@@ -47,7 +47,7 @@ public class MyDeadboltHandler extends AbstractDeadboltHandler {
 	}
 
 	@Override
-	public Result onAccessFailure(final Http.Context context,
+	public Result onAuthFailure(final Http.Context context,
 			final String content) {
 		// if the user has a cookie with a valid user and the local user has
 		// been deactivated/deleted in between, it is possible that this gets

@@ -1,27 +1,8 @@
 package models;
 
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
-import models.TokenAction.Type;
-
-import play.data.format.Formats;
-import play.db.ebean.Model;
-import scala.actors.threadpool.Arrays;
-import be.objectify.deadbolt.models.Permission;
-import be.objectify.deadbolt.models.Role;
-import be.objectify.deadbolt.models.RoleHolder;
-
+import be.objectify.deadbolt.core.models.Permission;
+import be.objectify.deadbolt.core.models.Role;
+import be.objectify.deadbolt.core.models.Subject;
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.ExpressionList;
 import com.avaje.ebean.validation.Email;
@@ -31,6 +12,12 @@ import com.feth.play.module.pa.user.AuthUserIdentity;
 import com.feth.play.module.pa.user.EmailIdentity;
 import com.feth.play.module.pa.user.NameIdentity;
 import com.feth.play.module.pa.user.FirstLastNameIdentity;
+import models.TokenAction.Type;
+import play.data.format.Formats;
+import play.db.ebean.Model;
+
+import javax.persistence.*;
+import java.util.*;
 
 /**
  * Initial version based on work by Steve Chaloner (steve@objectify.be) for
@@ -38,7 +25,7 @@ import com.feth.play.module.pa.user.FirstLastNameIdentity;
  */
 @Entity
 @Table(name = "users")
-public class User extends Model implements RoleHolder {
+public class User extends Model implements Subject {
 	/**
 	 * 
 	 */
@@ -77,6 +64,12 @@ public class User extends Model implements RoleHolder {
 
 	public static final Finder<Long, User> find = new Finder<Long, User>(
 			Long.class, User.class);
+
+	@Override
+	public String getIdentifier()
+	{
+		return Long.toString(id);
+	}
 
 	@Override
 	public List<? extends Role> getRoles() {

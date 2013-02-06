@@ -15,6 +15,8 @@ import views.html.account.signup.*;
 
 import com.feth.play.module.pa.PlayAuthenticate;
 
+import static play.data.Form.form;
+
 public class Signup extends Controller {
 
 	public static class PasswordReset extends Account.PasswordChange {
@@ -27,6 +29,14 @@ public class Signup extends Controller {
 		}
 
 		public String token;
+
+		public String getToken() {
+			return token;
+		}
+
+		public void setToken(String token) {
+			this.token = token;
+		}
 	}
 
 	private static final Form<PasswordReset> PASSWORD_RESET_FORM = form(PasswordReset.class);

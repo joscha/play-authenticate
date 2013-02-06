@@ -18,7 +18,6 @@ import play.data.validation.Constraints.Required;
 import play.i18n.Lang;
 import play.i18n.Messages;
 import play.mvc.Call;
-import play.mvc.Controller;
 import play.mvc.Http.Context;
 
 import java.lang.reflect.InvocationTargetException;
@@ -26,6 +25,8 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import static play.data.Form.form;
 
 public class MyUsernamePasswordAuthProvider
 		extends
@@ -106,10 +107,8 @@ public class MyUsernamePasswordAuthProvider
 		}
 	}
 
-	public static final Form<MySignup> SIGNUP_FORM = Controller
-			.form(MySignup.class);
-	public static final Form<MyLogin> LOGIN_FORM = Controller
-			.form(MyLogin.class);
+	public static final Form<MySignup> SIGNUP_FORM = form(MySignup.class);
+	public static final Form<MyLogin> LOGIN_FORM = form(MyLogin.class);
 
 	public MyUsernamePasswordAuthProvider(Application app) {
 		super(app);

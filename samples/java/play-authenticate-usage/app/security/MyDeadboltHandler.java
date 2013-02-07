@@ -36,8 +36,17 @@ public class MyDeadboltHandler extends AbstractDeadboltHandler {
 	@Override
 	public Subject getSubject(final Http.Context context) {
 		final AuthUserIdentity u = PlayAuthenticate.getUser(context);
+
+        User foundUser = (u == null)
+                ? null : User.findByAuthUserIdentity(u);
+
+        if (foundUser!=null){
+            PaSession paSession = new PaSession(context);
+            if (!paSession.exists()) foundUser=null;
+        }
+
 		// Caching might be a good idea here
-		return User.findByAuthUserIdentity(u);
+		return foundUser;
 	}
 
 	@Override

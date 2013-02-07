@@ -3,11 +3,11 @@ package controllers;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import security.PaSession;
 import models.User;
 import play.Routes;
 import play.data.Form;
 import play.mvc.*;
-import play.mvc.Http.Response;
 import play.mvc.Http.Session;
 import play.mvc.Result;
 import providers.MyUsernamePasswordAuthProvider;
@@ -62,10 +62,19 @@ public class Application extends Controller {
 			// User did not fill everything properly
 			return badRequest(login.render(filledForm));
 		} else {
-			// Everything was filled
-			return UsernamePasswordAuthProvider.handleLogin(ctx());
-		}
+            Result handled = UsernamePasswordAuthProvider.handleLogin(ctx());
+
+            PaSession paSession = new PaSession(session(), request());
+            paSession.saveToCache(session());
+
+            return handled;
+        }
 	}
+
+    public static Result logout() {
+        PaSession.delete(session());
+        return com.feth.play.module.pa.controllers.Authenticate.logout();
+    }
 
 	public static Result signup() {
 		return ok(signup.render(MyUsernamePasswordAuthProvider.SIGNUP_FORM));

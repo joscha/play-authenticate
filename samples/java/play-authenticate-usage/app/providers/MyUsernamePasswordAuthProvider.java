@@ -123,7 +123,7 @@ public class MyUsernamePasswordAuthProvider
 	}
 
 	@Override
-	protected SignupResult signupUser(final MyUsernamePasswordAuthUser user) {
+	protected com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider.SignupResult signupUser(final MyUsernamePasswordAuthUser user) {
 		final User u = User.findByUsernamePasswordIdentity(user);
 		if (u != null) {
 			if (u.emailValidated) {
@@ -146,7 +146,7 @@ public class MyUsernamePasswordAuthProvider
 	}
 
 	@Override
-	protected LoginResult loginUser(
+	protected com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider.LoginResult loginUser(
 			final MyLoginUsernamePasswordAuthUser authUser) {
 		final User u = User.findByUsernamePasswordIdentity(authUser);
 		if (u == null) {

@@ -97,7 +97,7 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 				return userUnverified(authUser).url();
 			case USER_CREATED:
 				// continue to login...
-				return authUser;
+				return transformAuthUser(authUser, context);
 			default:
 				throw new AuthException("Something in signup went wrong");
 			}
@@ -204,7 +204,16 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 			final R verificationRecord, final US user, final Context ctx);
 
 	protected abstract UL buildLoginAuthUser(final L login, final Context ctx);
-
+	
+	/**
+	 * This gets called when the user shall be logged in directly after signing up
+	 * 
+	 * @param authUser
+	 * @param context
+	 * @return
+	 */
+	protected abstract UL transformAuthUser(final US authUser, final Context context);
+	
 	protected abstract US buildSignupAuthUser(final S signup, final Context ctx);
 
 	protected abstract LoginResult loginUser(final UL authUser);

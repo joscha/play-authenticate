@@ -197,6 +197,12 @@ public class MyUsernamePasswordAuthProvider
 		return new MyLoginUsernamePasswordAuthUser(login.getPassword(),
 				login.getEmail());
 	}
+	
+
+	@Override
+	protected MyLoginUsernamePasswordAuthUser transformAuthUser(final MyUsernamePasswordAuthUser authUser, final Context context) {
+		return new MyLoginUsernamePasswordAuthUser(authUser.getEmail());
+	}
 
 	@Override
 	protected String getVerifyEmailMailingSubject(

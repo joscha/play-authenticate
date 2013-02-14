@@ -50,6 +50,8 @@ The included sample application shows how to use all of those providers.
 ## Versions
 * **TRUNK** [not released in the repository, yet]
   * nothing, yet - wanna contribute something? :)
+* **0.2.5-SNAPSHOT** [2013-02-14]
+  * Fix for users signing up that shall be logged in straight away. **PLEASE NOTE: Breaking change!!! Upgrading to this version requires you to add one additional method to your custom UsernamePasswordAuthProvider. Have a look at the sample to see a default implementation that should work for almost everyone.**
 * **0.2.4-SNAPSHOT** [2013-02-06]
   * First version for Play! Framework 2.1.0. 
 * **0.2.3-SNAPSHOT** [2012-12-17] _(last version for Play 2.0.x)_

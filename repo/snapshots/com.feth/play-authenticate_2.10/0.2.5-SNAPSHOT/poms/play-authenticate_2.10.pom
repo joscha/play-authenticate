@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.feth</groupId>
+    <artifactId>play-authenticate_2.10</artifactId>
+    <packaging>jar</packaging>
+    <description>play-authenticate</description>
+    <version>0.2.5-SNAPSHOT</version>
+    <name>play-authenticate</name>
+    <organization>
+        <name>com.feth</name>
+    </organization>
+    <dependencies>
+        <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-library</artifactId>
+            <version>2.10.0</version>
+        </dependency>
+        <dependency>
+            <groupId>play</groupId>
+            <artifactId>play_2.10</artifactId>
+            <version>2.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>play</groupId>
+            <artifactId>play-test_2.10</artifactId>
+            <version>2.1.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>play</groupId>
+            <artifactId>play-java_2.10</artifactId>
+            <version>2.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.feth</groupId>
+            <artifactId>play-easymail_2.10</artifactId>
+            <version>0.2-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mindrot</groupId>
+            <artifactId>jbcrypt</artifactId>
+            <version>0.3m</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.6</version>
+        </dependency>
+    </dependencies>
+    <repositories>
+        <repository>
+            <id>TypesafeReleasesRepository</id>
+            <name>Typesafe Releases Repository</name>
+            <url>http://repo.typesafe.com/typesafe/releases/</url>
+            <layout>default</layout>
+        </repository>
+        <repository>
+            <id>TypesafeSnapshotsRepository</id>
+            <name>Typesafe Snapshots Repository</name>
+            <url>http://repo.typesafe.com/typesafe/snapshots/</url>
+            <layout>default</layout>
+        </repository>
+        <repository>
+            <id>jBCryptRepository</id>
+            <name>jBCrypt Repository</name>
+            <url>http://repo1.maven.org/maven2/org/</url>
+            <layout>default</layout>
+        </repository>
+    </repositories>
+</project>

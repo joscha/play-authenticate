@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ivy-module version="2.0" xmlns:e="http://ant.apache.org/ivy/extra">
+	<info organisation="com.feth" module="play-authenticate_2.10" revision="0.2.5-SNAPSHOT" status="integration" publication="20130214123828">
+		<description>
+		play-authenticate
+		</description>
+	</info>
+	<configurations>
+		<conf name="compile" visibility="public" description=""/>
+		<conf name="runtime" visibility="public" description="" extends="compile"/>
+		<conf name="test" visibility="public" description="" extends="runtime"/>
+		<conf name="provided" visibility="public" description=""/>
+		<conf name="optional" visibility="public" description=""/>
+		
+		
+		
+		
+		<conf name="sources" visibility="public" description=""/>
+		<conf name="docs" visibility="public" description=""/>
+		<conf name="pom" visibility="public" description=""/>
+	</configurations>
+	<publications>
+		<artifact name="play-authenticate_2.10" type="pom" ext="pom" conf="pom"/>
+		<artifact name="play-authenticate_2.10" type="jar" ext="jar" conf="compile"/>
+		<artifact name="play-authenticate_2.10" type="src" ext="jar" conf="sources" e:classifier="sources"/>
+		<artifact name="play-authenticate_2.10" type="doc" ext="jar" conf="docs" e:classifier="javadoc"/>
+	</publications>
+	<dependencies>
+		<dependency org="org.scala-lang" name="scala-library" rev="2.10.0" conf="compile->default(compile)"/>
+		<dependency org="play" name="play_2.10" rev="2.1.0" conf="compile->default(compile)"/>
+		<dependency org="play" name="play-test_2.10" rev="2.1.0" conf="test->default(compile)"/>
+		<dependency org="play" name="play-java_2.10" rev="2.1.0" conf="compile->default(compile)"/>
+		<dependency org="org.apache.httpcomponents" name="httpclient" rev="4.2.1" conf="compile->default(compile)"/>
+		<dependency org="com.feth" name="play-easymail_2.10" rev="0.2-SNAPSHOT" conf="compile->default(compile)"/>
+		<dependency org="org.mindrot" name="jbcrypt" rev="0.3m" conf="compile->default(compile)"/>
+		<dependency org="commons-lang" name="commons-lang" rev="2.6" conf="compile->default(compile)"/>
+		<exclude org="org.scala-lang" module="scala-library" artifact="*" type="jar" ext="*" matcher="exact"/>
+		<exclude org="org.scala-lang" module="scala-compiler" artifact="*" type="jar" ext="*" matcher="exact"/>
+		<override org="org.scala-lang" module="scala-library" matcher="exact" rev="2.10.0"/>
+		<override org="org.scala-lang" module="scala-compiler" matcher="exact" rev="2.10.0"/>
+	</dependencies>
+</ivy-module>

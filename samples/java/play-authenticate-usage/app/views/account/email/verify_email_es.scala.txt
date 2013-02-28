@@ -4,5 +4,5 @@
 Para validar su email siga el siguiente enlace:
 @verificationUrl
 
-Cheers,
-The PlayAuthenticate Team
+Le saluda,
+El equipo de PlayAuthenticate.

@@ -1,0 +1,8 @@
+@(verificationUrl: String, token: String, name: String, email: String)Hola @name, 
+
+
+Para validar su email siga el siguiente enlace:
+@verificationUrl
+
+Le saluda,
+El equipo de PlayAuthenticate.

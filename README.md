@@ -10,6 +10,8 @@ Works fine with `2.0` to `2.0.4` and `2.1.0`.
 > **Attention 2.0.x developers**  
 >_There is a `0.2.3-SNAPSHOT` binary for Play `2.0.x` and an accompanying sample application in the [2.0.x branch](https://github.com/joscha/play-authenticate/tree/2.0.x). This sample differs substantially from the version for `2.1` though, because the deadbolt dependency changed. So if you plan on releasing for `2.0.x` don't take the `2.1` sample from the master stream and vice versa._
 
+### Build status
+[![Build Status](https://travis-ci.org/joscha/play-authenticate.png?branch=master)](https://travis-ci.org/joscha/play-authenticate)
 
 ## Live demo
 You can find a live demo on [heroku](https://play-authenticate.herokuapp.com/ "Play Authenticate sample app") (might not always be the latest version) and there are some screens on our [website](http://joscha.github.com/play-authenticate/).

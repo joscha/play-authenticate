@@ -33,7 +33,7 @@
     <br/>
     @currentAuth() { auth =>
         @Messages("playauthenticate.profile.logged") @_providerIcon(auth.getProvider())<br/>
-        @if(auth.expires() == -1){
+        @if(auth.expires() != -1){
             @Messages("playauthenticate.profile.session", auth.getId(), Application.formatTimestamp(auth.expires()))
         } else {
             @Messages("playauthenticate.profile.session_endless", auth.getId())

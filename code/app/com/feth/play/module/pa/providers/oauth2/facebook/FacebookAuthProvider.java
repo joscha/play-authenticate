@@ -47,7 +47,7 @@ public class FacebookAuthProvider extends
 
 		final JsonNode result = r.asJson();
 		if (result.get(OAuth2AuthProvider.Constants.ERROR) != null) {
-			throw new AuthException(result.get(MESSAGE).asText());
+			throw new AuthException(result.get(ERROR).get(MESSAGE).asText());
 		} else {
 			Logger.debug(result.toString());
 			return new FacebookAuthUser(result, info, state);

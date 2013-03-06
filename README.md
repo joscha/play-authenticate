@@ -52,9 +52,10 @@ The included sample application shows how to use all of those providers.
 
 ## Versions
 * **TRUNK** [not released in the repository, yet]
-  * Fix for facebook error messages (issue #26) 
+  * Fix for facebook users that have no user name set (thanks @smola) 
+  * Fix for facebook error messages (issue #26, thanks @smola) 
   * Spanish translation, thanks to @petru-githa 
-  * wanna contribute somee more? :)
+  * wanna contribute some more? :)
 * **0.2.5-SNAPSHOT** [2013-02-14]
   * Fix for users signing up that shall be logged in straight away. **PLEASE NOTE: Breaking change!!! Upgrading to this version requires you to add one additional method to your custom UsernamePasswordAuthProvider. Have a look at the sample to see a default implementation that should work for almost everyone.**
 * **0.2.4-SNAPSHOT** [2013-02-06]

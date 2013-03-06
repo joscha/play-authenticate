@@ -24,10 +24,12 @@ public class FacebookAuthProvider extends
 
 	private static final String MESSAGE = "message";
 	private static final String ERROR = "error";
+	private static final String FIELDS = "fields";
 
 	static final String PROVIDER_KEY = "facebook";
 	
 	private static final String USER_INFO_URL_SETTING_KEY = "userInfoUrl";
+	private static final String USER_INFO_FIELDS_SETTING_KEY = "userInfoFields";
 
 	public FacebookAuthProvider(Application app) {
 		super(app);
@@ -39,11 +41,14 @@ public class FacebookAuthProvider extends
 
 		final String url = getConfiguration().getString(
 				USER_INFO_URL_SETTING_KEY);
+		final String fields = getConfiguration().getString(
+				USER_INFO_FIELDS_SETTING_KEY);
 		final Response r = WS
 				.url(url)
 				.setQueryParameter(OAuth2AuthProvider.Constants.ACCESS_TOKEN,
-						info.getAccessToken()).get()
-				.get(PlayAuthenticate.TIMEOUT);
+						info.getAccessToken())
+				.setQueryParameter(FIELDS, fields)
+				.get().get(PlayAuthenticate.TIMEOUT);
 
 		final JsonNode result = r.asJson();
 		if (result.get(OAuth2AuthProvider.Constants.ERROR) != null) {

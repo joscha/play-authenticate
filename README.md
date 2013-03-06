@@ -54,6 +54,7 @@ The included sample application shows how to use all of those providers.
 * **TRUNK** [not released in the repository, yet]
   * Fix for facebook users that have no user name set (thanks @smola) 
   * Fix for facebook error messages (issue #26, thanks @smola) 
+  * Add setting for Facebook user fields to retrieve. (thanks @smola)
   * Spanish translation, thanks to @petru-githa 
   * wanna contribute some more? :)
 * **0.2.5-SNAPSHOT** [2013-02-14]

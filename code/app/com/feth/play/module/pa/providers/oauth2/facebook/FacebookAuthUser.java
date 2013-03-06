@@ -31,7 +31,8 @@ public class FacebookAuthUser extends BasicOAuth2AuthUser implements
 		public static final String TIME_ZONE = "timezone";// 2
 		public static final String LOCALE = "locale";// "de_DE"
 		public static final String VERIFIED = "verified";// true
-		public static final String UPDATE_TIME = "updated_time"; // "2012-04-26T20:22:52+0000"}
+		public static final String UPDATE_TIME = "updated_time"; // "2012-04-26T20:22:52+0000"
+		public static final String BIRTHDAY = "birthday"; // "25/12/1980"}
 	}
 
 	private String name;
@@ -45,6 +46,7 @@ public class FacebookAuthUser extends BasicOAuth2AuthUser implements
 	private int timezone;
 	private String locale;
 	private String updateTime;
+	private String birthday;
 
 	public FacebookAuthUser(final JsonNode node, final FacebookAuthInfo info,
 			final String state) {
@@ -82,6 +84,9 @@ public class FacebookAuthUser extends BasicOAuth2AuthUser implements
 		}
 		if (node.has(Constants.UPDATE_TIME)) {
 			this.updateTime = node.get(Constants.UPDATE_TIME).asText();
+		}
+		if (node.has(Constants.BIRTHDAY)) {
+			this.birthday = node.get(Constants.BIRTHDAY).asText();
 		}
 	}
 
@@ -139,4 +144,9 @@ public class FacebookAuthUser extends BasicOAuth2AuthUser implements
 	public String getUpdateTime() {
 		return updateTime;
 	}
+
+	public String getBirthday() {
+		return birthday;
+	}
+
 }

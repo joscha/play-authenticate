@@ -23,6 +23,7 @@ public class FacebookAuthProvider extends
 		OAuth2AuthProvider<FacebookAuthUser, FacebookAuthInfo> {
 
 	private static final String MESSAGE = "message";
+	private static final String ERROR = "error";
 
 	static final String PROVIDER_KEY = "facebook";
 	
@@ -62,7 +63,7 @@ public class FacebookAuthProvider extends
 	protected FacebookAuthInfo buildInfo(final Response r)
 			throws AccessTokenException {
 		if (r.getStatus() >= 400) {
-			throw new AccessTokenException(r.asJson().get(MESSAGE).asText());
+			throw new AccessTokenException(r.asJson().get(ERROR).get(MESSAGE).asText());
 		} else {
 			final String query = r.getBody();
 			Logger.debug(query);

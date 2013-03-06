@@ -52,6 +52,7 @@ The included sample application shows how to use all of those providers.
 
 ## Versions
 * **TRUNK** [not released in the repository, yet]
+  * Fix for facebook error messages (issue #26) 
   * Spanish translation, thanks to @petru-githa 
   * wanna contribute somee more? :)
 * **0.2.5-SNAPSHOT** [2013-02-14]

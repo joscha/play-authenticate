@@ -11,7 +11,7 @@ public class GoogleAuthInfo extends OAuth2AuthInfo {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2L;
 	
 	private static final String ID_TOKEN = "id_token";
 	private String bearer;

@@ -1,11 +1,10 @@
 package com.feth.play.module.pa.providers.oauth2.google;
 
-import java.util.Date;
-
-import org.codehaus.jackson.JsonNode;
-
 import com.feth.play.module.pa.providers.oauth2.OAuth2AuthInfo;
 import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider.Constants;
+import org.codehaus.jackson.JsonNode;
+
+import java.util.Date;
 
 public class GoogleAuthInfo extends OAuth2AuthInfo {
 
@@ -20,7 +19,8 @@ public class GoogleAuthInfo extends OAuth2AuthInfo {
 
 	public GoogleAuthInfo(final JsonNode node) {
 		super(node.get(Constants.ACCESS_TOKEN).asText(), new Date().getTime()
-				+ node.get(Constants.EXPIRES_IN).asLong() * 1000);
+				+ node.get(Constants.EXPIRES_IN).asLong() * 1000,
+                node.get(Constants.REFRESH_TOKEN).asText());
 		bearer = node.get(Constants.TOKEN_TYPE).asText();
 		idToken = node.get(ID_TOKEN).asText();
 	}

@@ -7,10 +7,11 @@ public abstract class OAuth2AuthInfo extends AuthInfo {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2L;
 	
 	private String accessToken;
 	private long expires;
+    private String refreshToken;
 
 	public OAuth2AuthInfo(final String token, final long l) {
 		accessToken = token;
@@ -28,4 +29,9 @@ public abstract class OAuth2AuthInfo extends AuthInfo {
 	public long getExpiration() {
 		return expires;
 	}
+
+    public String getRefreshToken() {
+        return refreshToken;
+    }
+
 }

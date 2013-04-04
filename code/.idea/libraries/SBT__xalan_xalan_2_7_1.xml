@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="SBT: xalan:xalan:2.7.1">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/xalan/xalan/2.7.1/jars/xalan.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

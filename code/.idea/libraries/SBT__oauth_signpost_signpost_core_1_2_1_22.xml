@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="SBT: oauth.signpost:signpost-core:1.2.1.2">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/oauth.signpost/signpost-core/1.2.1.2/jars/signpost-core.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

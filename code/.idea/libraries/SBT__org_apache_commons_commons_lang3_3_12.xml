@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="SBT: org.apache.commons:commons-lang3:3.1">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/org.apache.commons/commons-lang3/3.1/jars/commons-lang3.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

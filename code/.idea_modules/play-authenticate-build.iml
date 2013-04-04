@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="DBNavigator.Module.ConnectionManager">
+    <connections />
+  </component>
+  <component name="NewModuleRootManager" inherit-compiler-output="false">
+    <output url="file://$MODULE_DIR$/../project/target/scala_2.9.2" />
+    <output-test url="file://$MODULE_DIR$/../project/target/scala_2.9.2" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/../project">
+      <sourceFolder url="file://$MODULE_DIR$/../project" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../project/project" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/../project/boot" />
+      <excludeFolder url="file://$MODULE_DIR$/../project/project/project/target" />
+      <excludeFolder url="file://$MODULE_DIR$/../project/project/target" />
+      <excludeFolder url="file://$MODULE_DIR$/../project/target" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library name="sbt-and-plugins">
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../project/target/scala-2.9.2/sbt-0.12/classes" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/framework/sbt/boot/scala-2.9.2/org.scala-sbt/sbt/0.12.2/collections-0.12.2.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/org.parboiled/parboiled-java/1.0.2/jars/parboiled-java.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/net.databinder/dispatch-futures_2.9.1/0.8.6/jars/dispatch-futures_2.9.1.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/com.google.javascript/closure-compiler/rr2079.1/jars/closure-compiler.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/framework/sbt/boot/scala-2.9.2/org.scala-sbt/sbt/0.12.2/incremental-compiler-0.12.2.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/framework/sbt/boot/scala-2.9.2/org.scala-sbt/sbt/0.12.2/actions-0.12.2.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/framework/sbt/boot/scala-2.9.2/org.scala-sbt/sbt/0.12.2/ivy-0.12.2.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/org.scalaz/scalaz-core_2.9.2/6.0.4/jars/scalaz-core_2.9.2.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/asm/asm-analysis/3.3.1/jars/asm-analysis.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/org.eclipse.jgit/org.eclipse.jgit/1.3.0.201202151440-r/jars/org.eclipse.jgit.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/com.github.scala-incubator.io/scala-io-file_2.9.2/0.4.1/jars/scala-io-file_2.9.2.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/asm/asm/3.3.1/jars/asm.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/framework/sbt/boot/scala-2.9.2/org.scala-sbt/sbt/0.12.2/commons-httpclient-3.1.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/org.javassist/javassist/3.16.1-GA/jars/javassist.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/framework/sbt/boot/scala-2.9.2/org.scala-sbt/sbt/0.12.2/xsbti/interface-0.12.2.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/play/routes-compiler_2.9.2/2.1.0/jars/routes-compiler_2.9.2.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/framework/sbt/boot/scala-2.9.2/org.scala-sbt/sbt/0.12.2/classpath-0.12.2.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/framework/sbt/boot/scala-2.9.2/org.scala-sbt/sbt/0.12.2/run-0.12.2.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/org.clapper/grizzled-slf4j_2.9.1/0.6.5/jars/grizzled-slf4j_2.9.1.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/framework/sbt/boot/scala-2.9.2/org.scala-sbt/sbt/0.12.2/testing-0.12.2.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/framework/sbt/boot/scala-2.9.2/org.scala-sbt/sbt/0.12.2/io-0.12.2.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/com.jcraft/jsch/0.1.44-1/jars/jsch.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/org.parboiled/parboiled-core/1.0.2/jars/parboiled-core.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/play/console_2.9.2/2.1.0/jars/console_2.9.2.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/play/play-exceptions/2.1.0/jars/play-exceptions.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/org.slf4j/slf4j-api/1.6.2/jars/slf4j-api.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/framework/sbt/boot/scala-2.9.2/org.scala-sbt/sbt/0.12.2/compile-0.12.2.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/commons-logging/commons-logging/1.1.1/jars/commons-logging.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/framework/sbt/boot/scala-2.9.2/org.scala-sbt/sbt/0.12.2/logging-0.12.2.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/framework/sbt/boot/scala-2.9.2/org.scala-sbt/sbt/0.12.2/commons-logging-1.0.4.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/org.avaje.ebeanorm/avaje-ebeanorm-agent/3.1.1/jars/avaje-ebeanorm-agent.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/framework/sbt/boot/scala-2.9.2/org.scala-sbt/sbt/0.12.2/jline-1.0.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/framework/sbt/boot/scala-2.9.2/org.scala-sbt/sbt/0.12.2/compiler-integration-0.12.2.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/framework/sbt/boot/scala-2.9.2/org.scala-sbt/sbt/0.12.2/commons-codec-1.2.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/net.databinder/dispatch-http_2.9.1/0.8.6/jars/dispatch-http_2.9.1.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/framework/sbt/boot/scala-2.9.2/org.scala-sbt/sbt/0.12.2/task-system-0.12.2.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/asm/asm-util/3.3.1/jars/asm-util.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/net.databinder.giter8/giter8_2.9.1/0.5.0/jars/giter8_2.9.1.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/framework/sbt/boot/scala-2.9.2/org.scala-sbt/sbt/0.12.2/process-0.12.2.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/com.github.scala-incubator.io/scala-io-file_2.9.1/0.4.0-seq/jars/scala-io-file_2.9.1.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/antlr/antlr/2.7.7/jars/antlr.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/framework/sbt/boot/scala-2.9.2/org.scala-sbt/sbt/0.12.2/tasks-0.12.2.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/me.lessis/ls_2.9.1/0.1.2-RC2/jars/ls_2.9.1.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/org.avaje.ebeanorm/avaje-ebeanorm/3.1.2/jars/avaje-ebeanorm.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/org.avaje.ebeanorm/avaje-ebeanorm-server/3.1.2/jars/avaje-ebeanorm-server.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/com.typesafe.akka/akka-actor/2.0.1/jars/akka-actor.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/org.apache.httpcomponents/httpcore/4.1.2/jars/httpcore.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/framework/sbt/boot/scala-2.9.2/lib/jansi.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/framework/sbt/boot/scala-2.9.2/org.scala-sbt/sbt/0.12.2/compiler-ivy-integration-0.12.2.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/framework/sbt/boot/scala-2.9.2/lib/scala-compiler.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/cache/scala_2.9.2/sbt_0.12/com.typesafe.sbteclipse/sbteclipse-core/jars/sbteclipse-core-2.1.1.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/org.clapper/scalasti_2.9.1/0.5.5/jars/scalasti_2.9.1.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/framework/sbt/boot/scala-2.9.2/org.scala-sbt/sbt/0.12.2/jsch-0.1.46.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/net.databinder.giter8/giter8-lib_2.9.1/0.5.0/jars/giter8-lib_2.9.1.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/com.github.jsuereth.scala-arm/scala-arm_2.9.1/1.1/jars/scala-arm_2.9.1.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/rhino/js/1.7R2/jars/js.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/framework/sbt/boot/scala-2.9.2/org.scala-sbt/sbt/0.12.2/test-agent-0.12.2.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/framework/sbt/boot/scala-2.9.2/org.scala-sbt/sbt/0.12.2/cache-0.12.2.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/com.typesafe/config/1.0.0/bundles/config.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/org.clapper/grizzled-scala_2.9.1/1.0.8/jars/grizzled-scala_2.9.1.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/cache/scala_2.9.2/sbt_0.12/com.typesafe.sbtidea/sbt-idea/jars/sbt-idea-1.1.1.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/framework/sbt/boot/scala-2.9.2/org.scala-sbt/sbt/0.12.2/tracking-0.12.2.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/net.contentobjects.jnotify/jnotify/0.94/jars/jnotify.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/play/templates-compiler_2.9.2/2.1.0/jars/templates-compiler_2.9.2.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/net.databinder/dispatch-core_2.9.1/0.8.6/jars/dispatch-core_2.9.1.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/play/sbt-link/2.1.0/jars/sbt-link.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/framework/sbt/boot/scala-2.9.2/org.scala-sbt/sbt/0.12.2/main-0.12.2.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/org.antlr/stringtemplate/3.2.1/jars/stringtemplate.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/framework/sbt/boot/scala-2.9.2/org.scala-sbt/sbt/0.12.2/test-interface-0.5.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/framework/sbt/boot/scala-2.9.2/org.scala-sbt/sbt/0.12.2/persist-0.12.2.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/framework/sbt/boot/scala-2.9.2/lib/scala-library.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/framework/sbt/boot/scala-2.9.2/org.scala-sbt/sbt/0.12.2/launcher-interface-0.12.2.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/org.pegdown/pegdown/1.1.0/jars/pegdown.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/com.github.scala-incubator.io/scala-io-core_2.9.1/0.4.0-seq/jars/scala-io-core_2.9.1.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/framework/sbt/boot/scala-2.9.2/org.scala-sbt/sbt/0.12.2/completion-0.12.2.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/framework/sbt/boot/scala-2.9.2/org.scala-sbt/sbt/0.12.2/sbt-0.12.2.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/commons-io/commons-io/2.0.1/jars/commons-io.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/com.google.guava/guava/10.0.1/jars/guava.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/com.github.scala-incubator.io/scala-io-core_2.9.2/0.4.1/jars/scala-io-core_2.9.2.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/framework/sbt/boot/scala-2.9.2/org.scala-sbt/sbt/0.12.2/ivy-2.3.0-rc1.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/asm/asm-tree/3.3.1/jars/asm-tree.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/org.apache.httpcomponents/httpclient/4.1.2/jars/httpclient.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/framework/sbt/boot/scala-2.9.2/org.scala-sbt/sbt/0.12.2/api-0.12.2.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/framework/sbt/boot/scala-2.9.2/lib/jline.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/cache/scala_2.9.2/sbt_0.12/com.typesafe.sbteclipse/sbteclipse-plugin/jars/sbteclipse-plugin-2.1.1.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/org.avaje.ebeanorm/avaje-ebeanorm-api/3.1.1/jars/avaje-ebeanorm-api.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/framework/sbt/boot/scala-2.9.2/org.scala-sbt/sbt/0.12.2/sbinary_2.9.0-0.4.0.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/org.clapper/classutil_2.9.1/0.4.2/jars/classutil_2.9.1.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/framework/sbt/boot/scala-2.9.2/org.scala-sbt/sbt/0.12.2/classfile-0.12.2.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/com.h2database/h2/1.3.168/jars/h2.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/junit/junit/3.8.1/jars/junit.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/asm/asm-commons/3.3/jars/asm-commons.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/commons-codec/commons-codec/1.4/jars/commons-codec.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/framework/sbt/boot/scala-2.9.2/org.scala-sbt/sbt/0.12.2/command-0.12.2.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/cache/scala_2.9.2/sbt_0.12/play/sbt-plugin/jars/sbt-plugin-2.1.0.jar!/" />
+          <root url="jar://$USER_HOME$/dev/play-2.1.0/framework/sbt/boot/scala-2.9.2/org.scala-sbt/sbt/0.12.2/control-0.12.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="library" name="scala-2.9.2" level="project" />
+  </component>
+</module>
+

@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="SBT: javax.validation:validation-api:1.0.0.GA">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/javax.validation/validation-api/1.0.0.GA/jars/validation-api.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -18,7 +18,6 @@ import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.exceptions.AccessTokenException;
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
-import com.feth.play.module.pa.providers.oauth2.google.GoogleAuthInfo;
 
 public class FacebookAuthProvider extends
 		OAuth2AuthProvider<FacebookAuthUser, FacebookAuthInfo> {

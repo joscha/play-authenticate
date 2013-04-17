@@ -24,6 +24,9 @@ public class GoogleAuthInfo extends OAuth2AuthInfo {
 		bearer = node.get(Constants.TOKEN_TYPE).asText();
 		idToken = node.get(ID_TOKEN).asText();
 	}
+	public GoogleAuthInfo(final String access_token) {
+		super(access_token);
+	}
 
 	public String getBearer() {
 		return bearer;

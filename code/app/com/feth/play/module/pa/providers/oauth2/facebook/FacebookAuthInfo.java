@@ -20,5 +20,9 @@ public class FacebookAuthInfo extends OAuth2AuthInfo {
 				.getTime()
 				+ Long.parseLong(m.get(EXPIRES)) * 1000);
 	}
+	
+	public FacebookAuthInfo(final String access_token) {
+		super(access_token);
+	}
 
 }

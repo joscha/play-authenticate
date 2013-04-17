@@ -96,6 +96,8 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 
 	protected abstract I buildInfo(final Response r)
 			throws AccessTokenException;
+	protected abstract I buildInfo(final String access_token)
+			throws AccessTokenException;
 
 	protected String getAuthUrl(final Request request, final String state) {
 
@@ -140,6 +142,8 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 				Constants.ERROR);
 		final String code = Authenticate
 				.getQueryString(request, Constants.CODE);
+		final String access_token = Authenticate
+				.getQueryString(request, Constants.ACCESS_TOKEN);
 
 		// Attention: facebook does *not* support state that is non-ASCII - not
 		// even encoded.
@@ -157,6 +161,15 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 			} else {
 				throw new AuthException(error);
 			}
+		} else if (null!=access_token) {
+			/*
+			 * if the access token already exists in the request (e.g. authentication already happened on a mobile device),
+			 * just get the AuthUserIdentity
+			 */
+			final I info = buildInfo(access_token);
+			final AuthUserIdentity u = transform(info, state);
+			return u;
+			// System.out.println(accessToken.getAccessToken());
 		} else if (code != null) {
 			// second step in auth process
 			final I info = getAccessToken(code, request);

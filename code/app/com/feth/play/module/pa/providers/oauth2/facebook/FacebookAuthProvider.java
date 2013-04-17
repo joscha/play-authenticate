@@ -18,6 +18,7 @@ import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.exceptions.AccessTokenException;
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
+import com.feth.play.module.pa.providers.oauth2.google.GoogleAuthInfo;
 
 public class FacebookAuthProvider extends
 		OAuth2AuthProvider<FacebookAuthUser, FacebookAuthInfo> {
@@ -84,6 +85,16 @@ public class FacebookAuthProvider extends
 			}
 
 			return new FacebookAuthInfo(m);
+		}
+	}
+	@Override
+	protected FacebookAuthInfo buildInfo(final String accessToken)
+			throws AccessTokenException {
+		
+		if (null==accessToken) {
+			throw new AccessTokenException();
+		} else {
+			return new FacebookAuthInfo(accessToken);
 		}
 	}
 

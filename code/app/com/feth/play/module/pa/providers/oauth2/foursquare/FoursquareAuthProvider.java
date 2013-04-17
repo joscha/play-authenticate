@@ -11,6 +11,7 @@ import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.exceptions.AccessTokenException;
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
+import com.feth.play.module.pa.providers.oauth2.google.GoogleAuthInfo;
 import com.feth.play.module.pa.user.AuthUserIdentity;
 
 public class FoursquareAuthProvider extends
@@ -67,6 +68,16 @@ public class FoursquareAuthProvider extends
 	@Override
 	public String getKey() {
 		return PROVIDER_KEY;
+	}
+
+	@Override
+	protected FoursquareAuthInfo buildInfo(final String accessToken)
+			throws AccessTokenException {
+		if (null==accessToken) {
+			throw new AccessTokenException();
+		} else {
+			return new FoursquareAuthInfo(accessToken);
+		}
 	}
 
 }

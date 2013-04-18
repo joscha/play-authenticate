@@ -55,7 +55,7 @@ The included sample application shows how to use all of those providers.
   * Fix for facebook users that have no user name set (thanks @smola) 
   * Fix for facebook error messages (issue #26, thanks @smola) 
   * Add setting for Facebook user fields to retrieve. (thanks @smola)
-  * Spanish translation, thanks to @petru-githa 
+  * Spanish translation, thanks to @petru-ghita 
   * wanna contribute some more? :)
 * **0.2.5-SNAPSHOT** [2013-02-14]
   * Fix for users signing up that shall be logged in straight away. **PLEASE NOTE: Breaking change!!! Upgrading to this version requires you to add one additional method to your custom UsernamePasswordAuthProvider. Have a look at the sample to see a default implementation that should work for almost everyone.**

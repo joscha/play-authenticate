@@ -115,7 +115,8 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 				return authUser;
 			case WRONG_PASSWORD:
 				// don't expose this - it might harm users privacy if anyone
-				// knows they signed up for our service
+				// knows they signed up for our service				
+				return onLoginUserNotFound(context);
 			case NOT_FOUND:
 				// forward to login page
 				return onLoginUserNotFound(context);

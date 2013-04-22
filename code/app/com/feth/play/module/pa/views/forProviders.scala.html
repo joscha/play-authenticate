@@ -5,7 +5,7 @@
 
 @defining(Registry.getProviders()) { providers =>
 	@if(providers != null && providers.size() > 0) {
-		@defining(PlayAuthenticate.isLoggedIn(session())) { loggedIn =>
+		@defining(PlayAuthenticate.isLoggedIn(Http.Context.current())) { loggedIn =>
 			@defining(PlayAuthenticate.getUser(session())) { auth =>
 			    @for(p <- providers) {
 			    	@if(((showExternal && p.isExternal()) || (showInternal && !p.isExternal())) && (!loggedIn || !skipCurrent || (skipCurrent && (loggedIn && !p.getKey().equals(auth.getProvider()))))) {

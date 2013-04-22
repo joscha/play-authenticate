@@ -1,11 +1,12 @@
 package com.feth.play.module.pa.controllers;
 
 import play.mvc.Controller;
-import play.mvc.Result;
 import play.mvc.Http.Request;
 import play.mvc.Http.Response;
+import play.mvc.Result;
 
 import com.feth.play.module.pa.PlayAuthenticate;
+import com.feth.play.module.pa.api.ApiRoute;
 
 public class Authenticate extends Controller {
 
@@ -20,6 +21,14 @@ public class Authenticate extends Controller {
 	}
 
 	public static Result authenticate(final String provider) {
+		noCache(response());
+		
+		final String payload = getQueryString(request(), PAYLOAD_KEY);
+		return PlayAuthenticate.handleAuthentication(provider, ctx(), payload);
+	}
+	
+	@ApiRoute
+	public static Result authenticate_api(final String provider) {
 		noCache(response());
 		
 		final String payload = getQueryString(request(), PAYLOAD_KEY);

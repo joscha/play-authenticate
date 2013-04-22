@@ -6,13 +6,18 @@ import play.Configuration;
 import play.Logger;
 import play.Play;
 import play.i18n.Messages;
+import play.libs.Json;
 import play.mvc.Call;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Http.Context;
+import play.mvc.Http.Flash;
+import play.mvc.Http.Request;
 import play.mvc.Http.Session;
 import play.mvc.Result;
 
+import com.feth.play.module.pa.api.Json.ApiLoginResult;
+import com.feth.play.module.pa.exceptions.ApiAuthorizationFormatException;
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.AuthProvider;
 import com.feth.play.module.pa.service.UserService;
@@ -37,55 +42,40 @@ public abstract class PlayAuthenticate {
 		public abstract Call login();
 
 		/**
-		 * Route to redirect to after authentication has been finished.
-		 * Only used if no original URL was stored.
-		 * If you return null here, the user will get redirected to the URL of
-		 * the setting
-		 * afterAuthFallback
-		 * You can use this to redirect to an external URL for example.
+		 * Route to redirect to after authentication has been finished. Only used if no original URL was stored. If you return null here, the user
+		 * will get redirected to the URL of the setting afterAuthFallback You can use this to redirect to an external URL for example.
 		 * 
 		 * @return
 		 */
 		public abstract Call afterAuth();
 
 		/**
-		 * This should usually point to the route where you registered
-		 * com.feth.play.module.pa.controllers.AuthenticateController.
-		 * authenticate(String)
-		 * however you might provide your own authentication implementation if
-		 * you want to
-		 * and point it there
+		 * This should usually point to the route where you registered com.feth.play.module.pa.controllers.AuthenticateController.
+		 * authenticate(String) however you might provide your own authentication implementation if you want to and point it there
 		 * 
-		 * @param provider
-		 *            The provider ID matching one of your registered providers
-		 *            in play.plugins
+		 * @param provider The provider ID matching one of your registered providers in play.plugins
 		 * 
 		 * @return a Call to follow
 		 */
 		public abstract Call auth(final String provider);
 
 		/**
-		 * If you set the accountAutoMerge setting to true, you might return
-		 * null for this.
+		 * If you set the accountAutoMerge setting to true, you might return null for this.
 		 * 
 		 * @return
 		 */
 		public abstract Call askMerge();
 
 		/**
-		 * If you set the accountAutoLink setting to true, you might return null
-		 * for this
+		 * If you set the accountAutoLink setting to true, you might return null for this
 		 * 
 		 * @return
 		 */
 		public abstract Call askLink();
 
 		/**
-		 * Route to redirect to after logout has been finished.
-		 * If you return null here, the user will get redirected to the URL of
-		 * the setting
-		 * afterLogoutFallback
-		 * You can use this to redirect to an external URL for example.
+		 * Route to redirect to after logout has been finished. If you return null here, the user will get redirected to the URL of the setting
+		 * afterLogoutFallback You can use this to redirect to an external URL for example.
 		 * 
 		 * @return
 		 */
@@ -114,21 +104,21 @@ public abstract class PlayAuthenticate {
 
 	public static UserService getUserService() {
 		if (userService == null) {
-			throw new RuntimeException(
-					Messages.get("playauthenticate.core.exception.no_user_service"));
+			throw new RuntimeException(Messages.get("playauthenticate.core.exception.no_user_service"));
 		}
 		return userService;
 	}
 
 	private static final String ORIGINAL_URL = "pa.url.orig";
 	private static final String USER_KEY = "pa.u.id";
+	public static final String API_ACTION_KEY = "pa.u.api";
+	private static final String AUTHORIZATION_KEY = "Authorization";
 	private static final String PROVIDER_KEY = "pa.p.id";
 	private static final String EXPIRES_KEY = "pa.u.exp";
 	private static final String SESSION_ID_KEY = "pa.s.id";
 
 	public static Configuration getConfiguration() {
-		return Play.application().configuration()
-				.getConfig(SETTING_KEY_PLAY_AUTHENTICATE);
+		return Play.application().configuration().getConfig(SETTING_KEY_PLAY_AUTHENTICATE);
 	}
 
 	public static final Long TIMEOUT = 10l * 1000;
@@ -147,13 +137,9 @@ public abstract class PlayAuthenticate {
 			Logger.warn("You should define a login call in the resolver");
 		}
 
-		if (context.request().method().equals("GET")
-				&& !context.request().path().equals(loginUrl)) {
-			Logger.debug("Path where we are coming from ("
-					+ context.request().uri()
-					+ ") is different than the login URL (" + loginUrl + ")");
-			context.session().put(PlayAuthenticate.ORIGINAL_URL,
-					context.request().uri());
+		if (context.request().method().equals("GET") && !context.request().path().equals(loginUrl)) {
+			Logger.debug("Path where we are coming from (" + context.request().uri() + ") is different than the login URL (" + loginUrl + ")");
+			context.session().put(PlayAuthenticate.ORIGINAL_URL, context.request().uri());
 		} else {
 			Logger.debug("The path we are coming from is the Login URL - delete jumpback");
 			context.session().remove(PlayAuthenticate.ORIGINAL_URL);
@@ -175,22 +161,42 @@ public abstract class PlayAuthenticate {
 		}
 	}
 
-	public static boolean isLoggedIn(final Session session) {
-		boolean ret = session.containsKey(USER_KEY) // user is set
-				&& session.containsKey(PROVIDER_KEY); // provider is set
-		ret &= AuthProvider.Registry.hasProvider(session.get(PROVIDER_KEY)); // this
-																				// provider
-																				// is
-																				// active
-		if (session.containsKey(EXPIRES_KEY)) {
-			// expiration is set
-			final long expires = getExpiration(session);
-			if (expires != AuthUser.NO_EXPIRATION) {
-				ret &= (new Date()).getTime() < expires; // and the session
-															// expires after now
+	public static boolean isLoggedIn(final Context context) {
+		Session session = context.session();
+
+		if (isApiAction(context.flash())) {
+
+			if (context.request().headers().containsKey(AUTHORIZATION_KEY)) {
+				String authorization = context.request().getHeader(AUTHORIZATION_KEY);
+				String id = authorization.split(":")[0];
+				String provider = authorization.split(":")[1];
+				boolean ret = null != id // user is set
+						&& null != provider; // provider is set
+				ret &= AuthProvider.Registry.hasProvider(provider); // this
+				// provider
+				// is
+				// active
+				return ret;
+
 			}
+			return false;
+		} else {
+			boolean ret = session.containsKey(USER_KEY) // user is set
+					&& session.containsKey(PROVIDER_KEY); // provider is set
+			ret &= AuthProvider.Registry.hasProvider(session.get(PROVIDER_KEY)); // this
+																					// provider
+																					// is
+																					// active
+			if (session.containsKey(EXPIRES_KEY)) {
+				// expiration is set
+				final long expires = getExpiration(session);
+				if (expires != AuthUser.NO_EXPIRATION) {
+					ret &= (new Date()).getTime() < expires; // and the session
+																// expires after now
+				}
+			}
+			return ret;
 		}
-		return ret;
 	}
 
 	public static Result logout(final Session session) {
@@ -202,8 +208,7 @@ public abstract class PlayAuthenticate {
 		// cookie
 		session.remove(ORIGINAL_URL);
 
-		return Controller.redirect(getUrl(getResolver().afterLogout(),
-				SETTING_KEY_AFTER_LOGOUT_FALLBACK));
+		return Controller.redirect(getUrl(getResolver().afterLogout(), SETTING_KEY_AFTER_LOGOUT_FALLBACK));
 	}
 
 	public static String peekOriginalUrl(final Context context) {
@@ -240,7 +245,21 @@ public abstract class PlayAuthenticate {
 		}
 	}
 
+	public static AuthUser getUserApi(Request request) {
+
+		final String provider = getAuthorizatoinProvider(request);
+		final String id = getAuthorizationId(request);
+
+		if (provider != null && id != null) {
+			return getProvider(provider).getSessionAuthUser(id, 0);
+		} else {
+			return null;
+		}
+	}
+
 	public static AuthUser getUser(final Context context) {
+		if (isApiAction(context.flash()))
+			return getUserApi(context.request());
 		return getUser(context.session());
 	}
 
@@ -266,19 +285,17 @@ public abstract class PlayAuthenticate {
 		return uuid;
 	}
 
-	private static void storeUserInCache(final Session session,
-			final String key, final AuthUser identity) {
+	private static void storeUserInCache(final Session session, final String key, final AuthUser identity) {
 		storeInCache(session, key, identity);
 	}
 
-	public static void storeInCache(final Session session, final String key,
-			final Object o) {
+	public static void storeInCache(final Session session, final String key, final Object o) {
 		play.cache.Cache.set(getCacheKey(session, key), o);
 	}
 
 	public static Object removeFromCache(final Session session, final String key) {
 		final Object o = getFromCache(session, key);
-		
+
 		final String k = getCacheKey(session, key);
 		// TODO change on Play 2.1
 		play.cache.Cache.set(k, null, 0);
@@ -297,8 +314,7 @@ public abstract class PlayAuthenticate {
 		return play.cache.Cache.get(getCacheKey(session, key));
 	}
 
-	private static AuthUser getUserFromCache(final Session session,
-			final String key) {
+	private static AuthUser getUserFromCache(final Session session, final String key) {
 
 		final Object o = getFromCache(session, key);
 		if (o != null && o instanceof AuthUser) {
@@ -307,8 +323,7 @@ public abstract class PlayAuthenticate {
 		return null;
 	}
 
-	public static void storeMergeUser(final AuthUser identity,
-			final Session session) {
+	public static void storeMergeUser(final AuthUser identity, final Session session) {
 		// TODO the cache is not ideal for this, because it might get cleared
 		// any time
 		storeUserInCache(session, MERGE_USER_KEY, identity);
@@ -322,8 +337,7 @@ public abstract class PlayAuthenticate {
 		removeFromCache(session, MERGE_USER_KEY);
 	}
 
-	public static void storeLinkUser(final AuthUser identity,
-			final Session session) {
+	public static void storeLinkUser(final AuthUser identity, final Session session) {
 		// TODO the cache is not ideal for this, because it might get cleared
 		// any time
 		storeUserInCache(session, LINK_USER_KEY, identity);
@@ -342,8 +356,7 @@ public abstract class PlayAuthenticate {
 		if (originalUrl != null) {
 			return originalUrl;
 		} else {
-			return getUrl(getResolver().afterAuth(),
-					SETTING_KEY_AFTER_AUTH_FALLBACK);
+			return getUrl(getResolver().afterAuth(), SETTING_KEY_AFTER_AUTH_FALLBACK);
 		}
 	}
 
@@ -355,14 +368,12 @@ public abstract class PlayAuthenticate {
 		} else {
 			// go to root instead, but log this
 			Logger.warn("Resolver did not contain information about where to go - redirecting to /");
-			final String afterAuthFallback = getConfiguration().getString(
-					settingFallback);
+			final String afterAuthFallback = getConfiguration().getString(settingFallback);
 			if (afterAuthFallback != null && !afterAuthFallback.equals("")) {
 				return afterAuthFallback;
 			}
 			// Not even the config setting was there or valid...meh
-			Logger.error("Config setting '" + settingFallback
-					+ "' was not present!");
+			Logger.error("Config setting '" + settingFallback + "' was not present!");
 			return "/";
 		}
 	}
@@ -377,8 +388,7 @@ public abstract class PlayAuthenticate {
 		final AuthUser loginUser;
 		if (link) {
 			// User accepted link - add account to existing local user
-			loginUser = getUserService().link(getUser(context.session()),
-					linkUser);
+			loginUser = getUserService().link(getUser(context.session()), linkUser);
 		} else {
 			// User declined link - create new user
 			try {
@@ -391,10 +401,18 @@ public abstract class PlayAuthenticate {
 		return loginAndRedirect(context, loginUser);
 	}
 
-	public static Result loginAndRedirect(final Context context,
-			final AuthUser loginUser) {
+	public static Result loginAndRedirect(final Context context, final AuthUser loginUser) {
 		storeUser(context.session(), loginUser);
 		return Controller.redirect(getJumpUrl(context));
+	}
+
+	/*
+	 * login and return an api response
+	 */
+	public static Result apiLogin(final Context context, final AuthUser loginUser) {
+		storeUser(context.session(), loginUser);
+		ApiLoginResult loginResult = new ApiLoginResult(true, loginUser.getId(), loginUser.getProvider());
+		return Controller.ok(Json.toJson(loginResult));
 	}
 
 	public static Result merge(final Context context, final boolean merge) {
@@ -406,8 +424,7 @@ public abstract class PlayAuthenticate {
 		final AuthUser loginUser;
 		if (merge) {
 			// User accepted merge, so do it
-			loginUser = getUserService().merge(mergeUser,
-					getUser(context.session()));
+			loginUser = getUserService().merge(mergeUser, getUser(context.session()));
 		} else {
 			// User declined merge, so log out the old user, and log out with
 			// the new one
@@ -421,22 +438,18 @@ public abstract class PlayAuthenticate {
 		final AuthUser loginUser;
 		final Object id = getUserService().save(u);
 		if (id == null) {
-			throw new AuthException(
-					Messages.get("playauthenticate.core.exception.singupuser_failed"));
+			throw new AuthException(Messages.get("playauthenticate.core.exception.singupuser_failed"));
 		}
 		loginUser = u;
 		return loginUser;
 	}
 
-	public static Result handleAuthentication(final String provider,
-			final Context context, final Object payload) {
+	public static Result handleAuthentication(final String provider, final Context context, final Object payload) {
 		final AuthProvider ap = getProvider(provider);
 		if (ap == null) {
 			// Provider wasn't found and/or user was fooling with our stuff -
 			// tell him off:
-			return Controller.notFound(Messages.get(
-					"playauthenticate.core.exception.provider_not_found",
-					provider));
+			return Controller.notFound(Messages.get("playauthenticate.core.exception.provider_not_found", provider));
 		}
 		try {
 			final Object o = ap.authenticate(context, payload);
@@ -446,6 +459,7 @@ public abstract class PlayAuthenticate {
 
 				final AuthUser newUser = (AuthUser) o;
 				final Session session = context.session();
+				final Flash flash = context.flash();
 
 				// We might want to do merging here:
 				// Adapted from:
@@ -466,7 +480,7 @@ public abstract class PlayAuthenticate {
 				AuthUser oldUser = getUser(session);
 
 				// checks if the user is logged in (also checks the expiration!)
-				boolean isLoggedIn = isLoggedIn(session);
+				boolean isLoggedIn = isLoggedIn(context);
 
 				Object oldIdentity = null;
 
@@ -485,8 +499,7 @@ public abstract class PlayAuthenticate {
 					}
 				}
 
-				final Object loginIdentity = getUserService().getLocalIdentity(
-						newUser);
+				final Object loginIdentity = getUserService().getLocalIdentity(newUser);
 				final boolean isLinked = loginIdentity != null;
 
 				final AuthUser loginUser;
@@ -499,8 +512,7 @@ public abstract class PlayAuthenticate {
 
 					// merge the two identities and return the AuthUser we want
 					// to use for the log in
-					if (isAccountMergeEnabled()
-							&& !loginIdentity.equals(oldIdentity)) {
+					if (isAccountMergeEnabled() && !loginIdentity.equals(oldIdentity)) {
 						// account merge is enabled
 						// and
 						// The currently logged in user and the one to log in
@@ -508,17 +520,13 @@ public abstract class PlayAuthenticate {
 
 						if (isAccountAutoMerge()) {
 							// Account auto merging is enabled
-							loginUser = getUserService()
-									.merge(newUser, oldUser);
+							loginUser = getUserService().merge(newUser, oldUser);
 						} else {
 							// Account auto merging is disabled - forward user
 							// to merge request page
 							final Call c = getResolver().askMerge();
 							if (c == null) {
-								throw new RuntimeException(
-										Messages.get(
-												"playauthenticate.core.exception.merge.controller_undefined",
-												SETTING_KEY_ACCOUNT_AUTO_MERGE));
+								throw new RuntimeException(Messages.get("playauthenticate.core.exception.merge.controller_undefined", SETTING_KEY_ACCOUNT_AUTO_MERGE));
 							}
 							storeMergeUser(newUser, session);
 							return Controller.redirect(c);
@@ -547,10 +555,7 @@ public abstract class PlayAuthenticate {
 						// link suggestion page
 						final Call c = getResolver().askLink();
 						if (c == null) {
-							throw new RuntimeException(
-									Messages.get(
-											"playauthenticate.core.exception.link.controller_undefined",
-											SETTING_KEY_ACCOUNT_AUTO_LINK));
+							throw new RuntimeException(Messages.get("playauthenticate.core.exception.link.controller_undefined", SETTING_KEY_ACCOUNT_AUTO_LINK));
 						}
 						storeLinkUser(newUser, session);
 						return Controller.redirect(c);
@@ -558,10 +563,13 @@ public abstract class PlayAuthenticate {
 
 				}
 
+				// for api requests
+				if (isApiAction(context.flash()) && null == getOriginalUrl(context))
+					return apiLogin(context, loginUser);
+
 				return loginAndRedirect(context, loginUser);
 			} else {
-				return Controller.internalServerError(Messages
-						.get("playauthenticate.core.exception.general"));
+				return Controller.internalServerError(Messages.get("playauthenticate.core.exception.general"));
 			}
 		} catch (final AuthException e) {
 			final Call c = getResolver().onException(e);
@@ -580,5 +588,36 @@ public abstract class PlayAuthenticate {
 
 	public static AuthProvider getProvider(final String providerKey) {
 		return AuthProvider.Registry.get(providerKey);
+	}
+
+	/**
+	 * 
+	 * @param session - the current session
+	 * @return true if the
+	 */
+	public static boolean isApiAction(final Flash flash) {
+		if (flash.containsKey(API_ACTION_KEY) && Boolean.valueOf(flash.get(API_ACTION_KEY)))
+			return true;
+		return false;
+	}
+
+	private static String getAuthorizationId(Request request) {
+		if (!request.headers().containsKey(AUTHORIZATION_KEY))
+			return null;
+
+		String authorization = request.getHeader(AUTHORIZATION_KEY);
+		String id = authorization.split(":")[0];
+		return id;
+
+	}
+	
+	private static String getAuthorizatoinProvider(Request request) {
+		if (!request.headers().containsKey(AUTHORIZATION_KEY))
+			return null;
+		
+		String authorization = request.getHeader(AUTHORIZATION_KEY);
+		String provider = authorization.split(":")[1];
+		return provider;
+
 	}
 }

@@ -1,0 +1,13 @@
+GET     /                           controllers.Application.index
+GET     /login                      controllers.Application.login
+POST    /login                      controllers.Application.doLogin
+GET     /signup                     controllers.Application.signup
+POST    /signup                     controllers.Application.doSignup
+GET     /user-exists                controllers.Application.userExists
+GET     /user-unverified            controllers.Application.userUnverified
+GET     /verify/:token              controllers.Application.verify(token: String)
+GET     /java                       controllers.JavaController.index
+GET     /scala                      controllers.ScalaController.index
+GET     /logout                     com.feth.play.module.pa.controllers.Authenticate.logout
+GET     /authenticate/:provider     com.feth.play.module.pa.controllers.Authenticate.authenticate(provider: String)
+GET     /authenticate/:provider/denied     controllers.Application.oAuthDenied(provider: String)

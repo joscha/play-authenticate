@@ -1,0 +1,12 @@
+@(
+signupForm: play.data.Form[providers.TestUsernamePasswordAuthProvider.Signup]
+)
+
+@main("Signup") {
+  <h1>Signup</h1>
+  @helper.form(action = routes.Application.doSignup()) {
+    @helper.inputText(signupForm("email"))
+    @helper.inputPassword(signupForm("password"))
+    <button type="submit">Signup</button>
+  }
+}

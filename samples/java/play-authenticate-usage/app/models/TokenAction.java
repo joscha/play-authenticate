@@ -11,6 +11,7 @@ import play.data.format.Formats;
 import play.db.ebean.Model;
 
 import com.avaje.ebean.Ebean;
+import com.avaje.ebean.QueryIterator;
 import com.avaje.ebean.annotation.EnumValue;
 
 @Entity

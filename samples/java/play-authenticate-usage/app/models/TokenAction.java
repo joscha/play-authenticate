@@ -11,6 +11,7 @@ import play.data.format.Formats;
 import play.db.ebean.Model;
 
 import com.avaje.ebean.Ebean;
+import com.avaje.ebean.QueryIterator;
 import com.avaje.ebean.annotation.EnumValue;
 
 @Entity
@@ -61,8 +62,10 @@ public class TokenAction extends Model {
 	}
 
 	public static void deleteByUser(final User u, final Type type) {
-		Ebean.delete(find.where().eq("targetUser.id", u.id).eq("type", type)
-				.findIterate());
+		QueryIterator<TokenAction> iterator = find.where()
+				.eq("targetUser.id", u.id).eq("type", type).findIterate();
+		Ebean.delete(iterator);
+		iterator.close();
 	}
 
 	public boolean isValid() {

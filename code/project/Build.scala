@@ -16,8 +16,11 @@ object ApplicationBuild extends Build {
       resolvers += "Apache" at "http://repo1.maven.org/maven2/",
       resolvers += "jBCrypt Repository" at "http://repo1.maven.org/maven2/org/",
 
-      resolvers += Resolver.url("play-easymail (release)", url("http://joscha.github.com/play-easymail/repo/releases/"))(Resolver.ivyStylePatterns),
-      resolvers += Resolver.url("play-easymail (snapshot)", url("http://joscha.github.com/play-easymail/repo/snapshots/"))(Resolver.ivyStylePatterns),
+      resolvers += Resolver.url("play-easymail (release)", url("http://jayceecam.github.com/play-easymail/repo/releases/"))(Resolver.ivyStylePatterns),
+      resolvers += Resolver.url("play-easymail (snapshot)", url("http://jayceecam.github.com/play-easymail/repo/snapshots/"))(Resolver.ivyStylePatterns),
+
+//      resolvers += Resolver.url("play-easymail (release)", url("http://joscha.github.com/play-easymail/repo/releases/"))(Resolver.ivyStylePatterns),
+//      resolvers += Resolver.url("play-easymail (snapshot)", url("http://joscha.github.com/play-easymail/repo/snapshots/"))(Resolver.ivyStylePatterns),
 
       libraryDependencies += "org.apache.httpcomponents" % "httpclient" % "4.2.1",
       libraryDependencies += "com.feth" %% "play-easymail" % "0.2-SNAPSHOT",

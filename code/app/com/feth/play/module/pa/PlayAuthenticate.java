@@ -233,7 +233,7 @@ public abstract class PlayAuthenticate {
 		return expires;
 	}
 
-	public static AuthUser getUser(final Session session) {
+	private static AuthUser getUser(final Session session) {
 		final String provider = session.get(PROVIDER_KEY);
 		final String id = session.get(USER_KEY);
 		final long expires = getExpiration(session);
@@ -245,7 +245,7 @@ public abstract class PlayAuthenticate {
 		}
 	}
 
-	public static AuthUser getUserApi(Request request) {
+	private static AuthUser getUserApi(Request request) {
 
 		final String provider = getAuthorizatoinProvider(request);
 		final String id = getAuthorizationId(request);

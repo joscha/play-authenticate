@@ -52,6 +52,7 @@ The included sample application shows how to use all of those providers.
 
 ## Versions
 * **TRUNK** [not released in the repository, yet]
+  * Fix for Twitter API 1.1 (thanks @xjodoin) 
   * Fix for facebook users that have no user name set (thanks @smola) 
   * Fix for facebook error messages (issue #26, thanks @smola) 
   * Add setting for Facebook user fields to retrieve. (thanks @smola)

@@ -41,6 +41,8 @@ public class VkAuthProvider extends OAuth2AuthProvider<VkAuthUser, VkAuthInfo> {
                 .get(PlayAuthenticate.TIMEOUT);
 
         final JsonNode result = r.asJson();
+        Logger.debug(result.toString());
+
         if (result.get(OAuth2AuthProvider.Constants.ERROR) != null) {
             throw new AuthException(result.get(ERROR_MESSAGE).asText());
         } else {

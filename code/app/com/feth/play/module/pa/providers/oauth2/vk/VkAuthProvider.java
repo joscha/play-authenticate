@@ -20,7 +20,7 @@ public class VkAuthProvider extends OAuth2AuthProvider<VkAuthUser, VkAuthInfo> {
     private static final String USER_INFO_FIELDS_SETTING_KEY = "userInfoFields";
 
     private static final String FIELDS = "fields";
-    private static final String ERROR_MESSAGE = "error_description";
+    private static final String UIDS = "uids";
 
     public VkAuthProvider(final Application app) {
         super(app);
@@ -36,6 +36,7 @@ public class VkAuthProvider extends OAuth2AuthProvider<VkAuthUser, VkAuthInfo> {
                 USER_INFO_FIELDS_SETTING_KEY);
         final WS.Response r = WS
                 .url(url)
+                .setQueryParameter(UIDS, info.getUserId())
                 .setQueryParameter(FIELDS, fields)
                 .get()
                 .get(PlayAuthenticate.TIMEOUT);
@@ -44,7 +45,7 @@ public class VkAuthProvider extends OAuth2AuthProvider<VkAuthUser, VkAuthInfo> {
         Logger.debug(result.toString());
 
         if (result.get(OAuth2AuthProvider.Constants.ERROR) != null) {
-            throw new AuthException(result.get(ERROR_MESSAGE).asText());
+            throw new AuthException(result.get(OAuth2AuthProvider.Constants.ERROR).asText());
         } else {
             Logger.debug(result.toString());
             return new VkAuthUser(result, info, state);
@@ -63,7 +64,7 @@ public class VkAuthProvider extends OAuth2AuthProvider<VkAuthUser, VkAuthInfo> {
         Logger.debug(n.toString());
 
         if (n.get(OAuth2AuthProvider.Constants.ERROR) != null) {
-            throw new AccessTokenException(n.get(ERROR_MESSAGE).asText());
+            throw new AccessTokenException(n.get(OAuth2AuthProvider.Constants.ERROR).asText());
         } else {
             return new VkAuthInfo(n);
         }

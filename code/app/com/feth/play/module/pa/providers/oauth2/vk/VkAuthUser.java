@@ -88,7 +88,7 @@ public class VkAuthUser extends BasicOAuth2AuthUser implements ExtendedIdentity,
 
     @Override
     public String getName() {
-        return null;
+        return getFirstName() + " " + getLastName();
     }
 
     @Override

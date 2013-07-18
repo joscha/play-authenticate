@@ -20,6 +20,7 @@ public class VkAuthProvider extends OAuth2AuthProvider<VkAuthUser, VkAuthInfo> {
     private static final String USER_INFO_FIELDS_SETTING_KEY = "userInfoFields";
 
     private static final String FIELDS = "fields";
+    private static final String ERROR_MESSAGE = "error_description";
 
     public VkAuthProvider(final Application app) {
         super(app);
@@ -41,8 +42,7 @@ public class VkAuthProvider extends OAuth2AuthProvider<VkAuthUser, VkAuthInfo> {
 
         final JsonNode result = r.asJson();
         if (result.get(OAuth2AuthProvider.Constants.ERROR) != null) {
-            throw new AuthException(result.get(
-                    OAuth2AuthProvider.Constants.ERROR).asText());
+            throw new AuthException(result.get(ERROR_MESSAGE).asText());
         } else {
             Logger.debug(result.toString());
             return new VkAuthUser(result, info, state);
@@ -61,8 +61,7 @@ public class VkAuthProvider extends OAuth2AuthProvider<VkAuthUser, VkAuthInfo> {
         Logger.debug(n.toString());
 
         if (n.get(OAuth2AuthProvider.Constants.ERROR) != null) {
-            throw new AccessTokenException(n.get(
-                    OAuth2AuthProvider.Constants.ERROR).asText());
+            throw new AccessTokenException(n.get(ERROR_MESSAGE).asText());
         } else {
             return new VkAuthInfo(n);
         }

@@ -19,8 +19,10 @@ public class VkAuthProvider extends OAuth2AuthProvider<VkAuthUser, VkAuthInfo> {
     private static final String USER_INFO_URL_SETTING_KEY = "userInfoUrl";
     private static final String USER_INFO_FIELDS_SETTING_KEY = "userInfoFields";
 
-    private static final String FIELDS = "fields";
-    private static final String UIDS = "uids";
+    private static final String FIELDS_REQUEST_KEY = "fields";
+    private static final String UIDS_REQUEST_KEY = "uids";
+
+    private static final String BODY_RESPONSE_KEY = "response";
 
     public VkAuthProvider(final Application app) {
         super(app);
@@ -36,8 +38,8 @@ public class VkAuthProvider extends OAuth2AuthProvider<VkAuthUser, VkAuthInfo> {
                 USER_INFO_FIELDS_SETTING_KEY);
         final WS.Response r = WS
                 .url(url)
-                .setQueryParameter(UIDS, info.getUserId())
-                .setQueryParameter(FIELDS, fields)
+                .setQueryParameter(UIDS_REQUEST_KEY, info.getUserId())
+                .setQueryParameter(FIELDS_REQUEST_KEY, fields)
                 .get()
                 .get(PlayAuthenticate.TIMEOUT);
 
@@ -47,8 +49,7 @@ public class VkAuthProvider extends OAuth2AuthProvider<VkAuthUser, VkAuthInfo> {
         if (result.get(OAuth2AuthProvider.Constants.ERROR) != null) {
             throw new AuthException(result.get(OAuth2AuthProvider.Constants.ERROR).asText());
         } else {
-            Logger.debug(result.toString());
-            return new VkAuthUser(result, info, state);
+            return new VkAuthUser(result.get(BODY_RESPONSE_KEY).get(0), info, state);
         }
     }
 

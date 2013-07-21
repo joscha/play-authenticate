@@ -45,9 +45,7 @@ public class TwitterAuthProvider extends
 
 		final OAuthCalculator op = new OAuthCalculator(cK, token);
 
-		final Future<Response> resp = WS.url(url).sign(op).get();
-
-		final Future<play.api.libs.ws.Response> future = WS.url(url).sign(op).get();
+		final Future<Response> future = WS.url(url).sign(op).get();
 		play.api.libs.ws.Response response = new play.libs.F.Promise<play.api.libs.ws.Response>(future).get();
 
 		final JsValue json = response.json();

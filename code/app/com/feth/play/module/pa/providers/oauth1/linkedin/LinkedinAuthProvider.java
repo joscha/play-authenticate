@@ -50,30 +50,14 @@ public class LinkedinAuthProvider extends
 		final OAuthCalculator op = new OAuthCalculator(cK, token);
 
 
-		final Future<Response> resp = WS.url(url).sign(op).get();
-		final Future<play.api.libs.ws.Response> future = WS.url(url).sign(op).get();
+		final Future<Response> future = WS.url(url).sign(op).get();
 		play.api.libs.ws.Response response = new play.libs.F.Promise<play.api.libs.ws.Response>(future).get();
 		final JsValue json = response.json();
 
-		final Future<Response> respEmail = WS.url(urlEmail).sign(op).get();
-		final Future<play.api.libs.ws.Response> futureEmail = WS.url(urlEmail).sign(op).get();
+		final Future<Response> futureEmail = WS.url(urlEmail).sign(op).get();
 		play.api.libs.ws.Response responseEmail = new play.libs.F.Promise<play.api.libs.ws.Response>(futureEmail).get();
 		final JsValue jsonEmail = responseEmail.json();
 		final String email = Json.parse(jsonEmail.toString()).asText();
-
-/*
-
-		final Promise<play.api.libs.ws.Response> promise = WS.url(url).sign(op)
-				.get();
-		final Promise<play.api.libs.ws.Response> promiseEmail = WS
-				.url(urlEmail).sign(op).get();
-
-		final JsValue json = promise.value().get().json();
-		final JsValue jsonEmail = promiseEmail.value().get().json();
-
-		
-
-*/
 
 		return new LinkedinAuthUser(Json.parse(json.toString()), email, info);
 	}

@@ -8,8 +8,8 @@ object ApplicationBuild extends Build {
     val appVersion      = "1.0-SNAPSHOT"
 
     val appDependencies = Seq(
-      "com.feth"      %%  "play-authenticate" % "0.2.5-SNAPSHOT",
       "be.objectify"  %%  "deadbolt-java"     % "2.1-RC2",
+      "com.feth"      %%  "play-authenticate" % "0.3.0-SNAPSHOT",
       javaCore,
       javaJdbc,
       javaEbean

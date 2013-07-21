@@ -10,7 +10,7 @@ object ApplicationBuild extends Build {
     val appDependencies = Seq(
       "be.objectify"  %%  "deadbolt-java"     % "2.1-RC2",
       // Comment this for local development of the Play Authentication core
-      "com.feth"      %%  "play-authenticate" % "0.2.5-SNAPSHOT",
+      "com.feth"      %%  "play-authenticate" % "0.3.0-SNAPSHOT",
       "postgresql"    %   "postgresql"        % "9.1-901-1.jdbc4",
       javaCore,
       javaJdbc,

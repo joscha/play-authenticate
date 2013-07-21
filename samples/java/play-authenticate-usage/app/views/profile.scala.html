@@ -6,13 +6,15 @@
     
     <h1>@Messages("playauthenticate.profile.title")</h1>
     <p>
-    Your name is @localUser.name and your email address is @localUser.email!
-    <i>
-    @if(!localUser.emailValidated) {
-      (<a href="@routes.Account.verifyEmail">unverified - click to verify</a>)
-    } else {
-      (verified)
-    }</i>
+    Your name is @localUser.name and your email address is @if(!localUser.email) {<em>&lt;unknown&gt;</em>.} else {
+    	@localUser.email.
+	    <i>
+	    @if(!localUser.emailValidated && localUser.email) {
+	      (<a href="@routes.Account.verifyEmail">unverified - click to verify</a>)
+	    } else {
+	      (verified)
+	    }</i>
+    }
     <br />
     Your first name is @localUser.firstName and your last name is @localUser.lastName
     <br/>

@@ -35,6 +35,7 @@ As of now, the following authentication providers are supported out of the box:
 * Google (OAuth2)
 * Facebook (OAuth2)
 * Foursquare (OAuth2)
+* VK.com/VKontakte (OAuth2)
 * Twitter (OAuth1)
 * LinkedIn (OAuth1)
 * OpenID (experimental)
@@ -54,6 +55,7 @@ The included sample application shows how to use all of those providers.
 * **TRUNK** [not released in the repository, yet]
   * wanna contribute something? :)
 * **0.3.0-SNAPSHOT** [2013-07-22]
+  * New Authentication Provider for vk.com (thanks @dborisenko)
   * Add `refresh_token`/`expires_in` to OAuth2 and Google/Facebook providers (thanks @jayceecam)
   * Fix for Twitter API 1.1 (thanks @xjodoin) 
   * Fix for facebook users that have no user name set (thanks @smola) 

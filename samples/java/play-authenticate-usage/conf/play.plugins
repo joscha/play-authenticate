@@ -8,3 +8,4 @@
 10050:com.feth.play.module.pa.providers.openid.OpenIdAuthProvider
 10060:com.feth.play.module.pa.providers.oauth1.twitter.TwitterAuthProvider
 10070:com.feth.play.module.pa.providers.oauth1.linkedin.LinkedinAuthProvider
+10080:com.feth.play.module.pa.providers.oauth2.vk.VkAuthProvider

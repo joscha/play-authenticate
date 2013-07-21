@@ -11,8 +11,13 @@ public abstract class OAuth2AuthInfo extends AuthInfo {
 
 	private String accessToken;
 	private long expires;
-	private String refreshToken;
+	private String refreshToken = null;
 
+	public OAuth2AuthInfo(final String token, final long l) {
+		accessToken = token;
+		expires = l;
+	}
+	
 	public OAuth2AuthInfo(final String token, final long l, final String refresh) {
 		accessToken = token;
 		expires = l;

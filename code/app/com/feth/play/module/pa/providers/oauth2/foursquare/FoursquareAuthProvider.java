@@ -69,4 +69,14 @@ public class FoursquareAuthProvider extends
 		return PROVIDER_KEY;
 	}
 
+	@Override
+	protected FoursquareAuthInfo buildInfo(final String accessToken)
+			throws AccessTokenException {
+		if (null==accessToken) {
+			throw new AccessTokenException();
+		} else {
+			return new FoursquareAuthInfo(accessToken);
+		}
+	}
+
 }

@@ -2,6 +2,6 @@
 
 @import com.feth.play.module.pa.PlayAuthenticate
 
-@defining(PlayAuthenticate.getUser(session())) { auth =>
+@defining(PlayAuthenticate.getUser(Http.Context.current())) { auth =>
 	@body(auth)
 }

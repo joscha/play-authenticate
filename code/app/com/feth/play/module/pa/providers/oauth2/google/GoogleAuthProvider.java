@@ -63,5 +63,15 @@ public class GoogleAuthProvider extends
 			return new GoogleAuthInfo(n);
 		}
 	}
+	@Override
+	protected GoogleAuthInfo buildInfo(final String accessToken)
+			throws AccessTokenException {
+		
+		if (null==accessToken) {
+			throw new AccessTokenException();
+		} else {
+			return new GoogleAuthInfo(accessToken);
+		}
+	}
 
 }

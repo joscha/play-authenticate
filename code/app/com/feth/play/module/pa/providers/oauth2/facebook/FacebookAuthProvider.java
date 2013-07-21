@@ -86,5 +86,15 @@ public class FacebookAuthProvider extends
 			return new FacebookAuthInfo(m);
 		}
 	}
+	@Override
+	protected FacebookAuthInfo buildInfo(final String accessToken)
+			throws AccessTokenException {
+		
+		if (null==accessToken) {
+			throw new AccessTokenException();
+		} else {
+			return new FacebookAuthInfo(accessToken);
+		}
+	}
 
 }

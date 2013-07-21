@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="SBT: com.feth:play-easymail_2.10:0.2-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/cache/com.feth/play-easymail_2.10/jars/play-easymail_2.10-0.2-SNAPSHOT.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

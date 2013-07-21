@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="SBT: org.specs2:specs2_2.10:1.13">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/org.specs2/specs2_2.10/1.13/jars/specs2_2.10.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

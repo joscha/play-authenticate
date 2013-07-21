@@ -5,7 +5,7 @@ import play.Project._
 object ApplicationBuild extends Build {
 
     val appName         = "play-authenticate"
-    val appVersion      = "0.2.5-SNAPSHOT"
+    val appVersion      = "0.2.9-SNAPSHOT"
 
     val appDependencies = Seq(
         javaCore
@@ -16,11 +16,14 @@ object ApplicationBuild extends Build {
       resolvers += "Apache" at "http://repo1.maven.org/maven2/",
       resolvers += "jBCrypt Repository" at "http://repo1.maven.org/maven2/org/",
 
-      resolvers += Resolver.url("play-easymail (release)", url("http://joscha.github.com/play-easymail/repo/releases/"))(Resolver.ivyStylePatterns),
-      resolvers += Resolver.url("play-easymail (snapshot)", url("http://joscha.github.com/play-easymail/repo/snapshots/"))(Resolver.ivyStylePatterns),
+      resolvers += Resolver.url("jaycee play-easymail (release)", url("http://jayceecam.github.com/play-easymail/repo/releases/"))(Resolver.ivyStylePatterns),
+      resolvers += Resolver.url("jaycee play-easymail (snapshot)", url("http://jayceecam.github.com/play-easymail/repo/snapshots/"))(Resolver.ivyStylePatterns),
+
+//      resolvers += Resolver.url("play-easymail (release)", url("http://joscha.github.com/play-easymail/repo/releases/"))(Resolver.ivyStylePatterns),
+//      resolvers += Resolver.url("play-easymail (snapshot)", url("http://joscha.github.com/play-easymail/repo/snapshots/"))(Resolver.ivyStylePatterns),
 
       libraryDependencies += "org.apache.httpcomponents" % "httpclient" % "4.2.1",
-      libraryDependencies += "com.feth" %% "play-easymail" % "0.2-SNAPSHOT",
+      libraryDependencies += "com.feth" %% "play-easymail" % "0.3-SNAPSHOT",
       libraryDependencies += "org.mindrot" % "jbcrypt" % "0.3m",
       libraryDependencies += "commons-lang" % "commons-lang" % "2.6"
     )

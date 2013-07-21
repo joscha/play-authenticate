@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="SBT: org.ow2.spec.ee:ow2-atinject-1.0-spec:1.0.10">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/cache/org.ow2.spec.ee/ow2-atinject-1.0-spec/bundles/ow2-atinject-1.0-spec-1.0.10.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

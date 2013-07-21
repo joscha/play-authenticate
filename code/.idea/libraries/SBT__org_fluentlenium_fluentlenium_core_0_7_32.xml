@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="SBT: org.fluentlenium:fluentlenium-core:0.7.3">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/local/org.fluentlenium/fluentlenium-core/0.7.3/jars/fluentlenium-core.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

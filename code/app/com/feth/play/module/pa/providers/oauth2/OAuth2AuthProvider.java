@@ -1,21 +1,5 @@
 package com.feth.play.module.pa.providers.oauth2;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.utils.URLEncodedUtils;
-import org.apache.http.message.BasicNameValuePair;
-
-import play.Application;
-import play.Configuration;
-import play.Logger;
-import play.libs.WS;
-import play.libs.WS.Response;
-import play.mvc.Http.Context;
-import play.mvc.Http.Request;
-
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.controllers.Authenticate;
 import com.feth.play.module.pa.exceptions.AccessDeniedException;
@@ -24,6 +8,20 @@ import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.exceptions.RedirectUriMismatch;
 import com.feth.play.module.pa.providers.ext.ExternalAuthProvider;
 import com.feth.play.module.pa.user.AuthUserIdentity;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.message.BasicNameValuePair;
+import play.Application;
+import play.Configuration;
+import play.Logger;
+import play.libs.WS;
+import play.libs.WS.Response;
+import play.mvc.Http.Context;
+import play.mvc.Http.Request;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends OAuth2AuthInfo>
 		extends ExternalAuthProvider {
@@ -49,6 +47,8 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 		public static final String CLIENT_ID = "clientId";
 		public static final String CLIENT_SECRET = "clientSecret";
 		public static final String SCOPE = "scope";
+        public static final String ACCESS_TYPE = "accessType";
+        public static final String APPROVAL_PROMPT  = "approvalPrompt";
 	}
 
 	public static abstract class Constants {
@@ -56,6 +56,8 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 		public static final String CLIENT_SECRET = "client_secret";
 		public static final String REDIRECT_URI = "redirect_uri";
 		public static final String SCOPE = "scope";
+        public static final String ACCESS_TYPE = "access_type";
+        public static final String APPROVAL_PROMPT = "approval_prompt";
 		public static final String RESPONSE_TYPE = "response_type";
 		public static final String STATE = "state";
 		public static final String GRANT_TYPE = "grant_type";
@@ -105,6 +107,15 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 				.getString(SettingKeys.SCOPE)));
 		params.add(new BasicNameValuePair(Constants.RESPONSE_TYPE,
 				Constants.CODE));
+
+        if (c.getString(SettingKeys.ACCESS_TYPE) != null) {
+            params.add(new BasicNameValuePair(Constants.ACCESS_TYPE, c.getString(SettingKeys.ACCESS_TYPE)));
+        }
+
+        if (c.getString(SettingKeys.APPROVAL_PROMPT) != null) {
+            params.add(new BasicNameValuePair(Constants.APPROVAL_PROMPT, c.getString(SettingKeys.APPROVAL_PROMPT)));
+        }
+
 		if (state != null) {
 			params.add(new BasicNameValuePair(Constants.STATE, state));
 		}

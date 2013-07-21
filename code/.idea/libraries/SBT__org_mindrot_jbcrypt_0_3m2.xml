@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="SBT: org.mindrot:jbcrypt:0.3m">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/dev/play-2.1.0/repository/cache/org.mindrot/jbcrypt/jars/jbcrypt-0.3m.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

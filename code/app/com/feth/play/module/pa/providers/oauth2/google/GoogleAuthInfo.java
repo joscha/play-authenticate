@@ -19,8 +19,10 @@ public class GoogleAuthInfo extends OAuth2AuthInfo {
 	private String idToken;
 
 	public GoogleAuthInfo(final JsonNode node) {
-		super(node.get(Constants.ACCESS_TOKEN).asText(), new Date().getTime()
-				+ node.get(Constants.EXPIRES_IN).asLong() * 1000);
+		super(	node.get(Constants.ACCESS_TOKEN) != null ? node.get(Constants.ACCESS_TOKEN).asText() : null,
+				node.get(Constants.EXPIRES_IN) != null ? new Date().getTime() + node.get(Constants.EXPIRES_IN).asLong() * 1000 : -1,
+				node.get(Constants.REFRESH_TOKEN) != null ? node.get(Constants.REFRESH_TOKEN).asText() : null);
+
 		bearer = node.get(Constants.TOKEN_TYPE).asText();
 		idToken = node.get(ID_TOKEN).asText();
 	}

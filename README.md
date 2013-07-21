@@ -55,9 +55,9 @@ The included sample application shows how to use all of those providers.
 * **TRUNK** [not released in the repository, yet]
   * wanna contribute something? :)
 * **0.3.0-SNAPSHOT** [2013-07-22]
-  * New Authentication Provider for vk.com (thanks @dborisenko)
   * Bumped Apache HttpClient to version `4.2.5`
   * Bumped deadbolt2 to version `2.1-RC2`
+  * New Authentication Provider for [VK.com](http://ww.vk.com) (thanks @dborisenko)
   * Add `refresh_token`/`expires_in` to OAuth2 and Google/Facebook providers (thanks @jayceecam)
   * Fix for Twitter API 1.1 (thanks @xjodoin) 
   * Fix for facebook users that have no user name set (thanks @smola) 

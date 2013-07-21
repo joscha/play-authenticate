@@ -52,12 +52,14 @@ The included sample application shows how to use all of those providers.
 
 ## Versions
 * **TRUNK** [not released in the repository, yet]
+  * wanna contribute something? :)
+* **0.3.0-SNAPSHOT** [2013-07-22]
+  * Add `refresh_token`/`expires_in` to OAuth2 and Google/Facebook providers (thanks @jayceecam)
   * Fix for Twitter API 1.1 (thanks @xjodoin) 
   * Fix for facebook users that have no user name set (thanks @smola) 
   * Fix for facebook error messages (issue #26, thanks @smola) 
   * Add setting for Facebook user fields to retrieve. (thanks @smola)
   * Spanish translation, thanks to @petru-ghita 
-  * wanna contribute some more? :)
 * **0.2.5-SNAPSHOT** [2013-02-14]
   * Fix for users signing up that shall be logged in straight away. **PLEASE NOTE: Breaking change!!! Upgrading to this version requires you to add one additional method to your custom UsernamePasswordAuthProvider. Have a look at the sample to see a default implementation that should work for almost everyone.**
 * **0.2.4-SNAPSHOT** [2013-02-06]

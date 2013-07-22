@@ -1,1 +1,1 @@
-web: target/start -Dhttp.port=${PORT} -Dplay.version=2.1.2 -DapplyEvolutions.default=true -Ddb.default.driver=org.postgresql.Driver -Ddb.default.url=$DATABASE_URL ${JAVA_OPTS}
+web: target/start -Dhttp.port=${PORT} -Dplay.version=2.1.2 -DapplyEvolutions.default=true -DapplyDownEvolutions.default=true -Ddb.default.driver=org.postgresql.Driver -Ddb.default.url=$DATABASE_URL ${JAVA_OPTS}

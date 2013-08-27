@@ -184,7 +184,7 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 
 	protected abstract R generateVerificationRecord(final US user);
 
-	private void sendVerifyEmailMailing(final Context ctx, final US user) {
+	protected void sendVerifyEmailMailing(final Context ctx, final US user) {
 		final String subject = getVerifyEmailMailingSubject(user, ctx);
 		final R record = generateVerificationRecord(user);
 		final Body body = getVerifyEmailMailingBody(record, user, ctx);

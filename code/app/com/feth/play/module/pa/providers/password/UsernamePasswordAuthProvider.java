@@ -207,8 +207,19 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 	 */
 	protected Cancellable sendMail(final String subject, final Body body,
 			final String recipient) {
-		return mailer.sendMail(new Mail(subject, body,
-				new String[] { recipient }));
+		return sendMail(new Mail(subject, body, new String[] { recipient }));
+	}
+
+	/**
+	 * Send a pre-assembled mail.
+	 * 
+	 * @param mail
+	 *            The mail to be sent.
+	 * @return The {@link akka.actor.Cancellable} that can be used to cancel the
+	 *         action.
+	 */
+	protected Cancellable sendMail(final Mail mail) {
+		return mailer.sendMail(mail);
 	}
 
 	@Override

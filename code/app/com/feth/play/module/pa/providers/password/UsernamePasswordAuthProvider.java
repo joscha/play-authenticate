@@ -9,6 +9,7 @@ import play.mvc.Call;
 import play.mvc.Http;
 import play.mvc.Http.Context;
 import play.mvc.Result;
+import akka.actor.Cancellable;
 
 import com.feth.play.module.mail.Mailer;
 import com.feth.play.module.mail.Mailer.Mail;
@@ -187,9 +188,27 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 		final String subject = getVerifyEmailMailingSubject(user, ctx);
 		final R record = generateVerificationRecord(user);
 		final Body body = getVerifyEmailMailingBody(record, user, ctx);
-		final Mail verifyMail = new Mail(subject, body,
-				new String[] { getEmailName(user) });
-		mailer.sendMail(verifyMail);
+		sendMail(subject, body, getEmailName(user));
+	}
+
+	/**
+	 * Called to send mails. You might want to override this in order to
+	 * customize mail sending e.g. by using a different mailer service
+	 * implementation.
+	 * 
+	 * @param subject
+	 *            The mail's subject.
+	 * @param body
+	 *            The mail's body.
+	 * @param recipient
+	 *            The (formatted) recipient.
+	 * @return The {@link akka.actor.Cancellable} that can be used to cancel the
+	 *         action.
+	 */
+	protected Cancellable sendMail(final String subject, final Body body,
+			final String recipient) {
+		return mailer.sendMail(new Mail(subject, body,
+				new String[] { recipient }));
 	}
 
 	@Override

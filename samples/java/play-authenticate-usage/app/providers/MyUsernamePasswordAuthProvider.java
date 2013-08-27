@@ -293,7 +293,7 @@ public class MyUsernamePasswordAuthProvider
 		final String token = generatePasswordResetRecord(user);
 		final String subject = getPasswordResetMailingSubject(user, ctx);
 		final Body body = getPasswordResetMailingBody(token, user, ctx);
-		mailer.sendMail(subject, body, getEmailName(user));
+		sendMail(subject, body, getEmailName(user));
 	}
 
 	public boolean isLoginAfterPasswordReset() {
@@ -377,7 +377,7 @@ public class MyUsernamePasswordAuthProvider
 				ctx);
 		final String token = generateVerificationRecord(user);
 		final Body body = getVerifyEmailMailingBodyAfterSignup(token, user, ctx);
-		mailer.sendMail(subject, body, getEmailName(user));
+		sendMail(subject, body, getEmailName(user));
 	}
 
 	private String getEmailName(final User user) {

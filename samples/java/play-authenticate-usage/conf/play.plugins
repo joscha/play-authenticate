@@ -10,3 +10,4 @@
 10070:com.feth.play.module.pa.providers.oauth1.linkedin.LinkedinAuthProvider
 10080:com.feth.play.module.pa.providers.oauth2.vk.VkAuthProvider
 10090:com.feth.play.module.pa.providers.oauth1.xing.XingAuthProvider
+10100:com.feth.play.module.pa.providers.oauth2.untappd.UntappdAuthProvider

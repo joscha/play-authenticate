@@ -6,20 +6,29 @@ import com.feth.play.module.pa.exceptions.AccessTokenException;
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.ext.ExternalAuthProvider;
 import com.feth.play.module.pa.user.AuthUserIdentity;
+
 import oauth.signpost.exception.OAuthException;
 import play.Application;
 import play.Configuration;
 import play.Logger;
+import play.api.libs.json.JsValue;
 import play.api.libs.oauth.ConsumerKey;
 import play.api.libs.oauth.OAuth;
+import play.api.libs.oauth.OAuthCalculator;
 import play.api.libs.oauth.RequestToken;
 import play.api.libs.oauth.ServiceInfo;
+import play.api.libs.ws.Response;
+import play.api.libs.ws.WS;
+import play.libs.Json;
 import play.mvc.Http.Context;
 import play.mvc.Http.Request;
+import scala.concurrent.Future;
 import scala.util.Either;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.codehaus.jackson.JsonNode;
 
 public abstract class OAuth1AuthProvider<U extends AuthUserIdentity, I extends OAuth1AuthInfo>
 		extends ExternalAuthProvider {
@@ -124,6 +133,26 @@ public abstract class OAuth1AuthProvider<U extends AuthUserIdentity, I extends O
 			}
 		}
 
+	}
+	
+	protected JsonNode signedOauthGet(final String url,
+			final OAuthCalculator calculator) {
+		final Future<Response> future = WS.url(url).sign(calculator).get();
+		final play.api.libs.ws.Response response = new play.libs.F.Promise<play.api.libs.ws.Response>(future).get(PlayAuthenticate.TIMEOUT);
+		final JsValue json = response.json();
+		return Json.parse(json.toString());
+	}
+
+	protected OAuthCalculator getOAuthCalculator(final OAuth1AuthInfo info) {
+		final RequestToken token = new RequestToken(info.getAccessToken(),
+				info.getAccessTokenSecret());
+		final Configuration c = getConfiguration();
+		final ConsumerKey cK = new ConsumerKey(
+				c.getString(SettingKeys.CONSUMER_KEY),
+				c.getString(SettingKeys.CONSUMER_SECRET));
+
+		final OAuthCalculator op = new OAuthCalculator(cK, token);
+		return op;
 	}
 
 	/**

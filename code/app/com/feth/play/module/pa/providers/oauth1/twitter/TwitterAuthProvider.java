@@ -1,18 +1,16 @@
 package com.feth.play.module.pa.providers.oauth1.twitter;
 
+import java.util.List;
+
+import org.codehaus.jackson.JsonNode;
+
+import play.Application;
+import play.api.libs.oauth.OAuthCalculator;
+import play.api.libs.oauth.RequestToken;
+
 import com.feth.play.module.pa.exceptions.AccessTokenException;
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.oauth1.OAuth1AuthProvider;
-import play.Application;
-import play.Configuration;
-import play.api.libs.json.JsValue;
-import play.api.libs.oauth.ConsumerKey;
-import play.api.libs.oauth.OAuthCalculator;
-import play.api.libs.oauth.RequestToken;
-import play.api.libs.ws.Response;
-import play.api.libs.ws.WS;
-import play.libs.Json;
-import scala.concurrent.Future;
 
 public class TwitterAuthProvider extends
 		OAuth1AuthProvider<TwitterAuthUser, TwitterAuthInfo> {
@@ -31,25 +29,23 @@ public class TwitterAuthProvider extends
 	}
 
 	@Override
+	protected List<String> neededSettingKeys() {
+		final List<String> neededSettingKeys = super.neededSettingKeys();
+		neededSettingKeys.add(USER_INFO_URL_SETTING_KEY);
+		return neededSettingKeys;
+	}
+
+	@Override
 	protected TwitterAuthUser transform(final TwitterAuthInfo info)
 			throws AuthException {
-		final String url = getConfiguration().getString(
+		final String userInfoUrl = getConfiguration().getString(
 				USER_INFO_URL_SETTING_KEY);
 
-		final RequestToken token = new RequestToken(info.getAccessToken(),
-				info.getAccessTokenSecret());
-		final Configuration c = getConfiguration();
-		final ConsumerKey cK = new ConsumerKey(
-				c.getString(SettingKeys.CONSUMER_KEY),
-				c.getString(SettingKeys.CONSUMER_SECRET));
+		final OAuthCalculator op = getOAuthCalculator(info);
 
-		final OAuthCalculator op = new OAuthCalculator(cK, token);
+		final JsonNode userJson = signedOauthGet(userInfoUrl, op);
 
-		final Future<Response> future = WS.url(url).sign(op).get();
-		play.api.libs.ws.Response response = new play.libs.F.Promise<play.api.libs.ws.Response>(future).get();
-
-		final JsValue json = response.json();
-		return new TwitterAuthUser(Json.parse(json.toString()), info);
+		return new TwitterAuthUser(userJson, info);
 	}
 
 	@Override

@@ -105,8 +105,11 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 
 		final Configuration c = getConfiguration();
 		final List<NameValuePair> params = getParams(request, c);
-		params.add(new BasicNameValuePair(Constants.SCOPE, c
-				.getString(SettingKeys.SCOPE)));
+		if (c.getString(SettingKeys.SCOPE) != null) {
+			params.add(new BasicNameValuePair(Constants.SCOPE, c
+					.getString(SettingKeys.SCOPE)));
+		}
+		
 		params.add(new BasicNameValuePair(Constants.RESPONSE_TYPE,
 				Constants.CODE));
 
@@ -131,14 +134,18 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 		return m.getURI().toString();
 	}
 
-	private List<NameValuePair> getParams(final Request request,
+	protected List<NameValuePair> getParams(final Request request,
 			final Configuration c) {
 		final List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair(Constants.CLIENT_ID, c
 				.getString(SettingKeys.CLIENT_ID)));
-		params.add(new BasicNameValuePair(Constants.REDIRECT_URI,
+		params.add(new BasicNameValuePair(getRedirectUriKey(),
 				getRedirectUrl(request)));
 		return params;
+	}
+
+	protected String getRedirectUriKey() {
+		return Constants.REDIRECT_URI;
 	}
 
 	@Override
@@ -152,7 +159,7 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 		}
 
 		final String error = Authenticate.getQueryString(request,
-				Constants.ERROR);
+				getErrorParameterKey());
 		final String code = Authenticate
 				.getQueryString(request, Constants.CODE);
 
@@ -175,7 +182,6 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 		} else if (code != null) {
 			// second step in auth process
 			final I info = getAccessToken(code, request);
-
 			final AuthUserIdentity u = transform(info, state);
 			return u;
 			// System.out.println(accessToken.getAccessToken());
@@ -185,6 +191,10 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 			Logger.debug("generated redirect URL for dialog: " + url);
 			return url;
 		}
+	}
+
+	protected String getErrorParameterKey() {
+		return Constants.ERROR;
 	}
 
 	/**

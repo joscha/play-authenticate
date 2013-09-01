@@ -38,10 +38,10 @@ As of now, the following authentication providers are supported out of the box:
   * Google
   * Untappd
   * VK.com / VKontakte
-  * Xing
 * _OAuth 1_
   * LinkedIn
   * Twitter
+  * Xing
 * OpenID (experimental)
 * Email/Password (with email verification, password security/encryption is fully customizable)
 * Your very own authentication provider (LDAP, DB, you-name-it) via an extensible, easy-to-use plugin mechanism based on Play Plugins
@@ -62,6 +62,7 @@ The included sample application shows how to use all of those providers.
   * New authentication provider for [Untappd](https://untappd.com) (thanks @sweigardc)
   * New authentication provider for [Xing](http://www.xing.com) (thanks @jtammen)
   * Allow custom emails (thanks @jtammen)
+  * Move to play-easymail 0.3 (allows for custom headers)
 * **0.3.0-SNAPSHOT** [2013-07-22]
   * Bumped Apache HttpClient to version `4.2.5`
   * Bumped deadbolt2 to version `2.1-RC2`

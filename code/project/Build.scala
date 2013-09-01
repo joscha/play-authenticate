@@ -20,7 +20,7 @@ object ApplicationBuild extends Build {
       resolvers += Resolver.url("play-easymail (snapshot)", url("http://joscha.github.com/play-easymail/repo/snapshots/"))(Resolver.ivyStylePatterns),
 
       libraryDependencies += "org.apache.httpcomponents" % "httpclient" % "4.2.5",
-      libraryDependencies += "com.feth" %% "play-easymail" % "0.2-SNAPSHOT",
+      libraryDependencies += "com.feth" %% "play-easymail" % "0.3-SNAPSHOT",
       libraryDependencies += "org.mindrot" % "jbcrypt" % "0.3m",
       libraryDependencies += "commons-lang" % "commons-lang" % "2.6"
     )

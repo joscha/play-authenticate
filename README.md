@@ -5,7 +5,7 @@ This plugin uses concepts from [securesocial2][] and [Play20StartApp][] and prov
 #### Version information
 **Play Authenticate currently needs Play! Framework 2.0.2 or later**
 
-Works fine with `2.0` to `2.0.4` and `2.1.0` to `2.1.2`.
+Works fine with `2.0` to `2.0.x` and `2.1.0` to `2.1.x`.
 
 > **Attention 2.0.x developers**  
 >_There is a `0.2.3-SNAPSHOT` binary for Play `2.0.x` and an accompanying sample application in the [2.0.x branch](https://github.com/joscha/play-authenticate/tree/2.0.x). This sample differs substantially from the version for `2.1` though, because the deadbolt dependency changed. So if you plan on releasing for `2.0.x` don't take the `2.1` sample from the master stream and vice versa._
@@ -32,12 +32,16 @@ You can find a live demo on [heroku](https://play-authenticate.herokuapp.com/ "P
 ### Providers
 As of now, the following authentication providers are supported out of the box:
 
-* Google (OAuth2)
-* Facebook (OAuth2)
-* Foursquare (OAuth2)
-* VK.com/VKontakte (OAuth2)
-* Twitter (OAuth1)
-* LinkedIn (OAuth1)
+* _OAuth 2_
+  * Facebook 
+  * Foursquare
+  * Google
+  * Untappd
+  * VK.com / VKontakte
+  * Xing
+* _OAuth 1_
+  * LinkedIn
+  * Twitter
 * OpenID (experimental)
 * Email/Password (with email verification, password security/encryption is fully customizable)
 * Your very own authentication provider (LDAP, DB, you-name-it) via an extensible, easy-to-use plugin mechanism based on Play Plugins
@@ -54,10 +58,14 @@ The included sample application shows how to use all of those providers.
 ## Versions
 * **TRUNK** [not released in the repository, yet]
   * wanna contribute something? :)
+* **0.3.3-SNAPSHOT** [2013-09-01]
+  * New authentication provider for [Untappd](https://untappd.com) (thanks @sweigardc)
+  * New authentication provider for [Xing](http://www.xing.com) (thanks @jtammen)
+  * Allow custom emails (thanks @jtammen)
 * **0.3.0-SNAPSHOT** [2013-07-22]
   * Bumped Apache HttpClient to version `4.2.5`
   * Bumped deadbolt2 to version `2.1-RC2`
-  * New Authentication Provider for [VK.com](http://ww.vk.com) (thanks @dborisenko)
+  * New authentication provider for [VK.com](http://ww.vk.com) (thanks @dborisenko)
   * Add `refresh_token`/`expires_in` to OAuth2 and Google/Facebook providers (thanks @jayceecam)
   * Fix for Twitter API 1.1 (thanks @xjodoin) 
   * Fix for facebook users that have no user name set (thanks @smola) 

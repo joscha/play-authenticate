@@ -15,10 +15,11 @@ import com.feth.play.module.pa.user.EducationsIdentity;
 import com.feth.play.module.pa.user.EmploymentsIdentity;
 import com.feth.play.module.pa.user.FirstLastNameIdentity;
 import com.feth.play.module.pa.user.PicturedIdentity;
+import com.feth.play.module.pa.user.ProfiledIdentity;
 
 public class LinkedinAuthUser extends BasicOAuth1AuthUser implements
 		BasicIdentity, FirstLastNameIdentity, PicturedIdentity,
-		EmploymentsIdentity, EducationsIdentity {
+		EmploymentsIdentity, EducationsIdentity, ProfiledIdentity {
 
 	/**
 	 * 
@@ -34,6 +35,7 @@ public class LinkedinAuthUser extends BasicOAuth1AuthUser implements
 		public static final String INDUSTRY = "industry";
 		public static final String POSITIONS = "positions/values";
 		public static final String EDUCATIONS = "educations/values";
+		public static final String PUBLIC_PROFILE_URL = "publicProfileUrl";
 
 		private static abstract class Education {
 			public static final String ID = "id";
@@ -64,6 +66,7 @@ public class LinkedinAuthUser extends BasicOAuth1AuthUser implements
 	private String email;
 	private List<EmploymentInfo> employments;
 	private List<EducationInfo> educations;
+	private String publicProfileUrl;
 
 	public LinkedinAuthUser(final JsonNode nodeInfo, final String email,
 			final OAuth1AuthInfo info) {
@@ -84,26 +87,31 @@ public class LinkedinAuthUser extends BasicOAuth1AuthUser implements
 		JsonNode node;
 		if ((node = traverse(nodeInfo, Constants.POSITIONS)) != null) {
 			this.employments = new ArrayList<EmploymentInfo>();
-			Iterator<JsonNode> jn = node.getElements();
+			final Iterator<JsonNode> jn = node.getElements();
 			while (jn.hasNext()) {
-				JsonNode j = jn.next();
+				final JsonNode j = jn.next();
 				this.employments.add(makeEmployment(j));
 			}
 		}
 		if ((node = traverse(nodeInfo, Constants.EDUCATIONS)) != null) {
 			this.educations = new ArrayList<EducationInfo>();
-			Iterator<JsonNode> jn = node.getElements();
+			final Iterator<JsonNode> jn = node.getElements();
 			while (jn.hasNext()) {
-				JsonNode j = jn.next();
+				final JsonNode j = jn.next();
 				this.educations.add(makeEducation(j));
 			}
 		}
 		if (!StringUtils.isBlank(email)) {
 			this.email = email;
 		}
+
+		if (nodeInfo.has(Constants.PUBLIC_PROFILE_URL)) {
+			this.publicProfileUrl = nodeInfo.get(Constants.PUBLIC_PROFILE_URL)
+					.asText();
+		}
 	}
 
-	private static EducationInfo makeEducation(JsonNode node) {
+	private static EducationInfo makeEducation(final JsonNode node) {
 		String id = null, schoolName = null, degree = null;
 		int startDateYear = 0, endDateYear = 0;
 		if (node.has(Constants.Education.ID)) {
@@ -128,7 +136,7 @@ public class LinkedinAuthUser extends BasicOAuth1AuthUser implements
 				endDateYear);
 	}
 
-	private static EmploymentInfo makeEmployment(JsonNode node) {
+	private static EmploymentInfo makeEmployment(final JsonNode node) {
 		String id = null, title = null, summary = null, companyName = null;
 		int startDateMonth = 0, startDateYear = 0, endDateMonth = 0, endDateYear = 0;
 		boolean isCurrent = false;
@@ -177,10 +185,11 @@ public class LinkedinAuthUser extends BasicOAuth1AuthUser implements
 	 * @param topNode
 	 * @return
 	 */
-	private static JsonNode traverse(JsonNode topNode, String childExpression) {
+	private static JsonNode traverse(final JsonNode topNode,
+			final String childExpression) {
 		JsonNode jsonNode = topNode;
-		String[] segments = childExpression.split("/");
-		for (String segment : segments) {
+		final String[] segments = childExpression.split("/");
+		for (final String segment : segments) {
 			if (jsonNode != null) {
 				jsonNode = jsonNode.get(segment);
 			} else {
@@ -234,4 +243,8 @@ public class LinkedinAuthUser extends BasicOAuth1AuthUser implements
 		return educations;
 	}
 
+	@Override
+	public String getProfileLink() {
+		return publicProfileUrl;
+	}
 }

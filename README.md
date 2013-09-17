@@ -57,6 +57,7 @@ The included sample application shows how to use all of those providers.
 
 ## Versions
 * **TRUNK** [not released in the repository, yet]
+  * Xing and LinkedIn providers got more information (profile URL, ec.) (thanks @jtammen) 
   * wanna contribute something? :)
 * **0.3.3-SNAPSHOT** [2013-09-01]
   * New authentication provider for [Untappd](https://untappd.com) (thanks @sweigardc)

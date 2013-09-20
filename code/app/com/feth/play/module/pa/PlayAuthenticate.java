@@ -422,7 +422,7 @@ public abstract class PlayAuthenticate {
 		final Object id = getUserService().save(u);
 		if (id == null) {
 			throw new AuthException(
-					Messages.get("playauthenticate.core.exception.singupuser_failed"));
+					Messages.get("playauthenticate.core.exception.signupuser_failed"));
 		}
 		loginUser = u;
 		return loginUser;

@@ -1,7 +1,5 @@
 package com.feth.play.module.pa.providers.oauth2.pocket;
 
-import org.codehaus.jackson.JsonNode;
-
 import com.feth.play.module.pa.providers.oauth2.BasicOAuth2AuthUser;
 import com.feth.play.module.pa.user.EmailIdentity;
 import com.feth.play.module.pa.user.FirstLastNameIdentity;
@@ -27,22 +25,21 @@ public class PocketAuthUser extends BasicOAuth2AuthUser implements
 	private String username;
 	private String email;
 	
-	public PocketAuthUser(final JsonNode node, final PocketAuthInfo info,
+	public PocketAuthUser(final PocketAuthInfo info,
 			final String state) {
-		super(node.get(Constants.ID).asText(), info, state);
+		super(info.getUserName(), info, state);
 
-		if (node.has(Constants.FIRST_NAME)) {
-			this.firstName = node.get(Constants.FIRST_NAME).asText();
-		}
-		if (node.has(Constants.LAST_NAME)) {
-			this.lastName = node.get(Constants.LAST_NAME).asText();
-		}
-		if (node.has(Constants.USERNAME)) {
-			this.username = node.get(Constants.USERNAME).asText();
-		}
-		if (node.has(Constants.EMAIL)) {
-			this.email = node.get(Constants.EMAIL).asText();
-		}
+//		if (node.has(Constants.FIRST_NAME)) {
+//			this.firstName = node.get(Constants.FIRST_NAME).asText();
+//		}
+//		if (node.has(Constants.LAST_NAME)) {
+//			this.lastName = node.get(Constants.LAST_NAME).asText();
+//		}
+		this.username = info.getUserName();
+		
+//		if (node.has(Constants.EMAIL)) {
+//			this.email = node.get(Constants.EMAIL).asText();
+//		}
 	}
 
 	@Override

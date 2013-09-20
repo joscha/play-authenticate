@@ -76,7 +76,7 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 		public static final String REQUEST_TOKEN = "request_token";
 	}
 
-	private String getAccessTokenParams(final Configuration c,
+	protected String getAccessTokenParams(final Configuration c,
 			final String code, Request request) {
 		final List<NameValuePair> params = getParams(request, c);
 		params.add(new BasicNameValuePair(Constants.CLIENT_SECRET, c

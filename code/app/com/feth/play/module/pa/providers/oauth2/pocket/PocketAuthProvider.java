@@ -1,13 +1,11 @@
 package com.feth.play.module.pa.providers.oauth2.pocket;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URLEncodedUtils;
-import org.apache.http.entity.StringEntity;
 import org.apache.http.message.BasicNameValuePair;
 
 import play.Application;
@@ -61,15 +59,18 @@ public class PocketAuthProvider extends
 
 	@Override
 	protected PocketAuthInfo buildInfo(Response r) throws AccessTokenException {
-		// TODO Auto-generated method stub
-		return null;
+		String body = r.getBody();
+		String accessToken = body.substring(body.indexOf("=") + 1, body.indexOf("&"));
+		String userName = body.substring(body.indexOf("=", body.indexOf("=") + 1) + 1); 
+		PocketAuthInfo info = new PocketAuthInfo(accessToken, requestToken, userName);
+		return info;
 	}
 
 	@Override
 	protected AuthUserIdentity transform(PocketAuthInfo info, String state)
 	    throws AuthException {
-		// TODO Auto-generated method stub
-		return null;
+		PocketAuthUser user = new PocketAuthUser(info, state);
+		return user;
 	}
 
 	@Override
@@ -98,12 +99,11 @@ public class PocketAuthProvider extends
 			} else {
 				throw new AuthException(error);
 			}
-		} else if (code != null) {
+		} else if (requestToken != null) {
 			// second step in auth process
 			final PocketAuthInfo info = getAccessToken(code, request);
 			final AuthUserIdentity u = transform(info, state);
 			return u;
-			// System.out.println(accessToken.getAccessToken());
 		} else {
 			// no auth, yet
 			requestToken = getRequestToken(request);
@@ -112,16 +112,43 @@ public class PocketAuthProvider extends
 			return url;
 		}
 	}
+	
+	@Override
+	protected PocketAuthInfo getAccessToken(final String code, final Request request)
+			throws AccessTokenException {
+		final Configuration c = getConfiguration();
+		final String url = c.getString(SettingKeys.ACCESS_TOKEN_URL);
+		final String params = getAccessTokenParams(c, code, request);
+		final Promise<Response> r = WS.url(url)
+		    .setHeader("Content-Type", "application/x-www-form-urlencoded")
+		    .post(params);
+		        
+		final Response response = r.get();
+		if (response.getStatus() > 400) {
+			throw new AccessTokenException(response.asJson()
+			    .get("meta")
+			    .get("errorDetail")
+			    .asText());
+		} else {
+			return buildInfo(response);
+				
+		}
+	}
+	
+	protected String getAccessTokenParams(final Configuration c,
+			final String code, Request request) {
+		return Constants.CONSUMER_KEY + "="
+        + c.getString(SettingKeys.CONSUMER_KEY) + "&"
+        + Constants.CODE + "=" + requestToken;
+	}
 
 	protected String getRequestToken(final Request request) throws AuthException {
 		final Configuration c = getConfiguration();
 		final Promise<Response> r = WS.url(
 		    c.getString(SettingKeys.REQUEST_TOKEN_URL))
 		    .setHeader("Content-Type", "application/x-www-form-urlencoded")
-		    .post(
-		        Constants.CONSUMER_KEY + "="
-		            + c.getString(SettingKeys.CONSUMER_KEY) + "&"
-		            + getRedirectUriKey() + "=" + getRedirectUrl(request));
+		    .post(getRequestTokenParams(request, c));
+		        
 		final Response response = r.get();
 		if (response.getStatus() > 400) {
 			throw new AuthException(response.asJson()
@@ -149,20 +176,11 @@ public class PocketAuthProvider extends
 		    .toString();
 	}
 
-	protected StringEntity getRequestTokenParams(final Request request,
+	protected String getRequestTokenParams(final Request request,
 	    final Configuration c) {
-		StringBuilder sb = new StringBuilder();
-		sb.append(new BasicNameValuePair(Constants.CONSUMER_KEY,
-		    c.getString(SettingKeys.CONSUMER_KEY)));
-		sb.append("&"
-		    + new BasicNameValuePair(getRedirectUriKey(), getRedirectUrl(request)));
-		try {
-			return new StringEntity(sb.toString());
-		}
-		catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-			return null;
-		}
+		return Constants.CONSUMER_KEY + "="
+        + c.getString(SettingKeys.CONSUMER_KEY) + "&"
+        + getRedirectUriKey() + "=" + getRedirectUrl(request);
 	}
 
 	protected List<NameValuePair> getAuthParams(final Request request,

@@ -2,7 +2,7 @@ package com.feth.play.module.pa.providers.oauth1.twitter;
 
 import java.util.Locale;
 
-import org.codehaus.jackson.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import com.feth.play.module.pa.providers.oauth1.BasicOAuth1AuthUser;
 import com.feth.play.module.pa.providers.oauth1.OAuth1AuthInfo;

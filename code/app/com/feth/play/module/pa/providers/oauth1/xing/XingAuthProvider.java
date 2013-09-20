@@ -3,7 +3,7 @@ package com.feth.play.module.pa.providers.oauth1.xing;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.codehaus.jackson.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import play.Application;
 import play.api.libs.oauth.OAuthCalculator;

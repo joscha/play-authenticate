@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.codehaus.jackson.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import com.feth.play.module.pa.providers.oauth2.BasicOAuth2AuthUser;
 import com.feth.play.module.pa.providers.oauth2.OAuth2AuthInfo;
@@ -91,10 +91,9 @@ public class FoursquareAuthUser extends BasicOAuth2AuthUser implements
 
 		final JsonNode contactNode = node.get(Constants.CONTACT);
 		if (contactNode != null) {
-			final Map<String, String> m = new HashMap<String, String>(
-					contactNode.size());
-			final Iterator<Entry<String, JsonNode>> fieldIterator = contactNode
-					.getFields();
+			final Map<String, String> m = new HashMap<String, String>(contactNode.size());
+
+            final Iterator<Entry<String, JsonNode>> fieldIterator = contactNode.fields();
 			while (fieldIterator.hasNext()) {
 				final Map.Entry<String, JsonNode> entry = fieldIterator.next();
 				m.put(entry.getKey(), entry.getValue().asText());

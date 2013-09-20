@@ -1,6 +1,6 @@
 package com.feth.play.module.pa.providers.oauth2.foursquare;
 
-import org.codehaus.jackson.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import play.Application;
 import play.Logger;

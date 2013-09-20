@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
-import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
 
@@ -116,7 +116,7 @@ public class PocketAuthProvider extends
 
 		final Configuration c = getConfiguration();
 		final List<NameValuePair> params = getParams(request, c);
-		final HttpGet m = new HttpGet(
+		final HttpPost m = new HttpPost(
 				c.getString(SettingKeys.REQUEST_TOKEN_URL) + "?"
 						+ URLEncodedUtils.format(params, "UTF-8"));
 
@@ -133,7 +133,5 @@ public class PocketAuthProvider extends
 				getRedirectUrl(request)));
 		return params;
 	}
-
-	
 
 }

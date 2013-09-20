@@ -73,6 +73,7 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 		public static final String ACCESS_DENIED = "access_denied";
 		public static final String REDIRECT_URI_MISMATCH = "redirect_uri_mismatch";
 		public static final String CONSUMER_KEY = "consumer_key";
+		public static final String REQUEST_TOKEN = "request_token";
 	}
 
 	private String getAccessTokenParams(final Configuration c,

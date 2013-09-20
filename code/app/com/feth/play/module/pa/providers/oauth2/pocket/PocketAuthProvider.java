@@ -9,7 +9,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.message.BasicNameValuePair;
-import org.codehaus.jackson.JsonNode;
 
 import play.Application;
 import play.Configuration;
@@ -87,8 +86,6 @@ public class PocketAuthProvider extends
 		    getErrorParameterKey());
 		final String code = Authenticate.getQueryString(request, Constants.CODE);
 
-		// Attention: facebook does *not* support state that is non-ASCII - not
-		// even encoded.
 		final String state = Authenticate.getQueryString(request, Constants.STATE);
 
 		if (error != null) {
@@ -125,9 +122,21 @@ public class PocketAuthProvider extends
 		        Constants.CONSUMER_KEY + "="
 		            + c.getString(SettingKeys.CONSUMER_KEY) + "&"
 		            + getRedirectUriKey() + "=" + getRedirectUrl(request));
-		final JsonNode response = r.get().asJson();
-		System.out.println("PocketAuthProvider.getRequestToken() response: " + response + ", response.get(\"code\").asText(): " + response.get("code").asText());
-		return response.get("code").asText();
+		final Response response = r.get();
+		if (response.getStatus() > 400) {
+			throw new AuthException(response.asJson()
+			    .get("meta")
+			    .get("errorDetail")
+			    .asText());
+		} else {
+			String body = response.getBody();
+			if(body != null && !body.equals("") && body.indexOf("=") != -1) {
+				return body.substring(body.indexOf("=") + 1);
+			}
+			else {
+				throw new AuthException("No token could be found in body response");
+			}
+		}
 	}
 
 	@Override
@@ -159,7 +168,7 @@ public class PocketAuthProvider extends
 	protected List<NameValuePair> getAuthParams(final Request request,
 	    final Configuration c) {
 		final List<NameValuePair> params = new ArrayList<NameValuePair>();
-		params.add(new BasicNameValuePair(Constants.REQUEST_TOKEN, "\"" + requestToken + "\""));
+		params.add(new BasicNameValuePair(Constants.REQUEST_TOKEN, requestToken));
 		params.add(new BasicNameValuePair(getRedirectUriKey(),
 		    getRedirectUrl(request)));
 		return params;

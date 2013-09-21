@@ -52,11 +52,14 @@ The included sample application shows how to use all of those providers.
 * English
 * German (as of 2012-07-09)
 * Polish (as of 2012-08-03)
-* French (as of 2012-08-28,  commit 967e11e207)
-* Spanish (as of 2013-03-02, commit 59613c5a44)
+* French (as of 2012-08-28,  commit `967e11e207`)
+* Spanish (as of 2013-03-02, commit `59613c5a44`)
+* Italian (as of 2013-09-21, core only, commit `b1b9e2a46b`)
 
 ## Versions
 * **TRUNK** [not released in the repository, yet]
+  * Update to HttpClient 4.3
+  * Italian translation (thanks @ironmaiden189)
   * Xing and LinkedIn providers got more information (profile URL, ec.) (thanks @jtammen) 
   * wanna contribute something? :)
 * **0.3.3-SNAPSHOT** [2013-09-01]

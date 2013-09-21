@@ -1,0 +1,6 @@
+playauthenticate.core.exception.no_user_service=Nessuno UserService registrato!
+playauthenticate.core.exception.signupuser_failed=Non è stato possibile registrarti
+playauthenticate.core.exception.provider_not_found=Non è stato possibile trovare il provider {0}!
+playauthenticate.core.exception.merge.controller_undefined=Merge Call in resolver definita non correttamente, nonostante il parametro '{0}' sia impostato a false!
+playauthenticate.core.exception.link.controller_undefined=Link Call in resolver definita non correttamente, nonostante il parametro '{0}' sia impostato a false!
+playauthenticate.core.exception.general=Qualcosa è andato storto

@@ -1,34 +1,24 @@
 package com.feth.play.module.pa.providers.oauth2.pocket;
 
+import java.util.Map;
+
 import com.feth.play.module.pa.providers.oauth2.OAuth2AuthInfo;
+import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider.Constants;
 
 public class PocketAuthInfo extends OAuth2AuthInfo {
 
 	private static final long serialVersionUID = 1L;
-	private String requestToken;
-	private String userName;
+	private final String userName;
 
-	public PocketAuthInfo(final String accessToken, final String requestToken,
-	    final String userName) {
-		super(accessToken);
-		this.requestToken = requestToken;
-		this.userName = userName;
-	}
+	public static final String USERNAME = "username";
 
-	public String getRequestToken() {
-		return requestToken;
+	public PocketAuthInfo(final Map<String, String> map) {
+		super(map.containsKey(Constants.ACCESS_TOKEN) ? map
+				.get(Constants.ACCESS_TOKEN) : null);
+		this.userName = map.get(USERNAME);
 	}
 
 	public String getUserName() {
 		return userName;
 	}
-
-	public void setRequestToken(String requestToken) {
-		this.requestToken = requestToken;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
 }

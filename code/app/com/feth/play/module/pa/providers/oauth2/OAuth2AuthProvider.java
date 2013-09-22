@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
 
@@ -72,8 +71,6 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 		public static final String REFRESH_TOKEN = "refresh_token";
 		public static final String ACCESS_DENIED = "access_denied";
 		public static final String REDIRECT_URI_MISMATCH = "redirect_uri_mismatch";
-		public static final String CONSUMER_KEY = "consumer_key";
-		public static final String REQUEST_TOKEN = "request_token";
 	}
 
 	protected String getAccessTokenParams(final Configuration c,
@@ -103,15 +100,21 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 	protected abstract I buildInfo(final Response r)
 			throws AccessTokenException;
 
-	protected String getAuthUrl(final Request request, final String state) {
-
+	protected String getAuthUrl(final Request request, final String state)
+			throws AuthException {
 		final Configuration c = getConfiguration();
+		final List<NameValuePair> params = getAuthParams(c, request, state);
+		return generateURI(c.getString(SettingKeys.AUTHORIZATION_URL), params);
+	}
+	
+	protected List<NameValuePair> getAuthParams(final Configuration c,
+			final Request request, final String state) throws AuthException {
 		final List<NameValuePair> params = getParams(request, c);
 		if (c.getString(SettingKeys.SCOPE) != null) {
 			params.add(new BasicNameValuePair(Constants.SCOPE, c
 					.getString(SettingKeys.SCOPE)));
 		}
-		
+
 		params.add(new BasicNameValuePair(Constants.RESPONSE_TYPE,
 				Constants.CODE));
 
@@ -128,12 +131,7 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 		if (state != null) {
 			params.add(new BasicNameValuePair(Constants.STATE, state));
 		}
-
-		final HttpGet m = new HttpGet(
-				c.getString(SettingKeys.AUTHORIZATION_URL) + "?"
-						+ URLEncodedUtils.format(params, "UTF-8"));
-
-		return m.getURI().toString();
+		return params;
 	}
 
 	protected List<NameValuePair> getParams(final Request request,
@@ -162,8 +160,6 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 
 		final String error = Authenticate.getQueryString(request,
 				getErrorParameterKey());
-		final String code = Authenticate
-				.getQueryString(request, Constants.CODE);
 
 		// Attention: facebook does *not* support state that is non-ASCII - not
 		// even encoded.
@@ -181,8 +177,11 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 			} else {
 				throw new AuthException(error);
 			}
-		} else if (code != null) {
+		} else if (isCallbackRequest(context)) {
 			// second step in auth process
+			final String code = Authenticate
+					.getQueryString(request, Constants.CODE);
+			
 			final I info = getAccessToken(code, request);
 			final AuthUserIdentity u = transform(info, state);
 			return u;
@@ -193,6 +192,10 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 			Logger.debug("generated redirect URL for dialog: " + url);
 			return url;
 		}
+	}
+	
+	protected boolean isCallbackRequest(final Context context) {
+		return context.request().queryString().containsKey(Constants.CODE);
 	}
 
 	protected String getErrorParameterKey() {

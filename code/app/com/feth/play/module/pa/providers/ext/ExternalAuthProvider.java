@@ -3,6 +3,10 @@ package com.feth.play.module.pa.providers.ext;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.utils.URLEncodedUtils;
+
 import play.Application;
 import play.mvc.Call;
 import play.mvc.Http.Request;
@@ -17,6 +21,13 @@ public abstract class ExternalAuthProvider extends AuthProvider {
 		public static final String SECURE_REDIRECT_URI = "secureRedirectUri";
 		public static final String REDIRECT_URI_HOST = "redirectUri.host";
 		public static final String REDIRECT_URI_SECURE = "redirectUri.secure";
+	}
+
+	protected static String generateURI(final String location,
+			final List<? extends NameValuePair> params) {
+		final HttpGet m = new HttpGet(location + "?"
+				+ URLEncodedUtils.format(params, "UTF-8"));
+		return m.getURI().toString();
 	}
 
 	@Override
@@ -36,6 +47,11 @@ public abstract class ExternalAuthProvider extends AuthProvider {
 		} else {
 			return secure;
 		}
+	}
+
+	protected String getRedirectUrl(final Request request,
+			final List<? extends NameValuePair> params) {
+		return generateURI(getRedirectUrl(request), params);
 	}
 
 	protected String getRedirectUrl(final Request request) {

@@ -2,7 +2,7 @@ package com.feth.play.module.pa.providers.oauth1.linkedin;
 
 import java.util.List;
 
-import org.codehaus.jackson.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import play.Application;
 import play.api.libs.oauth.OAuthCalculator;

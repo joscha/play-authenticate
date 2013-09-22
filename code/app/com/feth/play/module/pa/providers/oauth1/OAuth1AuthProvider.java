@@ -1,5 +1,6 @@
 package com.feth.play.module.pa.providers.oauth1;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.controllers.Authenticate;
 import com.feth.play.module.pa.exceptions.AccessTokenException;
@@ -27,8 +28,6 @@ import scala.util.Either;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.codehaus.jackson.JsonNode;
 
 public abstract class OAuth1AuthProvider<U extends AuthUserIdentity, I extends OAuth1AuthInfo>
 		extends ExternalAuthProvider {

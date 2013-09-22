@@ -1,12 +1,9 @@
 package com.feth.play.module.pa.providers.oauth1.linkedin;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import org.apache.commons.lang3.StringUtils;
-import org.codehaus.jackson.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import com.feth.play.module.pa.providers.oauth1.BasicOAuth1AuthUser;
 import com.feth.play.module.pa.providers.oauth1.OAuth1AuthInfo;
@@ -87,19 +84,15 @@ public class LinkedinAuthUser extends BasicOAuth1AuthUser implements
 		JsonNode node;
 		if ((node = traverse(nodeInfo, Constants.POSITIONS)) != null) {
 			this.employments = new ArrayList<EmploymentInfo>();
-			final Iterator<JsonNode> jn = node.getElements();
-			while (jn.hasNext()) {
-				final JsonNode j = jn.next();
-				this.employments.add(makeEmployment(j));
-			}
+            for (JsonNode j : node) {
+                this.employments.add(makeEmployment(j));
+            }
 		}
 		if ((node = traverse(nodeInfo, Constants.EDUCATIONS)) != null) {
 			this.educations = new ArrayList<EducationInfo>();
-			final Iterator<JsonNode> jn = node.getElements();
-			while (jn.hasNext()) {
-				final JsonNode j = jn.next();
-				this.educations.add(makeEducation(j));
-			}
+            for (JsonNode j : node) {
+                this.educations.add(makeEducation(j));
+            }
 		}
 		if (!StringUtils.isBlank(email)) {
 			this.email = email;

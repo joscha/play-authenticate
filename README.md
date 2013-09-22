@@ -63,7 +63,7 @@ The included sample application shows how to use all of those providers.
 * **0.3.4-SNAPSHOT** [2013-09-22]
   * Update to HttpClient 4.3
   * Italian translation (thanks @ironmaiden189)
-  * Pocket provider (thanks @ironmaiden189)
+  * [Pocket](https://getpocket.com) provider (thanks @ironmaiden189)
   * Xing and LinkedIn providers got more information (profile URL, ec.) (thanks @jtammen) 
 * **0.3.3-SNAPSHOT** [2013-09-01]
   * New authentication provider for [Untappd](https://untappd.com) (thanks @sweigardc)

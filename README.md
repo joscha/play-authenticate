@@ -38,6 +38,7 @@ As of now, the following authentication providers are supported out of the box:
   * Google
   * Untappd
   * VK.com / VKontakte
+  * Pocket
 * _OAuth 1_
   * LinkedIn
   * Twitter

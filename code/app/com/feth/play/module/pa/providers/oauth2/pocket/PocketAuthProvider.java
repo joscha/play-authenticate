@@ -1,22 +1,26 @@
 package com.feth.play.module.pa.providers.oauth2.pocket;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.map.ObjectMapper;
 
 import play.Application;
 import play.Configuration;
 import play.Logger;
-import play.libs.F.Promise;
 import play.libs.WS;
 import play.libs.WS.Response;
 import play.mvc.Http.Context;
 import play.mvc.Http.Request;
 
+import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.controllers.Authenticate;
 import com.feth.play.module.pa.exceptions.AccessDeniedException;
 import com.feth.play.module.pa.exceptions.AccessTokenException;
@@ -40,6 +44,12 @@ public class PocketAuthProvider extends
 		public static final String ACCESS_TOKEN_URL = "accessTokenUrl";
 		public static final String REQUEST_TOKEN_URL = "requestTokenUrl";
 		public static final String CONSUMER_KEY = "consumer_key";
+		public static final String REQUEST_TOKEN = "request_token";
+	}
+	
+	public static abstract class PocketConstants extends Constants {
+		public static final String CONSUMER_KEY = "consumer_key";
+		public static final String REQUEST_TOKEN = "request_token";
 	}
 
 	@Override
@@ -59,18 +69,25 @@ public class PocketAuthProvider extends
 
 	@Override
 	protected PocketAuthInfo buildInfo(Response r) throws AccessTokenException {
-		String body = r.getBody();
-		String accessToken = body.substring(body.indexOf("=") + 1, body.indexOf("&"));
-		String userName = body.substring(body.indexOf("=", body.indexOf("=") + 1) + 1); 
-		PocketAuthInfo info = new PocketAuthInfo(accessToken, requestToken, userName);
-		return info;
+		if (r.getStatus() >= 400) {
+			throw new AccessTokenException(r.asJson()
+			    .asText());
+		} else {
+			JsonNode response = r.asJson();
+			String accessToken = response.get("access_token")
+			    .asText();
+			String userName = response.get("username")
+			    .asText();
+			PocketAuthInfo info = new PocketAuthInfo(accessToken, requestToken,
+			    userName);
+			return info;
+		}
 	}
 
 	@Override
 	protected AuthUserIdentity transform(PocketAuthInfo info, String state)
 	    throws AuthException {
-		PocketAuthUser user = new PocketAuthUser(info, state);
-		return user;
+		return new PocketAuthUser(info, state);
 	}
 
 	@Override
@@ -112,58 +129,55 @@ public class PocketAuthProvider extends
 			return url;
 		}
 	}
-	
+
 	@Override
-	protected PocketAuthInfo getAccessToken(final String code, final Request request)
-			throws AccessTokenException {
+	protected PocketAuthInfo getAccessToken(final String code,
+	    final Request request) throws AccessTokenException {
 		final Configuration c = getConfiguration();
+		final List<NameValuePair> params = getAccessTokenParams(c, request);
 		final String url = c.getString(SettingKeys.ACCESS_TOKEN_URL);
-		final String params = getAccessTokenParams(c, code, request);
-		final Promise<Response> r = WS.url(url)
-		    .setHeader("Content-Type", "application/x-www-form-urlencoded")
-		    .post(params);
-		        
-		final Response response = r.get();
-		if (response.getStatus() > 400) {
-			throw new AccessTokenException(response.asJson()
-			    .get("meta")
-			    .get("errorDetail")
-			    .asText());
-		} else {
-			return buildInfo(response);
-				
-		}
+		final Response r = WS.url(url)
+		    .setHeader("Content-Type", "application/json")
+		    .setHeader("X-Accept", "application/json")
+		    .post(encodeParamsAsJson(params))
+		    .get(PlayAuthenticate.TIMEOUT);
+
+		return buildInfo(r);
 	}
-	
-	protected String getAccessTokenParams(final Configuration c,
-			final String code, Request request) {
-		return Constants.CONSUMER_KEY + "="
-        + c.getString(SettingKeys.CONSUMER_KEY) + "&"
-        + Constants.CODE + "=" + requestToken;
+
+	protected List<NameValuePair> getAccessTokenParams(final Configuration c,
+	    Request request) {
+		final List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair(PocketConstants.CONSUMER_KEY,
+		    c.getString(SettingKeys.CONSUMER_KEY)));
+		params.add(new BasicNameValuePair(Constants.CODE, requestToken));
+		return params;
 	}
 
 	protected String getRequestToken(final Request request) throws AuthException {
 		final Configuration c = getConfiguration();
-		final Promise<Response> r = WS.url(
-		    c.getString(SettingKeys.REQUEST_TOKEN_URL))
-		    .setHeader("Content-Type", "application/x-www-form-urlencoded")
-		    .post(getRequestTokenParams(request, c));
-		        
-		final Response response = r.get();
-		if (response.getStatus() > 400) {
-			throw new AuthException(response.asJson()
-			    .get("meta")
-			    .get("errorDetail")
-			    .asText());
+		final List<NameValuePair> params = getRequestTokenParams(request, c);
+		final Response r = WS.url(c.getString(SettingKeys.REQUEST_TOKEN_URL))
+		    .setHeader("Content-Type", "application/json")
+		    .setHeader("X-Accept", "application/json")
+		    .post(encodeParamsAsJson(params))
+		    .get(PlayAuthenticate.TIMEOUT);
+
+		if (r.getStatus() >= 400) {
+			throw new AuthException(r.asJson().asText());
 		} else {
-			String body = response.getBody();
-			if(body != null && !body.equals("") && body.indexOf("=") != -1) {
-				return body.substring(body.indexOf("=") + 1);
-			}
-			else {
-				throw new AuthException("No token could be found in body response");
-			}
+			return r.asJson().get("code").asText();
 		}
+	}
+
+	protected List<NameValuePair> getRequestTokenParams(final Request request,
+	    final Configuration c) {
+		final List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair(PocketConstants.CONSUMER_KEY,
+		    c.getString(SettingKeys.CONSUMER_KEY)));
+		params.add(new BasicNameValuePair(getRedirectUriKey(),
+		    getRedirectUrl(request)));
+		return params;
 	}
 
 	@Override
@@ -176,19 +190,21 @@ public class PocketAuthProvider extends
 		    .toString();
 	}
 
-	protected String getRequestTokenParams(final Request request,
-	    final Configuration c) {
-		return Constants.CONSUMER_KEY + "="
-        + c.getString(SettingKeys.CONSUMER_KEY) + "&"
-        + getRedirectUriKey() + "=" + getRedirectUrl(request);
-	}
-
 	protected List<NameValuePair> getAuthParams(final Request request,
 	    final Configuration c) {
 		final List<NameValuePair> params = new ArrayList<NameValuePair>();
-		params.add(new BasicNameValuePair(Constants.REQUEST_TOKEN, requestToken));
+		params.add(new BasicNameValuePair(PocketConstants.REQUEST_TOKEN, requestToken));
 		params.add(new BasicNameValuePair(getRedirectUriKey(),
 		    getRedirectUrl(request)));
 		return params;
 	}
+
+	private JsonNode encodeParamsAsJson(List<NameValuePair> params) {
+		Map<String, String> map = new HashMap<String, String>();
+		for (NameValuePair nameValuePair : params) {
+			map.put(nameValuePair.getName(), nameValuePair.getValue());
+		}
+		return new ObjectMapper().valueToTree(map);
+	}
+
 }

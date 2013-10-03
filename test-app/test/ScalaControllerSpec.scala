@@ -18,29 +18,23 @@ import providers.TestUsernamePasswordAuthProvider
  * You can mock out a whole application including requests, plugins etc.
  * For more information, consult the wiki.
  */
-class ScalaControllerSpec extends Specification {
+class ScalaControllerSpec extends PlaySpecification {
 
   "ScalaController" should {
 
-    "send 303 for index page without login" in {
-      running(FakeApplication()) {
-        val result = await(
-          controllers.ScalaController.index()(FakeRequest()).run)
-        status(result) must_== SEE_OTHER;
-        redirectLocation(result) must beSome like { case Some(s: String) =>
-          s must_== controllers.routes.Application.login.url
-        }
+    "send 303 for index page without login" in new WithApplication {
+      val result = controllers.ScalaController.index()(FakeRequest())
+      status(result) must equalTo(SEE_OTHER);
+      redirectLocation(result) must beSome like { case Some(s: String) =>
+        s must_== controllers.routes.Application.login.url
       }
     }
 
-    "send 200 for index page with login" in {
-      running(FakeApplication()) {
-        val someSession = signupAndLogin()
-        val result = await(
-          controllers.ScalaController.index()(
-              FakeRequest().withSession(someSession.get.data.toSeq: _*)).run)
-        status(result) must equalTo(OK)
-      }
+    "send 200 for index page with login" in new WithApplication {
+      val someSession = signupAndLogin()
+      val result = controllers.ScalaController.index()(
+            FakeRequest().withSession(someSession.get.data.toSeq: _*))
+      status(result) must equalTo(OK)
     }
 
     def signupAndLogin(): Option[Session] = {

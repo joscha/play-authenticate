@@ -2,12 +2,14 @@ package com.feth.play.module.pa.providers.oauth1.xing;
 
 import java.util.List;
 
+import com.feth.play.module.pa.controllers.Authenticate;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.JsonNode;
 
 import play.Application;
 import play.api.libs.oauth.OAuthCalculator;
 import play.api.libs.oauth.RequestToken;
+import play.mvc.Http;
 import play.mvc.Http.Context;
 import play.mvc.Http.Request;
 
@@ -28,7 +30,7 @@ public class XingAuthProvider extends
 	private static final String NODE_USERS = "users";
 	private static final String USER_INFO_URL_SETTING_KEY = "userInfoUrl";
 	private static final String XING_ERROR = "xing_error";
-	private static final Object ACCESS_DENIED = "user_abort";
+	private static final String ACCESS_DENIED = "user_abort";
 
 	public XingAuthProvider(final Application app) {
 		super(app);
@@ -65,20 +67,18 @@ public class XingAuthProvider extends
 		return new XingAuthUser(userJson.path(NODE_USERS).get(0), info);
 	}
 
-	@Override
-	public Object authenticate(final Context context, final Object payload)
-			throws AuthException {
-		// Check whether we got an error in the request
-		final Request request = context.request();
-		final String error = request.getQueryString(XING_ERROR);
-		if (StringUtils.isNotBlank(error)) {
-			if (error.equals(ACCESS_DENIED)) {
-				throw new AccessDeniedException(getKey());
-			} else {
-				throw new AuthException(error);
-			}
-		}
-		// Everything OK – back to normal workflow
-		return super.authenticate(context, payload);
-	}
+    @Override
+    protected void checkError(Http.Request request) throws AuthException {
+        final String error = Authenticate.getQueryString(request,
+                XING_ERROR);
+
+        if (error != null) {
+            if (error.equals(ACCESS_DENIED)) {
+                throw new AccessDeniedException(getKey());
+            } else {
+                throw new AuthException(error);
+            }
+        }
+    }
+
 }

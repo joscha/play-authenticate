@@ -3,8 +3,10 @@ package com.feth.play.module.pa.providers.oauth1;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.controllers.Authenticate;
+import com.feth.play.module.pa.exceptions.AccessDeniedException;
 import com.feth.play.module.pa.exceptions.AccessTokenException;
 import com.feth.play.module.pa.exceptions.AuthException;
+import com.feth.play.module.pa.exceptions.RedirectUriMismatch;
 import com.feth.play.module.pa.providers.ext.ExternalAuthProvider;
 import com.feth.play.module.pa.user.AuthUserIdentity;
 
@@ -65,9 +67,24 @@ public abstract class OAuth1AuthProvider<U extends AuthUserIdentity, I extends O
 		public static final String OAUTH_TOKEN_SECRET = "oauth_token_secret";
 		public static final String OAUTH_TOKEN = "oauth_token";
 		public static final String OAUTH_VERIFIER = "oauth_verifier";
+		public static final String OAUTH_PROBLEM = "oauth_problem";
+        public static final String OAUTH_ACCESS_DENIED = "access_denied";
 	}
 
-	@Override
+    protected void checkError(Request request) throws AuthException{
+        final String error = Authenticate.getQueryString(request,
+                Constants.OAUTH_PROBLEM);
+
+        if (error != null) {
+            if (error.equals(Constants.OAUTH_ACCESS_DENIED)) {
+                throw new AccessDeniedException(getKey());
+            } else {
+                throw new AuthException(error);
+            }
+        }
+    }
+
+    @Override
 	public Object authenticate(final Context context, final Object payload)
 			throws AuthException {
 
@@ -92,7 +109,9 @@ public abstract class OAuth1AuthProvider<U extends AuthUserIdentity, I extends O
 				accessTokenURL, authorizationURL, key);
 		final OAuth service = new OAuth(info, true);
 
-		if (uri.contains(Constants.OAUTH_VERIFIER)) {
+        checkError(request);
+
+        if (uri.contains(Constants.OAUTH_VERIFIER)) {
 
 			final RequestToken rtoken = (RequestToken) PlayAuthenticate
 					.removeFromCache(context.session(), CACHE_TOKEN);

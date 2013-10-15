@@ -2,6 +2,8 @@ package com.feth.play.module.pa.providers.oauth1.linkedin;
 
 import java.util.List;
 
+import com.feth.play.module.pa.controllers.Authenticate;
+import com.feth.play.module.pa.exceptions.AccessDeniedException;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import play.Application;
@@ -11,6 +13,7 @@ import play.api.libs.oauth.RequestToken;
 import com.feth.play.module.pa.exceptions.AccessTokenException;
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.oauth1.OAuth1AuthProvider;
+import play.mvc.Http;
 
 public class LinkedinAuthProvider extends
 		OAuth1AuthProvider<LinkedinAuthUser, LinkedinAuthInfo> {
@@ -19,6 +22,9 @@ public class LinkedinAuthProvider extends
 
 	private static final String USER_INFO_URL_SETTING_KEY = "userInfoUrl";
 	private static final String USER_EMAIL_URL_SETTING_KEY = "userEmailUrl";
+
+    public static final String OAUTH_ACCESS_DENIED= "user_refused";
+
 
 	public LinkedinAuthProvider(final Application app) {
 		super(app);
@@ -59,4 +65,17 @@ public class LinkedinAuthProvider extends
 		return new LinkedinAuthInfo(rtoken.token(), rtoken.secret());
 	}
 
+    @Override
+    protected void checkError(Http.Request request) throws AuthException {
+        final String error = Authenticate.getQueryString(request,
+                Constants.OAUTH_PROBLEM);
+
+        if (error != null) {
+            if (error.equals(OAUTH_ACCESS_DENIED)) {
+                throw new AccessDeniedException(getKey());
+            } else {
+                throw new AuthException(error);
+            }
+        }
+    }
 }

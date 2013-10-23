@@ -60,6 +60,8 @@ The included sample application shows how to use all of those providers.
 ## Versions
 * **TRUNK** [not released in the repository, yet]
   * wanna contribute something? :)
+* **0.3.5-SNAPSHOT** [2013-10-23]
+  * Fixed Error handling for OAuth1 providers (thanks @vlopato) 
 * **0.3.4-SNAPSHOT** [2013-09-22]
   * Update to HttpClient 4.3
   * Italian translation (thanks @ironmaiden189)

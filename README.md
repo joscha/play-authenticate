@@ -65,6 +65,7 @@ The included sample application shows how to use all of those providers.
   * wanna contribute something? :)
 * **0.5.0-SNAPSHOT** [2013-10-23] (no binary in repo, yet)
   * Prepare for Play 2.2
+  * Updated play-easymail to version `0.5` (Headers can now contain hyphens, thanks @jtammen)
 * **0.3.5-SNAPSHOT** [2013-10-23]
   * Fixed Error handling for OAuth1 providers (thanks @vlopato) 
 * **0.3.4-SNAPSHOT** [2013-09-22]

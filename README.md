@@ -5,10 +5,13 @@ This plugin uses concepts from [securesocial2][] and [Play20StartApp][] and prov
 #### Version information
 **Play Authenticate currently needs Play! Framework 2.0.2 or later**
 
-Works fine with `2.0` to `2.0.x` and `2.1.0` to `2.1.x`.
+Works fine with `2.0` to `2.0.x`, `2.1.0` to `2.1.x` and `2.2.0`.
 
 > **Attention 2.0.x developers**  
 >_There is a `0.2.3-SNAPSHOT` binary for Play `2.0.x` and an accompanying sample application in the [2.0.x branch](https://github.com/joscha/play-authenticate/tree/2.0.x). This sample differs substantially from the version for `2.1` though, because the deadbolt dependency changed. So if you plan on releasing for `2.0.x` don't take the `2.1` sample from the master stream and vice versa._
+
+> **Attention 2.2.x developers**  
+>_There is no binary for Play `2.2` yet, but there is a [2.2.x branch](https://github.com/joscha/play-authenticate/tree/2_2). The first version to support Play 2.2 will be play-authenticate version `0.5.0`._
 
 ### Build status
 [![Build Status](https://travis-ci.org/joscha/play-authenticate.png?branch=2_2)](https://travis-ci.org/joscha/play-authenticate)
@@ -60,6 +63,10 @@ The included sample application shows how to use all of those providers.
 ## Versions
 * **TRUNK** [not released in the repository, yet]
   * wanna contribute something? :)
+* **0.5.0-SNAPSHOT** [2013-10-23] (no binary in repo, yet)
+  * Prepare for Play 2.2
+* **0.3.5-SNAPSHOT** [2013-10-23]
+  * Fixed Error handling for OAuth1 providers (thanks @vlopato) 
 * **0.3.4-SNAPSHOT** [2013-09-22]
   * Update to HttpClient 4.3
   * Italian translation (thanks @ironmaiden189)

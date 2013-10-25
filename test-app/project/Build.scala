@@ -8,14 +8,14 @@ object ApplicationBuild extends Build {
     val appVersion      = "1.0-SNAPSHOT"
 
     val appDependencies = Seq(
-      javaCore, cache
+      javaCore
     )
-    
+
     val playAuthenticate = play.Project(
       "play-authenticate", "1.0-SNAPSHOT", Seq(javaCore, cache), path = file("modules/play-authenticate")
     ).settings(
       libraryDependencies += "org.apache.httpcomponents" % "httpclient" % "4.2",
-      libraryDependencies += "com.feth" %% "play-easymail" % "0.3-SNAPSHOT",
+      libraryDependencies += "com.feth" %% "play-easymail" % "0.5-SNAPSHOT",
       libraryDependencies += "org.mindrot" % "jbcrypt" % "0.3m",
       libraryDependencies += "commons-lang" % "commons-lang" % "2.6",
 

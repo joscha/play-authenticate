@@ -3,6 +3,7 @@ import static play.test.Helpers.callAction;
 import static play.test.Helpers.session;
 import static play.test.Helpers.fakeApplication;
 import static play.test.Helpers.fakeRequest;
+import static play.test.Helpers.redirectLocation;
 import static play.test.Helpers.running;
 import static play.test.Helpers.status;
 import static play.mvc.Http.Status.OK;
@@ -11,11 +12,13 @@ import static scala.collection.JavaConversions.asJavaMap;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import javax.mail.Session;
 
 import org.junit.Test;
 
+import akka.util.Timeout;
 import play.Logger;
 import play.Play;
 import play.libs.F.Promise;
@@ -84,12 +87,9 @@ public class JavaControllerTest {
 					.verify(token));
 			assertThat(status(result)).isEqualTo(SEE_OTHER);
 			assertThat(upAuthProvider().getVerificationToken(email)).isNull();
-			play.api.mvc.Result actualResult = actualResult(result);
 			// We should actually be logged in here, but let's ignore that
 			// as we want to test login too.
-			assertThat(
-					play.api.test.Helpers.redirectLocation(actualResult).get())
-					.isEqualTo("/");
+			assertThat(redirectLocation(result)).isEqualTo("/");
 		}
 		{
 			// Log the user in
@@ -99,23 +99,14 @@ public class JavaControllerTest {
 			Result result = callAction(
 					controllers.routes.ref.Application.doLogin(), fakeRequest()
 							.withFormUrlEncodedBody(data));
-			play.api.mvc.Result actualResult = actualResult(result);
 			assertThat(status(result)).isEqualTo(SEE_OTHER);
-			assertThat(
-					play.api.test.Helpers.redirectLocation(actualResult).get())
-					.isEqualTo("/");
+			assertThat(redirectLocation(result)).isEqualTo("/");
 			// Create a Java session from the Scala session
-			Map<String, String> sessionData =
-					asJavaMap(play.api.test.Helpers.session(actualResult)
-							.data());
+			Map<String, String> sessionData = asJavaMap(play.api.test.Helpers
+					.session(result.getWrappedResult(), Timeout.apply(30000))
+					.data());
 			return new Http.Session(sessionData);
 		}
-	}
-
-	private play.api.mvc.Result actualResult(Result asyncResult) {
-		return (new Promise<play.api.mvc.Result>(
-				((play.api.mvc.AsyncResult) asyncResult.getWrappedResult())
-						.result())).get();
 	}
 
 	private TestUsernamePasswordAuthProvider upAuthProvider() {

@@ -14,7 +14,7 @@ Works fine with `2.0` to `2.0.x`, `2.1.0` to `2.1.x` and `2.2.0`.
 >_There is a [2.1.x branch](https://github.com/joscha/play-authenticate/tree/2.1.x). The first version to support Play 2.1 is play-authenticate version `0.2.4`, the last one `0.3.5`._
 
 ### Build status
-[![Build Status](https://travis-ci.org/joscha/play-authenticate.png?branch=master)](https://travis-ci.org/joscha/play-authenticate)
+[![Build Status](https://travis-ci.org/joscha/play-authenticate.png?branch=2_2)](https://travis-ci.org/joscha/play-authenticate)
 
 ## Live demo
 You can find a live demo on [heroku](https://play-authenticate.herokuapp.com/ "Play Authenticate sample app") (might not always be the latest version) and there are some screens on our [website](http://joscha.github.com/play-authenticate/).

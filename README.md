@@ -63,7 +63,7 @@ The included sample application shows how to use all of those providers.
 ## Versions
 * **TRUNK** [not released in the repository, yet]
   * wanna contribute something? :)
-* **0.5.0-SNAPSHOT** [2013-10-28] (no binary in repo, yet)
+* **0.5.0-SNAPSHOT** [2013-10-28]
   * Prepare for Play 2.2 (thanks @smola, @tjdett, @dribba, @goryuchkin)
   * Updated to deadbolt 2.2 RC2
   * Updated play-easymail to version `0.5` (Headers can now contain hyphens, thanks @jtammen)

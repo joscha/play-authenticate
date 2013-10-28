@@ -4,7 +4,7 @@ env:
 before_script: 
   - wget http://downloads.typesafe.com/play/${PLAY_VERSION}/play-${PLAY_VERSION}.zip
   - unzip -q play-${PLAY_VERSION}.zip 
-script: "cd code && ../play-${PLAY_VERSION}/play test && cd ../test-app && ../play-${PLAY_VERSION}/play test && cd ../samples/java/play-authenticate-usage && ../../../play-${PLAY_VERSION}/play test && cd ../play-authenticate-simple-oauth && ../../../play-${PLAY_VERSION}/play test"
+script: "cd code && ../play-${PLAY_VERSION}/play test publish-local && cd ../test-app && ../play-${PLAY_VERSION}/play test && cd ../samples/java/play-authenticate-usage && ../../../play-${PLAY_VERSION}/play test && cd ../play-authenticate-simple-oauth && ../../../play-${PLAY_VERSION}/play test"
 notifications:
   # Email notifications are disabled to not annoy anybody.
   # See http://about.travis-ci.org/docs/user/build-configuration/ to learn more

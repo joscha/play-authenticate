@@ -158,13 +158,11 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 			Logger.debug("Returned with URL: '" + request.uri() + "'");
 		}
 
-		final String error = Authenticate.getQueryString(request,
-				getErrorParameterKey());
+		final String error = request.getQueryString(getErrorParameterKey());
 
 		// Attention: facebook does *not* support state that is non-ASCII - not
 		// even encoded.
-		final String state = Authenticate.getQueryString(request,
-				Constants.STATE);
+		final String state = request.getQueryString(Constants.STATE);
 
 		if (error != null) {
 			if (error.equals(Constants.ACCESS_DENIED)) {
@@ -179,9 +177,7 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 			}
 		} else if (isCallbackRequest(context)) {
 			// second step in auth process
-			final String code = Authenticate
-					.getQueryString(request, Constants.CODE);
-			
+			final String code = request.getQueryString(Constants.CODE);
 			final I info = getAccessToken(code, request);
             return transform(info, state);
 			// System.out.println(accessToken.getAccessToken());

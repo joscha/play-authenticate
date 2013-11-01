@@ -67,8 +67,7 @@ public class LinkedinAuthProvider extends
 
     @Override
     protected void checkError(Http.Request request) throws AuthException {
-        final String error = Authenticate.getQueryString(request,
-                Constants.OAUTH_PROBLEM);
+        final String error = request.getQueryString(Constants.OAUTH_PROBLEM);
 
         if (error != null) {
             if (error.equals(OAUTH_ACCESS_DENIED)) {

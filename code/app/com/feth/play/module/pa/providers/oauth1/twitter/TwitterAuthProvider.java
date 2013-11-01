@@ -60,8 +60,7 @@ public class TwitterAuthProvider extends
 
     @Override
     protected void checkError(Http.Request request) throws AuthException {
-        final String error = Authenticate.getQueryString(request,
-                DENIED_KEY);
+        final String error = request.getQueryString(DENIED_KEY);
 
         if (error != null) {
             throw new AccessDeniedException(getKey());

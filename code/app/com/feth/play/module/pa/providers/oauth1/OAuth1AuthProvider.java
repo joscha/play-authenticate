@@ -72,8 +72,7 @@ public abstract class OAuth1AuthProvider<U extends AuthUserIdentity, I extends O
 	}
 
     protected void checkError(Request request) throws AuthException{
-        final String error = Authenticate.getQueryString(request,
-                Constants.OAUTH_PROBLEM);
+        final String error = request.getQueryString(Constants.OAUTH_PROBLEM);
 
         if (error != null) {
             if (error.equals(Constants.OAUTH_ACCESS_DENIED)) {
@@ -115,8 +114,7 @@ public abstract class OAuth1AuthProvider<U extends AuthUserIdentity, I extends O
 
 			final RequestToken rtoken = (RequestToken) PlayAuthenticate
 					.removeFromCache(context.session(), CACHE_TOKEN);
-			final String verifier = Authenticate.getQueryString(request,
-					Constants.OAUTH_VERIFIER);
+			final String verifier = request.getQueryString(Constants.OAUTH_VERIFIER);
 			final Either<OAuthException, RequestToken> retrieveAccessToken = service
 					.retrieveAccessToken(rtoken, verifier);
 

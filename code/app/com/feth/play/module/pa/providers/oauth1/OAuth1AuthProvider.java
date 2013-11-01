@@ -154,7 +154,7 @@ public abstract class OAuth1AuthProvider<U extends AuthUserIdentity, I extends O
 	protected JsonNode signedOauthGet(final String url,
 			final OAuthCalculator calculator) {
 		final Future<Response> future = WS.url(url).sign(calculator).get();
-		final play.api.libs.ws.Response response = new play.libs.F.Promise<play.api.libs.ws.Response>(future).get(PlayAuthenticate.TIMEOUT);
+		final play.api.libs.ws.Response response = play.libs.F.Promise.wrap(future).get(getTimeout());
 		final JsValue json = response.json();
 		return Json.parse(json.toString());
 	}

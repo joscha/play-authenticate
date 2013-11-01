@@ -41,7 +41,7 @@ public class VkAuthProvider extends OAuth2AuthProvider<VkAuthUser, VkAuthInfo> {
 		final WS.Response r = WS.url(url)
 				.setQueryParameter(UIDS_REQUEST_KEY, info.getUserId())
 				.setQueryParameter(FIELDS_REQUEST_KEY, fields).get()
-				.get(PlayAuthenticate.TIMEOUT);
+				.get(getTimeout());
 
 		final JsonNode result = r.asJson();
 

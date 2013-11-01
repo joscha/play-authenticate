@@ -37,7 +37,7 @@ public abstract class ExternalAuthProvider extends AuthProvider {
 	}
 
     protected long getTimeout() {
-        return getConfiguration().getLong(SettingKeys.TIMEOUT, 10000L);
+        return getConfiguration().getLong(SettingKeys.TIMEOUT, PlayAuthenticate.TIMEOUT);
     }
 
 	private boolean useSecureRedirectUri() {

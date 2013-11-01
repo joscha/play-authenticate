@@ -17,7 +17,7 @@ public class FoursquareAuthProvider extends
 		OAuth2AuthProvider<FoursquareAuthUser, FoursquareAuthInfo> {
 
 	static final String PROVIDER_KEY = "foursquare";
-	
+
 	private static final String USER_INFO_URL_SETTING_KEY = "userInfoUrl";
 	private static final String OAUTH_TOKEN = "oauth_token";
 	private static final String VERSION = "20120617";
@@ -43,8 +43,8 @@ public class FoursquareAuthProvider extends
 	@Override
 	protected AuthUserIdentity transform(final FoursquareAuthInfo info, final String state)
 			throws AuthException {
-		
-		
+
+
 		final String url = getConfiguration().getString(
 				USER_INFO_URL_SETTING_KEY);
 		final Response r = WS
@@ -53,7 +53,7 @@ public class FoursquareAuthProvider extends
 						info.getAccessToken())
 				.setQueryParameter("v", VERSION)
 				.get()
-				.get(PlayAuthenticate.TIMEOUT);
+				.get(getTimeout());
 
 		final JsonNode result = r.asJson();
 		if (r.getStatus() >= 400) {

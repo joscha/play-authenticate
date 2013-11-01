@@ -131,7 +131,7 @@ public abstract class PlayAuthenticate {
 				.getConfig(SETTING_KEY_PLAY_AUTHENTICATE);
 	}
 
-	public static final Long TIMEOUT = 10l * 1000;
+	public static final long TIMEOUT = 10l * 1000;
 	private static final String MERGE_USER_KEY = null;
 	private static final String LINK_USER_KEY = null;
 

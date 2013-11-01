@@ -27,7 +27,7 @@ public class FacebookAuthProvider extends
 	private static final String FIELDS = "fields";
 
 	static final String PROVIDER_KEY = "facebook";
-	
+
 	private static final String USER_INFO_URL_SETTING_KEY = "userInfoUrl";
 	private static final String USER_INFO_FIELDS_SETTING_KEY = "userInfoFields";
 
@@ -48,7 +48,7 @@ public class FacebookAuthProvider extends
 				.setQueryParameter(OAuth2AuthProvider.Constants.ACCESS_TOKEN,
 						info.getAccessToken())
 				.setQueryParameter(FIELDS, fields)
-				.get().get(PlayAuthenticate.TIMEOUT);
+				.get().get(getTimeout());
 
 		final JsonNode result = r.asJson();
 		if (result.get(OAuth2AuthProvider.Constants.ERROR) != null) {

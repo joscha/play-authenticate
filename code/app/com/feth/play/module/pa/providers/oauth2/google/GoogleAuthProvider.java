@@ -16,7 +16,7 @@ public class GoogleAuthProvider extends
 		OAuth2AuthProvider<GoogleAuthUser, GoogleAuthInfo> {
 
 	static final String PROVIDER_KEY = "google";
-	
+
 	private static final String USER_INFO_URL_SETTING_KEY = "userInfoUrl";
 
 	public GoogleAuthProvider(Application app) {
@@ -38,7 +38,7 @@ public class GoogleAuthProvider extends
 				.url(url)
 				.setQueryParameter(OAuth2AuthProvider.Constants.ACCESS_TOKEN,
 						info.getAccessToken()).get()
-				.get(PlayAuthenticate.TIMEOUT);
+				.get(getTimeout());
 
 		final JsonNode result = r.asJson();
 		if (result.get(OAuth2AuthProvider.Constants.ERROR) != null) {

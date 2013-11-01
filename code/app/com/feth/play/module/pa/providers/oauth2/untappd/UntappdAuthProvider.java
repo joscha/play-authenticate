@@ -63,7 +63,7 @@ public class UntappdAuthProvider extends
 				.url(url)
 				.setQueryParameter(OAuth2AuthProvider.Constants.ACCESS_TOKEN,
 						info.getAccessToken()).get()
-				.get(PlayAuthenticate.TIMEOUT);
+				.get(getTimeout());
 
 		final JsonNode result = r.asJson();
 		if (result.get(OAuth2AuthProvider.Constants.ERROR) != null) {
@@ -103,7 +103,7 @@ public class UntappdAuthProvider extends
 				.setQueryParameter(Constants.CODE, code)
 				.setQueryParameter(getRedirectUriKey(), getRedirectUrl(request))
 				// we use GET here
-				.get().get(PlayAuthenticate.TIMEOUT);
+				.get().get(getTimeout());
 
 		return buildInfo(r);
 	}

@@ -199,7 +199,7 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 
 	/**
 	 * This allows custom implementations to enrich an AuthUser object or
-	 * provide their own implementaion
+	 * provide their own implementation
 	 *
 	 * @param info
 	 * @param state

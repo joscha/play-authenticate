@@ -44,7 +44,7 @@ public class PocketAuthProvider extends
 		public static final String CONSUMER_KEY = "consumer_key";
 		public static final String REQUEST_TOKEN = "request_token";
 	}
-	
+
 	private static JsonNode encodeParamsAsJson(final List<NameValuePair> params) {
 		final Map<String, String> map = new HashMap<String, String>(params.size());
 		for (final NameValuePair nameValuePair : params) {
@@ -105,7 +105,7 @@ public class PocketAuthProvider extends
 		final Response r = WS.url(c.getString(SettingKeys.REQUEST_TOKEN_URL))
 				.setHeader("Content-Type", "application/json")
 				.setHeader("X-Accept", "application/json")
-				.post(encodeParamsAsJson(params)).get(PlayAuthenticate.TIMEOUT);
+				.post(encodeParamsAsJson(params)).get(getTimeout());
 
 		if (r.getStatus() >= 400) {
 			throw new AuthException(r.asJson().asText());

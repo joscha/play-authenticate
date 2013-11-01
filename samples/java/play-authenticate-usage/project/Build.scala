@@ -20,7 +20,7 @@ object ApplicationBuild extends Build {
 //  Uncomment this for local development of the Play Authenticate core:
 /*
     val playAuthenticate = play.Project(
-      "play-authenticate", "1.0-SNAPSHOT", Seq(javaCore), path = file("modules/play-authenticate")
+      "play-authenticate", "1.0-SNAPSHOT", Seq(javaCore, cache), path = file("modules/play-authenticate")
     ).settings(
       libraryDependencies += "org.apache.httpcomponents" % "httpclient" % "4.2.5",
       libraryDependencies += "com.feth" %% "play-easymail" % "0.5-SNAPSHOT",

@@ -21,6 +21,7 @@ public abstract class ExternalAuthProvider extends AuthProvider {
 		public static final String SECURE_REDIRECT_URI = "secureRedirectUri";
 		public static final String REDIRECT_URI_HOST = "redirectUri.host";
 		public static final String REDIRECT_URI_SECURE = "redirectUri.secure";
+        public static final String TIMEOUT = "timeout";
 	}
 
 	protected static String generateURI(final String location,
@@ -32,8 +33,12 @@ public abstract class ExternalAuthProvider extends AuthProvider {
 
 	@Override
 	protected List<String> neededSettingKeys() {
-		return Collections.emptyList();
+		return Collections.singletonList(SettingKeys.TIMEOUT);
 	}
+
+    protected long getTimeout() {
+        return getConfiguration().getLong(SettingKeys.TIMEOUT, 10000L);
+    }
 
 	private boolean useSecureRedirectUri() {
 		Boolean secure = getConfiguration().getBoolean(

@@ -180,7 +180,6 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 			final String code = request.getQueryString(Constants.CODE);
 			final I info = getAccessToken(code, request);
             return transform(info, state);
-			// System.out.println(accessToken.getAccessToken());
 		} else {
 			// no auth, yet
 			final String url = getAuthUrl(request, state);

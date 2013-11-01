@@ -60,9 +60,9 @@ public class LinkedinAuthProvider extends
 	}
 
 	@Override
-	protected LinkedinAuthInfo buildInfo(final RequestToken rtoken)
+	protected LinkedinAuthInfo buildInfo(final RequestToken requestToken)
 			throws AccessTokenException {
-		return new LinkedinAuthInfo(rtoken.token(), rtoken.secret());
+		return new LinkedinAuthInfo(requestToken.token(), requestToken.secret());
 	}
 
     @Override

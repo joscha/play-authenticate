@@ -17,8 +17,8 @@ public class OpenIdAuthUser extends AuthUser {
 	private final String id;
 	private final Map<String, String> attributes;
 
-	public OpenIdAuthUser(final String id, final UserInfo u) {
-		this.id = id;
+	public OpenIdAuthUser(final UserInfo u) {
+		this.id = u.id;
 		attributes = u.attributes;
 	}
 

@@ -7,6 +7,7 @@ import java.util.Set;
 import play.Application;
 import play.Configuration;
 import play.Logger;
+import play.api.libs.openid.OpenIDError;
 import play.libs.F.Promise;
 import play.libs.OpenID;
 import play.libs.OpenID.UserInfo;
@@ -49,37 +50,28 @@ public class OpenIdAuthProvider extends ExternalAuthProvider {
 
 		final boolean hasOpenID = payload != null
 				&& !payload.toString().trim().isEmpty();
-		boolean hasInfo = false;
-		UserInfo u = null;
-		try {
-			final Promise<UserInfo> pu = OpenID.verifiedId();
-			u = pu.get();
-			hasInfo = true;
-		} catch (final Throwable t) {
-			if (t instanceof play.api.libs.openid.OpenIDError) {
-				if (!hasOpenID) {
-					throw new NoOpenIdAuthException(
-							"OpenID endpoint is required");
-				} else {
-					if(t.getMessage() != null) {
-						throw new AuthException(t.getMessage());
-					} else {
-						throw new AuthException("Bad response from OpenID provider");
-					}
-				}
-			} else {
-				throw new AuthException(t.getMessage());
-			}
-		}
-		if (hasInfo) {
 
-			// TODO: Switch to passing the UserInfo only, when the fix for:
-			// https://play.lighthouseapp.com/projects/82401-play-20/tickets/578-202-java-openid-userinfo-id-always-null
-			// has been incorporated.
-			return new OpenIdAuthUser(Authenticate.getQueryString(request,
-					"openid.claimed_id"), u);
-
-		} else if (hasOpenID) {
+		if (!hasOpenID) {
+            try {
+                final Promise<UserInfo> pu = OpenID.verifiedId();
+                return new OpenIdAuthUser(pu.get(getTimeout()));
+            } catch (final Throwable t) {
+                if (t instanceof OpenIDError) {
+                    if (!hasOpenID) {
+                        throw new NoOpenIdAuthException(
+                                "OpenID endpoint is required");
+                    } else {
+                        if(((OpenIDError) t).message() != null) {
+                            throw new AuthException(((OpenIDError) t).message());
+                        } else {
+                            throw new AuthException("Bad response from OpenID provider");
+                        }
+                    }
+                } else {
+                    throw new AuthException(t.getMessage());
+                }
+            }
+		} else {
 			final Map<String, String> required = getAttributes(SettingKeys.ATTRIBUTES_REQUIRED);
 			final Map<String, String> optional = getAttributes(SettingKeys.ATTRIBUTES_OPTIONAL);
 
@@ -96,9 +88,6 @@ public class OpenIdAuthProvider extends ExternalAuthProvider {
 					throw new AuthException(t.getMessage());
 				}
 			}
-		} else {
-			// this must never happen
-			throw new AuthException();
 		}
 	}
 

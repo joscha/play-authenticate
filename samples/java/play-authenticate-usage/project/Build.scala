@@ -2,7 +2,7 @@ import sbt._
 import Keys._
 import play.Project._
 
-object ApplicationBuild extends Build {
+object Build extends sbt.Build {
 
     val appName         = "play-authenticate-usage"
     val appVersion      = "1.0-SNAPSHOT"

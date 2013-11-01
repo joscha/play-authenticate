@@ -23,7 +23,7 @@ object ApplicationBuild extends Build {
       "play-authenticate", "1.0-SNAPSHOT", Seq(javaCore), path = file("modules/play-authenticate")
     ).settings(
       libraryDependencies += "org.apache.httpcomponents" % "httpclient" % "4.2.5",
-      libraryDependencies += "com.feth" %% "play-easymail" % "0.3-SNAPSHOT",
+      libraryDependencies += "com.feth" %% "play-easymail" % "0.5-SNAPSHOT",
       libraryDependencies += "org.mindrot" % "jbcrypt" % "0.3m",
       libraryDependencies += "commons-lang" % "commons-lang" % "2.6",
 

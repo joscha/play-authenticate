@@ -278,13 +278,9 @@ public abstract class PlayAuthenticate {
 
 	public static Object removeFromCache(final Session session, final String key) {
 		final Object o = getFromCache(session, key);
-		
-		final String k = getCacheKey(session, key);
-		// TODO change on Play 2.1
-		play.cache.Cache.set(k, null, 0);
 
-		// POST-2.0/
-		// play.cache.Cache.remove(k);
+		final String k = getCacheKey(session, key);
+		play.cache.Cache.remove(k);
 		return o;
 	}
 

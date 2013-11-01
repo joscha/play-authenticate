@@ -106,7 +106,7 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 		final List<NameValuePair> params = getAuthParams(c, request, state);
 		return generateURI(c.getString(SettingKeys.AUTHORIZATION_URL), params);
 	}
-	
+
 	protected List<NameValuePair> getAuthParams(final Configuration c,
 			final Request request, final String state) throws AuthException {
 		final List<NameValuePair> params = getParams(request, c);
@@ -183,8 +183,7 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 					.getQueryString(request, Constants.CODE);
 			
 			final I info = getAccessToken(code, request);
-			final AuthUserIdentity u = transform(info, state);
-			return u;
+            return transform(info, state);
 			// System.out.println(accessToken.getAccessToken());
 		} else {
 			// no auth, yet
@@ -193,7 +192,7 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 			return url;
 		}
 	}
-	
+
 	protected boolean isCallbackRequest(final Context context) {
 		return context.request().queryString().containsKey(Constants.CODE);
 	}
@@ -205,7 +204,7 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 	/**
 	 * This allows custom implementations to enrich an AuthUser object or
 	 * provide their own implementaion
-	 * 
+	 *
 	 * @param info
 	 * @param state
 	 * @return

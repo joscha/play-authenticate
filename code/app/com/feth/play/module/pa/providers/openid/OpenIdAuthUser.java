@@ -10,7 +10,7 @@ import com.feth.play.module.pa.user.AuthUser;
 public class OpenIdAuthUser extends AuthUser {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 

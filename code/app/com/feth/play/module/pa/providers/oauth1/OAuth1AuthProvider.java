@@ -131,16 +131,16 @@ public abstract class OAuth1AuthProvider<U extends AuthUserIdentity, I extends O
 
 			final String callbackURL = getRedirectUrl(request);
 
-			final Either<OAuthException, RequestToken> reponse = service
+			final Either<OAuthException, RequestToken> response = service
 					.retrieveRequestToken(callbackURL);
 
-			if (reponse.isLeft()) {
+			if (response.isLeft()) {
 				// Exception happened
-				throw new AuthException(reponse.left().get()
+				throw new AuthException(response.left().get()
 						.getLocalizedMessage());
 			} else {
 				// All good, we have the request token
-				final RequestToken rtoken = reponse.right().get();
+				final RequestToken rtoken = response.right().get();
 
 				final String token = rtoken.token();
 				final String redirectUrl = service.redirectUrl(token);
@@ -152,7 +152,7 @@ public abstract class OAuth1AuthProvider<U extends AuthUserIdentity, I extends O
 		}
 
 	}
-	
+
 	protected JsonNode signedOauthGet(final String url,
 			final OAuthCalculator calculator) {
 		final Future<Response> future = WS.url(url).sign(calculator).get();
@@ -169,16 +169,13 @@ public abstract class OAuth1AuthProvider<U extends AuthUserIdentity, I extends O
 				c.getString(SettingKeys.CONSUMER_KEY),
 				c.getString(SettingKeys.CONSUMER_SECRET));
 
-		final OAuthCalculator op = new OAuthCalculator(cK, token);
-		return op;
+        return new OAuthCalculator(cK, token);
 	}
 
 	/**
 	 * This allows custom implementations to enrich an AuthUser object or
 	 * provide their own implementation
-	 * 
-	 * @param i
-	 * @param state
+	 *
 	 * @return
 	 * @throws AuthException
 	 */

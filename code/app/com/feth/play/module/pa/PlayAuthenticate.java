@@ -31,7 +31,7 @@ public abstract class PlayAuthenticate {
 
 		/**
 		 * This is the route to your login page
-		 * 
+		 *
 		 * @return
 		 */
 		public abstract Call login();
@@ -43,7 +43,7 @@ public abstract class PlayAuthenticate {
 		 * the setting
 		 * afterAuthFallback
 		 * You can use this to redirect to an external URL for example.
-		 * 
+		 *
 		 * @return
 		 */
 		public abstract Call afterAuth();
@@ -55,11 +55,11 @@ public abstract class PlayAuthenticate {
 		 * however you might provide your own authentication implementation if
 		 * you want to
 		 * and point it there
-		 * 
+		 *
 		 * @param provider
 		 *            The provider ID matching one of your registered providers
 		 *            in play.plugins
-		 * 
+		 *
 		 * @return a Call to follow
 		 */
 		public abstract Call auth(final String provider);
@@ -67,7 +67,7 @@ public abstract class PlayAuthenticate {
 		/**
 		 * If you set the accountAutoMerge setting to true, you might return
 		 * null for this.
-		 * 
+		 *
 		 * @return
 		 */
 		public abstract Call askMerge();
@@ -75,7 +75,7 @@ public abstract class PlayAuthenticate {
 		/**
 		 * If you set the accountAutoLink setting to true, you might return null
 		 * for this
-		 * 
+		 *
 		 * @return
 		 */
 		public abstract Call askLink();
@@ -86,7 +86,7 @@ public abstract class PlayAuthenticate {
 		 * the setting
 		 * afterLogoutFallback
 		 * You can use this to redirect to an external URL for example.
-		 * 
+		 *
 		 * @return
 		 */
 		public abstract Call afterLogout();
@@ -471,7 +471,7 @@ public abstract class PlayAuthenticate {
 				// so this is a signup, not a link
 				if (isLoggedIn) {
 					oldIdentity = getUserService().getLocalIdentity(oldUser);
-					isLoggedIn &= oldIdentity != null;
+					isLoggedIn = oldIdentity != null;
 					if (!isLoggedIn) {
 						// if isLoggedIn is false here, then the local user has
 						// been deleted/deactivated
@@ -490,7 +490,7 @@ public abstract class PlayAuthenticate {
 					// 1. -> Login
 					loginUser = newUser;
 
-				} else if (isLinked && isLoggedIn) {
+				} else if (isLinked) {
 					// 2. -> Merge
 
 					// merge the two identities and return the AuthUser we want
@@ -527,7 +527,7 @@ public abstract class PlayAuthenticate {
 						loginUser = newUser;
 					}
 
-				} else if (!isLinked && !isLoggedIn) {
+				} else if (!isLoggedIn) {
 					// 3. -> Signup
 					loginUser = signupUser(newUser);
 				} else {

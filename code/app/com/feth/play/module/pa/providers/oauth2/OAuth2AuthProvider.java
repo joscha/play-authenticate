@@ -2,7 +2,9 @@ package com.feth.play.module.pa.providers.oauth2;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
+import com.feth.play.module.pa.user.AuthUser;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
@@ -10,10 +12,12 @@ import org.apache.http.message.BasicNameValuePair;
 import play.Application;
 import play.Configuration;
 import play.Logger;
+import play.i18n.Messages;
 import play.libs.WS;
 import play.libs.WS.Response;
 import play.mvc.Http.Context;
 import play.mvc.Http.Request;
+import play.mvc.Http.Session;
 
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.controllers.Authenticate;
@@ -26,6 +30,8 @@ import com.feth.play.module.pa.user.AuthUserIdentity;
 
 public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends OAuth2AuthInfo>
 		extends ExternalAuthProvider {
+
+    private static final String STATE_TOKEN = "pa.oauth2.state";
 
 	public OAuth2AuthProvider(final Application app) {
 		super(app);
@@ -160,10 +166,6 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 
 		final String error = request.getQueryString(getErrorParameterKey());
 
-		// Attention: facebook does *not* support state that is non-ASCII - not
-		// even encoded.
-		final String state = request.getQueryString(Constants.STATE);
-
 		if (error != null) {
 			if (error.equals(Constants.ACCESS_DENIED)) {
 				throw new AccessDeniedException(getKey());
@@ -177,12 +179,20 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 			}
 		} else if (isCallbackRequest(context)) {
 			// second step in auth process
+            final String callbackState = request.getQueryString(Constants.STATE);
+            final UUID storedState = PlayAuthenticate.getFromCache(context.session(), STATE_TOKEN);
+            if(!storedState.equals(UUID.fromString(callbackState))) {
+                // the return callback may have been forged
+                throw new AuthException(Messages.get("playauthenticate.core.exception.oauth2.state_param_forged"));
+            }
 			final String code = request.getQueryString(Constants.CODE);
 			final I info = getAccessToken(code, request);
-            return transform(info, state);
+            return transform(info, callbackState);
 		} else {
 			// no auth, yet
-			final String url = getAuthUrl(request, state);
+            final UUID state = UUID.randomUUID();
+            PlayAuthenticate.storeInCache(context.session(), STATE_TOKEN, state);
+			final String url = getAuthUrl(request, state.toString());
 			Logger.debug("generated redirect URL for dialog: " + url);
 			return url;
 		}
@@ -195,6 +205,11 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 	protected String getErrorParameterKey() {
 		return Constants.ERROR;
 	}
+
+    @Override
+    public void afterSave(final AuthUser user, final Object identity, final Session session) {
+        PlayAuthenticate.removeFromCache(session, STATE_TOKEN);
+    }
 
 	/**
 	 * This allows custom implementations to enrich an AuthUser object or

@@ -276,8 +276,8 @@ public abstract class PlayAuthenticate {
 		play.cache.Cache.set(getCacheKey(session, key), o);
 	}
 
-	public static Object removeFromCache(final Session session, final String key) {
-		final Object o = getFromCache(session, key);
+    public static <T> T removeFromCache(final Session session, final String key) {
+        final T o = getFromCache(session, key);
 
 		final String k = getCacheKey(session, key);
 		play.cache.Cache.remove(k);
@@ -289,8 +289,9 @@ public abstract class PlayAuthenticate {
 		return id + "_" + key;
 	}
 
-	public static Object getFromCache(final Session session, final String key) {
-		return play.cache.Cache.get(getCacheKey(session, key));
+    @SuppressWarnings("unchecked")
+    public static <T> T getFromCache(final Session session, final String key) {
+        return (T) play.cache.Cache.get(getCacheKey(session, key));
 	}
 
 	private static AuthUser getUserFromCache(final Session session,
@@ -378,7 +379,7 @@ public abstract class PlayAuthenticate {
 		} else {
 			// User declined link - create new user
 			try {
-				loginUser = signupUser(linkUser);
+				loginUser = signupUser(linkUser, context.session(), getProvider(linkUser.getProvider()));
 			} catch (final AuthException e) {
 				return Controller.internalServerError(e.getMessage());
 			}
@@ -413,15 +414,14 @@ public abstract class PlayAuthenticate {
 		return loginAndRedirect(context, loginUser);
 	}
 
-	private static AuthUser signupUser(final AuthUser u) throws AuthException {
-		final AuthUser loginUser;
-		final Object id = getUserService().save(u);
+	private static AuthUser signupUser(final AuthUser u, final Session session, final AuthProvider provider) throws AuthException {
+        final Object id = getUserService().save(u);
 		if (id == null) {
 			throw new AuthException(
 					Messages.get("playauthenticate.core.exception.signupuser_failed"));
 		}
-		loginUser = u;
-		return loginUser;
+        provider.afterSave(u, id, session);
+		return u;
 	}
 
 	public static Result handleAuthentication(final String provider,
@@ -529,7 +529,7 @@ public abstract class PlayAuthenticate {
 
 				} else if (!isLoggedIn) {
 					// 3. -> Signup
-					loginUser = signupUser(newUser);
+					loginUser = signupUser(newUser, session, ap);
 				} else {
 					// !isLinked && isLoggedIn:
 

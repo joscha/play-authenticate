@@ -9,6 +9,7 @@ import play.Application;
 import play.Configuration;
 import play.Logger;
 import play.Plugin;
+import play.mvc.Http.Session;
 import play.mvc.Http.Context;
 import play.mvc.Http.Request;
 
@@ -121,4 +122,14 @@ public abstract class AuthProvider extends Plugin {
 
 	public abstract boolean isExternal();
 
+    /**
+     * This gets called after a successful 'save' operation of the UserService.
+     *
+     * @param user The user object
+     * @param identity The user identity returned fro, the save operation in the UserService
+     * @param session The session
+     */
+    public void afterSave(final AuthUser user, final Object identity, final Session session) {
+
+    }
 }

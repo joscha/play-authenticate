@@ -44,14 +44,11 @@ public abstract class ExternalAuthProvider extends AuthProvider {
 		Boolean secure = getConfiguration().getBoolean(
 				SettingKeys.REDIRECT_URI_SECURE);
 		if (secure == null) {
+            // only for backwards compatibility
 			secure = getConfiguration().getBoolean(
 					SettingKeys.SECURE_REDIRECT_URI);
 		}
-		if (secure == null) {
-			return false;
-		} else {
-			return secure;
-		}
+        return secure != null ? secure : false;
 	}
 
 	protected String getRedirectUrl(final Request request,

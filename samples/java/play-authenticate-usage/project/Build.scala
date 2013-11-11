@@ -10,13 +10,13 @@ object Build extends sbt.Build {
     val appDependencies = Seq(
       "be.objectify"  %%  "deadbolt-java"     % "2.2-RC2",
       // Comment this for local development of the Play Authentication core
-      "com.feth"      %%  "play-authenticate" % "0.5.0-SNAPSHOT",
+      "com.feth"      %%  "play-authenticate" % "0.5.2-SNAPSHOT",
       "postgresql"    %   "postgresql"        % "9.1-901-1.jdbc4",
       javaCore,
       javaJdbc,
       javaEbean
     )
-    
+
 //  Uncomment this for local development of the Play Authenticate core:
 /*
     val playAuthenticate = play.Project(

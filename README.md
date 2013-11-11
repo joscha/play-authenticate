@@ -42,6 +42,7 @@ As of now, the following authentication providers are supported out of the box:
   * Untappd
   * VK.com / VKontakte
   * Pocket
+  * github
 * _OAuth 1_
   * LinkedIn
   * Twitter
@@ -63,6 +64,13 @@ The included sample application shows how to use all of those providers.
 ## Versions
 * **TRUNK** [not released in the repository, yet]
   * wanna contribute something? :)
+* **0.5.2-SNAPSHOT** [2013-11-11]
+  * Automatically generate and use `state` parameter in OAuth2.
+  * New github provider
+  * German core translation
+  * Fix broken OpenID provider
+  * Add a default timeout for external identity providers
+  * Lots of small fixes and enhancements
 * **0.5.0-SNAPSHOT** [2013-10-28]
   * Prepare for Play 2.2 (thanks @smola, @tjdett, @dribba, @goryuchkin)
   * Updated to deadbolt 2.2 RC2

@@ -12,3 +12,4 @@
 10090:com.feth.play.module.pa.providers.oauth1.xing.XingAuthProvider
 10100:com.feth.play.module.pa.providers.oauth2.untappd.UntappdAuthProvider
 10110:com.feth.play.module.pa.providers.oauth2.pocket.PocketAuthProvider
+10120:com.feth.play.module.pa.providers.oauth2.github.GithubAuthProvider

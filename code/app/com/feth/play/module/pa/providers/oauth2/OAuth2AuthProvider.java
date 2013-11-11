@@ -1,8 +1,6 @@
 package com.feth.play.module.pa.providers.oauth2;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import com.feth.play.module.pa.user.AuthUser;
 import org.apache.http.NameValuePair;
@@ -32,8 +30,9 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 		extends ExternalAuthProvider {
 
     private static final String STATE_TOKEN = "pa.oauth2.state";
+    protected static final String CONTENT_TYPE = "Content-Type";
 
-	public OAuth2AuthProvider(final Application app) {
+    public OAuth2AuthProvider(final Application app) {
 		super(app);
 	}
 
@@ -91,14 +90,22 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 		return URLEncodedUtils.format(params, "UTF-8");
 	}
 
+    protected Map<String, String> getHeaders() {
+        return Collections.<String, String>emptyMap();
+    }
+
 	protected I getAccessToken(final String code, final Request request)
 			throws AccessTokenException {
 		final Configuration c = getConfiguration();
 		final String params = getAccessTokenParams(c, code, request);
 		final String url = c.getString(SettingKeys.ACCESS_TOKEN_URL);
-		final Response r = WS.url(url)
-				.setHeader("Content-Type", "application/x-www-form-urlencoded")
-				.post(params).get(PlayAuthenticate.TIMEOUT);
+        final play.libs.WS.WSRequestHolder wrh = WS.url(url);
+        wrh.setHeader(CONTENT_TYPE, "application/x-www-form-urlencoded");
+        for(final Map.Entry<String, String> header : getHeaders().entrySet()) {
+            wrh.setHeader(header.getKey(), header.getValue());
+        }
+
+		final Response r = wrh.post(params).get(PlayAuthenticate.TIMEOUT);
 
 		return buildInfo(r);
 	}

@@ -3,7 +3,7 @@
 @import com.feth.play.module.pa.views.html._
 
 @main(Messages("playauthenticate.profile.title"),"profile") {
-    
+
     <h1>@Messages("playauthenticate.profile.title")</h1>
     <p>
     Your name is @localUser.name and your email address is @if(!localUser.email) {<em>&lt;unknown&gt;</em>.} else {
@@ -16,8 +16,10 @@
 	    }</i>
     }
     <br />
-    Your first name is @localUser.firstName and your last name is @localUser.lastName
-    <br/>
+        @if(localUser.firstName && localUser.lastName) {
+            Your first name is @localUser.firstName and your last name is @localUser.lastName
+            <br/>
+        }
     @defining(localUser.getProviders()) { providers =>
         @if(providers.size() > 0) {
         @if(providers.size() ==1) {
@@ -31,7 +33,7 @@
         <br/>
         }
     }
-    
+
     <br/>
     @currentAuth() { auth =>
         @Messages("playauthenticate.profile.logged") @_providerIcon(auth.getProvider())<br/>

@@ -5,7 +5,7 @@ This plugin uses concepts from [securesocial2][] and [Play20StartApp][] and prov
 #### Version information
 **Play Authenticate currently needs Play! Framework 2.0.2 or later**
 
-Works fine with `2.0` to `2.0.x`, `2.1.0` to `2.1.x` and `2.2.0`.
+Works fine with `2.0` to `2.0.x`, `2.1.0` to `2.1.x` and `2.2.0` to `2.2.1`.
 
 > **Attention 2.0.x developers**  
 >_There is a `0.2.3-SNAPSHOT` binary for Play `2.0.x` and an accompanying sample application in the [2.0.x branch](https://github.com/joscha/play-authenticate/tree/2.0.x). This sample differs substantially from the version for `2.1` though, because the deadbolt dependency changed. So if you plan on releasing for `2.0.x` don't take the `2.1` sample from the master stream and vice versa._

@@ -1,0 +1,8 @@
+playauthenticate.core.exception.no_user_service=ユーザーサービスが登録されていません！
+playauthenticate.core.exception.signupuser_failed=サインアップできません
+playauthenticate.core.exception.provider_not_found=プロバイダー {0} が見つかりません！
+playauthenticate.core.exception.merge.controller_undefined=リゾルバーでのマージ呼び出しが正しく定義されていません。設定 '{0}' が false でも正しい定義が必要です！
+playauthenticate.core.exception.link.controller_undefined=リゾルバーでのリンク呼び出しが正しく定義されていません。設定 '{0}' が false でも正しい定義が必要です！
+playauthenticate.core.exception.oauth2.state_param_forged=状態パラメーターがどこかで変更された可能性があります！
+
+playauthenticate.core.exception.general=何かがおかしい

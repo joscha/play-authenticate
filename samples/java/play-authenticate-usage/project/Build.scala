@@ -8,7 +8,7 @@ object Build extends sbt.Build {
     val appVersion      = "1.0-SNAPSHOT"
 
     val appDependencies = Seq(
-      "be.objectify"  %%  "deadbolt-java"     % "2.2-RC2" exclude("com.typesafe.play", "play-cache_2.10"),
+      "be.objectify"  %%  "deadbolt-java"     % "2.2.1-RC1",
       // Comment this for local development of the Play Authentication core
       "com.feth"      %%  "play-authenticate" % "0.5.2-SNAPSHOT",
       "postgresql"    %   "postgresql"        % "9.1-901-1.jdbc4",

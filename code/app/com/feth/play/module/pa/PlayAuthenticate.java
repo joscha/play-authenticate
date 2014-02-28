@@ -1,5 +1,6 @@
 package com.feth.play.module.pa;
 
+import java.text.Normalizer;
 import java.util.Date;
 
 import play.Configuration;
@@ -26,6 +27,7 @@ public abstract class PlayAuthenticate {
 	private static final String SETTING_KEY_ACCOUNT_MERGE_ENABLED = "accountMergeEnabled";
 	private static final String SETTING_KEY_ACCOUNT_AUTO_LINK = "accountAutoLink";
 	private static final String SETTING_KEY_ACCOUNT_AUTO_MERGE = "accountAutoMerge";
+	private static final String SETTING_KEY_USE_SESSION = "useSession";
 
 	public abstract static class Resolver {
 
@@ -266,6 +268,57 @@ public abstract class PlayAuthenticate {
 		return uuid;
 	}
 
+	private static final String TIMEOUT_FOR = "timeout-for:";
+	
+	// timeout in ms
+	public static void storeTemporarily(final Session session, final String key, final String data, final long timeout) {
+		
+		final String timeoutKey = TIMEOUT_FOR + key;
+		final String deadline = String.format("%d", new Date().getTime() + timeout);
+		
+		Boolean useSession = getConfiguration().getBoolean(SETTING_KEY_USE_SESSION);
+		if(null!=useSession && useSession) {
+			Logger.debug("using session");
+			session.put(key, data);
+			session.put(timeoutKey, deadline);
+		} else {
+			Logger.debug("using cache");
+			play.cache.Cache.set(key, data);
+			play.cache.Cache.set(timeoutKey, deadline);
+		}
+	}
+
+	public static String retrieveStoredTemporarily(final Session session, final String key) {
+		
+		final String timeoutKey = TIMEOUT_FOR + key;
+
+		final String result;
+		final String deadlineStr; 
+		
+		Boolean useSession = getConfiguration().getBoolean(SETTING_KEY_USE_SESSION);
+		if(null!=useSession && useSession) {
+			result = session.get(key);
+			deadlineStr = session.get(timeoutKey);
+			session.remove(key);
+		} else {
+			result = (String)play.cache.Cache.get(key);
+			deadlineStr = (String)play.cache.Cache.get(timeoutKey);
+			play.cache.Cache.remove(key);
+		}
+
+		if(null==result) return null;
+				
+		final long current = new Date().getTime();
+		try {
+			long deadline = Long.parseLong(deadlineStr);
+			if(current < deadline)
+				return result;
+		} catch(NumberFormatException e) {
+			
+		}
+		return null;
+	}
+	
 	private static void storeUserInCache(final Session session,
 			final String key, final AuthUser identity) {
 		storeInCache(session, key, identity);

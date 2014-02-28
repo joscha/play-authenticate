@@ -31,6 +31,8 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 
     private static final String STATE_TOKEN = "pa.oauth2.state";
     protected static final String CONTENT_TYPE = "Content-Type";
+    
+    private static final long STATE_TIMEOUT = 15*60*1000; // (ms) = 15 min
 
     public OAuth2AuthProvider(final Application app) {
 		super(app);
@@ -187,8 +189,8 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 		} else if (isCallbackRequest(context)) {
 			// second step in auth process
             final String callbackState = request.getQueryString(Constants.STATE);
-            final UUID storedState = PlayAuthenticate.getFromCache(context.session(), STATE_TOKEN);
-            if(!storedState.equals(UUID.fromString(callbackState))) {
+            final UUID storedState = getStoredState(context.session());
+            if(null!=storedState && !storedState.equals(UUID.fromString(callbackState))) {
                 // the return callback may have been forged
                 throw new AuthException(Messages.get("playauthenticate.core.exception.oauth2.state_param_forged"));
             }
@@ -198,13 +200,24 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 		} else {
 			// no auth, yet
             final UUID state = UUID.randomUUID();
-            PlayAuthenticate.storeInCache(context.session(), STATE_TOKEN, state);
+            storeState(context.session(), state);
 			final String url = getAuthUrl(request, state.toString());
 			Logger.debug("generated redirect URL for dialog: " + url);
 			return url;
 		}
 	}
 
+	private static void storeState(final Session session, final UUID state) {
+		PlayAuthenticate.storeTemporarily(session, STATE_TOKEN, state.toString(), STATE_TIMEOUT);
+	}
+	
+	private static UUID getStoredState(final Session session) {
+		String stateStr = PlayAuthenticate.retrieveStoredTemporarily(session, STATE_TOKEN);
+		UUID state = null==stateStr ? null : UUID.fromString(stateStr);
+		return state;
+
+	}
+	
 	protected boolean isCallbackRequest(final Context context) {
 		return context.request().queryString().containsKey(Constants.CODE);
 	}

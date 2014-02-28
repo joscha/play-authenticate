@@ -22,19 +22,24 @@ import play.api.libs.oauth.RequestToken;
 import play.api.libs.oauth.ServiceInfo;
 import play.api.libs.ws.Response;
 import play.api.libs.ws.WS;
+import play.libs.Crypto;
 import play.libs.Json;
 import play.mvc.Http.Context;
 import play.mvc.Http.Request;
+import play.mvc.Http.Session;
 import scala.concurrent.Future;
 import scala.util.Either;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public abstract class OAuth1AuthProvider<U extends AuthUserIdentity, I extends OAuth1AuthInfo>
 		extends ExternalAuthProvider {
 
-	private static final String CACHE_TOKEN = "pa.oauth1.rtoken";
+	private static final String STATE_TOKEN = "pa.oauth1.rtoken";
+
+    private static final long STATE_TIMEOUT = 15*60*1000; // (ms) = 15 min
 
 	public OAuth1AuthProvider(final Application app) {
 		super(app);
@@ -112,8 +117,8 @@ public abstract class OAuth1AuthProvider<U extends AuthUserIdentity, I extends O
 
         if (uri.contains(Constants.OAUTH_VERIFIER)) {
 
-			final RequestToken rtoken = (RequestToken) PlayAuthenticate
-					.removeFromCache(context.session(), CACHE_TOKEN);
+			final RequestToken rtoken = getStoredToken(context.session(), key); 
+					//(RequestToken) PlayAuthenticate.removeFromCache(context.session(), CACHE_TOKEN);
 			final String verifier = request.getQueryString(Constants.OAUTH_VERIFIER);
 			final Either<OAuthException, RequestToken> retrieveAccessToken = service
 					.retrieveAccessToken(rtoken, verifier);
@@ -143,14 +148,33 @@ public abstract class OAuth1AuthProvider<U extends AuthUserIdentity, I extends O
 				final String token = rtoken.token();
 				final String redirectUrl = service.redirectUrl(token);
 
-				PlayAuthenticate.storeInCache(context.session(), CACHE_TOKEN,
-						rtoken);
+				//PlayAuthenticate.storeInCache(context.session(), CACHE_TOKEN, rtoken);
+				storeToken(context.session(), rtoken);
 				return redirectUrl;
 			}
 		}
 
 	}
 
+	private static void storeToken(final Session session, final RequestToken token) {
+		String tokenStr = token.token() + "," + Crypto.encryptAES(token.secret());
+		Logger.debug("storing state " + tokenStr);
+		PlayAuthenticate.storeTemporarily(session, STATE_TOKEN, tokenStr, STATE_TIMEOUT);
+	}
+	
+	private static RequestToken getStoredToken(final Session session, ConsumerKey key) {
+		final String tokenStr = PlayAuthenticate.retrieveStoredTemporarily(session, STATE_TOKEN);
+		if(null==tokenStr) return null; 
+		
+		String[] s = tokenStr.split(",");
+		String token = s[0];
+		String secret = Crypto.decryptAES(s[1]);
+		RequestToken rtoken = new RequestToken(token, secret);
+
+		//Logger.debug("retrieving state " + rtoken);
+		return rtoken;
+
+	}
 	protected JsonNode signedOauthGet(final String url,
 			final OAuthCalculator calculator) {
 		final Future<Response> future = WS.url(url).sign(calculator).get();

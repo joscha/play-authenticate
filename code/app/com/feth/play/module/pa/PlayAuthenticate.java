@@ -1,6 +1,5 @@
 package com.feth.play.module.pa;
 
-import java.text.Normalizer;
 import java.util.Date;
 
 import play.Configuration;

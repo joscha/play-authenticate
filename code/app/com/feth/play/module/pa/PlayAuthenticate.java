@@ -277,11 +277,9 @@ public abstract class PlayAuthenticate {
 		
 		Boolean useSession = getConfiguration().getBoolean(SETTING_KEY_USE_SESSION);
 		if(null!=useSession && useSession) {
-			Logger.debug("using session");
 			session.put(key, data);
 			session.put(timeoutKey, deadline);
 		} else {
-			Logger.debug("using cache");
 			play.cache.Cache.set(key, data);
 			play.cache.Cache.set(timeoutKey, deadline);
 		}

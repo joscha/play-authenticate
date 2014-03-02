@@ -2,17 +2,12 @@ package com.feth.play.module.pa.providers.oauth1.xing;
 
 import java.util.List;
 
-import com.feth.play.module.pa.controllers.Authenticate;
-import org.apache.commons.lang3.StringUtils;
-import com.fasterxml.jackson.databind.JsonNode;
-
 import play.Application;
 import play.api.libs.oauth.OAuthCalculator;
 import play.api.libs.oauth.RequestToken;
 import play.mvc.Http;
-import play.mvc.Http.Context;
-import play.mvc.Http.Request;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.feth.play.module.pa.exceptions.AccessDeniedException;
 import com.feth.play.module.pa.exceptions.AccessTokenException;
 import com.feth.play.module.pa.exceptions.AuthException;

@@ -12,6 +12,7 @@ public class GithubAuthUser extends BasicOAuth2AuthUser implements
      */
     private static final long serialVersionUID = 1L;
 
+    @SuppressWarnings("unused")
     private static class Constants {
         public static final String LOCATION = "location"; // "Hamburg, Germany",
         public static final String HIREABLE = "hireable"; // false,

@@ -1,14 +1,7 @@
 package com.feth.play.module.pa.providers.oauth1;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.feth.play.module.pa.PlayAuthenticate;
-import com.feth.play.module.pa.controllers.Authenticate;
-import com.feth.play.module.pa.exceptions.AccessDeniedException;
-import com.feth.play.module.pa.exceptions.AccessTokenException;
-import com.feth.play.module.pa.exceptions.AuthException;
-import com.feth.play.module.pa.exceptions.RedirectUriMismatch;
-import com.feth.play.module.pa.providers.ext.ExternalAuthProvider;
-import com.feth.play.module.pa.user.AuthUserIdentity;
+import java.util.ArrayList;
+import java.util.List;
 
 import oauth.signpost.exception.OAuthException;
 import play.Application;
@@ -28,8 +21,13 @@ import play.mvc.Http.Request;
 import scala.concurrent.Future;
 import scala.util.Either;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.feth.play.module.pa.PlayAuthenticate;
+import com.feth.play.module.pa.exceptions.AccessDeniedException;
+import com.feth.play.module.pa.exceptions.AccessTokenException;
+import com.feth.play.module.pa.exceptions.AuthException;
+import com.feth.play.module.pa.providers.ext.ExternalAuthProvider;
+import com.feth.play.module.pa.user.AuthUserIdentity;
 
 public abstract class OAuth1AuthProvider<U extends AuthUserIdentity, I extends OAuth1AuthInfo>
 		extends ExternalAuthProvider {

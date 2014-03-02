@@ -14,7 +14,6 @@ import play.libs.OpenID.UserInfo;
 import play.mvc.Http.Context;
 import play.mvc.Http.Request;
 
-import com.feth.play.module.pa.controllers.Authenticate;
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.ext.ExternalAuthProvider;
 import com.feth.play.module.pa.providers.openid.exceptions.NoOpenIdAuthException;

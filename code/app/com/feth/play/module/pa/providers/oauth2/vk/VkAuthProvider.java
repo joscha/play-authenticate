@@ -1,12 +1,10 @@
 package com.feth.play.module.pa.providers.oauth2.vk;
 
-import com.fasterxml.jackson.databind.JsonNode;
-
 import play.Application;
 import play.Logger;
 import play.libs.WS;
 
-import com.feth.play.module.pa.PlayAuthenticate;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.feth.play.module.pa.exceptions.AccessTokenException;
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;

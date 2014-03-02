@@ -1,9 +1,8 @@
 package com.feth.play.module.pa.controllers;
 
 import play.mvc.Controller;
-import play.mvc.Result;
-import play.mvc.Http.Request;
 import play.mvc.Http.Response;
+import play.mvc.Result;
 
 import com.feth.play.module.pa.PlayAuthenticate;
 

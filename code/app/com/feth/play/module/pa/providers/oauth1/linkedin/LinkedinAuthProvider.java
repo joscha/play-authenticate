@@ -2,18 +2,16 @@ package com.feth.play.module.pa.providers.oauth1.linkedin;
 
 import java.util.List;
 
-import com.feth.play.module.pa.controllers.Authenticate;
-import com.feth.play.module.pa.exceptions.AccessDeniedException;
-import com.fasterxml.jackson.databind.JsonNode;
-
 import play.Application;
 import play.api.libs.oauth.OAuthCalculator;
 import play.api.libs.oauth.RequestToken;
+import play.mvc.Http;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.feth.play.module.pa.exceptions.AccessDeniedException;
 import com.feth.play.module.pa.exceptions.AccessTokenException;
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.oauth1.OAuth1AuthProvider;
-import play.mvc.Http;
 
 public class LinkedinAuthProvider extends
 		OAuth1AuthProvider<LinkedinAuthUser, LinkedinAuthInfo> {

@@ -8,8 +8,6 @@ import play.api.libs.oauth.RequestToken;
 import play.mvc.Http;
 
 import com.fasterxml.jackson.databind.JsonNode;
-
-import com.feth.play.module.pa.controllers.Authenticate;
 import com.feth.play.module.pa.exceptions.AccessDeniedException;
 import com.feth.play.module.pa.exceptions.AccessTokenException;
 import com.feth.play.module.pa.exceptions.AuthException;

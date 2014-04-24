@@ -3,8 +3,8 @@ package com.feth.play.module.pa.providers.oauth1.twitter;
 import java.util.List;
 
 import play.Application;
-import play.api.libs.oauth.OAuthCalculator;
-import play.api.libs.oauth.RequestToken;
+import play.libs.oauth.OAuth.OAuthCalculator;
+import play.libs.oauth.OAuth.RequestToken;
 import play.mvc.Http;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -53,7 +53,7 @@ public class TwitterAuthProvider extends
 	@Override
 	protected TwitterAuthInfo buildInfo(final RequestToken rtoken)
 			throws AccessTokenException {
-		return new TwitterAuthInfo(rtoken.token(), rtoken.secret());
+		return new TwitterAuthInfo(rtoken.token, rtoken.secret);
 	}
 
     @Override

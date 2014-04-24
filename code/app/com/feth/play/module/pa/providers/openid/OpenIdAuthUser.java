@@ -2,7 +2,7 @@ package com.feth.play.module.pa.providers.openid;
 
 import java.util.Map;
 
-import play.libs.OpenID.UserInfo;
+import play.libs.openid.OpenID.UserInfo;
 
 import com.feth.play.module.pa.providers.openid.OpenIdAuthProvider.SettingKeys;
 import com.feth.play.module.pa.user.AuthUser;

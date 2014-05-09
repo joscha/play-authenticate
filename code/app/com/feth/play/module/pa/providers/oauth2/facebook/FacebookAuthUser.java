@@ -1,15 +1,10 @@
 package com.feth.play.module.pa.providers.oauth2.facebook;
 
-import java.util.Locale;
-
 import com.fasterxml.jackson.databind.JsonNode;
-
 import com.feth.play.module.pa.providers.oauth2.BasicOAuth2AuthUser;
-import com.feth.play.module.pa.user.AuthUser;
-import com.feth.play.module.pa.user.ExtendedIdentity;
-import com.feth.play.module.pa.user.LocaleIdentity;
-import com.feth.play.module.pa.user.PicturedIdentity;
-import com.feth.play.module.pa.user.ProfiledIdentity;
+import com.feth.play.module.pa.user.*;
+
+import java.util.Locale;
 
 public class FacebookAuthUser extends BasicOAuth2AuthUser implements
 		ExtendedIdentity, PicturedIdentity, ProfiledIdentity, LocaleIdentity {
@@ -25,7 +20,6 @@ public class FacebookAuthUser extends BasicOAuth2AuthUser implements
 		public static final String FIRST_NAME = "first_name";// "Joscha"
 		public static final String LAST_NAME = "last_name"; // "Feth"
 		public static final String LINK = "link"; // "http://www.facebook.com/joscha.feth"
-		public static final String USERNAME = "username";// "joscha.feth"
 		public static final String GENDER = "gender";// "male"
 		public static final String EMAIL = "email";// "joscha@feth.com"
 		public static final String TIME_ZONE = "timezone";// 2
@@ -39,7 +33,6 @@ public class FacebookAuthUser extends BasicOAuth2AuthUser implements
 	private String firstName;
 	private String lastName;
 	private String link;
-	private String username;
 	private String gender;
 	private String email;
 	private boolean verified = false;
@@ -63,9 +56,6 @@ public class FacebookAuthUser extends BasicOAuth2AuthUser implements
 		}
 		if (node.has(Constants.LINK)) {
 			this.link = node.get(Constants.LINK).asText();
-		}
-		if (node.has(Constants.USERNAME)) {
-			this.username = node.get(Constants.USERNAME).asText();
 		}
 		if (node.has(Constants.GENDER)) {
 			this.gender = node.get(Constants.GENDER).asText();
@@ -109,10 +99,6 @@ public class FacebookAuthUser extends BasicOAuth2AuthUser implements
 
 	public String getProfileLink() {
 		return link;
-	}
-
-	public String getUsername() {
-		return username;
 	}
 
 	public String getGender() {

@@ -1,6 +1,6 @@
-language: java # to trigger the build on JVM worker ('language: java' works the same)
+language: java
 env:
-  - ACTIVATOR_VERSION=1.1.2
+  - ACTIVATOR_VERSION=1.1.3
 before_script: 
   - wget http://downloads.typesafe.com/typesafe-activator/${ACTIVATOR_VERSION}/typesafe-activator-${ACTIVATOR_VERSION}-minimal.zip
   - unzip -q typesafe-activator-${ACTIVATOR_VERSION}-minimal.zip

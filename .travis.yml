@@ -1,12 +1,18 @@
 language: java
 env:
   - ACTIVATOR_VERSION=1.1.3
-before_script: 
-  - wget http://downloads.typesafe.com/typesafe-activator/${ACTIVATOR_VERSION}/typesafe-activator-${ACTIVATOR_VERSION}-minimal.zip
-  - unzip -q typesafe-activator-${ACTIVATOR_VERSION}-minimal.zip
-script: "cd code && ../activator-${ACTIVATOR_VERSION}-minimal/activator test publish-local && cd ../test-app && ../activator-${ACTIVATOR_VERSION}-minimal/activator test && cd ../samples/java/play-authenticate-usage && ../../../activator-${ACTIVATOR_VERSION}-minimal/activator test && cd ../play-authenticate-simple-oauth && ../../../activator-${ACTIVATOR_VERSION}-minimal/activator test"
+  - ACTIVATOR_ZIP_FILE=typesafe-activator-${ACTIVATOR_VERSION}-minimal.zip
+  - ACTIVATOR_ZIP_URL=http://downloads.typesafe.com/typesafe-activator/${ACTIVATOR_VERSION}/${ACTIVATOR_ZIP_FILE}
+  - ACTIVATOR_BIN=${TRAVIS_BUILD_DIR}/activator-${ACTIVATOR_VERSION}-minimal/activator
+install: 
+  - wget ${ACTIVATOR_ZIP_URL}
+  - unzip -q ${ACTIVATOR_ZIP_FILE}
+script:
+  - "cd $TRAVIS_BUILD_DIR/code"
+  - "cd $TRAVIS_BUILD_DIR/code && ${ACTIVATOR_BIN} test publish-local"
+  - "cd $TRAVIS_BUILD_DIR/test-app ${ACTIVATOR_BIN} test"
+  - "cd $TRAVIS_BUILD_DIR/samples/java/play-authenticate-usage && ${ACTIVATOR_BIN} test"
+  - "cd $TRAVIS_BUILD_DIR/play-authenticate-simple-oauth && ${ACTIVATOR_BIN} test"
 notifications:
   # Email notifications are disabled to not annoy anybody.
-  # See http://about.travis-ci.org/docs/user/build-configuration/ to learn more
-  # about configuring notification recipients and more.
   email: false

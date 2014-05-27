@@ -1,6 +1,6 @@
 language: java # to trigger the build on JVM worker ('language: java' works the same)
 env:
-  - PLAY_VERSION=2.2.1
+  - PLAY_VERSION=2.3-M1
 before_script: 
   - wget http://downloads.typesafe.com/play/${PLAY_VERSION}/play-${PLAY_VERSION}.zip
   - unzip -q play-${PLAY_VERSION}.zip 

@@ -4,8 +4,8 @@ import java.util.Collections;
 import java.util.Map;
 
 import play.Application;
-import play.libs.WS;
-import play.libs.WS.Response;
+import play.libs.ws.WS;
+import play.libs.ws.WSResponse;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.feth.play.module.pa.exceptions.AccessTokenException;
@@ -39,7 +39,7 @@ public class GithubAuthProvider extends
 
         final String url = getConfiguration().getString(
                 USER_INFO_URL_SETTING_KEY);
-        final Response r = WS
+        final WSResponse r = WS
                 .url(url)
                 .setQueryParameter(Constants.ACCESS_TOKEN,
                         info.getAccessToken()).get()
@@ -55,7 +55,7 @@ public class GithubAuthProvider extends
     }
 
     @Override
-    protected GithubAuthInfo buildInfo(final Response r)
+    protected GithubAuthInfo buildInfo(final WSResponse r)
             throws AccessTokenException {
         final JsonNode n = r.asJson();
 

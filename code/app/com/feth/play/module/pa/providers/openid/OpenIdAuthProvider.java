@@ -9,8 +9,8 @@ import play.Configuration;
 import play.Logger;
 import play.api.libs.openid.OpenIDError;
 import play.libs.F.Promise;
-import play.libs.OpenID;
-import play.libs.OpenID.UserInfo;
+import play.libs.openid.OpenID;
+import play.libs.openid.OpenID.UserInfo;
 import play.mvc.Http.Context;
 import play.mvc.Http.Request;
 
@@ -79,7 +79,7 @@ public class OpenIdAuthProvider extends ExternalAuthProvider {
 						payload.toString(), getRedirectUrl(context.request()),
 						required, optional);
 
-				return pr.get();
+				return pr.get(getTimeout());
 			} catch (final Throwable t) {
 				if (t instanceof java.net.ConnectException) {
 					throw new OpenIdConnectException(t.getMessage());

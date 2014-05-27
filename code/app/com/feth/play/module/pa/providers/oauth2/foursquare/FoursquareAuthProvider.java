@@ -2,8 +2,8 @@ package com.feth.play.module.pa.providers.oauth2.foursquare;
 
 import play.Application;
 import play.Logger;
-import play.libs.WS;
-import play.libs.WS.Response;
+import play.libs.ws.WS;
+import play.libs.ws.WSResponse;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.feth.play.module.pa.exceptions.AccessTokenException;
@@ -25,7 +25,7 @@ public class FoursquareAuthProvider extends
 	}
 
 	@Override
-	protected FoursquareAuthInfo buildInfo(final Response r)
+	protected FoursquareAuthInfo buildInfo(final WSResponse r)
 			throws AccessTokenException {
 
 		if (r.getStatus() >= 400) {
@@ -45,7 +45,7 @@ public class FoursquareAuthProvider extends
 
 		final String url = getConfiguration().getString(
 				USER_INFO_URL_SETTING_KEY);
-		final Response r = WS
+		final WSResponse r = WS
 				.url(url)
 				.setQueryParameter(OAUTH_TOKEN,
 						info.getAccessToken())

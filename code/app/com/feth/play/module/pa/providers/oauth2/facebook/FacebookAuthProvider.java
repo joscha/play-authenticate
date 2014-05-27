@@ -10,8 +10,8 @@ import org.apache.http.client.utils.URLEncodedUtils;
 
 import play.Application;
 import play.Logger;
-import play.libs.WS;
-import play.libs.WS.Response;
+import play.libs.ws.WS;
+import play.libs.ws.WSResponse;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.feth.play.module.pa.exceptions.AccessTokenException;
@@ -42,7 +42,7 @@ public class FacebookAuthProvider extends
 				USER_INFO_URL_SETTING_KEY);
 		final String fields = getConfiguration().getString(
 				USER_INFO_FIELDS_SETTING_KEY);
-		final Response r = WS
+		final WSResponse r = WS
 				.url(url)
 				.setQueryParameter(OAuth2AuthProvider.Constants.ACCESS_TOKEN,
 						info.getAccessToken())
@@ -64,7 +64,7 @@ public class FacebookAuthProvider extends
 	}
 
 	@Override
-	protected FacebookAuthInfo buildInfo(final Response r)
+	protected FacebookAuthInfo buildInfo(final WSResponse r)
 			throws AccessTokenException {
 		if (r.getStatus() >= 400) {
 			throw new AccessTokenException(r.asJson().get(ERROR).get(MESSAGE).asText());

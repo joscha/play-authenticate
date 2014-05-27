@@ -12,7 +12,7 @@ script:
   - "cd $TRAVIS_BUILD_DIR/code && ${ACTIVATOR_BIN} publish-local"
   - "cd $TRAVIS_BUILD_DIR/test-app && ${ACTIVATOR_BIN} test"
   - "cd $TRAVIS_BUILD_DIR/samples/java/play-authenticate-usage && ${ACTIVATOR_BIN} test"
-  - "cd $TRAVIS_BUILD_DIR/play-authenticate-simple-oauth && ${ACTIVATOR_BIN} test"
+  - "cd $TRAVIS_BUILD_DIR/samples/java/play-authenticate-simple-oauth && ${ACTIVATOR_BIN} test"
 notifications:
   # Email notifications are disabled to not annoy anybody.
   email: false

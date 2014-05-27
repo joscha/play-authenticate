@@ -8,8 +8,9 @@ install:
   - wget ${ACTIVATOR_ZIP_URL}
   - unzip -q ${ACTIVATOR_ZIP_FILE}
 script:
-  - "cd $TRAVIS_BUILD_DIR/code && ${ACTIVATOR_BIN} test publish-local"
-  - "cd $TRAVIS_BUILD_DIR/test-app ${ACTIVATOR_BIN} test"
+  - "cd $TRAVIS_BUILD_DIR/code && ${ACTIVATOR_BIN} test"
+  - "cd $TRAVIS_BUILD_DIR/code && ${ACTIVATOR_BIN} publish-local"
+  - "cd $TRAVIS_BUILD_DIR/test-app && ${ACTIVATOR_BIN} test"
   - "cd $TRAVIS_BUILD_DIR/samples/java/play-authenticate-usage && ${ACTIVATOR_BIN} test"
   - "cd $TRAVIS_BUILD_DIR/play-authenticate-simple-oauth && ${ACTIVATOR_BIN} test"
 notifications:

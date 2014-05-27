@@ -2,8 +2,8 @@ package com.feth.play.module.pa.providers.oauth2.google;
 
 import play.Application;
 import play.Logger;
-import play.libs.WS;
-import play.libs.WS.Response;
+import play.libs.ws.WS;
+import play.libs.ws.WSResponse;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.feth.play.module.pa.exceptions.AccessTokenException;
@@ -32,7 +32,7 @@ public class GoogleAuthProvider extends
 
 		final String url = getConfiguration().getString(
 				USER_INFO_URL_SETTING_KEY);
-		final Response r = WS
+		final WSResponse r = WS
 				.url(url)
 				.setQueryParameter(OAuth2AuthProvider.Constants.ACCESS_TOKEN,
 						info.getAccessToken()).get()
@@ -49,7 +49,7 @@ public class GoogleAuthProvider extends
 	}
 
 	@Override
-	protected GoogleAuthInfo buildInfo(final Response r)
+	protected GoogleAuthInfo buildInfo(final WSResponse r)
 			throws AccessTokenException {
 		final JsonNode n = r.asJson();
 		Logger.debug(n.toString());

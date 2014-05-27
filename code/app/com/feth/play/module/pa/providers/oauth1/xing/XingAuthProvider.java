@@ -3,8 +3,8 @@ package com.feth.play.module.pa.providers.oauth1.xing;
 import java.util.List;
 
 import play.Application;
-import play.api.libs.oauth.OAuthCalculator;
-import play.api.libs.oauth.RequestToken;
+import play.libs.oauth.OAuth.OAuthCalculator;
+import play.libs.oauth.OAuth.RequestToken;
 import play.mvc.Http;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -34,7 +34,7 @@ public class XingAuthProvider extends
 	@Override
 	protected XingAuthInfo buildInfo(RequestToken rtoken)
 			throws AccessTokenException {
-		return new XingAuthInfo(rtoken.token(), rtoken.secret());
+		return new XingAuthInfo(rtoken.token, rtoken.secret);
 	}
 
 	@Override

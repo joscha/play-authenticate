@@ -2,7 +2,8 @@ package com.feth.play.module.pa.providers.oauth2.vk;
 
 import play.Application;
 import play.Logger;
-import play.libs.WS;
+import play.libs.ws.WS;
+import play.libs.ws.WSResponse;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.feth.play.module.pa.exceptions.AccessTokenException;
@@ -36,7 +37,7 @@ public class VkAuthProvider extends OAuth2AuthProvider<VkAuthUser, VkAuthInfo> {
 				USER_INFO_URL_SETTING_KEY);
 		final String fields = getConfiguration().getString(
 				USER_INFO_FIELDS_SETTING_KEY);
-		final WS.Response r = WS.url(url)
+		final WSResponse r = WS.url(url)
 				.setQueryParameter(UIDS_REQUEST_KEY, info.getUserId())
 				.setQueryParameter(FIELDS_REQUEST_KEY, fields).get()
 				.get(getTimeout());
@@ -58,7 +59,7 @@ public class VkAuthProvider extends OAuth2AuthProvider<VkAuthUser, VkAuthInfo> {
 	}
 
 	@Override
-	protected VkAuthInfo buildInfo(final WS.Response r)
+	protected VkAuthInfo buildInfo(final WSResponse r)
 			throws AccessTokenException {
 		final JsonNode n = r.asJson();
 		Logger.debug(n.toString());

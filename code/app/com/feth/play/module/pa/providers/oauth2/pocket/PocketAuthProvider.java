@@ -15,8 +15,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import play.Application;
 import play.Configuration;
-import play.libs.WS;
-import play.libs.WS.Response;
+import play.libs.ws.WS;
+import play.libs.ws.WSResponse;
 import play.mvc.Http.Request;
 
 import com.feth.play.module.pa.exceptions.AccessTokenException;
@@ -65,7 +65,7 @@ public class PocketAuthProvider extends
 	}
 
 	@Override
-	protected PocketAuthInfo buildInfo(final Response r)
+	protected PocketAuthInfo buildInfo(final WSResponse r)
 			throws AccessTokenException {
 		if (r.getStatus() >= 400) {
 			throw new AccessTokenException(r.asJson().asText());
@@ -101,7 +101,7 @@ public class PocketAuthProvider extends
 	private String getRequestToken(final Request request) throws AuthException {
 		final Configuration c = getConfiguration();
 		final List<NameValuePair> params = getRequestTokenParams(request, c);
-		final Response r = WS.url(c.getString(SettingKeys.REQUEST_TOKEN_URL))
+		final WSResponse r = WS.url(c.getString(SettingKeys.REQUEST_TOKEN_URL))
 				.setHeader("Content-Type", "application/json")
 				.setHeader("X-Accept", "application/json")
 				.post(encodeParamsAsJson(params)).get(getTimeout());

@@ -3,23 +3,19 @@ package com.feth.play.module.pa.providers.oauth1;
 import java.util.ArrayList;
 import java.util.List;
 
-import oauth.signpost.exception.OAuthException;
 import play.Application;
 import play.Configuration;
 import play.Logger;
-import play.api.libs.json.JsValue;
-import play.api.libs.oauth.ConsumerKey;
-import play.api.libs.oauth.OAuth;
-import play.api.libs.oauth.OAuthCalculator;
-import play.api.libs.oauth.RequestToken;
-import play.api.libs.oauth.ServiceInfo;
-import play.api.libs.ws.Response;
-import play.api.libs.ws.WS;
-import play.libs.Json;
+import play.libs.F;
+import play.libs.oauth.OAuth;
+import play.libs.oauth.OAuth.OAuthCalculator;
+import play.libs.oauth.OAuth.ConsumerKey;
+import play.libs.oauth.OAuth.RequestToken;
+import play.libs.oauth.OAuth.ServiceInfo;
+import play.libs.ws.WS;
+import play.libs.ws.WSResponse;
 import play.mvc.Http.Context;
 import play.mvc.Http.Request;
-import scala.concurrent.Future;
-import scala.util.Either;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.feth.play.module.pa.PlayAuthenticate;
@@ -113,37 +109,33 @@ public abstract class OAuth1AuthProvider<U extends AuthUserIdentity, I extends O
 			final RequestToken rtoken = (RequestToken) PlayAuthenticate
 					.removeFromCache(context.session(), CACHE_TOKEN);
 			final String verifier = request.getQueryString(Constants.OAUTH_VERIFIER);
-			final Either<OAuthException, RequestToken> retrieveAccessToken = service
-					.retrieveAccessToken(rtoken, verifier);
-
-			if (retrieveAccessToken.isLeft()) {
-				throw new AuthException(retrieveAccessToken.left().get()
-						.getLocalizedMessage());
-			} else {
-				final I i = buildInfo(retrieveAccessToken.right().get());
+			try {
+				final RequestToken response = service
+						.retrieveAccessToken(rtoken, verifier);
+				final I i = buildInfo(response);
 				return transform(i);
+			} catch (RuntimeException ex) {
+				throw new AuthException(ex
+						.getLocalizedMessage());
 			}
 		} else {
 
 			final String callbackURL = getRedirectUrl(request);
 
-			final Either<OAuthException, RequestToken> response = service
-					.retrieveRequestToken(callbackURL);
-
-			if (response.isLeft()) {
-				// Exception happened
-				throw new AuthException(response.left().get()
-						.getLocalizedMessage());
-			} else {
+			try {
+				final RequestToken response = service
+						.retrieveRequestToken(callbackURL);
 				// All good, we have the request token
-				final RequestToken rtoken = response.right().get();
-
-				final String token = rtoken.token();
+				final String token = response.token;
 				final String redirectUrl = service.redirectUrl(token);
 
 				PlayAuthenticate.storeInCache(context.session(), CACHE_TOKEN,
-						rtoken);
+						response);
 				return redirectUrl;
+			} catch (RuntimeException ex) {
+				// Exception happened
+				throw new AuthException(ex
+						.getLocalizedMessage());
 			}
 		}
 
@@ -151,10 +143,9 @@ public abstract class OAuth1AuthProvider<U extends AuthUserIdentity, I extends O
 
 	protected JsonNode signedOauthGet(final String url,
 			final OAuthCalculator calculator) {
-		final Future<Response> future = WS.url(url).sign(calculator).get();
-		final play.api.libs.ws.Response response = play.libs.F.Promise.wrap(future).get(getTimeout());
-		final JsValue json = response.json();
-		return Json.parse(json.toString());
+		final F.Promise<WSResponse> promise = WS.url(url).sign(calculator).get();
+		final WSResponse response = promise.get(getTimeout());
+		return response.asJson();
 	}
 
 	protected OAuthCalculator getOAuthCalculator(final OAuth1AuthInfo info) {

@@ -9,8 +9,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import play.Application;
 import play.Configuration;
 import play.Logger;
-import play.libs.WS;
-import play.libs.WS.Response;
+import play.libs.ws.WS;
+import play.libs.ws.WSResponse;
 import play.mvc.Http.Request;
 
 import com.feth.play.module.pa.exceptions.AccessTokenException;
@@ -58,7 +58,7 @@ public class UntappdAuthProvider extends
 		final String url = getConfiguration().getString(
 				USER_INFO_URL_SETTING_KEY);
 
-		final Response r = WS
+		final WSResponse r = WS
 				.url(url)
 				.setQueryParameter(OAuth2AuthProvider.Constants.ACCESS_TOKEN,
 						info.getAccessToken()).get()
@@ -92,7 +92,7 @@ public class UntappdAuthProvider extends
 
 		final String url = c.getString(SettingKeys.ACCESS_TOKEN_URL);
 
-		final Response r = WS
+		final WSResponse r = WS
 				.url(url)
 				.setQueryParameter(Constants.CLIENT_ID,
 						c.getString(SettingKeys.CLIENT_ID))
@@ -118,7 +118,7 @@ public class UntappdAuthProvider extends
 	}
 
 	@Override
-	protected UntappdAuthInfo buildInfo(final Response r)
+	protected UntappdAuthInfo buildInfo(final WSResponse r)
 			throws AccessTokenException {
 		final JsonNode n = r.asJson();
 

@@ -25,4 +25,4 @@ resolvers ++= Seq(
   Resolver.url("play-easymail (snapshot)", url("http://joscha.github.com/play-easymail/repo/snapshots/"))(Resolver.ivyStylePatterns)
 )
 
-lazy val root = (project in file(".")).addPlugins(PlayJava)
+lazy val root = (project in file(".")).enablePlugins(PlayJava)

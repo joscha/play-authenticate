@@ -17,3 +17,10 @@ samples/java/play-authenticate-usage/target
 samples
 code/.idea
 code/.idea_modules
+test-app/.idea
+test-app/.idea_modules
+test-app/.settings
+test-app/logs
+test-app/project/project
+test-app/project/target
+test-app/target

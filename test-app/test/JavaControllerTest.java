@@ -8,7 +8,6 @@ import static play.test.Helpers.running;
 import static play.test.Helpers.status;
 import static play.mvc.Http.Status.OK;
 import static play.mvc.Http.Status.SEE_OTHER;
-import static scala.collection.JavaConversions.asJavaMap;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,9 +15,11 @@ import java.util.concurrent.TimeUnit;
 
 import javax.mail.Session;
 
+import org.apache.commons.lang3.concurrent.ConcurrentUtils;
 import org.junit.Test;
 
 import akka.util.Timeout;
+import org.springframework.scheduling.annotation.AsyncResult;
 import play.Logger;
 import play.Play;
 import play.libs.F.Promise;
@@ -29,6 +30,7 @@ import play.test.FakeApplication;
 import play.test.FakeRequest;
 import play.test.Helpers;
 import providers.TestUsernamePasswordAuthProvider;
+import scalaz.concurrent.Future;
 import service.TestUserServicePlugin;
 
 import com.feth.play.module.pa.service.UserServicePlugin;
@@ -102,10 +104,7 @@ public class JavaControllerTest {
 			assertThat(status(result)).isEqualTo(SEE_OTHER);
 			assertThat(redirectLocation(result)).isEqualTo("/");
 			// Create a Java session from the Scala session
-			Map<String, String> sessionData = asJavaMap(play.api.test.Helpers
-					.session(result.getWrappedResult(), Timeout.apply(30000))
-					.data());
-			return new Http.Session(sessionData);
+            return play.test.Helpers.session(result);
 		}
 	}
 

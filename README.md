@@ -17,7 +17,7 @@ Works fine with `2.0` to `2.0.x`, `2.1.0` to `2.1.x` and `2.2.0` to `2.2.2`.
 [![Build Status](https://travis-ci.org/joscha/play-authenticate.png?branch=master)](https://travis-ci.org/joscha/play-authenticate)
 
 ## Live demo
-You can find a live demo on [heroku](https://play-authenticate.herokuapp.com/ "Play Authenticate sample app") (might not always be the latest version) and there are some screens on our [website](http://joscha.github.com/play-authenticate/).
+You can find a live demo on [heroku](https://play-authenticate.herokuapp.com/ "Play Authenticate sample app") (might not always be the latest version) and there are some screens on our [website](http://joscha.github.io/play-authenticate/).
 
 ## Features
 

@@ -6,6 +6,7 @@ This plugin uses concepts from [securesocial2][] and [Play20StartApp][] and prov
 **Play Authenticate currently needs Play! Framework 2.0.2 or later**
 
 Works fine with
+
 * `2.0.2` to `2.0.x` (last: `0.2.3-SNAPSHOT` - [2.0.x branch](https://github.com/joscha/play-authenticate/tree/2.0.x))
 * `2.1.0` to `2.1.x` (last: `0.3.5-SNAPSHOT` - [2.1.x branch](https://github.com/joscha/play-authenticate/tree/2.1.x))
 * `2.2.0` to `2.2.x` (last: `0.5.2-SNAPSHOT` - [2.2.x branch](https://github.com/joscha/play-authenticate/tree/2.2.x))
@@ -44,6 +45,8 @@ As of now, the following authentication providers are supported out of the box:
   * ![Xing](samples/java/play-authenticate-usage/public/icons/xing-24x24.png)
 * ![OpenID](samples/java/play-authenticate-usage/public/icons/openid-24x24.png) OpenID
 * ![E-Mail](samples/java/play-authenticate-usage/public/icons/password-24x24.png) Email/Password (with email verification, password security/encryption is fully customizable)
+* Basic Authentication
+* [SPNEGO](http://en.wikipedia.org/wiki/SPNEGO)
 * Your very own authentication provider (LDAP, DB, you-name-it) via an extensible, easy-to-use plugin mechanism based on Play Plugins
 
 The included sample application shows how to use all of those providers.
@@ -59,6 +62,8 @@ The included sample application shows how to use all of those providers.
 
 ## Versions
 * **TRUNK** [not released in the repository, yet]
+  * Add Basic Auth provider (thanks @fhars)
+  * Add SPNEGO Auth provider (thanks @fhars) 
 * **0.6.1-SNAPSHOT** [2014-06-29]
   * Add Scala 2.10.x binary to repository
   * Travis testing against Scala 2.10.x

@@ -1,4 +1,3 @@
-import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.providers.oauth2.google.GoogleAuthProvider;
 import com.feth.play.module.pa.providers.oauth2.google.GoogleAuthUser;
 import com.feth.play.module.pa.user.AuthUser;
@@ -10,16 +9,15 @@ import play.test.Helpers;
 import play.test.TestBrowser;
 import play.test.WithBrowser;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-//import static org.mockito.Mockito.*;
-
 import static org.fest.assertions.Assertions.assertThat;
 
-public class OAuth2Test extends WithBrowser {
+public class GoogleOAuth2Test extends WithBrowser {
 
 
     public static final String GOOGLE_USER_EMAIL = "fethjoscha@gmail.com";
@@ -59,17 +57,18 @@ public class OAuth2Test extends WithBrowser {
     @Override
     protected FakeApplication provideFakeApplication() {
 
-
-
         final Map<String, String> additionalConfiguration = new HashMap<String, String>();
-
+        additionalConfiguration.put("smtp.mock", "true");
         additionalConfiguration.putAll(Helpers.inMemoryDatabase());
         additionalConfiguration.put("play-authenticate.google.clientId", System.getenv("GOOGLE_CLIENT_ID"));
         additionalConfiguration.put("play-authenticate.google.clientSecret", System.getenv("GOOGLE_CLIENT_SECRET"));
 
         return Helpers.fakeApplication(
                 additionalConfiguration,
-                Collections.singletonList(MyTestUserServicePlugin.class.getName()),
+                Arrays.asList(
+                        MyTestUserServicePlugin.class.getName(),
+                        com.feth.play.module.pa.providers.oauth2.google.GoogleAuthProvider.class.getName()
+                ),
                 Collections.singletonList(service.MyUserServicePlugin.class.getName())
         );
     }

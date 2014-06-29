@@ -1,3 +1,5 @@
+import play.PlayJava
+
 name := "play-authenticate-usage"
 
 scalaVersion := "2.11.1"
@@ -6,7 +8,7 @@ version := "1.0-SNAPSHOT"
 
 val appDependencies = Seq(
   "be.objectify"  %% "deadbolt-java"     % "2.3.0-RC1",
-  // Comment this for local development of the Play Authentication core:
+  // Comment the next line for local development of the Play Authentication core:
   "com.feth"      %% "play-authenticate" % "0.6.0-SNAPSHOT",
   "postgresql"    %  "postgresql"        % "9.1-901-1.jdbc4",
   javaCore,
@@ -32,7 +34,7 @@ lazy val root = (project in file("."))
     libraryDependencies ++= appDependencies
   )
 
-//  Uncomment this for local development of the Play Authenticate core:
+//  Uncomment the next lines for local development of the Play Authenticate core:
 // lazy val playAuthenticate = (project in file("modules/play-authenticate")).enablePlugins(PlayJava)
 
 // root

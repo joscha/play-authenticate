@@ -1,3 +1,5 @@
+import play.PlayJava
+
 organization := "com.feth"
 
 name := "play-authenticate-tests"
@@ -5,16 +7,6 @@ name := "play-authenticate-tests"
 scalaVersion := "2.11.1"
 
 version := "1.0-SNAPSHOT"
-
-libraryDependencies ++= Seq(
-  "org.apache.httpcomponents" % "httpclient" % "4.3.4",
-  "com.feth" %% "play-easymail" % "0.6.0-SNAPSHOT",
-  "org.mindrot" % "jbcrypt" % "0.3m",
-  "commons-lang" % "commons-lang" % "2.6",
-  javaCore,
-  cache,
-  javaWs
-)
 
 resolvers ++= Seq(
   "Apache" at "http://repo1.maven.org/maven2/",

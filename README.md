@@ -64,6 +64,11 @@ The included sample application shows how to use all of those providers.
 
 ## Versions
 * **TRUNK** [not released in the repository, yet]
+  **0.6.1-SNAPSHOT** [2014-06-29]
+  * Add Scala 2.10.x binary to repository
+  * Test against Scala 2.10.x
+  * Fix repository URLs
+  * Added simple OAuth2 test
 * **0.6.0-SNAPSHOT** [2014-06-10]
   * First release for Play 2.3.x
   * Japanese localization (thanks @naruoga)

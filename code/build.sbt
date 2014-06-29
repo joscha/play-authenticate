@@ -2,9 +2,14 @@ organization := "com.feth"
 
 name := "play-authenticate"
 
-scalaVersion := "2.11.1"
+scalaVersion := Option(System.getProperty("scala.version")).getOrElse("2.11.1")
 
 version := "0.6.1-SNAPSHOT"
+
+publishTo <<= (version) { version: String =>
+  if (version.trim.endsWith("SNAPSHOT")) Some(Resolver.file("file",  new File( "../repo/snapshots" )))
+  else                                   Some(Resolver.file("file",  new File( "../repo/releases" )))
+}
 
 libraryDependencies ++= Seq(
   "org.apache.httpcomponents" % "httpclient" % "4.3.4",

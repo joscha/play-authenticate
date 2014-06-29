@@ -9,7 +9,7 @@ version := "1.0-SNAPSHOT"
 val appDependencies = Seq(
   "be.objectify"  %% "deadbolt-java"     % "2.3.0-RC1",
   // Comment the next line for local development of the Play Authentication core:
-  "com.feth"      %% "play-authenticate" % "0.6.0-SNAPSHOT",
+  "com.feth"      %% "play-authenticate" % "0.6.1-SNAPSHOT",
   "postgresql"    %  "postgresql"        % "9.1-901-1.jdbc4",
   javaCore,
   cache,
@@ -28,15 +28,14 @@ resolvers ++= Seq(
   Resolver.url("play-authenticate (snapshot)", url("http://joscha.github.io/play-authenticate/repo/snapshots/"))(Resolver.ivyStylePatterns)
 )
 
-lazy val root = (project in file("."))
+//  Uncomment the next line for local development of the Play Authenticate core:
+//lazy val playAuthenticate = project.in(file("modules/play-authenticate")).enablePlugins(PlayJava)
+
+lazy val root = project.in(file("."))
   .enablePlugins(PlayJava)
   .settings(
     libraryDependencies ++= appDependencies
   )
-
-//  Uncomment the next lines for local development of the Play Authenticate core:
-// lazy val playAuthenticate = (project in file("modules/play-authenticate")).enablePlugins(PlayJava)
-
-// root
-//  .dependsOn(playAuthenticate)
-//  .aggregate(playAuthenticate)
+  //  Uncomment the next lines for local development of the Play Authenticate core:
+  //.dependsOn(playAuthenticate)
+  //.aggregate(playAuthenticate)

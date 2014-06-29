@@ -7,15 +7,17 @@ before_install:
   - "sh -e /etc/init.d/xvfb start"
 script:
 - cd $TRAVIS_BUILD_DIR/code
+- sbt --warn ++$TRAVIS_SCALA_VERSION compile
 - sbt ++$TRAVIS_SCALA_VERSION test
-- sbt ++$TRAVIS_SCALA_VERSION publish-local
+- sbt --warn ++$TRAVIS_SCALA_VERSION publish-local
 - cd $TRAVIS_BUILD_DIR/test-app
 - sbt ++$TRAVIS_SCALA_VERSION test
 - cd $TRAVIS_BUILD_DIR/samples/java/play-authenticate-usage
-- sbt ++$TRAVIS_SCALA_VERSION compile
+- sbt --warn ++$TRAVIS_SCALA_VERSION compile
 - if [[ "$TRAVIS_SECURE_ENV_VARS" == "true" ]]; then sbt ++$TRAVIS_SCALA_VERSION test;
   fi
 - cd $TRAVIS_BUILD_DIR/samples/java/play-authenticate-simple-oauth
+- sbt --warn ++$TRAVIS_SCALA_VERSION compile
 - sbt ++$TRAVIS_SCALA_VERSION test
 notifications:
   email: false

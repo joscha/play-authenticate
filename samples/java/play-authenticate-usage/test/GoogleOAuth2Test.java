@@ -58,8 +58,10 @@ public class GoogleOAuth2Test extends WithBrowser {
     protected FakeApplication provideFakeApplication() {
 
         final Map<String, String> additionalConfiguration = new HashMap<String, String>();
-        additionalConfiguration.put("smtp.mock", "true");
         additionalConfiguration.putAll(Helpers.inMemoryDatabase());
+        additionalConfiguration.put("smtp.mock", "true");
+        additionalConfiguration.put("logger.application", "WARN");
+
         additionalConfiguration.put("play-authenticate.google.clientId", System.getenv("GOOGLE_CLIENT_ID"));
         additionalConfiguration.put("play-authenticate.google.clientSecret", System.getenv("GOOGLE_CLIENT_SECRET"));
 

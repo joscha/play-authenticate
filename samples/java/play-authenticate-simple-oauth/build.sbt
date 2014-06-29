@@ -7,7 +7,7 @@ scalaVersion := "2.11.1"
 version := "1.0-SNAPSHOT"
 
 val appDependencies = Seq(
-  "com.feth" %% "play-authenticate" % "0.6.0-SNAPSHOT",
+  "com.feth" %% "play-authenticate" % "0.6.1-SNAPSHOT",
   javaCore,
   cache,
   javaWs,
@@ -17,10 +17,10 @@ val appDependencies = Seq(
 resolvers ++= Seq(
   "Apache" at "http://repo1.maven.org/maven2/",
   "jBCrypt Repository" at "http://repo1.maven.org/maven2/org/",
-  Resolver.url("play-easymail (release)", url("http://joscha.github.io/play-easymail/repo/releases/"))(Resolver.ivyStylePatterns),
-  Resolver.url("play-easymail (snapshot)", url("http://joscha.github.io/play-easymail/repo/snapshots/"))(Resolver.ivyStylePatterns),
-  Resolver.url("play-authenticate (release)", url("http://joscha.github.io/play-authenticate/repo/releases/"))(Resolver.ivyStylePatterns),
-  Resolver.url("play-authenticate (snapshot)", url("http://joscha.github.io/play-authenticate/repo/snapshots/"))(Resolver.ivyStylePatterns)
+  "play-easymail (release)" at "http://joscha.github.io/play-easymail/repo/releases/",
+  "play-easymail (snapshot)" at "http://joscha.github.io/play-easymail/repo/snapshots/",
+  "play-authenticate (release)" at "http://joscha.github.io/play-authenticate/repo/releases/",
+  "play-authenticate (snapshot)" at "http://joscha.github.io/play-authenticate/repo/snapshots/"
 )
 
 lazy val root = (project in file("."))

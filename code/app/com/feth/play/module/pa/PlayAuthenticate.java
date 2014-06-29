@@ -438,6 +438,8 @@ public abstract class PlayAuthenticate {
 			final Object o = ap.authenticate(context, payload);
 			if (o instanceof String) {
 				return Controller.redirect((String) o);
+			} else if (o instanceof Result) {
+				return (Result) o;
 			} else if (o instanceof AuthUser) {
 
 				final AuthUser newUser = (AuthUser) o;

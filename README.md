@@ -62,8 +62,10 @@ The included sample application shows how to use all of those providers.
 
 ## Versions
 * **TRUNK** [not released in the repository, yet]
+  * Fancy contributing something? :-)
+* **0.6.2-SNAPSHOT** [2014-06-29]
   * Add Basic Auth provider (thanks @fhars)
-  * Add SPNEGO Auth provider (thanks @fhars) 
+  * Add SPNEGO Auth provider (thanks @fhars)
 * **0.6.1-SNAPSHOT** [2014-06-29]
   * Add Scala 2.10.x binary to repository
   * Travis testing against Scala 2.10.x

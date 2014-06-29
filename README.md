@@ -1,23 +1,18 @@
-# play-authenticate - An extensible authentication plugin for Play! Framework 2 (Java)
+# [![Build Status](https://travis-ci.org/joscha/play-authenticate.png?branch=master)](https://travis-ci.org/joscha/play-authenticate) PlayAuthenticate - An extensible authentication plugin for Play! Framework 2 (Java)
 
 This plugin uses concepts from [securesocial2][] and [Play20StartApp][] and provides a sample containing code from [deadbolt2][].
 
 #### Version information
 **Play Authenticate currently needs Play! Framework 2.0.2 or later**
 
-Works fine with `2.0` to `2.0.x`, `2.1.0` to `2.1.x` and `2.2.0` to `2.2.2`.
-
-> **Attention 2.0.x developers**  
->_There is a `0.2.3-SNAPSHOT` binary for Play `2.0.x` and an accompanying sample application in the [2.0.x branch](https://github.com/joscha/play-authenticate/tree/2.0.x). This sample differs substantially from the version for `2.1` though, because the deadbolt dependency changed. So if you plan on releasing for `2.0.x` don't take the `2.1` sample from the master stream and vice versa._
-
-> **Attention 2.1.x developers**  
->_There is a [2.1.x branch](https://github.com/joscha/play-authenticate/tree/2.1.x). The first version to support Play 2.1 is play-authenticate version `0.2.4`, the last one `0.3.5`._
-
-### Build status
-[![Build Status](https://travis-ci.org/joscha/play-authenticate.png?branch=master)](https://travis-ci.org/joscha/play-authenticate)
+Works fine with
+	* `2.0.2` to `2.0.x` (last: `0.2.3-SNAPSHOT` - [2.0.x branch](https://github.com/joscha/play-authenticate/tree/2.0.x))
+	* `2.1.0` to `2.1.x` (last: `0.3.5-SNAPSHOT` - [2.1.x branch](https://github.com/joscha/play-authenticate/tree/2.1.x))
+	* `2.2.0` to `2.2.x` (last: `0.5.2-SNAPSHOT` - [2.2.x branch](https://github.com/joscha/play-authenticate/tree/2.2.x))
+	* `2.3.0` to `2.3.1` (last: `0.6.1-SNAPSHOT` - [2.3.x branch](https://github.com/joscha/play-authenticate/tree/master))
 
 ## Live demo
-You can find a live demo on [heroku](https://play-authenticate.herokuapp.com/ "Play Authenticate sample app") (might not always be the latest version) and there are some screens on our [website](http://joscha.github.io/play-authenticate/).
+You can find a live demo on [heroku](https://play-authenticate.herokuapp.com/ "Play Authenticate sample app") (usually outdated) and there are some screens on our [website](http://joscha.github.io/play-authenticate/).
 
 ## Features
 
@@ -66,11 +61,11 @@ The included sample application shows how to use all of those providers.
 * **TRUNK** [not released in the repository, yet]
   **0.6.1-SNAPSHOT** [2014-06-29]
   * Add Scala 2.10.x binary to repository
-  * Test against Scala 2.10.x
-  * Fix repository URLs
+  * Travis testing against Scala 2.10.x
+  * Fix repository URLs (thanks @dobau)
   * Added simple OAuth2 test
 * **0.6.0-SNAPSHOT** [2014-06-10]
-  * First release for Play 2.3.x
+  * First release for Play 2.3.x (thanks @jakubvalenta)
   * Japanese localization (thanks @naruoga)
   * wanna contribute something? :)
 * **0.5.2-SNAPSHOT** [2013-11-11]

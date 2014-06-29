@@ -1,0 +1,7 @@
+@(providerName: String)(body: Boolean => play.twirl.api.Html)
+
+@import com.feth.play.module.pa.providers.AuthProvider.Registry
+
+@defining(boolean2Boolean(Registry.hasProvider(providerName))) { hasProvider: Boolean =>
+    @body(hasProvider)
+}

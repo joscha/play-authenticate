@@ -17,6 +17,7 @@ import play.i18n.Messages;
 import play.libs.ws.WS;
 import play.libs.ws.WSResponse;
 import play.libs.ws.WSRequestHolder;
+import play.mvc.Http;
 import play.mvc.Http.Context;
 import play.mvc.Http.Request;
 import play.mvc.Http.Session;
@@ -190,8 +191,13 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 			}
 		} else if (isCallbackRequest(context)) {
 			// second step in auth process
-            final String callbackState = request.getQueryString(Constants.STATE);
             final UUID storedState = PlayAuthenticate.getFromCache(context.session(), STATE_TOKEN);
+            if(storedState == null) {
+                Logger.warn("Cache either timed out, or you are using a setup with multiple servers and a non-shared cache implementation");
+                // we will just behave as if there was no auth, yet...
+                //return generateRedirectUrl(context, request);
+            }
+            final String callbackState = request.getQueryString(Constants.STATE);
             if(!storedState.equals(UUID.fromString(callbackState))) {
                 // the return callback may have been forged
                 throw new AuthException(Messages.get("playauthenticate.core.exception.oauth2.state_param_forged"));
@@ -201,15 +207,19 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
             return transform(info, callbackState);
 		} else {
 			// no auth, yet
-            final UUID state = UUID.randomUUID();
-            PlayAuthenticate.storeInCache(context.session(), STATE_TOKEN, state);
-			final String url = getAuthUrl(request, state.toString());
-			Logger.debug("generated redirect URL for dialog: " + url);
-			return url;
+            return generateRedirectUrl(context, request);
 		}
 	}
 
-	protected boolean isCallbackRequest(final Context context) {
+    private String generateRedirectUrl(Context context, Request request) throws AuthException {
+        final UUID state = UUID.randomUUID();
+        PlayAuthenticate.storeInCache(context.session(), STATE_TOKEN, state);
+        final String url = getAuthUrl(request, state.toString());
+        Logger.debug("generated redirect URL for dialog: " + url);
+        return url;
+    }
+
+    protected boolean isCallbackRequest(final Context context) {
 		return context.request().queryString().containsKey(Constants.CODE);
 	}
 

@@ -61,6 +61,7 @@ playauthenticate.login.password.placeholder=Passwort
 playauthenticate.login.now=Jetzt anmelden
 playauthenticate.login.forgot.password=Passwort vergessen?
 playauthenticate.login.oauth=oder melde dich mit einem der folgenden Dienste an:
+playauthenticate.login.basic=oder versuch es  mit HTTP basic auth (als example/secret)
 
 playauthenticate.signup.title=Registrierung
 playauthenticate.signup.name=Dein Name

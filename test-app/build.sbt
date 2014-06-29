@@ -13,7 +13,6 @@ resolvers ++= Seq(
   "jBCrypt Repository" at "http://repo1.maven.org/maven2/org/",
   "play-easymail (release)" at "http://joscha.github.io/play-easymail/repo/releases/",
   "play-easymail (snapshot)" at "http://joscha.github.io/play-easymail/repo/snapshots/",
-  Resolver.url("play-plugins (temporary)", url("http://joscha.github.io/play-easymail/repo/releases/"))(Resolver.ivyStylePatterns),
   Resolver.url("Objectify Play Repository", url("http://schaloner.github.io/releases/"))(Resolver.ivyStylePatterns)
 )
 

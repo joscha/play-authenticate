@@ -1,15 +1,23 @@
 language: scala
 scala:
-  - 2.11.1
+- 2.10.4
+- 2.11.1
 script:
-  - "cd $TRAVIS_BUILD_DIR/code"
-  - "sbt ++$TRAVIS_SCALA_VERSION test"
-  - "sbt ++$TRAVIS_SCALA_VERSION publish-local"
-  - "cd $TRAVIS_BUILD_DIR/test-app"
-  - "sbt ++$TRAVIS_SCALA_VERSION test"
-  - "cd $TRAVIS_BUILD_DIR/samples/java/play-authenticate-usage"
-  - "sbt ++$TRAVIS_SCALA_VERSION test"
-  - "cd $TRAVIS_BUILD_DIR/samples/java/play-authenticate-simple-oauth"
-  - "sbt ++$TRAVIS_SCALA_VERSION test"
+- cd $TRAVIS_BUILD_DIR/code
+- sbt ++$TRAVIS_SCALA_VERSION test
+- sbt ++$TRAVIS_SCALA_VERSION publish-local
+- cd $TRAVIS_BUILD_DIR/test-app
+- sbt ++$TRAVIS_SCALA_VERSION test
+- cd $TRAVIS_BUILD_DIR/samples/java/play-authenticate-usage
+- sbt ++$TRAVIS_SCALA_VERSION compile
+- if [[ "$TRAVIS_SECURE_ENV_VARS" == "true" ]]; then sbt ++$TRAVIS_SCALA_VERSION test;
+  fi
+- cd $TRAVIS_BUILD_DIR/samples/java/play-authenticate-simple-oauth
+- sbt ++$TRAVIS_SCALA_VERSION test
 notifications:
   email: false
+env:
+  global:
+  - secure: gm1FnnjROan7Fbq3ezsa49W1OpwgQBjPslBaWvubG8cx3EceYmnwmT1IaM2v+WnbU+MldODhQI9rNYluv6pkrKQRvu7oif3L0G+kbNvA/FGVNXwcraAQSv8duxmvu/bcB3MfoiKmlkNrGXqGJ4Cg2g/kNRQMj/kseYNCDLfKeY4=
+  - secure: eL98QzlGDfnX2y2kgPa9LN52kA2FevZmpD5KqghU0rMBm8lNO1/cHYQ6d8nsAI12MPi7ZAenOWppd525/SmUqoQgVOFVjahG4K1OKKHPf5XMrE/rkxgOOXhTTZsHsagecOV3GM8oR1IweOs7+/fWNArJXagDtq3k1/Ztd8V66cQ=
+  - secure: kNTriQH573IT4ikQ4LoVV9f7HlxHctKKye/dNwivvqrMPR4JXV6NzBj19nTwWJfOreGCMaYNXcPusF+t+ySZ2HI0TszaxmYFID8MPQlaclut1RguZ9H1nu4U02shk+dGI6kv8wftswRDSyfDRHuiFRMSedgnh+rNYzx6BKJLCL0=

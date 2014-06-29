@@ -7,7 +7,7 @@ scalaVersion := "2.11.1"
 version := "1.0-SNAPSHOT"
 
 val appDependencies = Seq(
-  "com.feth" %% "play-authenticate" % "0.6.0-SNAPSHOT",
+  "com.feth" %% "play-authenticate" % "0.6.1-SNAPSHOT",
   javaCore,
   cache,
   javaWs,

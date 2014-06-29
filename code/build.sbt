@@ -2,7 +2,9 @@ organization := "com.feth"
 
 name := "play-authenticate"
 
-scalaVersion := Option(System.getProperty("scala.version")).getOrElse("2.11.1")
+scalaVersion := "2.11.1"
+
+crossScalaVersions := Seq("2.10.4", "2.11.1")
 
 version := "0.6.1-SNAPSHOT"
 
@@ -24,8 +26,9 @@ libraryDependencies ++= Seq(
 resolvers ++= Seq(
   "Apache" at "http://repo1.maven.org/maven2/",
   "jBCrypt Repository" at "http://repo1.maven.org/maven2/org/",
-  Resolver.url("play-easymail (release)", url("http://joscha.github.io/play-easymail/repo/releases/"))(Resolver.ivyStylePatterns),
-  Resolver.url("play-easymail (snapshot)", url("http://joscha.github.io/play-easymail/repo/snapshots/"))(Resolver.ivyStylePatterns)
+  "play-easymail (release)" at "http://joscha.github.io/play-easymail/repo/releases/",
+  "play-easymail (snapshot)" at "http://joscha.github.io/play-easymail/repo/snapshots/",
+  Resolver.url("play-plugins (temporary)", url("http://joscha.github.io/play-easymail/repo/releases/"))(Resolver.ivyStylePatterns)
 )
 
 publishArtifact in packageDoc := false

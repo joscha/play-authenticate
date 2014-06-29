@@ -11,8 +11,9 @@ version := "1.0-SNAPSHOT"
 resolvers ++= Seq(
   "Apache" at "http://repo1.maven.org/maven2/",
   "jBCrypt Repository" at "http://repo1.maven.org/maven2/org/",
-  Resolver.url("play-easymail (release)", url("http://joscha.github.io/play-easymail/repo/releases/"))(Resolver.ivyStylePatterns),
-  Resolver.url("play-easymail (snapshot)", url("http://joscha.github.io/play-easymail/repo/snapshots/"))(Resolver.ivyStylePatterns),
+  "play-easymail (release)" at "http://joscha.github.io/play-easymail/repo/releases/",
+  "play-easymail (snapshot)" at "http://joscha.github.io/play-easymail/repo/snapshots/",
+  Resolver.url("play-plugins (temporary)", url("http://joscha.github.io/play-easymail/repo/releases/"))(Resolver.ivyStylePatterns),
   Resolver.url("Objectify Play Repository", url("http://schaloner.github.io/releases/"))(Resolver.ivyStylePatterns)
 )
 

@@ -16,7 +16,7 @@
 package providers;
 
 import play.Application;
-import play.mvc.Content;
+import play.twirl.api.Content;
 import play.mvc.Http.Context;
 import views.html.login;
 

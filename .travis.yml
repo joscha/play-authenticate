@@ -11,6 +11,7 @@ script:
 - sbt ++$TRAVIS_SCALA_VERSION test
 - sbt --warn ++$TRAVIS_SCALA_VERSION publish-local
 - cd $TRAVIS_BUILD_DIR/test-app
+- sbt --warn ++$TRAVIS_SCALA_VERSION compile
 - sbt ++$TRAVIS_SCALA_VERSION test
 - cd $TRAVIS_BUILD_DIR/samples/java/play-authenticate-usage
 - sbt --warn ++$TRAVIS_SCALA_VERSION compile

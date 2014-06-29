@@ -6,10 +6,10 @@ This plugin uses concepts from [securesocial2][] and [Play20StartApp][] and prov
 **Play Authenticate currently needs Play! Framework 2.0.2 or later**
 
 Works fine with
-	* `2.0.2` to `2.0.x` (last: `0.2.3-SNAPSHOT` - [2.0.x branch](https://github.com/joscha/play-authenticate/tree/2.0.x))
-	* `2.1.0` to `2.1.x` (last: `0.3.5-SNAPSHOT` - [2.1.x branch](https://github.com/joscha/play-authenticate/tree/2.1.x))
-	* `2.2.0` to `2.2.x` (last: `0.5.2-SNAPSHOT` - [2.2.x branch](https://github.com/joscha/play-authenticate/tree/2.2.x))
-	* `2.3.0` to `2.3.1` (last: `0.6.1-SNAPSHOT` - [2.3.x branch](https://github.com/joscha/play-authenticate/tree/master))
+* `2.0.2` to `2.0.x` (last: `0.2.3-SNAPSHOT` - [2.0.x branch](https://github.com/joscha/play-authenticate/tree/2.0.x))
+* `2.1.0` to `2.1.x` (last: `0.3.5-SNAPSHOT` - [2.1.x branch](https://github.com/joscha/play-authenticate/tree/2.1.x))
+* `2.2.0` to `2.2.x` (last: `0.5.2-SNAPSHOT` - [2.2.x branch](https://github.com/joscha/play-authenticate/tree/2.2.x))
+* `2.3.0` to `2.3.1` (last: `0.6.1-SNAPSHOT` - [2.3.x branch](https://github.com/joscha/play-authenticate/tree/master))
 
 ## Live demo
 You can find a live demo on [heroku](https://play-authenticate.herokuapp.com/ "Play Authenticate sample app") (usually outdated) and there are some screens on our [website](http://joscha.github.io/play-authenticate/).
@@ -31,19 +31,19 @@ You can find a live demo on [heroku](https://play-authenticate.herokuapp.com/ "P
 As of now, the following authentication providers are supported out of the box:
 
 * _OAuth 2_
-  * Facebook
-  * Foursquare
-  * Google
+  * ![Facebook](samples/java/play-authenticate-usage/public/icons/facebook-24x24.png)
+  * ![Foursquare](samples/java/play-authenticate-usage/public/icons/foursquare-24x24.png)
+  * ![Google](samples/java/play-authenticate-usage/public/icons/google-24x24.png)
   * Untappd
   * VK.com / VKontakte
   * Pocket
-  * github
+  * ![github](samples/java/play-authenticate-usage/public/icons/github-24x24.png)
 * _OAuth 1_
-  * LinkedIn
-  * Twitter
-  * Xing
-* OpenID (experimental)
-* Email/Password (with email verification, password security/encryption is fully customizable)
+  * ![LinkedIn](samples/java/play-authenticate-usage/public/icons/linkedin-24x24.png)
+  * ![Twitter](samples/java/play-authenticate-usage/public/icons/twitter-24x24.png)
+  * ![Xing](samples/java/play-authenticate-usage/public/icons/xing-24x24.png)
+* ![OpenID](samples/java/play-authenticate-usage/public/icons/openid-24x24.png) OpenID
+* ![E-Mail](samples/java/play-authenticate-usage/public/icons/password-24x24.png) Email/Password (with email verification, password security/encryption is fully customizable)
 * Your very own authentication provider (LDAP, DB, you-name-it) via an extensible, easy-to-use plugin mechanism based on Play Plugins
 
 The included sample application shows how to use all of those providers.
@@ -59,7 +59,7 @@ The included sample application shows how to use all of those providers.
 
 ## Versions
 * **TRUNK** [not released in the repository, yet]
-  **0.6.1-SNAPSHOT** [2014-06-29]
+* **0.6.1-SNAPSHOT** [2014-06-29]
   * Add Scala 2.10.x binary to repository
   * Travis testing against Scala 2.10.x
   * Fix repository URLs (thanks @dobau)

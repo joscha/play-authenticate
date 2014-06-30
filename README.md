@@ -71,6 +71,7 @@ The included sample application shows how to use all of those providers.
   * Travis testing against Scala 2.10.x
   * Fix repository URLs (thanks @dobau)
   * Added simple OAuth2 test
+  * ATTENTION: Binaries are not published in ivy style any more - please update your resolver URLs (see issue [#189](https://github.com/joscha/play-authenticate/issues/189))
 * **0.6.0-SNAPSHOT** [2014-06-10]
   * First release for Play 2.3.x (thanks @jakubvalenta)
   * Japanese localization (thanks @naruoga)

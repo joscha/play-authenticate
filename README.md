@@ -75,7 +75,6 @@ The included sample application shows how to use all of those providers.
 * **0.6.0-SNAPSHOT** [2014-06-10]
   * First release for Play 2.3.x (thanks @jakubvalenta)
   * Japanese localization (thanks @naruoga)
-  * wanna contribute something? :)
 * **0.5.2-SNAPSHOT** [2013-11-11]
   * Automatically generate and use `state` parameter in OAuth2.
   * New github provider

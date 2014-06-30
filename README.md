@@ -62,7 +62,9 @@ The included sample application shows how to use all of those providers.
 
 ## Versions
 * **TRUNK** [not released in the repository, yet]
-  * Fancy contributing something? :-)
+  * Fix for cache being emptied (see issue #189)
+  * Update to play-easymail 0.6.2
+  * Fancy contributing something? :-) 
 * **0.6.2-SNAPSHOT** [2014-06-29]
   * Add Basic Auth provider (thanks @fhars)
   * Add SPNEGO Auth provider (thanks @fhars)

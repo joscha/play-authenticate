@@ -6,7 +6,7 @@ scalaVersion := "2.11.1"
 
 crossScalaVersions := Seq("2.10.4", "2.11.1")
 
-version := "0.6.2-SNAPSHOT"
+version := "0.6.3-SNAPSHOT"
 
 publishTo <<= (version) { version: String =>
   if (version.trim.endsWith("SNAPSHOT")) Some(Resolver.file("file",  new File( "../repo/snapshots" )))

@@ -287,7 +287,7 @@ play-authenticate {
         }
     
     	clientId=
-    	clientSecret=
+    	clientSecret=TBEICDMLJZRVW4YOIDBS7TUSYULTLI4OTYC5RO7XQLKH3URQH7
     }
 
 }

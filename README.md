@@ -62,9 +62,10 @@ The included sample application shows how to use all of those providers.
 
 ## Versions
 * **TRUNK** [not released in the repository, yet]
+  * Fancy contributing something? :-)
+* **0.6.3-SNAPSHOT** [2014-07-05]
   * Fix for cache being emptied (see issue #189)
-  * Update to play-easymail 0.6.2
-  * Fancy contributing something? :-) 
+  * Update to play-easymail 0.6.3
 * **0.6.2-SNAPSHOT** [2014-06-29]
   * Add Basic Auth provider (thanks @fhars)
   * Add SPNEGO Auth provider (thanks @fhars)
@@ -77,6 +78,9 @@ The included sample application shows how to use all of those providers.
 * **0.6.0-SNAPSHOT** [2014-06-10]
   * First release for Play 2.3.x (thanks @jakubvalenta)
   * Japanese localization (thanks @naruoga)
+* **0.5.3-SNAPSHOT** [2014-07-05]
+  * Maintenance release: backports for play-easymail
+  * Update to play-easymail 0.5.2
 * **0.5.2-SNAPSHOT** [2013-11-11]
   * Automatically generate and use `state` parameter in OAuth2.
   * New github provider

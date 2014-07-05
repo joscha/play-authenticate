@@ -21,7 +21,7 @@ object Build extends sbt.Build {
       resolvers += Resolver.url("play-easymail (snapshot)", url("http://joscha.github.io/play-easymail/repo/snapshots/"))(Resolver.ivyStylePatterns),
 
       libraryDependencies += "org.apache.httpcomponents" % "httpclient" % "4.3",
-      libraryDependencies += "com.feth" %% "play-easymail" % "0.5-SNAPSHOT",
+      libraryDependencies += "com.feth" %% "play-easymail" % "0.5.2-SNAPSHOT",
       libraryDependencies += "org.mindrot" % "jbcrypt" % "0.3m",
       libraryDependencies += "commons-lang" % "commons-lang" % "2.6"
     )

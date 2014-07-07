@@ -2,8 +2,8 @@ package com.feth.play.module.pa.providers.oauth2.eventbrite;
 
 import play.Application;
 import play.Logger;
-import play.libs.WS;
-import play.libs.WS.Response;
+import play.libs.ws.WSResponse;
+import play.libs.ws.*;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.feth.play.module.pa.exceptions.AccessTokenException;
@@ -27,19 +27,7 @@ public class EventBriteAuthProvider extends
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
-	protected EventBriteAuthInfo buildInfo(final Response r)
-			throws AccessTokenException {
-
-		if (r.getStatus() >= 400) {
-			throw new AccessTokenException(r.toString());
-		} else {
-			final JsonNode result = r.asJson();
-			Logger.debug(result.asText());
-			return new EventBriteAuthInfo(result.get(
-					OAuth2AuthProvider.Constants.ACCESS_TOKEN).asText());
-		}
-	}
+	
 
 	@Override
 	protected EventBriteAuthUser transform(final EventBriteAuthInfo info, final String state)
@@ -48,7 +36,7 @@ public class EventBriteAuthProvider extends
 
 		final String url = getConfiguration().getString(
 				USER_INFO_URL_SETTING_KEY);
-		final Response r = WS
+		final WSResponse r = WS
 				.url(url)
 				.setQueryParameter(TOKEN,
 						info.getAccessToken())
@@ -68,6 +56,19 @@ public class EventBriteAuthProvider extends
 	public String getKey() {
 		// TODO Auto-generated method stub
 		return PROVIDER_KEY;
+	}
+
+	@Override
+	protected EventBriteAuthInfo buildInfo(WSResponse r)
+			throws AccessTokenException {
+		if (r.getStatus() >= 400) {
+			throw new AccessTokenException(r.toString());
+		} else {
+			final JsonNode result = r.asJson();
+			Logger.debug(result.asText());
+			return new EventBriteAuthInfo(result.get(
+					OAuth2AuthProvider.Constants.ACCESS_TOKEN).asText());
+		}
 	}
 	
 	

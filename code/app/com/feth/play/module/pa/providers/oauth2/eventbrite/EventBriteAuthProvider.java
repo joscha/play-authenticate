@@ -15,19 +15,19 @@ import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
  */
 public class EventBriteAuthProvider extends
 		OAuth2AuthProvider<EventBriteAuthUser, EventBriteAuthInfo> {
-	
-	static final String PROVIDER_KEY = "eventbrite";
-	
+
+	public static final String PROVIDER_KEY = "eventbrite";
+
 	private static final String USER_INFO_URL_SETTING_KEY = "userInfoUrl";
-	
+
 	private static final String TOKEN = "token";
-	
+
 	public EventBriteAuthProvider(Application app) {
 		super(app);
 		// TODO Auto-generated constructor stub
 	}
 
-	
+
 
 	@Override
 	protected EventBriteAuthUser transform(final EventBriteAuthInfo info, final String state)
@@ -70,10 +70,10 @@ public class EventBriteAuthProvider extends
 					OAuth2AuthProvider.Constants.ACCESS_TOKEN).asText());
 		}
 	}
-	
-	
 
-	
 
-	
+
+
+
+
 }

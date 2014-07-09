@@ -1,11 +1,12 @@
 package com.feth.play.module.pa.providers.oauth2.eventbrite;
 
+import com.feth.play.module.pa.user.FirstLastNameIdentity;
 import play.Logger;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.feth.play.module.pa.providers.oauth2.BasicOAuth2AuthUser;
 
-public class EventBriteAuthUser extends BasicOAuth2AuthUser {
+public class EventBriteAuthUser extends BasicOAuth2AuthUser implements FirstLastNameIdentity {
 
 	private static final long serialVersionUID = 1L;
 
@@ -14,9 +15,10 @@ public class EventBriteAuthUser extends BasicOAuth2AuthUser {
 		public static final String NAME = "name";
 		public static final String FIRST_NAME = "first_name";
 		public static final String LAST_NAME = "last_name";
-		public static final String EMAIL = "email";
+		public static final String EMAILS_EMAIL = "email";
 		public static final String EMAILS = "emails";
 		public static final String PRIMARY = "primary";
+        public static final String EMAILS_EMAIL_VERIFIED = "verified";
 	}
 
 	private String name;
@@ -38,21 +40,21 @@ public class EventBriteAuthUser extends BasicOAuth2AuthUser {
 		if (node.has(Constants.NAME)) {
 			this.name = node.get(Constants.NAME).asText();
 		}
-		Logger.debug("Emails : " + node.get(Constants.EMAILS));
-		if (node.has(Constants.EMAILS)) {
-			JsonNode settingsNode = node.get(Constants.EMAILS);
-			Logger.debug("Settings Node : " + settingsNode);
-			Logger.debug("Has email node : "
-					+ settingsNode.has(Constants.EMAIL));
-			for (JsonNode jsonNode : settingsNode) {
-				Logger.debug("Verified "
-						+ jsonNode.get(Constants.PRIMARY).asBoolean());
-				if (jsonNode.get(Constants.PRIMARY).asBoolean()) {
-					Logger.debug(jsonNode.get(Constants.EMAIL).asText());
-					this.email = jsonNode.get(Constants.EMAIL).asText();
-					break;
 
-				}
+		if (node.has(Constants.EMAILS)) {
+			final JsonNode eMailsNode = node.get(Constants.EMAILS);
+            Logger.debug("Emails : " + eMailsNode);
+			for (final JsonNode jsonNode : eMailsNode) {
+				if (jsonNode.get(Constants.PRIMARY).asBoolean(false)) {
+					this.email = jsonNode.get(Constants.EMAILS_EMAIL).asText();
+                    this.verified = jsonNode.get(Constants.EMAILS_EMAIL_VERIFIED).asBoolean();
+                    Logger.debug("Found primary email: " + this.email);
+					break;
+				} else if(this.email == null) {
+                    this.email = jsonNode.get(Constants.EMAILS_EMAIL).asText();
+                    this.verified = jsonNode.get(Constants.EMAILS_EMAIL_VERIFIED).asBoolean();
+                    Logger.debug("First email: " + this.email);
+                }
 			}
 		}
 
@@ -63,18 +65,22 @@ public class EventBriteAuthUser extends BasicOAuth2AuthUser {
 		return EventBriteAuthProvider.PROVIDER_KEY;
 	}
 
+    @Override
 	public String getName() {
 		return name;
 	}
 
+    @Override
 	public String getFirstName() {
 		return firstName;
 	}
 
+    @Override
 	public String getLastName() {
 		return lastName;
 	}
 
+    @Override
 	public String getEmail() {
 		return email;
 	}

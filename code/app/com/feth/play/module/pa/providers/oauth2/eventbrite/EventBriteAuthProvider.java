@@ -6,6 +6,7 @@ import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
 import play.Application;
 import play.Logger;
+import play.libs.ws.WS;
 import play.libs.ws.WSResponse;
 
 /**

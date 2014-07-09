@@ -63,8 +63,9 @@ The included sample application shows how to use all of those providers.
 
 ## Versions
 * **TRUNK** [not released in the repository, yet]
-  * Eventbrite Auth provider (thanks @thandaanda)
   * Fancy contributing something? :-)
+* **0.6.4-SNAPSHOT** [2014-07-09]
+  * Eventbrite Auth provider (thanks @thandaanda)
 * **0.6.3-SNAPSHOT** [2014-07-05]
   * Fix for cache being emptied (see issue #189)
   * Update to play-easymail 0.6.3

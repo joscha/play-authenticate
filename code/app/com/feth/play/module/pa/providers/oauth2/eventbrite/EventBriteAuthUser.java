@@ -1,10 +1,9 @@
 package com.feth.play.module.pa.providers.oauth2.eventbrite;
 
-import com.feth.play.module.pa.user.FirstLastNameIdentity;
-import play.Logger;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.feth.play.module.pa.providers.oauth2.BasicOAuth2AuthUser;
+import com.feth.play.module.pa.user.FirstLastNameIdentity;
+import play.Logger;
 
 public class EventBriteAuthUser extends BasicOAuth2AuthUser implements FirstLastNameIdentity {
 

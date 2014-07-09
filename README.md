@@ -39,6 +39,7 @@ As of now, the following authentication providers are supported out of the box:
   * VK.com / VKontakte
   * Pocket
   * ![github](samples/java/play-authenticate-usage/public/icons/github-24x24.png)
+  * ![Eventbrite](samples/java/play-authenticate-usage/public/icons/eventbrite-24x24.png)
 * _OAuth 1_
   * ![LinkedIn](samples/java/play-authenticate-usage/public/icons/linkedin-24x24.png)
   * ![Twitter](samples/java/play-authenticate-usage/public/icons/twitter-24x24.png)
@@ -62,6 +63,7 @@ The included sample application shows how to use all of those providers.
 
 ## Versions
 * **TRUNK** [not released in the repository, yet]
+  * Eventbrite Auth provider (thanks @thandaanda)
   * Fancy contributing something? :-)
 * **0.6.3-SNAPSHOT** [2014-07-05]
   * Fix for cache being emptied (see issue #189)

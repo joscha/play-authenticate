@@ -20,7 +20,7 @@ import com.feth.play.module.pa.user.AuthUser;
 
 public abstract class PlayAuthenticate {
 
-	private static final String SETTING_KEY_PLAY_AUTHENTICATE = "play-authenticate";
+	public static final String SETTING_KEY_PLAY_AUTHENTICATE = "play-authenticate";
 	private static final String SETTING_KEY_AFTER_AUTH_FALLBACK = "afterAuthFallback";
 	private static final String SETTING_KEY_AFTER_LOGOUT_FALLBACK = "afterLogoutFallback";
 	private static final String SETTING_KEY_ACCOUNT_MERGE_ENABLED = "accountMergeEnabled";

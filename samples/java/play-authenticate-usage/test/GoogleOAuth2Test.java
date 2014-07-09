@@ -1,3 +1,5 @@
+import com.feth.play.module.pa.PlayAuthenticate;
+import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
 import com.feth.play.module.pa.providers.oauth2.google.GoogleAuthProvider;
 import com.feth.play.module.pa.providers.oauth2.google.GoogleAuthUser;
 import models.User;
@@ -13,8 +15,8 @@ public class GoogleOAuth2Test extends OAuth2Test {
     public static final String GOOGLE_USER_EMAIL = "fethjoscha@gmail.com";
 
     protected void amendConfiguration(final Map<String, String> additionalConfiguration) {
-        additionalConfiguration.put("play-authenticate.google.clientId", System.getenv("GOOGLE_CLIENT_ID"));
-        additionalConfiguration.put("play-authenticate.google.clientSecret", System.getenv("GOOGLE_CLIENT_SECRET"));
+        additionalConfiguration.put(PlayAuthenticate.SETTING_KEY_PLAY_AUTHENTICATE + "." + GoogleAuthProvider.PROVIDER_KEY + "." + OAuth2AuthProvider.SettingKeys.CLIENT_ID, System.getenv("GOOGLE_CLIENT_ID"));
+        additionalConfiguration.put(PlayAuthenticate.SETTING_KEY_PLAY_AUTHENTICATE + "." + GoogleAuthProvider.PROVIDER_KEY + "." + OAuth2AuthProvider.SettingKeys.CLIENT_SECRET, System.getenv("GOOGLE_CLIENT_SECRET"));
     }
 
     protected Class<GoogleAuthProvider> getProviderUnderTest() {

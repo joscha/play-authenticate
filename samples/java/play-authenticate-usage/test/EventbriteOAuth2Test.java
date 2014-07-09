@@ -1,3 +1,5 @@
+import com.feth.play.module.pa.PlayAuthenticate;
+import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
 import com.feth.play.module.pa.providers.oauth2.eventbrite.EventBriteAuthProvider;
 import com.feth.play.module.pa.providers.oauth2.eventbrite.EventBriteAuthUser;
 import models.User;
@@ -18,8 +20,8 @@ public class EventbriteOAuth2Test extends OAuth2Test {
     public static final String EVENTBRITE_USER_EMAIL = "fethjoscha@gmail.com";
 
     protected void amendConfiguration(final Map<String, String> additionalConfiguration) {
-        additionalConfiguration.put("play-authenticate." + EventBriteAuthProvider.PROVIDER_KEY + ".clientId", System.getenv("EVENTBRITE_CLIENT_ID"));
-        additionalConfiguration.put("play-authenticate." + EventBriteAuthProvider.PROVIDER_KEY + ".clientSecret", System.getenv("EVENTBRITE_CLIENT_SECRET"));
+        additionalConfiguration.put(PlayAuthenticate.SETTING_KEY_PLAY_AUTHENTICATE + "." + EventBriteAuthProvider.PROVIDER_KEY + "." + OAuth2AuthProvider.SettingKeys.CLIENT_ID, System.getenv("EVENTBRITE_CLIENT_ID"));
+        additionalConfiguration.put(PlayAuthenticate.SETTING_KEY_PLAY_AUTHENTICATE + "." + EventBriteAuthProvider.PROVIDER_KEY + "." + OAuth2AuthProvider.SettingKeys.CLIENT_SECRET, System.getenv("EVENTBRITE_CLIENT_SECRET"));
     }
 
     protected Class<EventBriteAuthProvider> getProviderUnderTest() {
@@ -62,6 +64,5 @@ public class EventbriteOAuth2Test extends OAuth2Test {
         browser.await().atMost(5, TimeUnit.SECONDS).until("#access_choices_allow").areEnabled();
         browser.find("#access_choices_allow").click();
         browser.await().untilPage().isLoaded();
-        browser.await().atMost(1000000);
     }
 }

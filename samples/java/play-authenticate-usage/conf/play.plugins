@@ -15,4 +15,4 @@
 #10120:com.feth.play.module.pa.providers.oauth2.github.GithubAuthProvider
 10130:providers.MyStupidBasicAuthProvider
 #10140:com.feth.play.module.pa.providers.wwwauth.negotiate.SpnegoAuthProvider
-10150:com.feth.play.module.pa.providers.oauth2.eventbrite.EventBriteAuthProvider
+#10150:com.feth.play.module.pa.providers.oauth2.eventbrite.EventBriteAuthProvider

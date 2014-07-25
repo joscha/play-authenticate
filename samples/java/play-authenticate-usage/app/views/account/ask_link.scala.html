@@ -7,16 +7,16 @@
 	@_providerIcon(newAccount.getProvider()) @Messages("playauthenticate.link.account.question",newAccount)
 }
 
-@main(Messages("playauthenticate.link.account.title")) {
+@main3(Messages("playauthenticate.link.account.title")) {
 
 	<h1>@Messages("playauthenticate.link.account.title")</h1>
 	<p>
 	@form(routes.Account.doLink) {
 	   
             @if(acceptForm.hasGlobalErrors) { 
-                <p class="error">
-		            <span class="label label-important">@acceptForm.globalError.message</span>
-		        </p>
+		        <p class="alert alert-danger">
+		          @acceptForm.globalError.message
+		     	</p>
             }
 	   
 	   @inputRadioGroup(

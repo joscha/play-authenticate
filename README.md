@@ -10,7 +10,7 @@ Works fine with
 * `2.0.2` to `2.0.x` (last: `0.2.3-SNAPSHOT` - [2.0.x branch](https://github.com/joscha/play-authenticate/tree/2.0.x))
 * `2.1.0` to `2.1.x` (last: `0.3.5-SNAPSHOT` - [2.1.x branch](https://github.com/joscha/play-authenticate/tree/2.1.x))
 * `2.2.0` to `2.2.x` (last: `0.5.2-SNAPSHOT` - [2.2.x branch](https://github.com/joscha/play-authenticate/tree/2.2.x))
-* `2.3.0` to `2.3.1` (last: `0.6.1-SNAPSHOT` - [master branch](https://github.com/joscha/play-authenticate/tree/master))
+* `2.3.0` to `2.3.x` (last: `0.6.x-SNAPSHOT` - [master branch](https://github.com/joscha/play-authenticate/tree/master))
 
 ## Live demo
 You can find a live demo on [heroku](https://play-authenticate.herokuapp.com/ "Play Authenticate sample app") (usually outdated) and there are some screens on our [website](http://joscha.github.io/play-authenticate/).
@@ -64,6 +64,9 @@ The included sample application shows how to use all of those providers.
 ## Versions
 * **TRUNK** [not released in the repository, yet]
   * Fancy contributing something? :-)
+* **0.6.5-SNAPSHOT** [2014-07-29]
+  * Compile binaries with Java 6 for better compatibility (thanks @rui-ferreira)
+  * Extend Travis build matrix to include Java 6 and Java 7
 * **0.6.4-SNAPSHOT** [2014-07-09]
   * Eventbrite Auth provider (thanks @thandaanda)
 * **0.6.3-SNAPSHOT** [2014-07-05]

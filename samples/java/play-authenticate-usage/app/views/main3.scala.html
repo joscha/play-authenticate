@@ -1,0 +1,100 @@
+@(title: String, nav: String = "")(content: Html)
+
+@import be.objectify.deadbolt.java.views.html._
+@import be.objectify.deadbolt.core.utils.TemplateUtils._
+
+<!DOCTYPE html>
+<html lang="@lang().code()">
+  <head>
+    <title>@title</title>
+    
+    <link rel="stylesheet" media="screen" href="@routes.WebJarAssets.at(WebJarAssets.locate("bootstrap.min.css"))">
+    <link rel="stylesheet" media="screen" href="@routes.Assets.at("css/main3.css")">
+    <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+    
+    <!-- Le meta -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sistema Financiero de la Universidad de Montemorelos A.C.">
+    <meta name="author" content="Direcci&oacute;n de Informaci&oacute;n y Tecnolog&iacute;a">
+    
+    <script src="@routes.Application.jsRoutes" defer="defer"></script>
+
+	<div class="navbar navbar-inverse navbar-static-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="@routes.Application.index()">Financiero</a>
+        </div>
+        <div class="navbar-collapse collapse">
+           <ul class="nav navbar-nav navbar-right">
+           @subjectPresentOr() {
+          	@defining(Application.getLocalUser(session())) { user =>
+          
+            
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              	<span class="glyphicon glyphicon-user"></span> @user.name <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="@routes.Application.profile()">@Messages("playauthenticate.navigation.profile")</a></li>
+              <li><a href="@routes.Account.link()">@Messages("playauthenticate.navigation.link_more")</a></li>
+              <li class="divider"></li>
+              <li><a href="@com.feth.play.module.pa.controllers.routes.Authenticate.logout()"><i class="icon-off"></i> @Messages("playauthenticate.navigation.logout")</a></li>
+              </ul>
+            </li>
+          
+          }  
+          }{
+            <a href="@routes.Application.login()" class="btn btn-primary @("disabled".when(nav == "login"))">@Messages("playauthenticate.navigation.login")</a>
+          } 
+          </ul>
+          <ul class="nav navbar-nav">
+          
+              <li class="@("active".when(nav == ""))"><a href="@routes.Application.index()">@Messages("sistemafinanciero.navigation.contabilidad.home")</a></li>
+              <li class="@("active".when(nav == "restricted"))"><a href="@routes.Application.restricted()">@Messages("playauthenticate.navigation.restricted")</a></li>
+			
+                @subjectNotPresent() {
+			    	<li class="@("active".when(nav == "signup"))"><a href="@routes.Application.signup()">@Messages("playauthenticate.navigation.signup")</a></li>
+			    }
+           </ul>
+			    
+			    
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+  </head>
+
+  <body>
+  	<div class="container">
+	    @if(flash.contains(Application.FLASH_ERROR_KEY)) {
+	      <div class="alert alert-danger">
+	      	@flash().get(Application.FLASH_ERROR_KEY)
+	      </div>
+	    }
+	    @if(flash.contains(Application.FLASH_MESSAGE_KEY)) {
+	      <div class="alert alert-success">
+	      	@flash().get(Application.FLASH_MESSAGE_KEY)
+	      </div>
+	    }
+		@content
+
+    <hr>
+
+      <footer>
+        <p>&copy; 2014 Universidad de Montemorelos A.C.</p>
+        <p>
+      </footer>
+    </div> <!-- /container -->
+    
+   	<script src="@routes.WebJarAssets.at(WebJarAssets.locate("jquery.min.js"))"></script>
+    <script src="@routes.WebJarAssets.at(WebJarAssets.locate("js/bootstrap.min.js"))"></script>
+
+  </body>
+</html>

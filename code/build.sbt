@@ -6,6 +6,11 @@ scalaVersion := "2.11.1"
 
 crossScalaVersions := Seq("2.10.4", "2.11.1")
 
+javacOptions ++= {
+  if (System.getProperty("rt.path") != null)  Seq("-source", "1.6", "-target", "1.6", "-bootclasspath", System.getProperty("rt.path"))
+  else                                        Seq()
+}
+
 version := "0.6.5-SNAPSHOT"
 
 publishTo <<= (version) { version: String =>

@@ -1,0 +1,10 @@
+@(verificationUrl: String, token: String, name: String, email: String)Olá @name,
+
+
+Recentemente registou-se no PlayAuthenticate.
+
+Siga esta ligação para activar a sua conta agora:
+@verificationUrl
+
+Obrigado,
+A equipa do PlayAuthenticate

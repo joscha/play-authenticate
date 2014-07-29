@@ -62,9 +62,11 @@ The included sample application shows how to use all of those providers.
 * Spanish (as of 2013-03-02, commit `59613c5a44`)
 * Italian (as of 2013-09-21, core only, commit `b1b9e2a46b`)
 * Japanese (as of 2013-11-27, commit `fd4cc56b168d9ed447943c879dd61f271158edf7`)
+* Portuguese (as of 2014-07-29)
 
 ## Versions
 * **TRUNK** [not released in the repository, yet]
+  * Portuguese translation (thanks @hugotavares)
   * Fancy contributing something? :-)
 * **0.6.5-SNAPSHOT** [2014-07-29]
   * Compile binaries with Java 6 for better compatibility (thanks @rui-ferreira)

@@ -4,7 +4,6 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
@@ -44,7 +43,7 @@ public class TokenAction extends Model {
 	@Column(unique = true)
 	public String token;
 
-	@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne
 	public User targetUser;
 
 	public Type type;
@@ -59,13 +58,7 @@ public class TokenAction extends Model {
 			Long.class, TokenAction.class);
 
 	public static TokenAction findByToken(final String token, final Type type) {
-		/*return find.where().eq("token", token).eq("type", type)				
-				.findUnique();*/
-		return Ebean.find(TokenAction.class)
-				.fetch("targetUser")
-				.where().eq("token", token)				
-				.eq("type", type)
-				.findUnique();
+		return find.where().eq("token", token).eq("type", type).findUnique();
 	}
 
 	public static void deleteByUser(final User u, final Type type) {

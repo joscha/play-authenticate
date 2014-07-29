@@ -61,22 +61,6 @@ public class User extends Model implements Subject {
 
 	@ManyToMany
 	public List<UserPermission> permissions;
-	
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
 
 	public static final Finder<Long, User> find = new Finder<Long, User>(
 			Long.class, User.class);

@@ -15,7 +15,10 @@ val appDependencies = Seq(
   cache,
   javaWs,
   javaJdbc,
-  javaEbean
+  javaEbean,
+  "org.webjars" %% "webjars-play" % "2.3.0",
+  "org.webjars" % "bootstrap" % "3.1.1-2",
+  "org.webjars" % "jquery" % "1.8.3"
 )
 
 resolvers ++= Seq(

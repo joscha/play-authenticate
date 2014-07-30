@@ -7,21 +7,21 @@
 @main(Messages("playauthenticate.login.title"),"login") {
 
   <div class="row">
-    <div class="span6">
+    <div class="col-xs-6 col-sm-4">
       <h1>@Messages("playauthenticate.login.title")</h1>
     </div>
   </div>
 
   <div id="login" class="row">
 
-    <div class="span3">
+    <div class="col-xs-6 col-sm-4">
       @* Display proprietary login form *@
     	@helper.form(routes.Application.doLogin) {
 
         @if(loginForm.hasGlobalErrors) {
-          <p class="error">
-            <span class="label label-important">@loginForm.globalError.message</span>
-          </p>
+          	<p class="alert alert-danger">
+	          @loginForm.globalError.message
+	     	</p>
         }
 
         @_emailPartial(loginForm)
@@ -39,7 +39,7 @@
     	}
     </div>
 
-    <div class="span3">
+   <div class="col-xs-6 col-sm-4">
       @Messages("playauthenticate.login.oauth")
       @* Display list of available providers *@
       @_providerPartial(skipCurrent=false)
@@ -54,3 +54,4 @@
   </div>
 
 }
+

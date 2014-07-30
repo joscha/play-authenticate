@@ -10,13 +10,13 @@ constraint.email=Endereço de email
 
 # --- Formats
 format.date=Data (''{0}'')
-format.numeric=Numárico
+format.numeric=Numérico
 format.real=Real
 
 # --- Errors
 error.invalid=Valor inválido
 error.required=Este campo é necessário
-error.number=Valor numárico esperado
+error.number=Valor numérico esperado
 error.real=Valor real esperado
 error.min=Tem que ser maior ou igual a {0}
 error.max=Tem que ser menor ou igual a {0}

@@ -14,9 +14,9 @@
 	@form(routes.Account.doMerge) {
 
             @if(acceptForm.hasGlobalErrors) { 
-                <p class="error">
-		            <span class="label label-important">@acceptForm.globalError.message</span>
-		        </p>
+		        <p class="alert alert-danger">
+		          @acceptForm.globalError.message
+		     	</p>
             }
 	   
 	   @inputRadioGroup(

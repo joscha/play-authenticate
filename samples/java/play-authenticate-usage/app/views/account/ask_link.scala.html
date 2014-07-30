@@ -12,13 +12,13 @@
 	<h1>@Messages("playauthenticate.link.account.title")</h1>
 	<p>
 	@form(routes.Account.doLink) {
-	   
-            @if(acceptForm.hasGlobalErrors) { 
+
+            @if(acceptForm.hasGlobalErrors) {
 		        <p class="alert alert-danger">
 		          @acceptForm.globalError.message
 		     	</p>
             }
-	   
+
 	   @inputRadioGroup(
             acceptForm("accept"),
             options = Seq(
@@ -28,8 +28,8 @@
             '_label -> label,
             '_showConstraints -> false
         )
-           
-		<input type="submit" value="@Messages("playauthenticate.link.account.ok")" class="btn btn-primary"> 
+
+    <button type="submit" class="btn btn-default">@Messages("playauthenticate.link.account.ok")</button>
 	}
 	</p>
 }

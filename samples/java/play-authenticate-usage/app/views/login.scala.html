@@ -32,8 +32,8 @@
           '_label -> Messages("playauthenticate.login.password.placeholder")
         )
 
-        <input type="submit" value="@Messages("playauthenticate.login.now")" class="btn btn-primary"><br/>
-        <br/>
+            <button type="submit" class="btn btn-default">@Messages("playauthenticate.login.now")</button>
+
         <a href="javascript:void(0);" onclick="window.location.href = jsRoutes.controllers.Signup.forgotPassword($('#email').val() || null).absoluteURL();">@Messages("playauthenticate.login.forgot.password")</a>
 
     	}

@@ -1,0 +1,8 @@
+playauthenticate.core.exception.no_user_service=UserService não registado!
+playauthenticate.core.exception.signupuser_failed=Não foi possível efectuar registo
+playauthenticate.core.exception.provider_not_found=Fornecedor {0} não encontrado!
+playauthenticate.core.exception.merge.controller_undefined=Pedido de fusão de conta no resolver não definido adequadamente, mesmo com '{0}' definido como falso!
+playauthenticate.core.exception.link.controller_undefined=Pedido de ligação de conta no resolver não definido adequadamente, mesmo com '{0}' definido como falso!
+playauthenticate.core.exception.oauth2.state_param_forged=O pârametro de estado poderá ter sido violado!
+
+playauthenticate.core.exception.general=Algo correu mal

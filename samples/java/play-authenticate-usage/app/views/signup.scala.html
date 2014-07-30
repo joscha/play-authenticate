@@ -15,7 +15,7 @@
 
     <div class="col-xs-6 col-md-4">
         @* Display proprietary login form *@
-    	@helper.form(routes.Application.doSignup) {
+    	@helper.form(routes.Application.doSignup, 'class -> "form-horizontal", 'role -> "form") {
 
             @if(signupForm.hasGlobalErrors) {
 		        <p class="alert alert-danger">

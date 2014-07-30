@@ -11,7 +11,7 @@
 
 	<h1>@Messages("playauthenticate.link.account.title")</h1>
 	<p>
-	@form(routes.Account.doLink) {
+	@form(routes.Account.doLink, 'class -> "form-horizontal", 'role -> "form") {
 
             @if(acceptForm.hasGlobalErrors) {
 		        <p class="alert alert-danger">

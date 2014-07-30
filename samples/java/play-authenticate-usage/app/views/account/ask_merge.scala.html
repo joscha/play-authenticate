@@ -11,7 +11,7 @@
 
 	<h1>@Messages("playauthenticate.merge.accounts.title")</h1>
 	<p>
-	@form(routes.Account.doMerge) {
+	@form(routes.Account.doMerge, 'class -> "form-horizontal", 'role -> "form") {
 
             @if(acceptForm.hasGlobalErrors) {
 		        <p class="alert alert-danger">

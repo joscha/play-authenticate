@@ -1,5 +1,6 @@
 package com.feth.play.module.pa.providers.oauth1;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,6 +64,14 @@ public abstract class OAuth1AuthProvider<U extends AuthUserIdentity, I extends O
 		public static final String OAUTH_VERIFIER = "oauth_verifier";
 		public static final String OAUTH_PROBLEM = "oauth_problem";
         public static final String OAUTH_ACCESS_DENIED = "access_denied";
+	}
+
+	public static class SerializableRequestToken extends RequestToken implements Serializable {
+		private static final long serialVersionUID = 1L;
+
+		public SerializableRequestToken(RequestToken source) {
+			super(source.token, source.secret);
+		}
 	}
 
     protected void checkError(Request request) throws AuthException{
@@ -130,7 +139,7 @@ public abstract class OAuth1AuthProvider<U extends AuthUserIdentity, I extends O
 				final String redirectUrl = service.redirectUrl(token);
 
 				PlayAuthenticate.storeInCache(context.session(), CACHE_TOKEN,
-						response);
+						new SerializableRequestToken(response));
 				return redirectUrl;
 			} catch (RuntimeException ex) {
 				// Exception happened

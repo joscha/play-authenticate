@@ -1,0 +1,24 @@
+@(skipCurrent: Boolean = true)
+
+@import com.feth.play.module.pa.views.html._
+
+<script type="text/javascript">
+function askOpenID(url) {
+	var openid = prompt("Please enter your OpenID:", "yourname.myopenid.com");
+	if(openid) {
+		window.location.href = url + "?p=" + encodeURIComponent(openid);
+	}
+}
+</script>
+<ul class="providers">
+	@forProviders(skipCurrent) { p =>
+		<li>
+		@if(p.getKey() == "openid") {
+			<a href="javascript:void(0);" onclick="askOpenID('@p.getUrl()');">
+		} else {
+			<a href="@p.getUrl()">
+		}
+		@_providerIcon(p.getKey())</a>
+		</li>
+	}
+</ul>

@@ -1,0 +1,32 @@
+body {
+    padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+}
+
+form .error input {
+    background-color: #F2DEDE;
+    border-color: #EED3D7;
+    color: #B94A48;
+}
+
+form .error .help-inline {
+    color: #B94A48;
+}
+
+.providers {
+    margin: 5px 0;
+    list-style: none;
+}
+
+.providers li {
+    display: inline;
+}
+
+.help-block {
+    margin: -10px 0 10px 0;
+    font-size: 10px;
+    color: #ccc !important;
+}
+
+h1 {
+    margin-bottom: 20px !important;
+}

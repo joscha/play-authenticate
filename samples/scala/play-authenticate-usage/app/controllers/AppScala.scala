@@ -15,9 +15,9 @@ object AppScala extends Controller with DeadboltActions {
     Ok(views.html.index())
   }
 
-  def restrictOne = Restrict(Array(Application.USER_ROLE), new ScDeadboltHandler) {
+  def restricted = Restrict(Array(Application.USER_ROLE), new ScDeadboltHandler) {
     ContextAction {implicit request =>
-      Ok(views.html.index())
+      Ok(views.html.restricted())
     }
   }
 }

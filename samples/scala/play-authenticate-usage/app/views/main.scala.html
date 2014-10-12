@@ -41,7 +41,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="@routes.Application.index()">Play! Authenticate</a>
+          <a class="brand" href="@routes.AppScala.index()">Play! Authenticate</a>
 
           <div class="btn-group pull-right">
           @subjectPresentOr() {
@@ -65,8 +65,8 @@
 
           <div class="nav-collapse">
             <ul class="nav">
-              <li class="@("active".when(nav == ""))"><a href="@routes.Application.index()">@Messages("playauthenticate.navigation.home")</a></li>
-              <li class="@("active".when(nav == "restricted"))"><a href="@routes.Application.restricted()">@Messages("playauthenticate.navigation.restricted")</a></li>
+              <li class="@("active".when(nav == ""))"><a href="@routes.AppScala.index()">@Messages("playauthenticate.navigation.home")</a></li>
+              <li class="@("active".when(nav == "restricted"))"><a href="@routes.AppScala.restricted()">@Messages("playauthenticate.navigation.restricted")</a></li>
 
                 @subjectNotPresent() {
 			    	<li class="@("active".when(nav == "signup"))"><a href="@routes.Application.signup()">@Messages("playauthenticate.navigation.signup")</a></li>

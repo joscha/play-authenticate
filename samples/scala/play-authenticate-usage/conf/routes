@@ -3,8 +3,9 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.Application.index
-GET     /restricted                 controllers.Application.restricted
+GET     /                           controllers.AppScala.index
+GET     /index                           controllers.Application.index
+GET     /restricted                 controllers.AppScala.restricted
 GET     /assets/javascript/routes.js    controllers.Application.jsRoutes
 
 GET     /profile                    controllers.Application.profile

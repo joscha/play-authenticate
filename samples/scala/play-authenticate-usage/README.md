@@ -1,4 +1,4 @@
-# Play Authenticate sample Java application
+# Play Authenticate sample Java + Scala application
 
 Authentication providers that require further configuration parameters
 are commented out in `conf/play.plugins`. Please review the configuration

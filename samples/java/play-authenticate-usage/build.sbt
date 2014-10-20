@@ -8,6 +8,7 @@ version := "1.0-SNAPSHOT"
 
 val appDependencies = Seq(
   "be.objectify"  %% "deadbolt-java"     % "2.3.0-RC1",
+  "be.objectify" %% "deadbolt-scala" % "2.3.0-RC1",
   // Comment the next line for local development of the Play Authentication core:
   "com.feth"      %% "play-authenticate" % "0.6.5-SNAPSHOT",
   "postgresql"    %  "postgresql"        % "9.1-901-1.jdbc4",

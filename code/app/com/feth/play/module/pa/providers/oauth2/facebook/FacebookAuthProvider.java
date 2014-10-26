@@ -7,11 +7,14 @@ import java.util.Map;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.message.BasicNameValuePair;
 
 import play.Application;
+import play.Configuration;
 import play.Logger;
 import play.libs.ws.WS;
 import play.libs.ws.WSResponse;
+import play.mvc.Http.Request;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.feth.play.module.pa.exceptions.AccessTokenException;
@@ -32,6 +35,15 @@ public class FacebookAuthProvider extends
 
 	public FacebookAuthProvider(Application app) {
 		super(app);
+	}
+
+	public static abstract class SettingKeys extends
+			OAuth2AuthProvider.SettingKeys {
+		public static final String DISPLAY = "display";
+	}
+
+	public static abstract class FacebookConstants extends Constants {
+		public static final String DISPLAY = "display";
 	}
 
 	@Override
@@ -86,4 +98,16 @@ public class FacebookAuthProvider extends
 		}
 	}
 
+	@Override
+	protected List<NameValuePair> getAuthParams(final Configuration c,
+			final Request request, final String state) throws AuthException {
+		final List<NameValuePair> params = super.getAuthParams(c, request, state);
+
+		if (c.getString(SettingKeys.DISPLAY) != null) {
+			params.add(new BasicNameValuePair(FacebookConstants.DISPLAY, c
+					.getString(SettingKeys.DISPLAY)));
+		}
+
+		return params;
+	}
 }

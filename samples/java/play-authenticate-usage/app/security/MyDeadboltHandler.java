@@ -45,7 +45,7 @@ public class MyDeadboltHandler extends AbstractDeadboltHandler {
 	public F.Promise<Subject> getSubject(final Http.Context context) {
 		final AuthUserIdentity u = PlayAuthenticate.getUser(context);
 		// Caching might be a good idea here
-		return F.Promise.pure(User.findByAuthUserIdentity(u));
+		return F.Promise.pure((Subject)User.findByAuthUserIdentity(u));
 	}
 
 	@Override

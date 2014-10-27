@@ -2,7 +2,7 @@ organization := "com.feth"
 
 name := "play-authenticate-simple-oauth"
 
-scalaVersion := "2.11.1"
+scalaVersion := "2.11.2"
 
 version := "1.0-SNAPSHOT"
 

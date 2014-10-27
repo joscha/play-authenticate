@@ -2,9 +2,9 @@ organization := "com.feth"
 
 name := "play-authenticate"
 
-scalaVersion := "2.11.1"
+scalaVersion := "2.11.2"
 
-crossScalaVersions := Seq("2.10.4", "2.11.1")
+crossScalaVersions := Seq("2.10.4", "2.11.2")
 
 javacOptions ++= {
   if (System.getProperty("rt.path") != null)  Seq("-source", "1.6", "-target", "1.6", "-bootclasspath", System.getProperty("rt.path"))

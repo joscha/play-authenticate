@@ -28,7 +28,7 @@ public class FacebookAuthProvider extends
 	private static final String ERROR = "error";
 	private static final String FIELDS = "fields";
 
-	static final String PROVIDER_KEY = "facebook";
+	public static final String PROVIDER_KEY = "facebook";
 
 	private static final String USER_INFO_URL_SETTING_KEY = "userInfoUrl";
 	private static final String USER_INFO_FIELDS_SETTING_KEY = "userInfoFields";

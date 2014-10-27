@@ -7,7 +7,7 @@ scalaVersion := "2.11.2"
 version := "1.0-SNAPSHOT"
 
 val appDependencies = Seq(
-  "be.objectify"  %% "deadbolt-java"     % "2.3.0-RC1",
+  "be.objectify"  %% "deadbolt-java"     % "2.3.2",
   // Comment the next line for local development of the Play Authentication core:
   "com.feth"      %% "play-authenticate" % "0.6.5-SNAPSHOT",
   "postgresql"    %  "postgresql"        % "9.1-901-1.jdbc4",
@@ -23,7 +23,6 @@ resolvers ++= Seq(
   "jBCrypt Repository" at "http://repo1.maven.org/maven2/org/",
   "play-easymail (release)" at "http://joscha.github.io/play-easymail/repo/releases/",
   "play-easymail (snapshot)" at "http://joscha.github.io/play-easymail/repo/snapshots/",
-  Resolver.url("Objectify Play Repository", url("http://schaloner.github.io/releases/"))(Resolver.ivyStylePatterns),
   "play-authenticate (release)" at "http://joscha.github.io/play-authenticate/repo/releases/",
   "play-authenticate (snapshot)" at "http://joscha.github.io/play-authenticate/repo/snapshots/"
 )

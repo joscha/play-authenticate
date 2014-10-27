@@ -62,9 +62,16 @@ public class FacebookOAuth2Test extends OAuth2Test {
         browser.find("#checkpointSubmitButton").click();
         browser.await().untilPage().isLoaded();
 
+        // check login layout
+        checkLoginLayout();
+
         // confirm login
         browser.find("[name='__CONFIRM__']").click();
         browser.await().untilPage().isLoaded();
+    }
+
+    protected void checkLoginLayout() {
+        assertThat(browser.find("[name='display']").getValue()).isEqualTo("page");
     }
 
     /**

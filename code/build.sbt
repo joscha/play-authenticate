@@ -19,8 +19,8 @@ publishTo <<= (version) { version: String =>
 }
 
 libraryDependencies ++= Seq(
-  "org.apache.httpcomponents" % "httpclient" % "4.3.4",
-  "com.feth" %% "play-easymail" % "0.6.5-SNAPSHOT",
+  "org.apache.httpcomponents" % "httpclient" % "4.3.5",
+  "com.feth" %% "play-easymail" % "0.6.6-SNAPSHOT",
   "org.mindrot" % "jbcrypt" % "0.3m",
   "commons-lang" % "commons-lang" % "2.6",
   javaCore,

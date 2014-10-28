@@ -1,5 +1,3 @@
-import com.feth.play.module.pa.PlayAuthenticate;
-import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
 import com.feth.play.module.pa.providers.oauth2.google.GoogleAuthProvider;
 import com.feth.play.module.pa.providers.oauth2.google.GoogleAuthUser;
 import models.User;
@@ -8,6 +6,7 @@ import org.junit.Test;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import static com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider.SettingKeys.*;
 import static org.fest.assertions.Assertions.assertThat;
 
 public class GoogleOAuth2Test extends OAuth2Test {
@@ -15,8 +14,12 @@ public class GoogleOAuth2Test extends OAuth2Test {
     public static final String GOOGLE_USER_EMAIL = "fethjoscha@gmail.com";
 
     protected void amendConfiguration(final Map<String, String> additionalConfiguration) {
-        additionalConfiguration.put(PlayAuthenticate.SETTING_KEY_PLAY_AUTHENTICATE + "." + GoogleAuthProvider.PROVIDER_KEY + "." + OAuth2AuthProvider.SettingKeys.CLIENT_ID, System.getenv("GOOGLE_CLIENT_ID"));
-        additionalConfiguration.put(PlayAuthenticate.SETTING_KEY_PLAY_AUTHENTICATE + "." + GoogleAuthProvider.PROVIDER_KEY + "." + OAuth2AuthProvider.SettingKeys.CLIENT_SECRET, System.getenv("GOOGLE_CLIENT_SECRET"));
+        additionalConfiguration.put(constructSettingKey(CLIENT_ID), System.getenv("GOOGLE_CLIENT_ID"));
+        additionalConfiguration.put(constructSettingKey(CLIENT_SECRET), System.getenv("GOOGLE_CLIENT_SECRET"));
+    }
+
+    protected String getProviderKey() {
+        return GoogleAuthProvider.PROVIDER_KEY;
     }
 
     protected Class<GoogleAuthProvider> getProviderUnderTest() {
@@ -42,7 +45,8 @@ public class GoogleOAuth2Test extends OAuth2Test {
     }
 
     private void signupUser() {
-        browser.goTo("/authenticate/" + GoogleAuthProvider.PROVIDER_KEY)
+        goToLogin();
+        browser
                 .fill("#Email").with(GOOGLE_USER_EMAIL)
                 .fill("#Passwd").with(System.getenv("GOOGLE_USER_PASSWORD"))
                 .find("#signIn").click();

@@ -21,8 +21,12 @@ public class FacebookOAuth2Test extends OAuth2Test {
     public static final String FACEBOOK_USER_EMAIL = "fethjoscha@gmail.com";
 
     protected void amendConfiguration(final Map<String, String> additionalConfiguration) {
-        additionalConfiguration.put(PlayAuthenticate.SETTING_KEY_PLAY_AUTHENTICATE + "." + FacebookAuthProvider.PROVIDER_KEY + "." + OAuth2AuthProvider.SettingKeys.CLIENT_ID, System.getenv("FACEBOOK_CLIENT_ID"));
-        additionalConfiguration.put(PlayAuthenticate.SETTING_KEY_PLAY_AUTHENTICATE + "." + FacebookAuthProvider.PROVIDER_KEY + "." + OAuth2AuthProvider.SettingKeys.CLIENT_SECRET, System.getenv("FACEBOOK_CLIENT_SECRET"));
+        additionalConfiguration.put(constructSettingKey(CLIENT_ID), System.getenv("FACEBOOK_CLIENT_ID"));
+        additionalConfiguration.put(constructSettingKey(CLIENT_SECRET), System.getenv("FACEBOOK_CLIENT_SECRET"));
+    }
+
+    protected String getProviderKey() {
+        return FacebookAuthProvider.PROVIDER_KEY;
     }
 
     protected Class<FacebookAuthProvider> getProviderUnderTest() {
@@ -51,7 +55,8 @@ public class FacebookOAuth2Test extends OAuth2Test {
     }
 
     private void signupUser() {
-        browser.goTo("/authenticate/" + FacebookAuthProvider.PROVIDER_KEY)
+        goToLogin();
+        browser
                 .fill("#email").with(FACEBOOK_USER_EMAIL)
                 .fill("#pass").with(System.getenv("FACEBOOK_USER_PASSWORD"))
                 .find("#u_0_1").click();

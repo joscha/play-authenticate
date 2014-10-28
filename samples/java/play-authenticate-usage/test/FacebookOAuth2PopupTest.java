@@ -9,7 +9,7 @@ public class FacebookOAuth2PopupTest extends FacebookOAuth2Test {
 
     protected void amendConfiguration(final Map<String, String> additionalConfiguration) {
         super.amendConfiguration(additionalConfiguration);
-        additionalConfiguration.put(PlayAuthenticate.SETTING_KEY_PLAY_AUTHENTICATE + "." + FacebookAuthProvider.PROVIDER_KEY + "." + FacebookAuthProvider.SettingKeys.DISPLAY, "popup");
+        additionalConfiguration.put(constructSettingKey(FacebookAuthProvider.SettingKeys.DISPLAY), "popup");
     }
 
     @Override

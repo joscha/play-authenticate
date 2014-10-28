@@ -1,7 +1,9 @@
+import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
 import com.feth.play.module.pa.providers.oauth2.google.GoogleAuthProvider;
 import com.feth.play.module.pa.user.AuthUser;
 import play.Application;
+import play.Configuration;
 import play.test.FakeApplication;
 import play.test.Helpers;
 import play.test.TestBrowser;
@@ -43,10 +45,24 @@ public abstract class OAuth2Test extends WithBrowser {
     }
 
     protected abstract Class<? extends OAuth2AuthProvider> getProviderUnderTest();
+    protected abstract String getProviderKey();
 
     protected abstract void amendConfiguration(final Map<String, String> additionalConfiguration);
     protected void amendPlugins(final List<String> additionalPlugins) {
 
+    }
+
+    protected void goToLogin() {
+        browser.goTo("/authenticate/" + getProviderKey());
+        browser.await().untilPage().isLoaded();
+    }
+
+    protected String constructSettingKey(final String setting) {
+        return PlayAuthenticate.SETTING_KEY_PLAY_AUTHENTICATE + "." + getProviderKey() + "." + setting;
+    }
+
+    protected Configuration getConfig() {
+        return PlayAuthenticate.getConfiguration().getConfig(getProviderKey());
     }
 
     public static class MyTestUserServicePlugin extends service.MyUserServicePlugin {

@@ -35,6 +35,6 @@ lazy val root = project.in(file("."))
   .settings(
     libraryDependencies ++= appDependencies
   )
-  //  Uncomment the next lines for local development of the Play Authenticate core:
   //.dependsOn(playAuthenticate)
   //.aggregate(playAuthenticate)
+  /* Uncomment the next lines for local development of the Play Authenticate core: */

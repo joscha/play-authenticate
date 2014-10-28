@@ -13,7 +13,7 @@ public class FacebookOAuth2PopupTest extends FacebookOAuth2Test {
     }
 
     @Override
-    protected void checkLoginLayout() {
-        assertThat(browser.find("[name='display']").getValue()).isEqualTo("popup");
+    protected String expectedLoginLayout() {
+        return "popup";
     }
 }

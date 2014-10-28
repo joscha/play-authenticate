@@ -1,24 +1,27 @@
-import static org.fest.assertions.Assertions.assertThat;
-
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
-import models.User;
-
-import org.junit.After;
-import org.junit.Test;
-
-import play.libs.ws.WS;
-import play.libs.ws.WSResponse;
-
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
 import com.feth.play.module.pa.providers.oauth2.facebook.FacebookAuthProvider;
 import com.feth.play.module.pa.providers.oauth2.facebook.FacebookAuthUser;
+import models.User;
+import org.junit.After;
+import org.junit.Test;
+import org.openqa.selenium.ElementNotVisibleException;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.remote.ErrorHandler;
+import play.Configuration;
+import play.libs.ws.WS;
+
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
+import static com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider.SettingKeys.CLIENT_ID;
+import static com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider.SettingKeys.CLIENT_SECRET;
+import static org.fest.assertions.Assertions.assertThat;
 
 public class FacebookOAuth2Test extends OAuth2Test {
 
-    public static final String FACEBOOK_USER_EMAIL = "fethjoscha@gmail.com";
+    public static final String FACEBOOK_USER_EMAIL = "ufbullq_fallerman_1414534488@tfbnw.net";
+    public static final String FACEBOOK_USER_ID = "100005169708842";
 
     protected void amendConfiguration(final Map<String, String> additionalConfiguration) {
         additionalConfiguration.put(constructSettingKey(CLIENT_ID), System.getenv("FACEBOOK_CLIENT_ID"));
@@ -43,15 +46,15 @@ public class FacebookOAuth2Test extends OAuth2Test {
         assertThat(browser.url()).isEqualTo("/#_=_");
 
         final FacebookAuthUser authUser = (FacebookAuthUser) (MyTestUserServicePlugin.getLastAuthUser());
-        assertThat(authUser.getProfileLink()).isEqualTo("https://www.facebook.com/app_scoped_user_id/11111111111111111/");
-        assertThat(authUser.getId()).isEqualTo("11111111111111111");
-        assertThat(authUser.getGender()).isEqualTo("male");
+        assertThat(authUser.getProfileLink()).contains(FACEBOOK_USER_ID);
+        assertThat(authUser.getId()).isEqualTo(FACEBOOK_USER_ID);
+        assertThat(authUser.getGender()).isEqualTo("female");
 
         final User user = User.findByEmail(FACEBOOK_USER_EMAIL);
         assertThat(user).isNotNull();
-        assertThat(user.firstName).isEqualTo("Joscha");
-        assertThat(user.lastName).isEqualTo("Feth");
-        assertThat(user.name).isEqualTo("Joscha Feth");
+        assertThat(user.firstName).isEqualTo("Mary");
+        assertThat(user.lastName).isEqualTo("Fallerman");
+        assertThat(user.name).isEqualTo("Mary Ameafigjhhdb Fallerman");
     }
 
     private void signupUser() {
@@ -63,20 +66,39 @@ public class FacebookOAuth2Test extends OAuth2Test {
         browser.await().untilPage().isLoaded();
 
         // save browser? no!
-        browser.find("#u_0_2").click();
-        browser.find("#checkpointSubmitButton").click();
-        browser.await().untilPage().isLoaded();
+        try {
+            // try, because this is not checked for test users, because they are not asked
+            browser.find("#u_0_2").click();
+            browser.find("#checkpointSubmitButton").click();
+            browser.await().untilPage().isLoaded();
+        } catch (final NoSuchElementException nsee) {
+            // mobile
+        } catch(final ElementNotVisibleException enve) {
+            // desktop
+        }
 
         // check login layout
         checkLoginLayout();
 
         // confirm login
-        browser.find("[name='__CONFIRM__']").click();
-        browser.await().untilPage().isLoaded();
+        browser
+                .find("[name='__CONFIRM__']")
+                .click();
+        browser
+                .await()
+                .untilPage()
+                .isLoaded();
+
     }
 
-    protected void checkLoginLayout() {
-        assertThat(browser.find("[name='display']").getValue()).isEqualTo("page");
+    protected String expectedLoginLayout() {
+        return "page";
+    }
+
+    private void checkLoginLayout() {
+        final String selector = "[name='display']";
+        browser.await().atMost(5, TimeUnit.SECONDS).until(selector);
+        assertThat(browser.find(selector).getValue()).isEqualTo(expectedLoginLayout());
     }
 
     /**
@@ -87,12 +109,18 @@ public class FacebookOAuth2Test extends OAuth2Test {
     public void shutdown() {
         final FacebookAuthUser authUser = (FacebookAuthUser) (MyTestUserServicePlugin.getLastAuthUser());
 
-        final String url = PlayAuthenticate.getConfiguration().getConfig(FacebookAuthProvider.PROVIDER_KEY).getString("userInfoUrl") + "/permissions";
-        final WSResponse r = WS
+        if (authUser == null) {
+            // in case the test failed, we don't have an authUser
+            return;
+        }
+
+        final String url = getConfig().getString("userInfoUrl") + "/permissions";
+        WS
                 .url(url)
                 .setQueryParameter(OAuth2AuthProvider.Constants.ACCESS_TOKEN, authUser.getOAuth2AuthInfo().getAccessToken())
                 .setQueryParameter("format", "json")
                 .setQueryParameter("method", "delete")
                 .get().get(10, TimeUnit.SECONDS);
     }
+
 }

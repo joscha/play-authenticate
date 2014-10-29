@@ -1,10 +1,6 @@
-import com.feth.play.module.pa.PlayAuthenticate;
-import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
 import com.feth.play.module.pa.providers.oauth2.eventbrite.EventBriteAuthProvider;
 import com.feth.play.module.pa.providers.oauth2.eventbrite.EventBriteAuthUser;
 import models.User;
-import org.fluentlenium.core.Fluent;
-import org.fluentlenium.core.domain.FluentList;
 import org.fluentlenium.core.domain.FluentWebElement;
 import org.junit.Test;
 import org.openqa.selenium.NoSuchElementException;

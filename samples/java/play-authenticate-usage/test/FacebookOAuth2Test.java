@@ -1,4 +1,3 @@
-import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
 import com.feth.play.module.pa.providers.oauth2.facebook.FacebookAuthProvider;
 import com.feth.play.module.pa.providers.oauth2.facebook.FacebookAuthUser;
@@ -7,8 +6,6 @@ import org.junit.After;
 import org.junit.Test;
 import org.openqa.selenium.ElementNotVisibleException;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.remote.ErrorHandler;
-import play.Configuration;
 import play.libs.ws.WS;
 
 import java.util.Map;

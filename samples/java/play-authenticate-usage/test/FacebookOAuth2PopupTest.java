@@ -1,9 +1,6 @@
-import static org.fest.assertions.Assertions.assertThat;
+import com.feth.play.module.pa.providers.oauth2.facebook.FacebookAuthProvider;
 
 import java.util.Map;
-
-import com.feth.play.module.pa.PlayAuthenticate;
-import com.feth.play.module.pa.providers.oauth2.facebook.FacebookAuthProvider;
 
 public class FacebookOAuth2PopupTest extends FacebookOAuth2Test {
 

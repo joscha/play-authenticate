@@ -19,7 +19,7 @@ pomIncludeRepository := { _ => false }
 pomExtra := (
   <scm>
     <url>git@github.com:joscha/play-authenticate.git</url>
-    <connection>scm:git@github.com:joscha/play-authenticate.git</connection>
+    <connection>scm:git:git@github.com:joscha/play-authenticate.git</connection>
   </scm>
   <developers>
     <developer>

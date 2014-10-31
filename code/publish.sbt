@@ -21,10 +21,10 @@ pomExtra := (
     <url>git@github.com:joscha/play-authenticate.git</url>
     <connection>scm:git@github.com:joscha/play-authenticate.git</connection>
   </scm>
-    <developers>
-      <developer>
-        <id>joscha</id>
-        <name>Joscha Feth</name>
-        <url>http://www.feth.com</url>
-      </developer>
-    </developers>)
+  <developers>
+    <developer>
+      <id>joscha</id>
+      <name>Joscha Feth</name>
+      <url>http://www.feth.com</url>
+    </developer>
+  </developers>)

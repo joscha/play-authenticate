@@ -74,6 +74,10 @@ public abstract class OAuth2Test extends WithBrowser {
             super(app);
         }
 
+        @Override
+        public void onStart() {
+            PlayAuthenticate.setUserService(this);
+        }
 
         @Override
         public Object save(final AuthUser authUser) {

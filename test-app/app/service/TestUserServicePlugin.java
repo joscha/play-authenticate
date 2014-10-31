@@ -18,6 +18,11 @@ public class TestUserServicePlugin extends UserServicePlugin {
 	}
 
 	@Override
+	public void onStart() {
+		PlayAuthenticate.setUserService(this);
+	}
+
+	@Override
 	public Object save(final AuthUser authUser) {
 		users.put(new ImmutableAuthUserIdentity(authUser), authUser);
 		return authUser;

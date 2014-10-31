@@ -13,10 +13,6 @@ javacOptions ++= {
 
 version := "0.6.6-SNAPSHOT"
 
-publishTo <<= (version) { version: String =>
-  if (version.trim.endsWith("SNAPSHOT")) Some(Resolver.file("file",  new File( "../repo/snapshots" )))
-  else                                   Some(Resolver.file("file",  new File( "../repo/releases" )))
-}
 
 libraryDependencies ++= Seq(
   "org.apache.httpcomponents" % "httpclient" % "4.3.5",

@@ -22,9 +22,7 @@ resolvers ++= Seq(
   "Apache" at "http://repo1.maven.org/maven2/",
   "jBCrypt Repository" at "http://repo1.maven.org/maven2/org/",
   "play-easymail (release)" at "http://joscha.github.io/play-easymail/repo/releases/",
-  "play-easymail (snapshot)" at "http://joscha.github.io/play-easymail/repo/snapshots/",
-  "play-authenticate (release)" at "http://joscha.github.io/play-authenticate/repo/releases/",
-  "play-authenticate (snapshot)" at "http://joscha.github.io/play-authenticate/repo/snapshots/"
+  "play-easymail (snapshot)" at "http://joscha.github.io/play-easymail/repo/snapshots/"
 )
 
 //  Uncomment the next line for local development of the Play Authenticate core:

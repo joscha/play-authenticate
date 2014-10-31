@@ -9,7 +9,7 @@ version := "1.0-SNAPSHOT"
 val appDependencies = Seq(
   "be.objectify"  %% "deadbolt-java"     % "2.3.2",
   // Comment the next line for local development of the Play Authentication core:
-  "com.feth"      %% "play-authenticate" % "0.6.6-SNAPSHOT",
+  "com.feth"      %% "play-authenticate" % "0.6.7-SNAPSHOT",
   "postgresql"    %  "postgresql"        % "9.1-901-1.jdbc4",
   javaCore,
   cache,

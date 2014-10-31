@@ -11,8 +11,7 @@ javacOptions ++= {
   else                                        Seq()
 }
 
-version := "0.6.6-SNAPSHOT"
-
+version := "0.6.7-SNAPSHOT"
 
 libraryDependencies ++= Seq(
   "org.apache.httpcomponents" % "httpclient" % "4.3.5",

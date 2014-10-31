@@ -5,6 +5,7 @@ import java.util.Map;
 
 import play.Application;
 
+import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.service.UserServicePlugin;
 import com.feth.play.module.pa.user.AuthUser;
 import com.feth.play.module.pa.user.AuthUserIdentity;

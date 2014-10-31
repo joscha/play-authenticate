@@ -6,3 +6,5 @@ resolvers += "Typesafe repository" at "http://repo.typesafe.com/typesafe/release
 
 // Use the Play sbt plugin for Play projects
 addSbtPlugin("com.typesafe.play" % "sbt-plugin" % Option(System.getProperty("play.version")).getOrElse("2.3.6"))
+
+addSbtPlugin("com.typesafe.sbt" % "sbt-pgp" % "0.8.3")

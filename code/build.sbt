@@ -30,6 +30,4 @@ resolvers ++= Seq(
   "play-easymail (snapshot)" at "http://joscha.github.io/play-easymail/repo/snapshots/"
 )
 
-publishArtifact in packageDoc := false
-
 lazy val root = (project in file(".")).enablePlugins(PlayJava)

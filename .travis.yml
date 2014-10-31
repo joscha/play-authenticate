@@ -47,5 +47,4 @@ env:
     # FACEBOOK_USER_PASSWORD
   - secure: "Nv/y82hWjkmAdE+DaRABP6rB8ENaAIfHw0QtPCdxt60J+8r3Gq+ainJuHJ7qa73MHZumhuNRUMalyMvlL4TMoaXuKLIKS42WBL88IA5Kc9p50oxP+EJLJif9sz+Inz1sCtxnAUGBtbqn8YQIf2pPpNWm096KnaMQum6fsfucKmE="
 after_success:
-  - echo $TRAVIS_JDK_VERSION
-  - "[[ $TRAVIS_BRANCH == \"master\" ]] && { cd $TRAVIS_BUILD_DIR/code && ./publish.sh; };"
+  - "[[ $TRAVIS_BRANCH == \"master\" && $TRAVIS_JDK_VERSION == \"openjdk6\" ]] && { cd $TRAVIS_BUILD_DIR/code && sbt publish; };"

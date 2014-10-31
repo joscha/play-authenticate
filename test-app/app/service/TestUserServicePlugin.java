@@ -5,6 +5,7 @@ import java.util.Map;
 
 import play.Application;
 
+import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.service.UserServicePlugin;
 import com.feth.play.module.pa.user.AuthUser;
 import com.feth.play.module.pa.user.AuthUserIdentity;
@@ -15,6 +16,11 @@ public class TestUserServicePlugin extends UserServicePlugin {
 
 	public TestUserServicePlugin(Application app) {
 		super(app);
+	}
+
+	@Override
+	public void onStart() {
+		PlayAuthenticate.setUserService(this);
 	}
 
 	@Override

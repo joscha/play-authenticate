@@ -2,6 +2,7 @@ import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
 import com.feth.play.module.pa.providers.oauth2.google.GoogleAuthProvider;
 import com.feth.play.module.pa.user.AuthUser;
+import org.junit.Before;
 import play.Application;
 import play.Configuration;
 import play.test.FakeApplication;
@@ -84,5 +85,15 @@ public abstract class OAuth2Test extends WithBrowser {
             return lastAuthUser;
         }
 
+        public static void resetLasAuthUser() {
+            lastAuthUser = null;
+        }
+
     }
+
+    @Before
+    public void resetLastAuthUser() {
+        MyTestUserServicePlugin.resetLasAuthUser();
+    }
+
 }

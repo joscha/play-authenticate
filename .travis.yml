@@ -28,6 +28,10 @@ notifications:
   email: false
 env:
   global:
+    # SONATYPE_USERNAME
+  - secure: "gD7VXslaztqJ5y6dBgnHbWhgIloO1/EM1HK523E/q3RbaVU3XBwKWZagYDgaRj/kryJRDlfnrfRkeOlClT+KnwtCUjR5tc+AUI6CcJ9Nk7Lz8lUFM4tTWDe/3ix0ruJ4TFud3Hpvvf4p1DIya5GBlhL+mHyCndkfPvJDGSt1NLU="
+    # SONATYPE_PASSWORD
+  - secure: "Y1/q8KcWQb9H3HVOP6WEq1TupkueIv+6Z3vl7Q7fs4V96DEzgfr2IduAZ3V4KDGVfiwvusUVN9QpQb3NSZr9VL5fvpL4mLtvbHTl+HDQE2jgY8nNqGUAIrTFHPOKKSsu3isqvkH3ftc57v6cWSOnVmxETj1gQPGfUoHSK0uoTnU="
     # GOOGLE_USER_PASSWORD
   - secure: gm1FnnjROan7Fbq3ezsa49W1OpwgQBjPslBaWvubG8cx3EceYmnwmT1IaM2v+WnbU+MldODhQI9rNYluv6pkrKQRvu7oif3L0G+kbNvA/FGVNXwcraAQSv8duxmvu/bcB3MfoiKmlkNrGXqGJ4Cg2g/kNRQMj/kseYNCDLfKeY4=
   - GOOGLE_CLIENT_ID=752301340201.apps.googleusercontent.com
@@ -43,3 +47,6 @@ env:
   - secure: "cqk+2dpYEPKW2uqqxIWF907HRVFYgA4TyI2ws5/RZ5OVD6wcOWepqXMdtGGnOUDQSLZX8i1uQO7jrSshloL9y37Ne6UnO7SbcAXp08k0jT/FbtTHcG8fYSny+TzX7zRJVYaCjSUKsn3W/71AsgIKSsTrQzK61hanHi+WJuCfLaI="
     # FACEBOOK_USER_PASSWORD
   - secure: "Nv/y82hWjkmAdE+DaRABP6rB8ENaAIfHw0QtPCdxt60J+8r3Gq+ainJuHJ7qa73MHZumhuNRUMalyMvlL4TMoaXuKLIKS42WBL88IA5Kc9p50oxP+EJLJif9sz+Inz1sCtxnAUGBtbqn8YQIf2pPpNWm096KnaMQum6fsfucKmE="
+after_success:
+  - echo $TRAVIS_JDK_VERSION
+  - "[[ $TRAVIS_BRANCH == \"master\" ]] && { cd $TRAVIS_BUILD_DIR/code && ./publish.sh; };"

@@ -1,1 +1,0 @@
-useGpg := true

@@ -2,6 +2,7 @@ package com.feth.play.module.pa.providers.oauth2.untappd;
 
 import java.util.List;
 
+import com.feth.play.module.pa.exceptions.ResolverMissingException;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -87,7 +88,7 @@ public class UntappdAuthProvider extends
 	}
 
 	protected UntappdAuthInfo getAccessToken(final String code,
-			final Request request) throws AccessTokenException {
+			final Request request) throws AccessTokenException, ResolverMissingException {
 		final Configuration c = getConfiguration();
 
 		final String url = c.getString(SettingKeys.ACCESS_TOKEN_URL);
@@ -109,7 +110,7 @@ public class UntappdAuthProvider extends
 
 	@Override
 	protected List<NameValuePair> getParams(final Request request,
-			final Configuration c) {
+			final Configuration c) throws ResolverMissingException {
 		final List<NameValuePair> params = super.getParams(request, c);
 
 		params.add(new BasicNameValuePair(Constants.CLIENT_SECRET, c

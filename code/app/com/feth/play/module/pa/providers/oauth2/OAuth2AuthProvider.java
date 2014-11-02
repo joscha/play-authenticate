@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import com.feth.play.module.pa.exceptions.*;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
@@ -23,10 +24,6 @@ import play.mvc.Http.Request;
 import play.mvc.Http.Session;
 
 import com.feth.play.module.pa.PlayAuthenticate;
-import com.feth.play.module.pa.exceptions.AccessDeniedException;
-import com.feth.play.module.pa.exceptions.AccessTokenException;
-import com.feth.play.module.pa.exceptions.AuthException;
-import com.feth.play.module.pa.exceptions.RedirectUriMismatch;
 import com.feth.play.module.pa.providers.ext.ExternalAuthProvider;
 import com.feth.play.module.pa.user.AuthUser;
 import com.feth.play.module.pa.user.AuthUserIdentity;
@@ -84,7 +81,7 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 	}
 
 	protected String getAccessTokenParams(final Configuration c,
-			final String code, Request request) {
+			final String code, Request request) throws ResolverMissingException {
 		final List<NameValuePair> params = getParams(request, c);
 		params.add(new BasicNameValuePair(Constants.CLIENT_SECRET, c
 				.getString(SettingKeys.CLIENT_SECRET)));
@@ -100,7 +97,7 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
     }
 
 	protected I getAccessToken(final String code, final Request request)
-			throws AccessTokenException {
+            throws AccessTokenException, ResolverMissingException {
 		final Configuration c = getConfiguration();
 		final String params = getAccessTokenParams(c, code, request);
 		final String url = c.getString(SettingKeys.ACCESS_TOKEN_URL);
@@ -153,7 +150,7 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 	}
 
 	protected List<NameValuePair> getParams(final Request request,
-			final Configuration c) {
+			final Configuration c) throws ResolverMissingException {
 		final List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair(Constants.CLIENT_ID, c
 				.getString(SettingKeys.CLIENT_ID)));

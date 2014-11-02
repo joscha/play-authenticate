@@ -15,13 +15,18 @@ publishTo := {
 
 homepage := Some(url("http://joscha.github.io/play-authenticate"))
 
-licenses := Seq("Apache 2" -> url("http://opensource.org/licenses/Apache-2.0"))
-
 publishArtifact in Test := false
 
 pomIncludeRepository := { _ => false }
 
 pomExtra := (
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
   <scm>
     <url>git@github.com:joscha/play-authenticate.git</url>
     <connection>scm:git:git@github.com:joscha/play-authenticate.git</connection>

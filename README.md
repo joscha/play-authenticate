@@ -53,6 +53,7 @@ As of now, the following authentication providers are supported out of the box:
 * Your very own authentication provider (LDAP, DB, you-name-it) via an extensible, easy-to-use plugin mechanism based on Play Plugins
 
 The included sample application shows how to use all of those providers.
+There is also a [sample application using Play!Authenticate with MongoDB](https://github.com/ntenisOT/play-authenticate-mongo).
 
 ### Languages
 * English

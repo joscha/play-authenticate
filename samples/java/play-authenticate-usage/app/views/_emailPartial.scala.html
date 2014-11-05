@@ -1,7 +1,7 @@
 @(f: Form[_], constraints: Boolean = false)
 
 @import helper._
-@import helper.twitterBootstrap._
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapBasic.f) }
 
 @inputText(
   f("email"),

@@ -1,7 +1,7 @@
 @(acceptForm: Form[Account.Accept], newAccount: com.feth.play.module.pa.user.AuthUser)
 
 @import helper._
-@import helper.twitterBootstrap._
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapBasic.f) }
 
 @label = {
 	@_providerIcon(newAccount.getProvider()) @Messages("playauthenticate.link.account.question",newAccount)
@@ -11,14 +11,14 @@
 
 	<h1>@Messages("playauthenticate.link.account.title")</h1>
 	<p>
-	@form(routes.Account.doLink) {
-	   
-            @if(acceptForm.hasGlobalErrors) { 
-                <p class="error">
-		            <span class="label label-important">@acceptForm.globalError.message</span>
-		        </p>
+	@form(routes.Account.doLink, 'class -> "form-horizontal", 'role -> "form") {
+
+            @if(acceptForm.hasGlobalErrors) {
+		        <p class="alert alert-danger">
+		          @acceptForm.globalError.message
+		     	</p>
             }
-	   
+
 	   @inputRadioGroup(
             acceptForm("accept"),
             options = Seq(
@@ -28,8 +28,8 @@
             '_label -> label,
             '_showConstraints -> false
         )
-           
-		<input type="submit" value="@Messages("playauthenticate.link.account.ok")" class="btn btn-primary"> 
+
+    <button type="submit" class="btn btn-default">@Messages("playauthenticate.link.account.ok")</button>
 	}
 	</p>
 }

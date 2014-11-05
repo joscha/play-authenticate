@@ -1,7 +1,7 @@
 @(acceptForm: Form[Account.Accept], aUser: com.feth.play.module.pa.user.AuthUser, bUser: com.feth.play.module.pa.user.AuthUser)
 
 @import helper._
-@import helper.twitterBootstrap._
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapBasic.f) }
 
 @label = {
 	@Messages("playauthenticate.merge.accounts.question",aUser,bUser)
@@ -11,14 +11,14 @@
 
 	<h1>@Messages("playauthenticate.merge.accounts.title")</h1>
 	<p>
-	@form(routes.Account.doMerge) {
+	@form(routes.Account.doMerge, 'class -> "form-horizontal", 'role -> "form") {
 
-            @if(acceptForm.hasGlobalErrors) { 
-                <p class="error">
-		            <span class="label label-important">@acceptForm.globalError.message</span>
-		        </p>
+            @if(acceptForm.hasGlobalErrors) {
+		        <p class="alert alert-danger">
+		          @acceptForm.globalError.message
+		     	</p>
             }
-	   
+
 	   @inputRadioGroup(
             acceptForm("accept"),
             options = Seq(
@@ -28,8 +28,8 @@
             '_label -> label,
             '_showConstraints -> false
         )
-           
-		<input type="submit" value="@Messages("playauthenticate.merge.accounts.ok")" class="btn btn-primary">
+
+    <button type="submit" class="btn btn-default">@Messages("playauthenticate.merge.accounts.ok")</button>
 	}
 	</p>
 }

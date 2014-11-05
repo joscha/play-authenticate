@@ -1,7 +1,7 @@
 @(loginForm: Form[_])
 
 @import helper._
-@import helper.twitterBootstrap._
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapBasic.f) }
 @import com.feth.play.module.pa.views.html._
 
 @main(Messages("playauthenticate.login.title"),"login") {

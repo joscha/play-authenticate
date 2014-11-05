@@ -1,7 +1,7 @@
 @(signupForm: Form[_])
 
 @import helper._
-@import helper.twitterBootstrap._
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapBasic.f) }
 
 @main(Messages("playauthenticate.signup.title"),"signup") {
 

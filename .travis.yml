@@ -1,7 +1,7 @@
 language: scala
 scala:
 - 2.10.4
-- 2.11.1
+- 2.11.2
 jdk:
   - openjdk6
   - openjdk7
@@ -11,23 +11,26 @@ before_install:
 - sh -e /etc/init.d/xvfb start
 script:
 - cd $TRAVIS_BUILD_DIR/code
-- sbt --warn ++$TRAVIS_SCALA_VERSION compile
+- travis_retry sbt --warn ++$TRAVIS_SCALA_VERSION compile
 - sbt ++$TRAVIS_SCALA_VERSION test
 - sbt --warn ++$TRAVIS_SCALA_VERSION publish-local
 - cd $TRAVIS_BUILD_DIR/test-app
-- sbt --warn ++$TRAVIS_SCALA_VERSION compile
+- travis_retry sbt --warn ++$TRAVIS_SCALA_VERSION compile
 - sbt ++$TRAVIS_SCALA_VERSION test
 - cd $TRAVIS_BUILD_DIR/samples/java/play-authenticate-usage
-- sbt --warn ++$TRAVIS_SCALA_VERSION compile
-- if [[ "$TRAVIS_SECURE_ENV_VARS" == "true" ]]; then sbt --info ++$TRAVIS_SCALA_VERSION
-  test; fi
+- travis_retry sbt --warn ++$TRAVIS_SCALA_VERSION compile
+- if [[ "$TRAVIS_SECURE_ENV_VARS" == "true" ]]; then travis_retry sbt --info ++$TRAVIS_SCALA_VERSION test; fi
 - cd $TRAVIS_BUILD_DIR/samples/java/play-authenticate-simple-oauth
-- sbt --warn ++$TRAVIS_SCALA_VERSION compile
+- travis_retry sbt --warn ++$TRAVIS_SCALA_VERSION compile
 - sbt ++$TRAVIS_SCALA_VERSION test
 notifications:
   email: false
 env:
   global:
+    # SONATYPE_USERNAME
+  - secure: "gD7VXslaztqJ5y6dBgnHbWhgIloO1/EM1HK523E/q3RbaVU3XBwKWZagYDgaRj/kryJRDlfnrfRkeOlClT+KnwtCUjR5tc+AUI6CcJ9Nk7Lz8lUFM4tTWDe/3ix0ruJ4TFud3Hpvvf4p1DIya5GBlhL+mHyCndkfPvJDGSt1NLU="
+    # SONATYPE_PASSWORD
+  - secure: "Y1/q8KcWQb9H3HVOP6WEq1TupkueIv+6Z3vl7Q7fs4V96DEzgfr2IduAZ3V4KDGVfiwvusUVN9QpQb3NSZr9VL5fvpL4mLtvbHTl+HDQE2jgY8nNqGUAIrTFHPOKKSsu3isqvkH3ftc57v6cWSOnVmxETj1gQPGfUoHSK0uoTnU="
     # GOOGLE_USER_PASSWORD
   - secure: gm1FnnjROan7Fbq3ezsa49W1OpwgQBjPslBaWvubG8cx3EceYmnwmT1IaM2v+WnbU+MldODhQI9rNYluv6pkrKQRvu7oif3L0G+kbNvA/FGVNXwcraAQSv8duxmvu/bcB3MfoiKmlkNrGXqGJ4Cg2g/kNRQMj/kseYNCDLfKeY4=
   - GOOGLE_CLIENT_ID=752301340201.apps.googleusercontent.com
@@ -38,3 +41,10 @@ env:
   - secure: CmhCt8JCa8aYtth5drvJyD+bqeRJB4O7NmeWdNxDAhcp8U/a+L1z2s7tc1gVJskjK6JR6z7szvz5r3ZPbWN58st5ArS2lPxgw71P9UoIfSC6TI9wbWfLM/aSYmrcQwEZwVm3G62ZjUCpucsbbfxP2S1LY8Iz3zdDpE7W4KM2hNU=
     # EVENTBRITE_USER_PASSWORD
   - secure: alluMc7Uvi/BadRrn7hEuW7dFuYushHUVqqhE8zPlVBc+5zebfnduEmagv+8pp50a0j6bu7z6UDqNGUDjRaExhW0PommpaAFBTGfpoP8Z4uI/xWqSM6vE/YMf0zAsnCJftJMFVEspCCZKOuMnOVhs1uu/RUfqJdMINd/uiR079o=
+  - FACEBOOK_CLIENT_ID=471747832966198
+    # FACEBOOK_CLIENT_SECRET
+  - secure: "cqk+2dpYEPKW2uqqxIWF907HRVFYgA4TyI2ws5/RZ5OVD6wcOWepqXMdtGGnOUDQSLZX8i1uQO7jrSshloL9y37Ne6UnO7SbcAXp08k0jT/FbtTHcG8fYSny+TzX7zRJVYaCjSUKsn3W/71AsgIKSsTrQzK61hanHi+WJuCfLaI="
+    # FACEBOOK_USER_PASSWORD
+  - secure: "Nv/y82hWjkmAdE+DaRABP6rB8ENaAIfHw0QtPCdxt60J+8r3Gq+ainJuHJ7qa73MHZumhuNRUMalyMvlL4TMoaXuKLIKS42WBL88IA5Kc9p50oxP+EJLJif9sz+Inz1sCtxnAUGBtbqn8YQIf2pPpNWm096KnaMQum6fsfucKmE="
+after_success:
+  - "[[ $TRAVIS_BRANCH == \"master\" && $TRAVIS_JDK_VERSION == \"openjdk6\" ]] && { cd $TRAVIS_BUILD_DIR/code && sbt --info ++$TRAVIS_SCALA_VERSION -Dtravis=1 publish; };"

@@ -1,10 +1,6 @@
-import com.feth.play.module.pa.PlayAuthenticate;
-import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
 import com.feth.play.module.pa.providers.oauth2.eventbrite.EventBriteAuthProvider;
 import com.feth.play.module.pa.providers.oauth2.eventbrite.EventBriteAuthUser;
 import models.User;
-import org.fluentlenium.core.Fluent;
-import org.fluentlenium.core.domain.FluentList;
 import org.fluentlenium.core.domain.FluentWebElement;
 import org.junit.Test;
 import org.openqa.selenium.NoSuchElementException;
@@ -12,6 +8,7 @@ import org.openqa.selenium.NoSuchElementException;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import static com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider.SettingKeys.*;
 import static org.fest.assertions.Assertions.assertThat;
 import static org.fluentlenium.core.filter.FilterConstructor.*;
 
@@ -20,8 +17,12 @@ public class EventbriteOAuth2Test extends OAuth2Test {
     public static final String EVENTBRITE_USER_EMAIL = "fethjoscha@gmail.com";
 
     protected void amendConfiguration(final Map<String, String> additionalConfiguration) {
-        additionalConfiguration.put(PlayAuthenticate.SETTING_KEY_PLAY_AUTHENTICATE + "." + EventBriteAuthProvider.PROVIDER_KEY + "." + OAuth2AuthProvider.SettingKeys.CLIENT_ID, System.getenv("EVENTBRITE_CLIENT_ID"));
-        additionalConfiguration.put(PlayAuthenticate.SETTING_KEY_PLAY_AUTHENTICATE + "." + EventBriteAuthProvider.PROVIDER_KEY + "." + OAuth2AuthProvider.SettingKeys.CLIENT_SECRET, System.getenv("EVENTBRITE_CLIENT_SECRET"));
+        additionalConfiguration.put(constructSettingKey(CLIENT_ID), System.getenv("EVENTBRITE_CLIENT_ID"));
+        additionalConfiguration.put(constructSettingKey(CLIENT_SECRET), System.getenv("EVENTBRITE_CLIENT_SECRET"));
+    }
+
+    protected String getProviderKey() {
+        return EventBriteAuthProvider.PROVIDER_KEY;
     }
 
     protected Class<EventBriteAuthProvider> getProviderUnderTest() {
@@ -45,8 +46,7 @@ public class EventbriteOAuth2Test extends OAuth2Test {
     }
 
     private void signupUser() {
-        browser.goTo("/authenticate/" + EventBriteAuthProvider.PROVIDER_KEY);
-        browser.await().untilPage().isLoaded();
+        goToLogin();
         try {
             final String migrationLightboxSelector = "#migration_lightbox";
             final FluentWebElement migrationLightbox = browser.findFirst(migrationLightboxSelector);

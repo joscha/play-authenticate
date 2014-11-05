@@ -1,4 +1,4 @@
-# [![Build Status](https://travis-ci.org/joscha/play-authenticate.png?branch=master)](https://travis-ci.org/joscha/play-authenticate) PlayAuthenticate - An extensible authentication plugin for Play! Framework 2 (Java)
+# [![Build Status](https://travis-ci.org/joscha/play-authenticate.svg?branch=master)](https://travis-ci.org/joscha/play-authenticate) PlayAuthenticate - An extensible authentication plugin for Play! Framework 2 (Java)
 
 This plugin uses concepts from [securesocial2][] and [Play20StartApp][] and provides a sample containing code from [deadbolt2][].
 
@@ -66,8 +66,12 @@ The included sample application shows how to use all of those providers.
 
 ## Versions
 * **TRUNK** [not released in the repository, yet]
-  * Portuguese translation (thanks @hugotavares)
   * Fancy contributing something? :-)
+* **0.6.6-SNAPSHOT** [2014-10-29]
+  * Portuguese translation (thanks @hugotavares)
+  * Updated mailer with attachment support (thanks @mkurz)
+  * Added display param support for Facebook (thanks @mkurz)
+  * Fixed serialization problem with memcached (thanks @dborisenko)
 * **0.6.5-SNAPSHOT** [2014-07-29]
   * Compile binaries with Java 6 for better compatibility (thanks @rui-ferreira)
   * Extend Travis build matrix to include Java 6 and Java 7

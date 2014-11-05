@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.feth.play.module.pa.exceptions.ResolverMissingException;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
@@ -114,7 +115,7 @@ public class PocketAuthProvider extends
 	}
 
 	private List<NameValuePair> getRequestTokenParams(final Request request,
-			final Configuration c) {
+			final Configuration c) throws ResolverMissingException {
 		final List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair(PocketConstants.CONSUMER_KEY, c
 				.getString(SettingKeys.CONSUMER_KEY)));

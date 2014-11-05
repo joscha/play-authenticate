@@ -20,11 +20,6 @@ val appDependencies = Seq(
   "org.webjars" % "bootstrap" % "3.2.0"
 )
 
-resolvers ++= Seq(
-  "Apache" at "http://repo1.maven.org/maven2/",
-  "jBCrypt Repository" at "http://repo1.maven.org/maven2/org/"
-)
-
 //  Uncomment the next line for local development of the Play Authenticate core:
 //lazy val playAuthenticate = project.in(file("modules/play-authenticate")).enablePlugins(PlayJava)
 

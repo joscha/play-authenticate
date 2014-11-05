@@ -78,6 +78,7 @@ public abstract class AuthProvider extends Plugin {
 		}
 
 		Registry.register(getKey(), this);
+		Logger.debug("Registered AuthProvider '" + getKey() + "'");
 	}
 
 	@Override

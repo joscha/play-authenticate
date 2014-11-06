@@ -71,6 +71,10 @@ There is also a [sample application using Play!Authenticate with MongoDB](https:
   * throw an exception if resolver is missing
   * Upgrade to bootstrap3 (thanks @joslash, @enalmada)
   * remove obsolete resolvers
+* **0.6.7** [2014-11-02]
+  * Maintenance release
+* **0.6.6** [2014-10-29]
+  * First release in Maven Central
 * **0.6.6-SNAPSHOT** [2014-10-29]
   * Portuguese translation (thanks @hugotavares)
   * Updated mailer with attachment support (thanks @mkurz)

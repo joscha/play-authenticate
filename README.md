@@ -68,9 +68,11 @@ There is also a [sample application using Play!Authenticate with MongoDB](https:
 ## Versions
 * **TRUNK** [not released in the repository, yet]
   * Fancy contributing something? :-)
-  * throw an exception if resolver is missing
-  * Upgrade to bootstrap3 (thanks @joslash, @enalmada)
-  * remove obsolete resolvers
+* **0.6.8** [2014-11-07]
+  * Throw an exception if `Resolver` is not defined
+  * Upgrade sample app to bootstrap 3.2 (thanks @joslash, @enalmada)
+  * Remove obsolete repository resolvers
+  * Fix NPE on cache clear during ongoing OAuth flow
 * **0.6.7** [2014-11-02]
   * Maintenance release
 * **0.6.6** [2014-10-29]

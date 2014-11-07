@@ -1,3 +1,5 @@
+package test;
+
 import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
 import com.feth.play.module.pa.providers.oauth2.facebook.FacebookAuthProvider;
 import com.feth.play.module.pa.providers.oauth2.facebook.FacebookAuthUser;

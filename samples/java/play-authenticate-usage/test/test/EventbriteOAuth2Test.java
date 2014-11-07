@@ -1,3 +1,5 @@
+package test;
+
 import com.feth.play.module.pa.providers.oauth2.eventbrite.EventBriteAuthProvider;
 import com.feth.play.module.pa.providers.oauth2.eventbrite.EventBriteAuthUser;
 import models.User;

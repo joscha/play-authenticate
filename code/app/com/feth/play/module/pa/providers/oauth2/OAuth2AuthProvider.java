@@ -192,7 +192,7 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
             if(storedState == null) {
                 Logger.warn("Cache either timed out, or you are using a setup with multiple servers and a non-shared cache implementation");
                 // we will just behave as if there was no auth, yet...
-                //return generateRedirectUrl(context, request);
+                return generateRedirectUrl(context, request);
             }
             final String callbackState = request.getQueryString(Constants.STATE);
             if(!storedState.equals(UUID.fromString(callbackState))) {

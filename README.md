@@ -17,6 +17,9 @@ Works fine with
 ## Live demo
 You can find a live demo on [heroku](https://play-authenticate.herokuapp.com/ "Play Authenticate sample app") (usually outdated) and there are some screens on our [website](http://joscha.github.io/play-authenticate/).
 
+## Quickstart
+Clone the project, go to `samples/java/play-authenticate-usage` and run `sbt run` to see a sample application. There are only very few of the providers enabled, because for most of them, you need to add OAuth credentials which you can get at the various different providers.
+
 ## Features
 
 * Fully customizable and localizable controllers and views (e.g. Play Authenticate allows you to define your own controllers and views for every visual step of the signup and/or log in process)

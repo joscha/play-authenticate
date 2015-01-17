@@ -141,7 +141,7 @@ This second example displays some account information:
         @if(auth.expires() == -1){
             never
         } else {
-            at @auth.expires() (UNIX timestamp)
+            at @{new java.util.Date(auth.expires())}
         }
     }
 

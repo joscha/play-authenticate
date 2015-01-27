@@ -31,6 +31,10 @@
              @_emailPartial(signupForm)
 
              @_passwordPartial(signupForm)
+             
+             <div><strong>Click in the square next to "I'm not a robot"</strong></div>
+             <div class="g-recaptcha" data-sitekey="@play.Play.application().configuration().getString("play-authenticate.gcaptcha.gsiteKey")"></div>
+             <br />
 
             <button type="submit" class="btn btn-default">@Messages("playauthenticate.signup.now")</button>
     	}

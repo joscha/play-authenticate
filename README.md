@@ -51,7 +51,7 @@ As of now, the following authentication providers are supported out of the box:
   * ![Xing](samples/java/play-authenticate-usage/public/icons/xing-24x24.png)
 * ![OpenID](samples/java/play-authenticate-usage/public/icons/openid-24x24.png) OpenID
 * ![E-Mail](samples/java/play-authenticate-usage/public/icons/password-24x24.png) Email/Password (with email verification, password security/encryption is fully customizable)
-* Basic Authentication
+* [Basic Authentication](http://en.wikipedia.org/wiki/Basic_access_authentication)
 * [SPNEGO](http://en.wikipedia.org/wiki/SPNEGO)
 * Your very own authentication provider (LDAP, DB, you-name-it) via an extensible, easy-to-use plugin mechanism based on Play Plugins
 

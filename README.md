@@ -20,7 +20,7 @@ You can find a live demo on [heroku](https://play-authenticate.herokuapp.com/ "P
 ## Quickstart
 Clone the project, go to `samples/java/play-authenticate-usage` and run `sbt run` to see a sample application. There are only very few of the providers enabled, because for most of them, you need to add OAuth credentials which you can get at the various different providers.
 
-### Include the Dependencies
+### Including the Dependencies
 
 Play-Authenticate is available in [Maven Central](http://search.maven.org/#artifactdetails%7Ccom.feth%7Cplay-authenticate_2.11%7C0.6.8%7Cjar).
 

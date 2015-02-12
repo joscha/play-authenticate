@@ -1,32 +1,26 @@
 package com.feth.play.module.pa.providers.oauth2;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
+import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.exceptions.*;
+import com.feth.play.module.pa.providers.ext.ExternalAuthProvider;
+import com.feth.play.module.pa.user.AuthUser;
+import com.feth.play.module.pa.user.AuthUserIdentity;
+import com.google.common.base.Strings;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
-
 import play.Application;
 import play.Configuration;
 import play.Logger;
 import play.i18n.Messages;
 import play.libs.ws.WS;
-import play.libs.ws.WSResponse;
 import play.libs.ws.WSRequestHolder;
-import play.mvc.Http;
+import play.libs.ws.WSResponse;
 import play.mvc.Http.Context;
 import play.mvc.Http.Request;
 import play.mvc.Http.Session;
 
-import com.feth.play.module.pa.PlayAuthenticate;
-import com.feth.play.module.pa.providers.ext.ExternalAuthProvider;
-import com.feth.play.module.pa.user.AuthUser;
-import com.feth.play.module.pa.user.AuthUserIdentity;
+import java.util.*;
 
 public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends OAuth2AuthInfo>
 		extends ExternalAuthProvider {
@@ -52,6 +46,7 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 	public static abstract class SettingKeys {
 		public static final String AUTHORIZATION_URL = "authorizationUrl";
 		public static final String ACCESS_TOKEN_URL = "accessTokenUrl";
+        public static final String REFRESH_TOKEN_URL = "refreshTokenUrl";
 		public static final String CLIENT_ID = "clientId";
 		public static final String CLIENT_SECRET = "clientSecret";
 		public static final String SCOPE = "scope";
@@ -201,6 +196,13 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
             }
 			final String code = request.getQueryString(Constants.CODE);
 			final I info = getAccessToken(code, request);
+            // Store refresh token to cache
+            String token = info.getRefreshToken();
+            Logger.debug("1-add to cache refreshToken=" + token);
+            if(!Strings.isNullOrEmpty(token)) {
+                Logger.debug("add to cache refreshToken=" + token);
+                PlayAuthenticate.storeInCache(context.session(), OAuth2AuthProvider.Constants.REFRESH_TOKEN, token);
+            }
             return transform(info, callbackState);
 		} else {
 			// no auth, yet
@@ -240,4 +242,16 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 	 */
 	protected abstract AuthUserIdentity transform(final I info,
 			final String state) throws AuthException;
+
+    /**
+     * Method used to refresh a token when the token was expired.
+     *
+     * @param authUser
+     * @param session
+     * @return a refreshed authuser or null otherwise
+     */
+    public AuthUser refresh(AuthUser authUser, Session session) {
+        return null;
+    }
+
 }

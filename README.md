@@ -24,7 +24,7 @@ Clone the project, go to `samples/java/play-authenticate-usage` and run `sbt run
 
 Play-Authenticate is available in [Maven Central](http://search.maven.org/#artifactdetails%7Ccom.feth%7Cplay-authenticate_2.11%7C0.6.8%7Cjar).
 
-```
+```xml
 <dependency>
     <groupId>com.feth</groupId>
     <artifactId>play-authenticate_2.11</artifactId>
@@ -33,10 +33,10 @@ Play-Authenticate is available in [Maven Central](http://search.maven.org/#artif
 ```
 or
 
-```
+```scala
 val appDependencies = Seq(
   "com.feth" %% "play-authenticate" % "0.6.8"
-  )
+)
 ```
 
 ## Features

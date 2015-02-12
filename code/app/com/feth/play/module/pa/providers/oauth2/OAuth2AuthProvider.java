@@ -198,9 +198,10 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 			final I info = getAccessToken(code, request);
             // Store refresh token to cache
             String token = info.getRefreshToken();
-            Logger.debug("1-add to cache refreshToken=" + token);
             if(!Strings.isNullOrEmpty(token)) {
-                Logger.debug("add to cache refreshToken=" + token);
+		        if (Logger.isDebugEnabled()) {
+                    Logger.debug("add to cache refreshToken=" + token);
+		        }
                 PlayAuthenticate.storeInCache(context.session(), OAuth2AuthProvider.Constants.REFRESH_TOKEN, token);
             }
             return transform(info, callbackState);

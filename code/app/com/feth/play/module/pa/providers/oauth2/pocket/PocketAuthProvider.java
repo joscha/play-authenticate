@@ -28,7 +28,7 @@ import com.feth.play.module.pa.user.AuthUserIdentity;
 public class PocketAuthProvider extends
 		OAuth2AuthProvider<PocketAuthUser, PocketAuthInfo> {
 
-	static final String PROVIDER_KEY = "pocket";
+	public static final String PROVIDER_KEY = "pocket";
 
 	public PocketAuthProvider(Application app) {
 		super(app);

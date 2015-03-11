@@ -15,7 +15,7 @@ import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
  */
 public class VkAuthProvider extends OAuth2AuthProvider<VkAuthUser, VkAuthInfo> {
 
-	static final String PROVIDER_KEY = "vk";
+	public static final String PROVIDER_KEY = "vk";
 
 	private static final String USER_INFO_URL_SETTING_KEY = "userInfoUrl";
 	private static final String USER_INFO_FIELDS_SETTING_KEY = "userInfoFields";

@@ -25,7 +25,7 @@ import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
 public class UntappdAuthProvider extends
 		OAuth2AuthProvider<UntappdAuthUser, UntappdAuthInfo> {
 
-	static final String PROVIDER_KEY = "untappd";
+	public static final String PROVIDER_KEY = "untappd";
 
 	private static final String USER_INFO_URL_SETTING_KEY = "userInfoUrl";
 

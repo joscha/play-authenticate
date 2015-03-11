@@ -23,7 +23,7 @@ import com.feth.play.module.pa.user.NameIdentity;
 public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswordAuthUser, US extends UsernamePasswordAuthUser, L extends UsernamePasswordAuthProvider.UsernamePassword, S extends UsernamePasswordAuthProvider.UsernamePassword>
 		extends AuthProvider {
 
-	protected static final String PROVIDER_KEY = "password";
+	public static final String PROVIDER_KEY = "password";
 
 	protected static final String SETTING_KEY_MAIL = "mail";
 

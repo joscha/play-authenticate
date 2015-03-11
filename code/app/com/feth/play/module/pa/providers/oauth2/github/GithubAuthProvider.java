@@ -15,7 +15,7 @@ import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
 public class GithubAuthProvider extends
         OAuth2AuthProvider<GithubAuthUser, GithubAuthInfo> {
 
-    static final String PROVIDER_KEY = "github";
+    public static final String PROVIDER_KEY = "github";
 
     private static final String USER_INFO_URL_SETTING_KEY = "userInfoUrl";
 

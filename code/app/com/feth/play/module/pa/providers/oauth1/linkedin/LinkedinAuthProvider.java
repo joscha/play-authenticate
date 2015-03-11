@@ -16,7 +16,7 @@ import com.feth.play.module.pa.providers.oauth1.OAuth1AuthProvider;
 public class LinkedinAuthProvider extends
 		OAuth1AuthProvider<LinkedinAuthUser, LinkedinAuthInfo> {
 
-	static final String PROVIDER_KEY = "linkedin";
+	public static final String PROVIDER_KEY = "linkedin";
 
 	private static final String USER_INFO_URL_SETTING_KEY = "userInfoUrl";
 	private static final String USER_EMAIL_URL_SETTING_KEY = "userEmailUrl";

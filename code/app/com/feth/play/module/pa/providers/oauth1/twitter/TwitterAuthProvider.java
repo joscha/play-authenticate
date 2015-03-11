@@ -16,7 +16,7 @@ import com.feth.play.module.pa.providers.oauth1.OAuth1AuthProvider;
 public class TwitterAuthProvider extends
 		OAuth1AuthProvider<TwitterAuthUser, TwitterAuthInfo> {
 
-	static final String PROVIDER_KEY = "twitter";
+	public static final String PROVIDER_KEY = "twitter";
 
 	private static final String USER_INFO_URL_SETTING_KEY = "userInfoUrl";
     private static final String DENIED_KEY = "denied";

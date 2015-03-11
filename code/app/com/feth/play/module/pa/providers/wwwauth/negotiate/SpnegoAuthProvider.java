@@ -52,7 +52,7 @@ public class SpnegoAuthProvider extends WWWAuthenticateProvider {
 		}
 	}
 
-	final static String PROVIDER_KEY = "spnego";
+	public final static String PROVIDER_KEY = "spnego";
 	private static Oid SPNEGO_MECH_OID;
 	static {
 		try {

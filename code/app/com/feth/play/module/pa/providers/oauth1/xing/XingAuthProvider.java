@@ -20,7 +20,7 @@ import com.feth.play.module.pa.providers.oauth1.OAuth1AuthProvider;
 public class XingAuthProvider extends
 		OAuth1AuthProvider<XingAuthUser, XingAuthInfo> {
 
-	static final String PROVIDER_KEY = "xing";
+	public static final String PROVIDER_KEY = "xing";
 
 	private static final String NODE_USERS = "users";
 	private static final String USER_INFO_URL_SETTING_KEY = "userInfoUrl";

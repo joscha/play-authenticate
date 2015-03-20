@@ -1,7 +1,10 @@
 package security;
 
+import java.util.Optional;
+
 import models.User;
 import play.libs.F;
+import play.libs.F.Promise;
 import play.mvc.Http;
 import play.mvc.Result;
 import be.objectify.deadbolt.java.AbstractDeadboltHandler;
@@ -14,10 +17,10 @@ import com.feth.play.module.pa.user.AuthUserIdentity;
 public class MyDeadboltHandler extends AbstractDeadboltHandler {
 
 	@Override
-	public F.Promise<Result> beforeAuthCheck(final Http.Context context) {
+	public Promise<Optional<Result>> beforeAuthCheck(final Http.Context context) {
 		if (PlayAuthenticate.isLoggedIn(context.session())) {
 			// user is logged in
-			return F.Promise.pure(null);
+			return F.Promise.pure(Optional.empty());
 		} else {
 			// user is not logged in
 
@@ -30,28 +33,28 @@ public class MyDeadboltHandler extends AbstractDeadboltHandler {
 
 			context.flash().put("error",
 					"You need to log in first, to view '" + originalUrl + "'");
-            return F.Promise.promise(new F.Function0<Result>()
+            return F.Promise.promise(new F.Function0<Optional<Result>>()
             {
                 @Override
-                public Result apply() throws Throwable
+                public Optional<Result> apply() throws Throwable
                 {
-                    return redirect(PlayAuthenticate.getResolver().login());
+                    return Optional.ofNullable(redirect(PlayAuthenticate.getResolver().login()));
                 }
             });
 		}
 	}
 
 	@Override
-	public F.Promise<Subject> getSubject(final Http.Context context) {
+	public Promise<Optional<Subject>> getSubject(final Http.Context context) {
 		final AuthUserIdentity u = PlayAuthenticate.getUser(context);
 		// Caching might be a good idea here
-		return F.Promise.pure((Subject)User.findByAuthUserIdentity(u));
+		return F.Promise.pure(Optional.ofNullable((Subject)User.findByAuthUserIdentity(u)));
 	}
 
 	@Override
-	public DynamicResourceHandler getDynamicResourceHandler(
+	public Promise<Optional<DynamicResourceHandler>> getDynamicResourceHandler(
 			final Http.Context context) {
-		return null;
+		return Promise.pure(Optional.empty());
 	}
 
 	@Override

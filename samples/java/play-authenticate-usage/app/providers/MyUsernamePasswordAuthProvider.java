@@ -4,6 +4,8 @@ import com.feth.play.module.mail.Mailer.Mail.Body;
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider;
 import com.feth.play.module.pa.providers.password.UsernamePasswordAuthUser;
+import com.google.inject.Inject;
+
 import controllers.routes;
 import models.LinkedAccount;
 import models.TokenAction;
@@ -110,6 +112,7 @@ public class MyUsernamePasswordAuthProvider
 	public static final Form<MySignup> SIGNUP_FORM = form(MySignup.class);
 	public static final Form<MyLogin> LOGIN_FORM = form(MyLogin.class);
 
+	@Inject
 	public MyUsernamePasswordAuthProvider(Application app) {
 		super(app);
 	}

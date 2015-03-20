@@ -5,14 +5,15 @@ This plugin uses concepts from [securesocial2][] and [Play20StartApp][] and prov
 #### Version information
 **Play Authenticate currently needs Play! Framework 2.0.2 or later**
 
-Play Authenticate is cross-tested in Java 1.6 and Java 1.7
+Play Authenticate is cross-tested in Java 1.6, Java 1.7 (Up to `0.6.x`) and Java 1.8 (from `0.7.0`)
 
 Works fine with
 
 * `2.0.2` to `2.0.x` (last: `0.2.3-SNAPSHOT` - [2.0.x branch](https://github.com/joscha/play-authenticate/tree/2.0.x))
 * `2.1.0` to `2.1.x` (last: `0.3.5-SNAPSHOT` - [2.1.x branch](https://github.com/joscha/play-authenticate/tree/2.1.x))
 * `2.2.0` to `2.2.x` (last: `0.5.2-SNAPSHOT` - [2.2.x branch](https://github.com/joscha/play-authenticate/tree/2.2.x))
-* `2.3.0` to `2.3.x` (last: `0.6.x-SNAPSHOT` - [master branch](https://github.com/joscha/play-authenticate/tree/master))
+* `2.3.0` to `2.3.x` (last: `0.6.x-SNAPSHOT` - [2.3.x branch](https://github.com/joscha/play-authenticate/tree/2.3.x))
+* `2.4.0` to `2.4.x` (last: `0.7.x-SNAPSHOT` - [master branch](https://github.com/joscha/play-authenticate/tree/master))
 
 ## Live demo
 You can find a live demo on [heroku](https://play-authenticate.herokuapp.com/ "Play Authenticate sample app") (usually outdated) and there are some screens on our [website](http://joscha.github.io/play-authenticate/).
@@ -28,14 +29,14 @@ Play-Authenticate is available in [Maven Central](http://search.maven.org/#artif
 <dependency>
     <groupId>com.feth</groupId>
     <artifactId>play-authenticate_2.11</artifactId>
-    <version>0.6.8</version>
+    <version>0.7.0</version>
 </dependency>
 ```
 or
 
 ```scala
 val appDependencies = Seq(
-  "com.feth" %% "play-authenticate" % "0.6.8"
+  "com.feth" %% "play-authenticate" % "0.7.0"
 )
 ```
 
@@ -90,6 +91,9 @@ There is also a [sample application using Play!Authenticate with MongoDB](https:
 ## Versions
 * **TRUNK** [not released in the repository, yet]
   * Fancy contributing something? :-)
+* **0.7.0** [2015-06-10]
+  * Upgrade to play 2.4 (thanks @vmouta, @mkurz)
+  * ATTENTION: This is for Play 2.4 - if you have Play 2.3 or older, use a `0.6.x` version.
 * **0.6.8** [2014-11-07]
   * Throw an exception if `Resolver` is not defined
   * Upgrade sample app to bootstrap 3.2 (thanks @joslash, @enalmada)

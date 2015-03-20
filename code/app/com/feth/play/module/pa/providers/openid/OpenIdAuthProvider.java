@@ -10,7 +10,7 @@ import play.Logger;
 import play.api.libs.openid.OpenIDError;
 import play.libs.F.Promise;
 import play.libs.openid.OpenID;
-import play.libs.openid.OpenID.UserInfo;
+import play.libs.openid.UserInfo;
 import play.mvc.Http.Context;
 import play.mvc.Http.Request;
 
@@ -18,6 +18,7 @@ import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.ext.ExternalAuthProvider;
 import com.feth.play.module.pa.providers.openid.exceptions.NoOpenIdAuthException;
 import com.feth.play.module.pa.providers.openid.exceptions.OpenIdConnectException;
+import com.google.inject.Inject;
 
 public class OpenIdAuthProvider extends ExternalAuthProvider {
 
@@ -28,6 +29,7 @@ public class OpenIdAuthProvider extends ExternalAuthProvider {
 		public static final String ATTRIBUTES_OPTIONAL = "optional";
 	}
 
+	@Inject
 	public OpenIdAuthProvider(final Application app) {
 		super(app);
 	}

@@ -1,10 +1,8 @@
-import play.PlayJava
-
 organization := "com.feth"
 
 name := "play-authenticate-tests"
 
-scalaVersion := "2.11.2"
+scalaVersion := "2.11.6"
 
 version := "1.0-SNAPSHOT"
 

@@ -24,6 +24,7 @@ import play.mvc.Http.Context;
 
 import com.feth.play.module.pa.providers.wwwauth.WWWAuthenticateProvider;
 import com.feth.play.module.pa.user.AuthUser;
+import com.google.inject.Inject;
 import com.ning.http.util.Base64;
 import com.ning.http.util.UTF8UrlEncoder;
 

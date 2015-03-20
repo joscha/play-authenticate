@@ -8,9 +8,11 @@ import java.util.List;
 import java.util.Map;
 
 import com.feth.play.module.pa.exceptions.ResolverMissingException;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -24,12 +26,14 @@ import com.feth.play.module.pa.exceptions.AccessTokenException;
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
 import com.feth.play.module.pa.user.AuthUserIdentity;
+import com.google.inject.Inject;
 
 public class PocketAuthProvider extends
 		OAuth2AuthProvider<PocketAuthUser, PocketAuthInfo> {
 
 	public static final String PROVIDER_KEY = "pocket";
 
+	@Inject
 	public PocketAuthProvider(Application app) {
 		super(app);
 	}

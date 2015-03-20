@@ -12,6 +12,7 @@ import com.feth.play.module.pa.exceptions.AccessDeniedException;
 import com.feth.play.module.pa.exceptions.AccessTokenException;
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.oauth1.OAuth1AuthProvider;
+import com.google.inject.Inject;
 
 /**
  * Auth provider for business social network <a
@@ -27,6 +28,7 @@ public class XingAuthProvider extends
 	private static final String XING_ERROR = "xing_error";
 	private static final String ACCESS_DENIED = "user_abort";
 
+	@Inject
 	public XingAuthProvider(final Application app) {
 		super(app);
 	}

@@ -9,11 +9,13 @@ import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.service.UserServicePlugin;
 import com.feth.play.module.pa.user.AuthUser;
 import com.feth.play.module.pa.user.AuthUserIdentity;
+import com.google.inject.Inject;
 
 public class TestUserServicePlugin extends UserServicePlugin {
 
 	private final Map<AuthUserIdentity, AuthUser> users = new HashMap<AuthUserIdentity, AuthUser>();
 
+    @Inject
 	public TestUserServicePlugin(Application app) {
 		super(app);
 	}

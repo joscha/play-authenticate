@@ -12,6 +12,7 @@ import com.feth.play.module.pa.exceptions.AccessDeniedException;
 import com.feth.play.module.pa.exceptions.AccessTokenException;
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.oauth1.OAuth1AuthProvider;
+import com.google.inject.Inject;
 
 public class TwitterAuthProvider extends
 		OAuth1AuthProvider<TwitterAuthUser, TwitterAuthInfo> {
@@ -21,6 +22,7 @@ public class TwitterAuthProvider extends
 	private static final String USER_INFO_URL_SETTING_KEY = "userInfoUrl";
     private static final String DENIED_KEY = "denied";
 
+    @Inject
 	public TwitterAuthProvider(final Application app) {
 		super(app);
 	}

@@ -13,7 +13,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import play.data.validation.Constraints;
-import play.db.ebean.Model;
 
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.ExpressionList;
@@ -24,15 +23,15 @@ import com.feth.play.module.pa.user.NameIdentity;
 
 @Entity
 @Table(name = "users")
-public class User extends Model {
+public class User extends AppModel {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	public Long id;
-
+    @Id
+    public Long id;
+    
 	@Constraints.Email
 	// if you make this unique, keep in mind that users *must* merge/link their
 	// accounts then on signup with additional providers

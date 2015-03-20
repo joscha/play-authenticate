@@ -4,21 +4,19 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
-import play.db.ebean.Model;
-
 import com.feth.play.module.pa.user.AuthUser;
 
 @Entity
-public class LinkedAccount extends Model {
+public class LinkedAccount extends AppModel {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	public Long id;
-
+    @Id
+    public Long id;
+    
 	@ManyToOne
 	public User user;
 

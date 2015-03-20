@@ -11,6 +11,7 @@ import controllers.routes;
 
 public class Global extends GlobalSettings {
 
+    @Override
 	public void onStart(final Application app) {
 		PlayAuthenticate.setResolver(new Resolver() {
 

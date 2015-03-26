@@ -28,8 +28,7 @@ public class MyDeadboltHandler extends AbstractDeadboltHandler {
 			final String originalUrl = PlayAuthenticate
 					.storeOriginalUrl(context);
 
-			context.flash().put("error",
-					"You need to log in first, to view '" + originalUrl + "'");
+			context.flash().put("error", "You need to log in first, to view '" + originalUrl + "'");
             return F.Promise.promise(new F.Function0<Result>()
             {
                 @Override

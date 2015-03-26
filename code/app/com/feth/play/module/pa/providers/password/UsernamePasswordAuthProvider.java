@@ -132,8 +132,8 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 		return PlayAuthenticate.getResolver().login().url();
 	}
 
-	public static Result handleLogin(final Context ctx) {
-		return PlayAuthenticate.handleAuthentication(PROVIDER_KEY, ctx,
+	public Result handleLogin(final Context ctx) {
+		return PlayAuthenticate.handleAuthentication(getKey(), ctx,
 				Case.LOGIN);
 	}
 
@@ -142,8 +142,8 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 		return new SessionUsernamePasswordAuthUser(getKey(), id, expires);
 	}
 
-	public static Result handleSignup(final Context ctx) {
-		return PlayAuthenticate.handleAuthentication(PROVIDER_KEY, ctx,
+	public Result handleSignup(final Context ctx) {
+		return PlayAuthenticate.handleAuthentication(getKey(), ctx,
 				Case.SIGNUP);
 	}
 
@@ -207,7 +207,7 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 	 */
 	protected Cancellable sendMail(final String subject, final Body body,
 			final String recipient) {
-		return sendMail(new Mail(subject, body, new String[] { recipient }));
+		return sendMail(new Mail(subject, body, recipient));
 	}
 
 	/**

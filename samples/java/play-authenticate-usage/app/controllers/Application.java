@@ -63,7 +63,7 @@ public class Application extends Controller {
 			return badRequest(login.render(filledForm));
 		} else {
 			// Everything was filled
-			return UsernamePasswordAuthProvider.handleLogin(ctx());
+			return MyUsernamePasswordAuthProvider.getProvider().handleLogin(ctx());
 		}
 	}
 
@@ -89,7 +89,7 @@ public class Application extends Controller {
 			// Everything was filled
 			// do something with your part of the form before handling the user
 			// signup
-			return UsernamePasswordAuthProvider.handleSignup(ctx());
+			return MyUsernamePasswordAuthProvider.getProvider().handleSignup(ctx());
 		}
 	}
 

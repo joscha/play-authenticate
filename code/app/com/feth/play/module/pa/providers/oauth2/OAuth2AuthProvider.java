@@ -18,7 +18,6 @@ import play.i18n.Messages;
 import play.libs.ws.WS;
 import play.libs.ws.WSResponse;
 import play.libs.ws.WSRequestHolder;
-import play.mvc.Http;
 import play.mvc.Http.Context;
 import play.mvc.Http.Request;
 import play.mvc.Http.Session;

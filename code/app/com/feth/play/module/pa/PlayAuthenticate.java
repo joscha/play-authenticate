@@ -2,6 +2,7 @@ package com.feth.play.module.pa;
 
 import java.util.Date;
 
+import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
 import play.Configuration;
 import play.Logger;
 import play.Play;
@@ -175,23 +176,35 @@ public abstract class PlayAuthenticate {
 		}
 	}
 
-	public static boolean isLoggedIn(final Session session) {
-		boolean ret = session.containsKey(USER_KEY) // user is set
-				&& session.containsKey(PROVIDER_KEY); // provider is set
-		ret &= AuthProvider.Registry.hasProvider(session.get(PROVIDER_KEY)); // this
-																				// provider
-																				// is
-																				// active
-		if (session.containsKey(EXPIRES_KEY)) {
-			// expiration is set
-			final long expires = getExpiration(session);
-			if (expires != AuthUser.NO_EXPIRATION) {
-				ret &= (new Date()).getTime() < expires; // and the session
-															// expires after now
-			}
-		}
-		return ret;
-	}
+    public static Boolean isLoggedIn(Session session) {
+        return isLoggedIn(getUser(session),session);
+    }
+
+    /**
+     * Check if the specified user is logged in. If session is expired, then a refresh token will be used to update the user token
+     *
+     * @param authUser
+     * @param session
+     * @return
+     */
+    public static Boolean isLoggedIn(AuthUser authUser, Session session) {
+        boolean isLogged = false;
+        AuthProvider provider = getProvider(session.get(PROVIDER_KEY));
+        if (authUser != null && provider != null) {
+            if (authUser.expires() != AuthUser.NO_EXPIRATION) {
+                boolean isExpired = System.currentTimeMillis() > authUser.expires();
+                if (isExpired) {
+                    if(provider instanceof OAuth2AuthProvider){
+                        // OAuth2AuthProvider implementation can provide refresh token
+                        isLogged = ((OAuth2AuthProvider) provider).refresh(authUser, session) != null;
+                    }
+                } else {
+                    isLogged = true;
+                }
+            }
+        }
+        return isLogged;
+    }
 
 	public static Result logout(final Session session) {
 		session.remove(USER_KEY);

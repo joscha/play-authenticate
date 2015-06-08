@@ -14,9 +14,7 @@ val appDependencies = Seq(
   javaCore,
   cache,
   javaWs,
-  "com.typesafe.play" % "play-jdbc_2.11" % "2.4.0-M3",
-  "org.webjars" %% "webjars-play" % "2.4.0-SNAPSHOT",
-  "org.webjars" % "bootstrap" % "3.3.4"
+  javaJdbc
 )
 
 resolvers += Resolver.url("Objectify Play Repository", url("http://deadbolt.ws/releases/"))(Resolver.ivyStylePatterns)

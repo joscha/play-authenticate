@@ -2,7 +2,7 @@ organization := "com.feth"
 
 name := "play-authenticate-simple-oauth"
 
-scalaVersion := "2.11.5"
+scalaVersion := "2.11.6"
 
 version := "1.0-SNAPSHOT"
 
@@ -13,8 +13,8 @@ val appDependencies = Seq(
   javaWs
 )
 
-lazy val root = (project in file("."))
-  .enablePlugins(PlayJava)
+lazy val `play-authenticate-simple-oauth` = (project in file("."))
+  .enablePlugins(PlayJava, PlayEbean)
   .settings(
     libraryDependencies ++= appDependencies
   )

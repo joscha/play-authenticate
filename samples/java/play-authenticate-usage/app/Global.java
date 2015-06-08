@@ -15,6 +15,7 @@ import play.mvc.Call;
 
 public class Global extends GlobalSettings {
 
+    @Override
 	public void onStart(Application app) {
 		PlayAuthenticate.setResolver(new Resolver() {
 

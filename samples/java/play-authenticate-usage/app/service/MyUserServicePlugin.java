@@ -6,9 +6,11 @@ import play.Application;
 import com.feth.play.module.pa.user.AuthUser;
 import com.feth.play.module.pa.user.AuthUserIdentity;
 import com.feth.play.module.pa.service.UserServicePlugin;
+import com.google.inject.Inject;
 
 public class MyUserServicePlugin extends UserServicePlugin {
 
+	@Inject
 	public MyUserServicePlugin(final Application app) {
 		super(app);
 	}

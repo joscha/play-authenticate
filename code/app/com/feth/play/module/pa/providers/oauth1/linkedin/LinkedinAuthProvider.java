@@ -12,6 +12,7 @@ import com.feth.play.module.pa.exceptions.AccessDeniedException;
 import com.feth.play.module.pa.exceptions.AccessTokenException;
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.oauth1.OAuth1AuthProvider;
+import com.google.inject.Inject;
 
 public class LinkedinAuthProvider extends
 		OAuth1AuthProvider<LinkedinAuthUser, LinkedinAuthInfo> {
@@ -23,7 +24,7 @@ public class LinkedinAuthProvider extends
 
     public static final String OAUTH_ACCESS_DENIED= "user_refused";
 
-
+    @Inject
 	public LinkedinAuthProvider(final Application app) {
 		super(app);
 	}

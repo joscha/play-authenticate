@@ -14,7 +14,8 @@ val appDependencies = Seq(
   cache,
   javaWs,
   javaJdbc,
-  "org.webjars" % "bootstrap" % "3.2.0"
+  "org.webjars" % "bootstrap" % "3.2.0",
+  "org.easytesting" % "fest-assert" % "1.4" % "test"
 )
 
 //  Uncomment the next line for local development of the Play Authenticate core:

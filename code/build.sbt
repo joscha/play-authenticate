@@ -4,7 +4,7 @@ name := "play-authenticate"
 
 scalaVersion := "2.11.6"
 
-crossScalaVersions := Seq("2.10.5", "2.11.6")
+crossScalaVersions := Seq("2.11.6")
 
 libraryDependencies ++= Seq(
   "org.apache.httpcomponents" % "httpclient" % "4.5",

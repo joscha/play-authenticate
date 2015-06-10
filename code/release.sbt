@@ -4,7 +4,7 @@ import sbtrelease.ReleaseStateTransformations._
 import com.typesafe.sbt.pgp.PgpKeys._
 
 javacOptions ++= {
-  if (System.getProperty("rt.path") != null)  Seq("-source", "1.6", "-target", "1.6", "-bootclasspath", System.getProperty("rt.path"))
+  if (System.getProperty("rt.path") != null)  Seq("-source", "1.8", "-target", "1.8", "-bootclasspath", System.getProperty("rt.path"))
   else                                        Seq()
 }
 

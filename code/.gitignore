@@ -12,3 +12,6 @@ dist
 .idea/
 .idea_modules/
 .DS_Store
+/bin/
+.cache-main
+.cache-tests

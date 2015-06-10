@@ -12,6 +12,9 @@ val appDependencies = Seq(
   javaWs
 )
 
+// add resolver for easymail snapshots
+resolvers += Resolver.sonatypeRepo("snapshots")
+
 lazy val root = (project in file("."))
   .enablePlugins(PlayJava, PlayEbean)
   .settings(

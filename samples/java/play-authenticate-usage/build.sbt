@@ -18,7 +18,7 @@ val appDependencies = Seq(
   "org.easytesting" % "fest-assert" % "1.4" % "test"
 )
 
-// add resolver for deadbolt snapshots
+// add resolver for deadbolt and easymail snapshots
 resolvers += Resolver.sonatypeRepo("snapshots")
 
 //  Uncomment the next line for local development of the Play Authenticate core:

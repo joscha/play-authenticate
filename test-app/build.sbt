@@ -12,6 +12,9 @@ val appDependencies = Seq(
   "org.easytesting" % "fest-assert" % "1.4" % "test"
 )
 
+// Needed for specs2
+resolvers += "scalaz-bintray" at "https://dl.bintray.com/scalaz/releases"
+
 // add resolver for easymail snapshots
 resolvers += Resolver.sonatypeRepo("snapshots")
 

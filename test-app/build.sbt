@@ -12,6 +12,9 @@ val appDependencies = Seq(
   "org.easytesting" % "fest-assert" % "1.4" % "test"
 )
 
+// add resolver for easymail snapshots
+resolvers += Resolver.sonatypeRepo("snapshots")
+
 lazy val root = (project in file("."))
   .enablePlugins(PlayJava)
   .settings(

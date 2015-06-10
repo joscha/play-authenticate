@@ -18,4 +18,4 @@ libraryDependencies ++= Seq(
 // add resolver for easymail snapshots
 resolvers += Resolver.sonatypeRepo("snapshots")
 
-lazy val root = (project in file(".")).enablePlugins(PlayJava)
+lazy val playAuthenticate = (project in file(".")).enablePlugins(PlayJava)

@@ -4,8 +4,6 @@ scala:
 jdk:
 - oraclejdk8
 install: true
-addons:
-  firefox: "17.0"
 before_install:
 - export DISPLAY=:99.0
 - sh -e /etc/init.d/xvfb start

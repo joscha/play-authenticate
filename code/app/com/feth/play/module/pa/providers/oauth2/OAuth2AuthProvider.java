@@ -17,8 +17,7 @@ import play.Logger;
 import play.i18n.Messages;
 import play.libs.ws.WS;
 import play.libs.ws.WSResponse;
-import play.libs.ws.WSRequestHolder;
-import play.mvc.Http;
+import play.libs.ws.WSRequest;
 import play.mvc.Http.Context;
 import play.mvc.Http.Request;
 import play.mvc.Http.Session;
@@ -101,7 +100,7 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 		final Configuration c = getConfiguration();
 		final String params = getAccessTokenParams(c, code, request);
 		final String url = c.getString(SettingKeys.ACCESS_TOKEN_URL);
-        final WSRequestHolder wrh = WS.url(url);
+        final WSRequest wrh = WS.url(url);
         wrh.setHeader(CONTENT_TYPE, "application/x-www-form-urlencoded");
         for(final Map.Entry<String, String> header : getHeaders().entrySet()) {
             wrh.setHeader(header.getKey(), header.getValue());

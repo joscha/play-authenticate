@@ -1,10 +1,8 @@
 language: scala
 scala:
-- 2.10.4
-- 2.11.2
+- 2.11.6
 jdk:
-  - openjdk6
-  - openjdk7
+- oraclejdk8
 install: true
 before_install:
 - export DISPLAY=:99.0
@@ -47,4 +45,4 @@ env:
     # FACEBOOK_USER_PASSWORD
   - secure: "Nv/y82hWjkmAdE+DaRABP6rB8ENaAIfHw0QtPCdxt60J+8r3Gq+ainJuHJ7qa73MHZumhuNRUMalyMvlL4TMoaXuKLIKS42WBL88IA5Kc9p50oxP+EJLJif9sz+Inz1sCtxnAUGBtbqn8YQIf2pPpNWm096KnaMQum6fsfucKmE="
 after_success:
-  - "[[ $TRAVIS_BRANCH == \"master\" && $TRAVIS_JDK_VERSION == \"openjdk6\" ]] && { cd $TRAVIS_BUILD_DIR/code && sbt --info ++$TRAVIS_SCALA_VERSION -Dtravis=1 publish; };"
+- '[[ $TRAVIS_BRANCH == "master" ]] && { cd $TRAVIS_BUILD_DIR/code && sbt --info ++$TRAVIS_SCALA_VERSION -Dtravis=1 publish; };'

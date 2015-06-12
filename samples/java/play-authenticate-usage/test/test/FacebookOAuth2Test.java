@@ -8,6 +8,7 @@ import org.junit.After;
 import org.junit.Test;
 import org.openqa.selenium.ElementNotVisibleException;
 import org.openqa.selenium.NoSuchElementException;
+import play.Logger;
 import play.libs.ws.WS;
 
 import java.util.Map;
@@ -61,7 +62,7 @@ public class FacebookOAuth2Test extends OAuth2Test {
         browser
                 .fill("#email").with(FACEBOOK_USER_EMAIL)
                 .fill("#pass").with(System.getenv("FACEBOOK_USER_PASSWORD"))
-                .find("#u_0_1").click();
+                .find("#u_0_2").click();
         browser.await().untilPage().isLoaded();
 
         // save browser? no!
@@ -97,6 +98,10 @@ public class FacebookOAuth2Test extends OAuth2Test {
     private void checkLoginLayout() {
         final String selector = "[name='display']";
         browser.await().atMost(10, TimeUnit.SECONDS).until(selector);
+        Logger.debug("root html: {}", browser.findFirst("html").html());
+        Logger.debug("selector getAttribute: {}", browser.findFirst(selector).getAttribute("value"));
+        Logger.debug("selector toString: {}", browser.findFirst(selector).toString());
+        Logger.debug("selector HTML: {}", browser.findFirst(selector).html());
         assertThat(browser.find(selector).getValue()).isEqualTo(expectedLoginLayout());
     }
 

@@ -207,7 +207,7 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 	 */
 	protected Cancellable sendMail(final String subject, final Body body,
 			final String recipient) {
-		return sendMail(new Mail(subject, body, new String[] { recipient }));
+		return sendMail(new Mail(subject, body, recipient));
 	}
 
 	/**

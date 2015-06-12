@@ -3,6 +3,7 @@ package test;
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
 import com.feth.play.module.pa.user.AuthUser;
+import com.google.inject.Inject;
 import org.junit.Before;
 import play.Application;
 import play.Configuration;
@@ -72,6 +73,7 @@ public abstract class OAuth2Test extends WithBrowser {
 
         private static AuthUser lastAuthUser;
 
+        @Inject
         public MyTestUserServicePlugin(final Application app) {
             super(app);
         }

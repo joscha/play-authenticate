@@ -14,7 +14,6 @@ import com.feth.play.module.pa.user.FirstLastNameIdentity;
 import models.TokenAction.Type;
 import play.data.format.Formats;
 import play.data.validation.Constraints;
-import play.db.ebean.Model;
 
 import javax.persistence.*;
 import java.util.*;
@@ -25,7 +24,7 @@ import java.util.*;
  */
 @Entity
 @Table(name = "users")
-public class User extends Model implements Subject {
+public class User extends AppModel implements Subject {
 	/**
 	 * 
 	 */
@@ -62,23 +61,23 @@ public class User extends Model implements Subject {
 	@ManyToMany
 	public List<UserPermission> permissions;
 
-	public static final Finder<Long, User> find = new Finder<Long, User>(
+	public static final AppModel.Finder<Long, User> find = new AppModel.Finder<Long, User>(
 			Long.class, User.class);
 
 	@Override
 	public String getIdentifier()
 	{
-		return Long.toString(id);
+		return Long.toString(this.id);
 	}
 
 	@Override
 	public List<? extends Role> getRoles() {
-		return roles;
+		return this.roles;
 	}
 
 	@Override
 	public List<? extends Permission> getPermissions() {
-		return permissions;
+		return this.permissions;
 	}
 
 	public static boolean existsByAuthUserIdentity(
@@ -173,7 +172,7 @@ public class User extends Model implements Subject {
 		}
 
 		user.save();
-		user.saveManyToManyAssociations("roles");
+		// user.saveManyToManyAssociations("roles");
 		// user.saveManyToManyAssociations("permissions");
 		return user;
 	}
@@ -185,8 +184,8 @@ public class User extends Model implements Subject {
 
 	public Set<String> getProviders() {
 		final Set<String> providerKeys = new HashSet<String>(
-				linkedAccounts.size());
-		for (final LinkedAccount acc : linkedAccounts) {
+				this.linkedAccounts.size());
+		for (final LinkedAccount acc : this.linkedAccounts) {
 			providerKeys.add(acc.providerKey);
 		}
 		return providerKeys;

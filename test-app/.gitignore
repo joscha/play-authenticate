@@ -11,5 +11,7 @@ dist
 .target
 .idea
 .idea_modules
-bin
+/bin/
 RUNNING_PID
+.cache-main
+.cache-tests

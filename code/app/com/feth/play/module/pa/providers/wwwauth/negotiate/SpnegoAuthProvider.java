@@ -28,6 +28,7 @@ import play.mvc.Http.Context;
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.wwwauth.WWWAuthenticateProvider;
 import com.feth.play.module.pa.user.AuthUser;
+import com.google.inject.Inject;
 import com.ning.http.util.Base64;
 
 /** Authentication against a Windows Active Directory domain.
@@ -40,6 +41,7 @@ import com.ning.http.util.Base64;
  */
 public class SpnegoAuthProvider extends WWWAuthenticateProvider {
 
+	@Inject
 	public SpnegoAuthProvider(Application app) {
 		super(app);
 		String realm = getConfiguration().getString(SettingKeys.REALM);

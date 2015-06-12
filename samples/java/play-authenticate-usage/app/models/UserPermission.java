@@ -3,7 +3,6 @@ package models;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-import play.db.ebean.Model;
 import be.objectify.deadbolt.core.models.Permission;
 
 /**
@@ -11,7 +10,7 @@ import be.objectify.deadbolt.core.models.Permission;
  * Deadbolt2
  */
 @Entity
-public class UserPermission extends Model implements Permission {
+public class UserPermission extends AppModel implements Permission {
 	/**
 	 * 
 	 */
@@ -22,7 +21,7 @@ public class UserPermission extends Model implements Permission {
 
 	public String value;
 
-	public static final Model.Finder<Long, UserPermission> find = new Model.Finder<Long, UserPermission>(
+	public static final AppModel.Finder<Long, UserPermission> find = new AppModel.Finder<Long, UserPermission>(
 			Long.class, UserPermission.class);
 
 	public String getValue() {

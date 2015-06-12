@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.feth.play.module.pa.exceptions.AccessTokenException;
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
+import com.google.inject.Inject;
 
 /**
  * @author Denis Borisenko
@@ -25,6 +26,7 @@ public class VkAuthProvider extends OAuth2AuthProvider<VkAuthUser, VkAuthInfo> {
 
 	private static final String BODY_RESPONSE_KEY = "response";
 
+	@Inject
 	public VkAuthProvider(final Application app) {
 		super(app);
 	}

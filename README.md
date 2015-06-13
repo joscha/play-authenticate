@@ -15,6 +15,8 @@ Works fine with
 * `2.3.0` to `2.3.x` (last: `0.6.x-SNAPSHOT` - [2.3.x branch](https://github.com/joscha/play-authenticate/tree/2.3.x))
 * `2.4.0` to `2.4.x` (last: `0.7.x-SNAPSHOT` - [master branch](https://github.com/joscha/play-authenticate/tree/master))
 
+Releases are on [mvnrepository](http://mvnrepository.com/artifact/com.feth) and snapshots can be found on [sonatype](https://oss.sonatype.org/content/repositories/snapshots/com/feth/).
+
 ## Live demo
 You can find a live demo on [heroku](https://play-authenticate.herokuapp.com/ "Play Authenticate sample app") (usually outdated) and there are some screens on our [website](http://joscha.github.io/play-authenticate/).
 

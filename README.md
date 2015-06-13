@@ -25,7 +25,7 @@ Clone the project, go to `samples/java/play-authenticate-usage` and run `sbt run
 
 ### Including the Dependencies
 
-Play-Authenticate is available in [Maven Central](http://search.maven.org/#artifactdetails%7Ccom.feth%7Cplay-authenticate_2.11%7C0.6.8%7Cjar).
+Play-Authenticate is available in [Maven Central](http://search.maven.org/#browse%7C1025599758).
 
 ```xml
 <dependency>

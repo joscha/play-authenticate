@@ -17,6 +17,7 @@ import play.mvc.Http.Request;
 import com.feth.play.module.pa.exceptions.AccessTokenException;
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
+import com.google.inject.Inject;
 
 /**
  * Auth provider for Untappd beer social network
@@ -43,6 +44,7 @@ public class UntappdAuthProvider extends
 	// private static final String CALLBACK_URL =
 	// "http://localhost:9000/authenticate/untappd";
 
+	@Inject
 	public UntappdAuthProvider(final Application app) {
 		super(app);
 	}

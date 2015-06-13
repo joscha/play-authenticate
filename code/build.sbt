@@ -2,18 +2,20 @@ organization := "com.feth"
 
 name := "play-authenticate"
 
-scalaVersion := "2.11.2"
+scalaVersion := "2.11.6"
 
-crossScalaVersions := Seq("2.10.4", "2.11.2")
+crossScalaVersions := Seq("2.11.6")
 
 libraryDependencies ++= Seq(
-  "org.apache.httpcomponents" % "httpclient" % "4.3.5",
-  "com.feth" %% "play-easymail" % "0.6.7",
+  "org.apache.httpcomponents" % "httpclient" % "4.5",
+  "com.feth" %% "play-easymail" % "0.7.0-SNAPSHOT",
   "org.mindrot" % "jbcrypt" % "0.3m",
-  "commons-lang" % "commons-lang" % "2.6",
-  javaCore,
+  "org.apache.commons" % "commons-lang3" % "3.4",
   cache,
   javaWs
 )
 
-lazy val root = (project in file(".")).enablePlugins(PlayJava)
+// add resolver for easymail snapshots
+resolvers += Resolver.sonatypeRepo("snapshots")
+
+lazy val playAuthenticate = (project in file(".")).enablePlugins(PlayJava)

@@ -20,6 +20,7 @@ import com.feth.play.module.mail.Mailer.Mail.Body;
 import com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider;
 import com.feth.play.module.pa.providers.password.UsernamePasswordAuthUser;
 import com.feth.play.module.pa.user.AuthUser;
+import com.google.inject.Inject;
 
 public class TestUsernamePasswordAuthProvider
 		extends
@@ -29,6 +30,7 @@ public class TestUsernamePasswordAuthProvider
 	private final Map<String, String> unverifiedUsers = new HashMap<String, String>();
 	private final Map<String, String> verificationTokens = new HashMap<String, String>();
 
+	@Inject
 	public TestUsernamePasswordAuthProvider(Application app) {
 		super(app);
 	}

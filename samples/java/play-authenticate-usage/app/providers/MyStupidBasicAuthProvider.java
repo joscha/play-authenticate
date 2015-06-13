@@ -22,10 +22,12 @@ import views.html.login;
 
 import com.feth.play.module.pa.providers.wwwauth.basic.BasicAuthProvider;
 import com.feth.play.module.pa.user.AuthUser;
+import com.google.inject.Inject;
 
 /** A really simple basic auth provider that accepts one hard coded user */
 public class MyStupidBasicAuthProvider extends BasicAuthProvider {
 
+	@Inject
 	public MyStupidBasicAuthProvider(Application app) {
 		super(app);
 	}

@@ -61,7 +61,7 @@ public class FacebookOAuth2Test extends OAuth2Test {
         browser
                 .fill("#email").with(FACEBOOK_USER_EMAIL)
                 .fill("#pass").with(System.getenv("FACEBOOK_USER_PASSWORD"))
-                .find("#u_0_1").click();
+                .find("#u_0_2").click();
         browser.await().untilPage().isLoaded();
 
         // save browser? no!

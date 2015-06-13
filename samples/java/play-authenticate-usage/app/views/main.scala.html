@@ -13,12 +13,12 @@
         <meta name="description" content="Play Authenticate - an authentication module for the Play! Framework 2.0">
         <meta name="author" content="The Play Authenticate Team">
 
-        <script type="text/javascript" src="@routes.WebJarAssets.at(WebJarAssets.locate("jquery.min.js"))"></script>
-        <script type="text/javascript" src="@routes.WebJarAssets.at(WebJarAssets.locate("bootstrap.min.js"))"></script>
+        <script type="text/javascript" src="@routes.Assets.versioned("lib/jquery/jquery.js")"></script>
+        <script type="text/javascript" src="@routes.Assets.versioned("lib/bootstrap/js/bootstrap.js")"></script>
         <script type="text/javascript" src="@routes.Application.jsRoutes" defer="defer"></script>
 
-        <link rel="stylesheet" href="@routes.WebJarAssets.at(WebJarAssets.locate("css/bootstrap.min.css"))">
-        <link href="@routes.Assets.at("css/main.css")" rel="stylesheet">
+        <link rel="stylesheet" href="@routes.Assets.versioned("lib/bootstrap/css/bootstrap.css")">
+        <link href="@routes.Assets.versioned("css/main.css")" rel="stylesheet">
     </head>
 
     <body>

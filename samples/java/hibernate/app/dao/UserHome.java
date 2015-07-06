@@ -289,18 +289,14 @@ public class UserHome {
 			currentUserAccounts.add(linkedAccountDao.create(currentUser, acc.getProviderKey(), acc.getProviderUserId(), entityManager));
 		}
 		
+		// do all other merging stuff here - like resources, etc.
 		currentUser.setLinkedAccounts(currentUserAccounts);
 		
+		// deactivate the merged user that got added to this one
 		otherUser.setActive(false);
 		
 		this.merge(otherUser, entityManager);
 		this.merge(currentUser, entityManager);
-		
-		// do all other merging stuff here - like resources, etc.
-
-		// deactivate the merged user that got added to this one
-		//otherUser.active = false;
-		//Ebean.save(Arrays.asList(new User[] { otherUser, this }));
 	}
 	
 	public void merge(AuthUser oldUser, AuthUser newUser, EntityManager entityManager) {

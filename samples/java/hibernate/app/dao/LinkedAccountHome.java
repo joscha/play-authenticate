@@ -106,19 +106,12 @@ public class LinkedAccountHome {
 		}
 	}
 	
-	/*public LinkedAccount create(AuthUser authUser, EntityManager entityManager) {
-		LinkedAccount ret = new LinkedAccount();
-		this.update(ret, authUser, entityManager);
-		return ret;
-	}*/
-	
 	public LinkedAccount create(User userAccount, String providerKey, String providerUserId, EntityManager entityManager) {
 		LinkedAccount ret = new LinkedAccount();
 		ret.setUser(userAccount);
 		ret.setProviderKey(providerKey);
 		ret.setProviderUserId(providerUserId);
 		
-		//this.update(ret, authUser, entityManager);
 		return this.merge(ret, entityManager);
 	}
 	
@@ -129,14 +122,4 @@ public class LinkedAccountHome {
 		
 		this.merge(linkedAccount, entityManager);
 	}
-
-	/*public LinkedAccount create(LinkedAccount acc, EntityManager entityManager) {
-		LinkedAccount ret = new LinkedAccount();
-		
-		ret.setProviderKey(acc.getProviderKey());
-		ret.setProviderUserId(acc.getProviderUserId());
-		this.persist(ret, entityManager);
-
-		return ret;
-	}*/
 }

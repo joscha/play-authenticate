@@ -52,11 +52,10 @@ public class HibernateUserServicePlugin extends UserServicePlugin {
 		UserHome userDao = new UserHome();
 		
 		User u = userDao.findByAuthUserIdentity(identity, em);
+		em.close();
 		if(u != null) {
-			em.close();
 			return u.getId();
 		} else {
-			em.close();
 			return null;
 		}
 	}

@@ -141,10 +141,12 @@ public class MyUsernamePasswordAuthProvider
 		if (u != null) {
 			if (u.getEmailValidated()) {
 				// This user exists, has its email validated and is active
+				em.close();
 				return SignupResult.USER_EXISTS;
 			} else {
 				// this user exists, is active but has not yet validated its
 				// email
+				em.close();
 				return SignupResult.USER_EXISTS_UNVERIFIED;
 			}
 		}
@@ -172,6 +174,7 @@ public class MyUsernamePasswordAuthProvider
 			return LoginResult.NOT_FOUND;
 		} else {
 			if (!u.getEmailValidated()) {
+				em.close();
 				return LoginResult.USER_UNVERIFIED;
 			} else {
 				for (LinkedAccount acc : u.getLinkedAccounts()) {
@@ -179,6 +182,7 @@ public class MyUsernamePasswordAuthProvider
 						if (authUser.checkPassword(acc.getProviderUserId(),
 								authUser.getPassword())) {
 							// Password was correct
+							em.close();
 							return LoginResult.USER_LOGGED_IN;
 						} else {
 							// if you don't return here,

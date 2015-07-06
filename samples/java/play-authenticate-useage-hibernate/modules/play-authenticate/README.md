@@ -1,1 +1,0 @@
-# Play Authenticate core code

@@ -130,6 +130,7 @@ public class Account extends Controller {
 				.bindFromRequest();
 		if (filledForm.hasErrors()) {
 			// User did not select whether to link or not link
+			em.close();
 			return badRequest(password_change.render(filledForm));
 		} else {
 			User user = Application.getLocalUser(session());

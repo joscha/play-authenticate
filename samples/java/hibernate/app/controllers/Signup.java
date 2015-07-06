@@ -160,6 +160,7 @@ public class Signup extends Controller {
 		Form<PasswordReset> filledForm = PASSWORD_RESET_FORM
 				.bindFromRequest();
 		if (filledForm.hasErrors()) {
+			em.close();
 			return badRequest(password_reset.render(filledForm));
 		} else {
 			String token = filledForm.get().token;
@@ -167,6 +168,7 @@ public class Signup extends Controller {
 
 			TokenAction ta = tokenIsValid(token, "PASSWORD_RESET");
 			if (ta == null) {
+				em.close();
 				return badRequest(no_token_or_invalid.render());
 			}
 			
@@ -225,6 +227,7 @@ public class Signup extends Controller {
 		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
 		TokenAction ta = tokenIsValid(token, "EMAIL_VERIFICATION");
 		if (ta == null) {
+			em.close();
 			return badRequest(no_token_or_invalid.render());
 		}
 		TokenActionHome tokenDao = new TokenActionHome();

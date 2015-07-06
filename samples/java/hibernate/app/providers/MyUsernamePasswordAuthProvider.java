@@ -171,6 +171,7 @@ public class MyUsernamePasswordAuthProvider
 		
 		User u = userDao.findByUsernamePasswordIdentity(authUser, em);
 		if (u == null) {
+			em.close();
 			return LoginResult.NOT_FOUND;
 		} else {
 			if (!u.getEmailValidated()) {

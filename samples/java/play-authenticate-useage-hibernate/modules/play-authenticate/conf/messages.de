@@ -1,0 +1,8 @@
+playauthenticate.core.exception.no_user_service=Es ist kein UserService registriert!
+playauthenticate.core.exception.signupuser_failed=Wir konnten dich nicht anmelden
+playauthenticate.core.exception.provider_not_found=Der Anbieter {0} wurde nicht gefunden!
+playauthenticate.core.exception.merge.controller_undefined=Der Merge Call wurde im Resolver nicht korrekt definiert, obwohl die Einstellung '{0}' deaktiviert ist!
+playauthenticate.core.exception.link.controller_undefined=Der Link Call wurde im Resolver nicht korrekt definiert, obwohl die Einstellung '{0}' deaktiviert ist!
+playauthenticate.core.exception.oauth2.state_param_forged=Der state-Parameter wurde unter Umständen manipuliert!
+
+playauthenticate.core.exception.general=Etwas ging schief

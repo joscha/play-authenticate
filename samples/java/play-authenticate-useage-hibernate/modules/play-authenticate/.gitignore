@@ -1,0 +1,17 @@
+.target
+.classpath
+.project
+.settings
+logs
+project/project
+project/target
+target
+tmp
+.history
+dist
+.idea/
+.idea_modules/
+.DS_Store
+/bin/
+.cache-main
+.cache-tests

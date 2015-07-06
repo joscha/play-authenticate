@@ -1,0 +1,8 @@
+playauthenticate.core.exception.no_user_service=Tak ada UserService yang terdaftar!
+playauthenticate.core.exception.signupuser_failed=Tidak dapat mendaftar
+playauthenticate.core.exception.provider_not_found=Penyedia {0} tidak ditemukan!
+playauthenticate.core.exception.merge.controller_undefined=Panggilan Penggabungan tidak ditentukan dengan baik, walau pengaturan '{0}' diatur ke false!
+playauthenticate.core.exception.link.controller_undefined=Panggilan Tautan pada resolver tidak didefinisikan, walau pada pengaturan '{0}' diatur ke false!
+playauthenticate.core.exception.oauth2.state_param_forged=Kondisi parameter mungkin sudah berubah
+
+playauthenticate.core.exception.general=Ada yang salah

@@ -9,9 +9,7 @@ import models.User;
 import play.Routes;
 import play.data.Form;
 import play.db.jpa.JPA;
-import play.db.jpa.Transactional;
 import play.mvc.*;
-import play.mvc.Http.Response;
 import play.mvc.Http.Session;
 import providers.MyUsernamePasswordAuthProvider;
 import providers.MyUsernamePasswordAuthProvider.MyLogin;
@@ -25,7 +23,6 @@ import com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider;
 import com.feth.play.module.pa.user.AuthUser;
 
 import constants.JpaConstants;
-import dao.SecurityRoleHome;
 import dao.UserHome;
 
 public class Application extends Controller {
@@ -58,13 +55,16 @@ public class Application extends Controller {
 	}
 
 	@Restrict(@Group(Application.USER_ROLE))
-	@Transactional
 	public Result profile() {
+		
+		EntityManager em = JPA.em(JpaConstants.DB);
+	
 		User localUser = getLocalUser(session());
 		
 		UserHome userDao = new UserHome();
-		localUser = userDao.findById(localUser.getId(), JPA.em());
+		localUser = userDao.findById(localUser.getId(), em);
 		
+		em.close();
 		return ok(profile.render(localUser));
 	}
 

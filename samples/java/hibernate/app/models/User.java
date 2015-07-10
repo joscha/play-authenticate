@@ -47,19 +47,19 @@ public class User implements java.io.Serializable, Subject {
 	private Boolean emailValidated;
 	private Date createdOn;
 	private Date updatedOn;
-	private List<SecurityRole> securityRoles = new ArrayList<SecurityRole>(0);
+	private Set<SecurityRole> securityRoles = new HashSet<SecurityRole>(0);
 	private Set<LinkedAccount> linkedAccounts = new HashSet<LinkedAccount>(0);
 	private Set<TokenAction> tokenActions = new HashSet<TokenAction>(0);
-	private List<UserPermission> userPermissions = new ArrayList<UserPermission>(0);
+	private Set<UserPermission> userPermissions = new HashSet<UserPermission>(0);
 
 	public User() {
 	}
-
+	
 	public User(String email, String name,
 			String firstName, String lastName, Date lastLogin, Boolean active, Boolean emailValidated,
-			Date createdOn, Date updatedOn, List<SecurityRole> securityRoles,
+			Date createdOn, Date updatedOn, Set<SecurityRole> securityRoles,
 			Set<LinkedAccount> linkedAccounts, Set<TokenAction> tokenActions,
-			List<UserPermission> userPermissions) {
+			Set<UserPermission> userPermissions) {
 		this.email = email;
 		this.name = name;
 		this.firstName = firstName;
@@ -170,13 +170,13 @@ public class User implements java.io.Serializable, Subject {
 		this.updatedOn = updatedOn;
 	}
 
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "user_has_security_role", joinColumns = { @JoinColumn(name = "user_id", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "security_role_id", nullable = false, updatable = false) })
-	public List<SecurityRole> getSecurityRoles() {
+	public Set<SecurityRole> getSecurityRoles() {
 		return this.securityRoles;
 	}
 
-	public void setSecurityRoles(List<SecurityRole> securityRoles) {
+	public void setSecurityRoles(Set<SecurityRole> securityRoles) {
 		this.securityRoles = securityRoles;
 	}
 
@@ -198,13 +198,13 @@ public class User implements java.io.Serializable, Subject {
 		this.tokenActions = tokenActions;
 	}
 
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "user_has_user_permission", joinColumns = { @JoinColumn(name = "user_id", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "user_permission_id", nullable = false, updatable = false) })
-	public List<UserPermission> getUserPermissions() {
+	public Set<UserPermission> getUserPermissions() {
 		return this.userPermissions;
 	}
 
-	public void setUserPermissions(List<UserPermission> userPermissions) {
+	public void setUserPermissions(Set<UserPermission> userPermissions) {
 		this.userPermissions = userPermissions;
 	}
 	
@@ -220,22 +220,18 @@ public class User implements java.io.Serializable, Subject {
 	@Override
 	@Transient
 	public String getIdentifier() {
-		// TODO Auto-generated method stub
 		return Integer.toString(this.id);
 	}
 
 	@Override
 	@Transient
 	public List<? extends Permission> getPermissions() {
-		// TODO Auto-generated method stub
-		return this.getUserPermissions();
+		return new ArrayList<UserPermission>(this.getUserPermissions());
 	}
 
 	@Override
 	@Transient
 	public List<? extends Role> getRoles() {
-		// TODO Auto-generated method stub
-		return this.getSecurityRoles();
+		return new ArrayList<SecurityRole>(this.getSecurityRoles());
 	}
-
 }

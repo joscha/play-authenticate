@@ -17,7 +17,6 @@ import play.data.format.Formats.NonEmpty;
 import play.data.validation.Constraints.MinLength;
 import play.data.validation.Constraints.Required;
 import play.db.jpa.JPA;
-import play.db.jpa.Transactional;
 import play.i18n.Messages;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -122,7 +121,6 @@ public class Account extends Controller {
 	}
 
 	@Restrict(@Group(Application.USER_ROLE))
-	//@Transactional
 	public Result doChangePassword() {
 		EntityManager em = JPA.em(JpaConstants.DB);
 		com.feth.play.module.pa.controllers.Authenticate.noCache(response());

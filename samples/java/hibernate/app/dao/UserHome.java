@@ -19,12 +19,16 @@ import models.User;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import providers.MyUsernamePasswordAuthUser;
+
 import com.feth.play.module.pa.providers.password.UsernamePasswordAuthUser;
 import com.feth.play.module.pa.user.AuthUser;
 import com.feth.play.module.pa.user.AuthUserIdentity;
 import com.feth.play.module.pa.user.EmailIdentity;
 import com.feth.play.module.pa.user.FirstLastNameIdentity;
 import com.feth.play.module.pa.user.NameIdentity;
+
+import controllers.Application;
 
 /**
  * Home object for domain model class User.
@@ -89,7 +93,22 @@ public class UserHome {
 	}
 
 	public User findById(Integer id, EntityManager entityManager) {
-		log.debug("getting User instance with id: " + id);
+		
+		try {
+			Query query = entityManager.createQuery("SELECT u FROM User u LEFT JOIN FETCH u.linkedAccounts WHERE u.id = :id");
+			query.setParameter("id", id);
+			
+			User user = (User) query.getSingleResult();
+			
+			return user;
+		} catch (NoResultException nr) {
+			return null;
+		} catch (RuntimeException re) {
+			log.error("get failed", re);
+			throw re;
+		} 
+		
+		/*log.debug("getting User instance with id: " + id);
 		try {
 			User instance = entityManager.find(User.class, id);
 			log.debug("get successful");
@@ -97,7 +116,7 @@ public class UserHome {
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
 			throw re;
-		}
+		}*/
 	}
 	
 	public LinkedAccount getAccountByProvider(User user, String providerKey, EntityManager entityManager) {
@@ -106,7 +125,7 @@ public class UserHome {
 		return dao.findByProviderKey(user, providerKey, entityManager);
 	}
 	
-	public void changePassword(User user, UsernamePasswordAuthUser authUser, boolean create, EntityManager entityManager) {
+	public void changePassword(User user, MyUsernamePasswordAuthUser authUser, boolean create, EntityManager entityManager) {
 		LinkedAccount a = this.getAccountByProvider(user, authUser.getProvider(), entityManager);
 		
 		LinkedAccountHome dao = new LinkedAccountHome();
@@ -125,7 +144,7 @@ public class UserHome {
 		dao.merge(a, entityManager);
 	}
 	
-	public void resetPassword(User user, UsernamePasswordAuthUser authUser, boolean create, EntityManager entityManager) {
+	public void resetPassword(User user, MyUsernamePasswordAuthUser authUser, boolean create, EntityManager entityManager) {
 		// You might want to wrap this into a transaction
 		this.changePassword(user, authUser, create, entityManager);
 		
@@ -153,12 +172,27 @@ public class UserHome {
 		//return exp.findRowCount() > 0;
 	}
 	
+	public User findByEmail(String email, EntityManager entityManager) {
+		
+		try {
+			Query query = entityManager.createQuery("SELECT DISTINCT u FROM User u WHERE lower(u.email) = :email AND u.active = true");
+			query.setParameter("email", email.toLowerCase());
+			
+			User user = (User) query.getSingleResult();
+			
+			return user;
+		} catch (RuntimeException re) {
+			log.error("get failed", re);
+			throw re;
+		}
+	}
+	
 	public User findByUsernamePasswordIdentity(UsernamePasswordAuthUser identity, EntityManager entityManager) {
 		
 		try {
-			Query query = entityManager.createQuery("SELECT DISTINCT u FROM LinkedAccount l JOIN l.user u WHERE l.providerKey = :pKey AND u.email = :email AND u.active = true");
-			query.setParameter("pKey", identity.getProvider());
-			query.setParameter("email", identity.getEmail());
+			Query query = entityManager.createQuery("SELECT DISTINCT u FROM LinkedAccount l JOIN l.user u LEFT JOIN FETCH u.securityRoles LEFT JOIN FETCH u.userPermissions WHERE lower(l.providerKey) = :pKey AND lower(u.email) = :email AND u.active = true");
+			query.setParameter("pKey", identity.getProvider().toLowerCase());
+			query.setParameter("email", identity.getEmail().toLowerCase());
 			
 			User user = (User) query.getSingleResult();
 			
@@ -171,27 +205,12 @@ public class UserHome {
 		} 
 	}
 	
-    public User findByEmail(String email, EntityManager entityManager) {
-		
-		try {
-			Query query = entityManager.createQuery("SELECT DISTINCT u FROM User u WHERE u.email = :email AND u.active = true");
-			query.setParameter("email", email);
-			
-			User user = (User) query.getSingleResult();
-			
-			return user;
-		} catch (RuntimeException re) {
-			log.error("get failed", re);
-			throw re;
-		}
-	}
-	
 	private User getAuthUserFind(AuthUserIdentity identity, EntityManager entityManager) {
 		
 		try {
-			Query query = entityManager.createQuery("SELECT DISTINCT u FROM LinkedAccount l JOIN l.user u WHERE l.providerKey = :pKey AND l.providerUserId = :userId AND u.active = true");
-			query.setParameter("pKey", identity.getProvider());
-			query.setParameter("userId", identity.getId());
+			Query query = entityManager.createQuery("SELECT DISTINCT u FROM LinkedAccount l JOIN l.user u LEFT JOIN FETCH u.securityRoles LEFT JOIN FETCH u.userPermissions WHERE lower(l.providerKey) = :pKey AND lower(l.providerUserId) = :userId AND u.active = true");
+			query.setParameter("pKey", identity.getProvider().toLowerCase());
+			query.setParameter("userId", identity.getId().toLowerCase());
 			
 			User user = (User) query.getSingleResult();
 			
@@ -217,13 +236,17 @@ public class UserHome {
 	}
 	
 	public User create(AuthUser authUser, EntityManager entityManager) {
+		return this.createByRole(authUser, controllers.Application.USER_ROLE, entityManager);
+	}
+	
+	public User createByRole(AuthUser authUser, String roleName, EntityManager entityManager) {
 		User user = new User();
 		
 		SecurityRoleHome roleDao = new SecurityRoleHome();
 		
-		SecurityRole role = roleDao.findByRoleName(controllers.Application.USER_ROLE, entityManager);
+		SecurityRole role = roleDao.findByRoleName(roleName, entityManager);
 		
-		List<SecurityRole> roles = user.getSecurityRoles();
+		Set<SecurityRole> roles = user.getSecurityRoles();
 		roles.add(role);
 		
 		user.setSecurityRoles(roles);

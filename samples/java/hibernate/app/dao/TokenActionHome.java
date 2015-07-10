@@ -114,9 +114,9 @@ public class TokenActionHome {
 	
 	public TokenAction findByToken(String token, String type, EntityManager entityManager) {
 		try {
-			Query query = entityManager.createQuery("SELECT t FROM TokenAction t WHERE t.token = :token AND t.type = :type");
-			query.setParameter("token", token);
-			query.setParameter("type", type);
+			Query query = entityManager.createQuery("SELECT t FROM TokenAction t WHERE lower(t.token) = :token AND lower(t.type) = :type");
+			query.setParameter("token", token.toLowerCase());
+			query.setParameter("type", type.toLowerCase());
 			
 			TokenAction instance = (TokenAction) query.getSingleResult();
 			log.debug("get successful");
@@ -133,9 +133,9 @@ public class TokenActionHome {
 	public void deleteByUser(User u, String type, EntityManager entityManager) {
 		
 		try {
-			Query query = entityManager.createQuery("SELECT t FROM TokenAction t JOIN t.user u WHERE u = :user AND t.type = :type");
+			Query query = entityManager.createQuery("SELECT t FROM TokenAction t JOIN t.user u WHERE u = :user AND lower(t.type) = :type");
 			query.setParameter("user", u);
-			query.setParameter("type", type);
+			query.setParameter("type", type.toLowerCase());
 			
 			List<TokenAction> tokens = (List<TokenAction>) query.getResultList();
 			

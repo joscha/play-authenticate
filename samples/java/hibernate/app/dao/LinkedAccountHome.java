@@ -93,8 +93,8 @@ public class LinkedAccountHome {
 	public LinkedAccount findByProviderKey(User user, String key, EntityManager entityManager) {
 		
 		try {
-			Query query = entityManager.createQuery("SELECT l FROM LinkedAccount l WHERE l.providerKey = :pKey AND l.user = :user");
-			query.setParameter("pKey", key);
+			Query query = entityManager.createQuery("SELECT l FROM LinkedAccount l WHERE lower(l.providerKey) = :pKey AND l.user = :user");
+			query.setParameter("pKey", key.toLowerCase());
 			query.setParameter("user", user);
 			
 			LinkedAccount linkedAccount = (LinkedAccount) query.getSingleResult();

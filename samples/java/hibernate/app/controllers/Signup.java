@@ -6,7 +6,6 @@ import models.TokenAction;
 import models.User;
 import play.data.Form;
 import play.db.jpa.JPA;
-import play.db.jpa.Transactional;
 import play.i18n.Messages;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -63,12 +62,13 @@ public class Signup extends Controller {
 		return ok(password_forgot.render(form));
 	}
 
-	@Transactional
 	public Result doForgotPassword() {
+		EntityManager em = JPA.em(JpaConstants.DB);
 		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
 		Form<MyIdentity> filledForm = FORGOT_PASSWORD_FORM.bindFromRequest();
 		if (filledForm.hasErrors()) {
 			// User did not fill in his/her email
+			em.close();
 			return badRequest(password_forgot.render(filledForm));
 		} else {
 			// The email address given *BY AN UNKNWON PERSON* to the form - we
@@ -87,7 +87,7 @@ public class Signup extends Controller {
 			
 			UserHome userDao = new UserHome();
 
-			User user = userDao.findByEmail(email, JPA.em());
+			User user = userDao.findByEmail(email, em);
 			if (user != null) {
 				// yep, we have a user with this email that is active - we do
 				// not know if the user owning that account has requested this
@@ -113,6 +113,7 @@ public class Signup extends Controller {
 				}
 			}
 
+			em.close();
 			return redirect(routes.Application.index());
 		}
 	}
@@ -151,7 +152,6 @@ public class Signup extends Controller {
 				.fill(new PasswordReset(token))));
 	}
 
-	//@Transactional
 	public Result doResetPassword() {
 		
 		EntityManager em = JPA.em(JpaConstants.DB);
@@ -219,10 +219,8 @@ public class Signup extends Controller {
 		return ok(exists.render());
 	}
 
-	//@Transactional
 	public Result verify(String token) {
 		
-		//TODO work out why @Transactional doesn't like being used more than once
 		EntityManager em = JPA.em(JpaConstants.DB);
 		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
 		TokenAction ta = tokenIsValid(token, "EMAIL_VERIFICATION");

@@ -21,6 +21,11 @@ val appDependencies = Seq(
 // add resolver for deadbolt and easymail snapshots
 resolvers += Resolver.sonatypeRepo("snapshots")
 
+// display deprecated or poorly formed Java
+javacOptions ++= Seq("-Xlint:unchecked")
+javacOptions ++= Seq("-Xlint:deprecation")
+javacOptions ++= Seq("-Xdiags:verbose")
+
 //  Uncomment the next line for local development of the Play Authenticate core:
 //lazy val playAuthenticate = project.in(file("modules/play-authenticate")).enablePlugins(PlayJava)
 

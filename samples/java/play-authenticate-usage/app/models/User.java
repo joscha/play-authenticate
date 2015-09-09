@@ -4,6 +4,7 @@ import be.objectify.deadbolt.core.models.Permission;
 import be.objectify.deadbolt.core.models.Role;
 import be.objectify.deadbolt.core.models.Subject;
 import com.avaje.ebean.Ebean;
+import com.avaje.ebean.Model;
 import com.avaje.ebean.ExpressionList;
 import com.feth.play.module.pa.providers.password.UsernamePasswordAuthUser;
 import com.feth.play.module.pa.user.AuthUser;
@@ -172,8 +173,8 @@ public class User extends AppModel implements Subject {
 		}
 
 		user.save();
-		// user.saveManyToManyAssociations("roles");
-		// user.saveManyToManyAssociations("permissions");
+		// Ebean.saveManyToManyAssociations(user, "roles");
+		// Ebean.saveManyToManyAssociations(user, "permissions");
 		return user;
 	}
 

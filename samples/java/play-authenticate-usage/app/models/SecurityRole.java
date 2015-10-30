@@ -18,7 +18,7 @@ package models;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-import play.db.ebean.Model;
+import com.avaje.ebean.Model;
 import be.objectify.deadbolt.core.models.Role;
 
 /**
@@ -27,7 +27,7 @@ import be.objectify.deadbolt.core.models.Role;
 @Entity
 public class SecurityRole extends Model implements Role {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 

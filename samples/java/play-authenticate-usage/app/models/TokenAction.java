@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 import play.data.format.Formats;
-import play.db.ebean.Model;
+import com.avaje.ebean.Model;
 
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.QueryIterator;
@@ -26,7 +26,7 @@ public class TokenAction extends Model {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 

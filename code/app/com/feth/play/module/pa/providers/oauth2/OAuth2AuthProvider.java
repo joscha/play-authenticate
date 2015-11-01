@@ -11,10 +11,10 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
 
-import play.Application;
 import play.Configuration;
 import play.Logger;
 import play.i18n.Messages;
+import play.inject.ApplicationLifecycle;
 import play.libs.ws.WS;
 import play.libs.ws.WSResponse;
 import play.libs.ws.WSRequest;
@@ -33,8 +33,8 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
     private static final String STATE_TOKEN = "pa.oauth2.state";
     protected static final String CONTENT_TYPE = "Content-Type";
 
-    public OAuth2AuthProvider(final Application app) {
-		super(app);
+    public OAuth2AuthProvider(final ApplicationLifecycle lifecycle) {
+		super(lifecycle);
 	}
 
 	@Override

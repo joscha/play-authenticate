@@ -1,7 +1,7 @@
 package com.feth.play.module.pa.providers.oauth2.foursquare;
 
-import play.Application;
 import play.Logger;
+import play.inject.ApplicationLifecycle;
 import play.libs.ws.WS;
 import play.libs.ws.WSResponse;
 
@@ -22,8 +22,8 @@ public class FoursquareAuthProvider extends
 	private static final String VERSION = "20120617";
 
 	@Inject
-	public FoursquareAuthProvider(Application app) {
-		super(app);
+	public FoursquareAuthProvider(ApplicationLifecycle lifecycle) {
+		super(lifecycle);
 	}
 
 	@Override

@@ -3,7 +3,7 @@ package com.feth.play.module.pa.providers.oauth2.github;
 import java.util.Collections;
 import java.util.Map;
 
-import play.Application;
+import play.inject.ApplicationLifecycle;
 import play.libs.ws.WS;
 import play.libs.ws.WSResponse;
 
@@ -21,8 +21,8 @@ public class GithubAuthProvider extends
     private static final String USER_INFO_URL_SETTING_KEY = "userInfoUrl";
 
     @Inject
-    public GithubAuthProvider(Application app) {
-        super(app);
+    public GithubAuthProvider(ApplicationLifecycle lifecycle) {
+        super(lifecycle);
     }
 
     @Override

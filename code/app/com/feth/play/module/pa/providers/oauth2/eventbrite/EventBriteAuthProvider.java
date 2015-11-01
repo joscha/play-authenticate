@@ -6,8 +6,8 @@ import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
 import com.google.inject.Inject;
 
-import play.Application;
 import play.Logger;
+import play.inject.ApplicationLifecycle;
 import play.libs.ws.WS;
 import play.libs.ws.WSResponse;
 
@@ -24,8 +24,8 @@ public class EventBriteAuthProvider extends
     private static final String TOKEN = "token";
 
     @Inject
-    public EventBriteAuthProvider(Application app) {
-        super(app);
+    public EventBriteAuthProvider(ApplicationLifecycle lifecycle) {
+        super(lifecycle);
     }
 
 

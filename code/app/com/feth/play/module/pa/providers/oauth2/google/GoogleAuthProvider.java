@@ -1,7 +1,7 @@
 package com.feth.play.module.pa.providers.oauth2.google;
 
-import play.Application;
 import play.Logger;
+import play.inject.ApplicationLifecycle;
 import play.libs.ws.WS;
 import play.libs.ws.WSResponse;
 
@@ -19,8 +19,8 @@ public class GoogleAuthProvider extends
 	private static final String USER_INFO_URL_SETTING_KEY = "userInfoUrl";
 
 	@Inject
-	public GoogleAuthProvider(Application app) {
-		super(app);
+	public GoogleAuthProvider(ApplicationLifecycle lifecycle) {
+		super(lifecycle);
 	}
 
 	@Override

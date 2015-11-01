@@ -2,7 +2,7 @@ package com.feth.play.module.pa.providers.oauth1.linkedin;
 
 import java.util.List;
 
-import play.Application;
+import play.inject.ApplicationLifecycle;
 import play.libs.oauth.OAuth.OAuthCalculator;
 import play.libs.oauth.OAuth.RequestToken;
 import play.mvc.Http;
@@ -25,8 +25,8 @@ public class LinkedinAuthProvider extends
     public static final String OAUTH_ACCESS_DENIED= "user_refused";
 
 	@Inject
-	public LinkedinAuthProvider(final Application app) {
-		super(app);
+	public LinkedinAuthProvider(final ApplicationLifecycle lifecycle) {
+		super(lifecycle);
 	}
 
 	@Override

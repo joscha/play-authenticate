@@ -7,9 +7,9 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import com.fasterxml.jackson.databind.JsonNode;
 
-import play.Application;
 import play.Configuration;
 import play.Logger;
+import play.inject.ApplicationLifecycle;
 import play.libs.ws.WS;
 import play.libs.ws.WSResponse;
 import play.mvc.Http.Request;
@@ -45,8 +45,8 @@ public class UntappdAuthProvider extends
 	// "http://localhost:9000/authenticate/untappd";
 
 	@Inject
-	public UntappdAuthProvider(final Application app) {
-		super(app);
+	public UntappdAuthProvider(final ApplicationLifecycle lifecycle) {
+		super(lifecycle);
 	}
 
 	@Override

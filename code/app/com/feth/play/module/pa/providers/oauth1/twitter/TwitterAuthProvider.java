@@ -2,7 +2,7 @@ package com.feth.play.module.pa.providers.oauth1.twitter;
 
 import java.util.List;
 
-import play.Application;
+import play.inject.ApplicationLifecycle;
 import play.libs.oauth.OAuth.OAuthCalculator;
 import play.libs.oauth.OAuth.RequestToken;
 import play.mvc.Http;
@@ -23,8 +23,8 @@ public class TwitterAuthProvider extends
     private static final String DENIED_KEY = "denied";
 
 	@Inject
-	public TwitterAuthProvider(final Application app) {
-		super(app);
+	public TwitterAuthProvider(final ApplicationLifecycle lifecycle) {
+		super(lifecycle);
 	}
 
 	@Override

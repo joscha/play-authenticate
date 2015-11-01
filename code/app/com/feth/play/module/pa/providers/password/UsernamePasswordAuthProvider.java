@@ -3,7 +3,6 @@ package com.feth.play.module.pa.providers.password;
 import java.util.Arrays;
 import java.util.List;
 
-import play.Application;
 import play.data.Form;
 import play.inject.ApplicationLifecycle;
 import play.mvc.Call;

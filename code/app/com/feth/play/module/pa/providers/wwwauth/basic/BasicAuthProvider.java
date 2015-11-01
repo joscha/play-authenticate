@@ -19,7 +19,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.Collections;
 import java.util.List;
 
-import play.Application;
 import play.inject.ApplicationLifecycle;
 import play.mvc.Http.Context;
 

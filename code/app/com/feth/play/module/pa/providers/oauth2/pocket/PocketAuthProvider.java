@@ -14,8 +14,8 @@ import org.apache.http.message.BasicNameValuePair;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import play.Application;
 import play.Configuration;
+import play.inject.ApplicationLifecycle;
 import play.libs.ws.WS;
 import play.libs.ws.WSResponse;
 import play.mvc.Http.Request;
@@ -32,8 +32,8 @@ public class PocketAuthProvider extends
 	public static final String PROVIDER_KEY = "pocket";
 
 	@Inject
-	public PocketAuthProvider(Application app) {
-		super(app);
+	public PocketAuthProvider(ApplicationLifecycle lifecycle) {
+		super(lifecycle);
 	}
 
 	public static abstract class SettingKeys extends

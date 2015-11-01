@@ -15,7 +15,6 @@
  */
 package com.feth.play.module.pa.providers.wwwauth;
 
-import play.Application;
 import play.inject.ApplicationLifecycle;
 import play.twirl.api.Content;
 import play.mvc.Controller;

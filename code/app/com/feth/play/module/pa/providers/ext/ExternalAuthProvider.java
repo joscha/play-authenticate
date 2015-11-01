@@ -8,7 +8,6 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URLEncodedUtils;
 
-import play.Application;
 import play.inject.ApplicationLifecycle;
 import play.mvc.Call;
 import play.mvc.Http.Request;

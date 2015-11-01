@@ -4,9 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import play.Application;
 import play.Configuration;
 import play.Logger;
+import play.inject.ApplicationLifecycle;
 import play.libs.F;
 import play.libs.oauth.OAuth;
 import play.libs.oauth.OAuth.OAuthCalculator;
@@ -31,8 +31,8 @@ public abstract class OAuth1AuthProvider<U extends AuthUserIdentity, I extends O
 
 	private static final String CACHE_TOKEN = "pa.oauth1.rtoken";
 
-	public OAuth1AuthProvider(final Application app) {
-		super(app);
+	public OAuth1AuthProvider(final ApplicationLifecycle lifecycle) {
+		super(lifecycle);
 	}
 
 	protected abstract I buildInfo(final RequestToken rtoken)

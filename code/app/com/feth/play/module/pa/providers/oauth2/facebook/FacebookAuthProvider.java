@@ -9,9 +9,9 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
 
-import play.Application;
 import play.Configuration;
 import play.Logger;
+import play.inject.ApplicationLifecycle;
 import play.libs.ws.WS;
 import play.libs.ws.WSResponse;
 import play.mvc.Http.Request;
@@ -35,8 +35,8 @@ public class FacebookAuthProvider extends
 	private static final String USER_INFO_FIELDS_SETTING_KEY = "userInfoFields";
 
 	@Inject
-	public FacebookAuthProvider(Application app) {
-		super(app);
+	public FacebookAuthProvider(ApplicationLifecycle lifecycle) {
+		super(lifecycle);
 	}
 
 	public static abstract class SettingKeys extends

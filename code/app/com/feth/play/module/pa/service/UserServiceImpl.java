@@ -6,9 +6,6 @@ import play.Logger;
 import play.inject.ApplicationLifecycle;
 import play.libs.F;
 
-/**
- * Created by raunak on 01/11/15.
- */
 public abstract class UserServiceImpl implements UserService {
 
     public UserServiceImpl(ApplicationLifecycle lifecycle) {

@@ -1,7 +1,7 @@
 package com.feth.play.module.pa.providers.oauth2.vk;
 
-import play.Application;
 import play.Logger;
+import play.inject.ApplicationLifecycle;
 import play.libs.ws.WS;
 import play.libs.ws.WSResponse;
 
@@ -27,8 +27,8 @@ public class VkAuthProvider extends OAuth2AuthProvider<VkAuthUser, VkAuthInfo> {
 	private static final String BODY_RESPONSE_KEY = "response";
 
 	@Inject
-	public VkAuthProvider(final Application app) {
-		super(app);
+	public VkAuthProvider(final ApplicationLifecycle lifecycle) {
+		super(lifecycle);
 	}
 
 	@Override

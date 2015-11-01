@@ -4,10 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import play.Application;
 import play.Configuration;
 import play.Logger;
 import play.api.libs.openid.OpenIDError;
+import play.inject.ApplicationLifecycle;
 import play.libs.F.Promise;
 import play.libs.openid.OpenID;
 import play.libs.openid.UserInfo;
@@ -30,8 +30,8 @@ public class OpenIdAuthProvider extends ExternalAuthProvider {
 	}
 
 	@Inject
-	public OpenIdAuthProvider(final Application app) {
-		super(app);
+	public OpenIdAuthProvider(final ApplicationLifecycle lifecycle) {
+		super(lifecycle);
 	}
 
 	@Override

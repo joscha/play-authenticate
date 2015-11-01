@@ -5,6 +5,7 @@ import java.util.List;
 
 import play.Application;
 import play.data.Form;
+import play.inject.ApplicationLifecycle;
 import play.mvc.Call;
 import play.mvc.Http;
 import play.mvc.Http.Context;
@@ -61,15 +62,9 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 		public String getPassword();
 	}
 
-	public UsernamePasswordAuthProvider(final Application app) {
-		super(app);
-	}
-
-	@Override
-	public void onStart() {
-		super.onStart();
-		mailer = Mailer.getCustomMailer(getConfiguration().getConfig(
-				SETTING_KEY_MAIL));
+	public UsernamePasswordAuthProvider(final ApplicationLifecycle lifecycle) {
+		super(lifecycle);
+		mailer = Mailer.getCustomMailer(getConfiguration().getConfig(SETTING_KEY_MAIL));
 	}
 
 	@Override

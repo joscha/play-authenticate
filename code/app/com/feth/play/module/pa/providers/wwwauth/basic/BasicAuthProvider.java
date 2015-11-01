@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.List;
 
 import play.Application;
+import play.inject.ApplicationLifecycle;
 import play.mvc.Http.Context;
 
 import com.feth.play.module.pa.providers.wwwauth.WWWAuthenticateProvider;
@@ -36,8 +37,8 @@ import com.ning.http.util.UTF8UrlEncoder;
  */
 public abstract class BasicAuthProvider extends WWWAuthenticateProvider {
 
-	public BasicAuthProvider(Application app) {
-		super(app);
+	public BasicAuthProvider(ApplicationLifecycle lifecycle) {
+		super(lifecycle);
 	}
 
 	/** Check the provided credentials.

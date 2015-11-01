@@ -21,8 +21,8 @@ import org.ietf.jgss.GSSException;
 import org.ietf.jgss.GSSManager;
 import org.ietf.jgss.Oid;
 
-import play.Application;
 import play.Logger;
+import play.inject.ApplicationLifecycle;
 import play.mvc.Http.Context;
 
 import com.feth.play.module.pa.exceptions.AuthException;
@@ -42,8 +42,8 @@ import com.ning.http.util.Base64;
 public class SpnegoAuthProvider extends WWWAuthenticateProvider {
 
 	@Inject
-	public SpnegoAuthProvider(Application app) {
-		super(app);
+	public SpnegoAuthProvider(ApplicationLifecycle lifecycle) {
+		super(lifecycle);
 		String realm = getConfiguration().getString(SettingKeys.REALM);
 		String kdc = getConfiguration().getString(SettingKeys.KDC);
 		if (realm != null && kdc != null) {

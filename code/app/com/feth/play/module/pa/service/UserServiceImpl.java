@@ -2,7 +2,6 @@ package com.feth.play.module.pa.service;
 
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.user.AuthUser;
-import com.google.inject.Inject;
 import play.Logger;
 import play.inject.ApplicationLifecycle;
 import play.libs.F;
@@ -12,7 +11,6 @@ import play.libs.F;
  */
 public abstract class UserServiceImpl implements UserService {
 
-    @Inject
     public UserServiceImpl(ApplicationLifecycle lifecycle) {
 
         // content from Plugin.onStart

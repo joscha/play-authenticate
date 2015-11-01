@@ -16,6 +16,7 @@
 package com.feth.play.module.pa.providers.wwwauth;
 
 import play.Application;
+import play.inject.ApplicationLifecycle;
 import play.twirl.api.Content;
 import play.mvc.Controller;
 import play.mvc.Http.Context;
@@ -38,8 +39,8 @@ import com.feth.play.module.pa.user.AuthUser;
  */
 public abstract class WWWAuthenticateProvider extends AuthProvider {
 
-	public WWWAuthenticateProvider(Application app) {
-		super(app);
+	public WWWAuthenticateProvider(ApplicationLifecycle lifecycle) {
+		super(lifecycle);
 	}
 
 	/** The name of the authentication scheme

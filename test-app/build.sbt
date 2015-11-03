@@ -17,6 +17,8 @@ resolvers += "scalaz-bintray" at "https://dl.bintray.com/scalaz/releases"
 // add resolver for easymail snapshots
 resolvers += Resolver.sonatypeRepo("snapshots")
 
+routesGenerator := InjectedRoutesGenerator
+
 lazy val playAuthenticate = (project in file("modules/play-authenticate")).enablePlugins(PlayJava)
 
 lazy val root = (project in file("."))

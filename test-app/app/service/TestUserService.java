@@ -3,25 +3,21 @@ package service;
 import java.util.HashMap;
 import java.util.Map;
 
-import play.Application;
+import com.feth.play.module.pa.service.UserServiceImpl;
 
 import com.feth.play.module.pa.PlayAuthenticate;
-import com.feth.play.module.pa.service.UserServicePlugin;
 import com.feth.play.module.pa.user.AuthUser;
 import com.feth.play.module.pa.user.AuthUserIdentity;
 import com.google.inject.Inject;
+import play.inject.ApplicationLifecycle;
 
-public class TestUserServicePlugin extends UserServicePlugin {
+public class TestUserService extends UserServiceImpl {
 
 	private final Map<AuthUserIdentity, AuthUser> users = new HashMap<AuthUserIdentity, AuthUser>();
 
 	@Inject
-	public TestUserServicePlugin(Application app) {
-		super(app);
-	}
-
-	@Override
-	public void onStart() {
+	public TestUserService(ApplicationLifecycle lifecycle) {
+		super(lifecycle);
 		PlayAuthenticate.setUserService(this);
 	}
 
@@ -107,8 +103,8 @@ public class TestUserServicePlugin extends UserServicePlugin {
 			return true;
 		}
 
-		private TestUserServicePlugin getOuterType() {
-			return TestUserServicePlugin.this;
+		private TestUserService getOuterType() {
+			return TestUserService.this;
 		}
 
 	}

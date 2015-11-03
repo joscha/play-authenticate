@@ -14,7 +14,7 @@ public class JavaController extends Controller {
 	public static final String FLASH_ERROR_KEY = "error";
 
 	@Security.Authenticated(JavaSecured.class)
-	public static Result index() {
+	public Result index() {
 		AuthUser user = PlayAuthenticate.getUser(ctx());
 		return ok(user.getProvider() + ": " + user.getId());
 	}

@@ -8,6 +8,7 @@ import static play.test.Helpers.running;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.feth.play.module.pa.service.UserService;
 import org.junit.Test;
 
 import play.Logger;
@@ -17,9 +18,7 @@ import play.mvc.Http;
 import play.mvc.Http.RequestBuilder;
 import play.mvc.Result;
 import providers.TestUsernamePasswordAuthProvider;
-import service.TestUserServicePlugin;
-
-import com.feth.play.module.pa.service.UserServicePlugin;
+import service.TestUserService;
 
 public class JavaControllerTest {
 	@Test
@@ -92,8 +91,8 @@ public class JavaControllerTest {
 				.plugin(TestUsernamePasswordAuthProvider.class);
 	}
 
-	private UserServicePlugin userServicePlugin() {
-		return Play.application().plugin(TestUserServicePlugin.class);
+	private UserService userServicePlugin() {
+		return Play.application().injector().instanceOf(TestUserService.class);
 	}
 
 }

@@ -7,8 +7,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
-import play.Application;
 import play.Logger;
+import play.inject.ApplicationLifecycle;
 import play.data.Form;
 import play.data.validation.Constraints.Email;
 import play.data.validation.Constraints.MinLength;
@@ -19,7 +19,6 @@ import play.mvc.Http.Context;
 import com.feth.play.module.mail.Mailer.Mail.Body;
 import com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider;
 import com.feth.play.module.pa.providers.password.UsernamePasswordAuthUser;
-import com.feth.play.module.pa.user.AuthUser;
 import com.google.inject.Inject;
 
 public class TestUsernamePasswordAuthProvider
@@ -31,8 +30,8 @@ public class TestUsernamePasswordAuthProvider
 	private final Map<String, String> verificationTokens = new HashMap<String, String>();
 
 	@Inject
-	public TestUsernamePasswordAuthProvider(Application app) {
-		super(app);
+	public TestUsernamePasswordAuthProvider(ApplicationLifecycle lifecycle) {
+		super(lifecycle);
 	}
 
 	public static class Login implements

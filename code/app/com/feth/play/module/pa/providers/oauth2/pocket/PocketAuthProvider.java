@@ -1,30 +1,24 @@
 package com.feth.play.module.pa.providers.oauth2.pocket;
 
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.feth.play.module.pa.exceptions.AccessTokenException;
+import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.exceptions.ResolverMissingException;
+import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
+import com.feth.play.module.pa.user.AuthUserIdentity;
+import com.google.inject.Inject;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import play.Configuration;
 import play.inject.ApplicationLifecycle;
 import play.libs.ws.WS;
 import play.libs.ws.WSResponse;
 import play.mvc.Http.Request;
 
-import com.feth.play.module.pa.exceptions.AccessTokenException;
-import com.feth.play.module.pa.exceptions.AuthException;
-import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
-import com.feth.play.module.pa.user.AuthUserIdentity;
-import com.google.inject.Inject;
+import java.nio.charset.Charset;
+import java.util.*;
 
 public class PocketAuthProvider extends
 		OAuth2AuthProvider<PocketAuthUser, PocketAuthInfo> {

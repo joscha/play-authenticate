@@ -1,11 +1,10 @@
 package com.feth.play.module.pa.providers.oauth2.google;
 
-import java.util.Date;
-
 import com.fasterxml.jackson.databind.JsonNode;
-
 import com.feth.play.module.pa.providers.oauth2.OAuth2AuthInfo;
 import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider.Constants;
+
+import java.util.Date;
 
 public class GoogleAuthInfo extends OAuth2AuthInfo {
 

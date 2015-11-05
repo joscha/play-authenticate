@@ -3,6 +3,8 @@ package com.feth.play.module.pa.controllers;
 import play.mvc.Controller;
 import play.mvc.Http.Response;
 
+import com.feth.play.module.pa.PlayAuthenticate;
+
 public class AuthenticateBase extends Controller {
 
 	protected static final String PAYLOAD_KEY = "p";

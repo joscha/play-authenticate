@@ -1,23 +1,5 @@
 package com.feth.play.module.pa.providers.oauth1;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
-import play.Configuration;
-import play.Logger;
-import play.inject.ApplicationLifecycle;
-import play.libs.F;
-import play.libs.oauth.OAuth;
-import play.libs.oauth.OAuth.OAuthCalculator;
-import play.libs.oauth.OAuth.ConsumerKey;
-import play.libs.oauth.OAuth.RequestToken;
-import play.libs.oauth.OAuth.ServiceInfo;
-import play.libs.ws.WS;
-import play.libs.ws.WSResponse;
-import play.mvc.Http.Context;
-import play.mvc.Http.Request;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.exceptions.AccessDeniedException;
@@ -25,6 +7,23 @@ import com.feth.play.module.pa.exceptions.AccessTokenException;
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.ext.ExternalAuthProvider;
 import com.feth.play.module.pa.user.AuthUserIdentity;
+import play.Configuration;
+import play.Logger;
+import play.inject.ApplicationLifecycle;
+import play.libs.F;
+import play.libs.oauth.OAuth;
+import play.libs.oauth.OAuth.ConsumerKey;
+import play.libs.oauth.OAuth.OAuthCalculator;
+import play.libs.oauth.OAuth.RequestToken;
+import play.libs.oauth.OAuth.ServiceInfo;
+import play.libs.ws.WS;
+import play.libs.ws.WSResponse;
+import play.mvc.Http.Context;
+import play.mvc.Http.Request;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class OAuth1AuthProvider<U extends AuthUserIdentity, I extends OAuth1AuthInfo>
 		extends ExternalAuthProvider {

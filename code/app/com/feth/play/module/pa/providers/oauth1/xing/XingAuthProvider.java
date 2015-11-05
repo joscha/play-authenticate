@@ -1,18 +1,17 @@
 package com.feth.play.module.pa.providers.oauth1.xing;
 
-import java.util.List;
-
-import play.inject.ApplicationLifecycle;
-import play.libs.oauth.OAuth.OAuthCalculator;
-import play.libs.oauth.OAuth.RequestToken;
-import play.mvc.Http;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.feth.play.module.pa.exceptions.AccessDeniedException;
 import com.feth.play.module.pa.exceptions.AccessTokenException;
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.oauth1.OAuth1AuthProvider;
 import com.google.inject.Inject;
+import play.inject.ApplicationLifecycle;
+import play.libs.oauth.OAuth.OAuthCalculator;
+import play.libs.oauth.OAuth.RequestToken;
+import play.mvc.Http;
+
+import java.util.List;
 
 /**
  * Auth provider for business social network <a

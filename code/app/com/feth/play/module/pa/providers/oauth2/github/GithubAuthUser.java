@@ -2,7 +2,9 @@ package com.feth.play.module.pa.providers.oauth2.github;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.feth.play.module.pa.providers.oauth2.BasicOAuth2AuthUser;
-import com.feth.play.module.pa.user.*;
+import com.feth.play.module.pa.user.BasicIdentity;
+import com.feth.play.module.pa.user.PicturedIdentity;
+import com.feth.play.module.pa.user.ProfiledIdentity;
 
 public class GithubAuthUser extends BasicOAuth2AuthUser implements
         BasicIdentity, PicturedIdentity, ProfiledIdentity {

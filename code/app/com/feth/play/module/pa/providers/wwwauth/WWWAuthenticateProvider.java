@@ -15,15 +15,14 @@
  */
 package com.feth.play.module.pa.providers.wwwauth;
 
-import play.inject.ApplicationLifecycle;
-import play.twirl.api.Content;
-import play.mvc.Controller;
-import play.mvc.Http.Context;
-import play.mvc.Result;
-
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.AuthProvider;
 import com.feth.play.module.pa.user.AuthUser;
+import play.inject.ApplicationLifecycle;
+import play.mvc.Controller;
+import play.mvc.Http.Context;
+import play.mvc.Result;
+import play.twirl.api.Content;
 
 /** A base class for browser based authentication using the WWW-Authenticate header.
  *

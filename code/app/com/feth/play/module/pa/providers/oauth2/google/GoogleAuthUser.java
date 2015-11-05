@@ -1,15 +1,10 @@
 package com.feth.play.module.pa.providers.oauth2.google;
 
-import java.util.Locale;
-
 import com.fasterxml.jackson.databind.JsonNode;
-
 import com.feth.play.module.pa.providers.oauth2.BasicOAuth2AuthUser;
-import com.feth.play.module.pa.user.AuthUser;
-import com.feth.play.module.pa.user.ExtendedIdentity;
-import com.feth.play.module.pa.user.LocaleIdentity;
-import com.feth.play.module.pa.user.PicturedIdentity;
-import com.feth.play.module.pa.user.ProfiledIdentity;
+import com.feth.play.module.pa.user.*;
+
+import java.util.Locale;
 
 public class GoogleAuthUser extends BasicOAuth2AuthUser implements
 		ExtendedIdentity, PicturedIdentity, ProfiledIdentity, LocaleIdentity {

@@ -1,31 +1,25 @@
 package com.feth.play.module.pa.providers.oauth2;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
+import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.exceptions.*;
+import com.feth.play.module.pa.providers.ext.ExternalAuthProvider;
+import com.feth.play.module.pa.user.AuthUser;
+import com.feth.play.module.pa.user.AuthUserIdentity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
-
 import play.Configuration;
 import play.Logger;
 import play.i18n.Messages;
 import play.inject.ApplicationLifecycle;
 import play.libs.ws.WS;
-import play.libs.ws.WSResponse;
 import play.libs.ws.WSRequest;
+import play.libs.ws.WSResponse;
 import play.mvc.Http.Context;
 import play.mvc.Http.Request;
 import play.mvc.Http.Session;
 
-import com.feth.play.module.pa.PlayAuthenticate;
-import com.feth.play.module.pa.providers.ext.ExternalAuthProvider;
-import com.feth.play.module.pa.user.AuthUser;
-import com.feth.play.module.pa.user.AuthUserIdentity;
+import java.util.*;
 
 public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends OAuth2AuthInfo>
 		extends ExternalAuthProvider {

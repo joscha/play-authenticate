@@ -1,17 +1,16 @@
 package com.feth.play.module.pa.providers.oauth2.foursquare;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.feth.play.module.pa.providers.oauth2.BasicOAuth2AuthUser;
+import com.feth.play.module.pa.providers.oauth2.OAuth2AuthInfo;
+import com.feth.play.module.pa.user.ExtendedIdentity;
+import com.feth.play.module.pa.user.PicturedIdentity;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import com.fasterxml.jackson.databind.JsonNode;
-
-import com.feth.play.module.pa.providers.oauth2.BasicOAuth2AuthUser;
-import com.feth.play.module.pa.providers.oauth2.OAuth2AuthInfo;
-import com.feth.play.module.pa.user.ExtendedIdentity;
-import com.feth.play.module.pa.user.PicturedIdentity;
 
 public class FoursquareAuthUser extends BasicOAuth2AuthUser implements
 		ExtendedIdentity, PicturedIdentity {

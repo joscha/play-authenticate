@@ -1,9 +1,10 @@
 package com.feth.play.module.pa.providers.openid;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
+import com.feth.play.module.pa.exceptions.AuthException;
+import com.feth.play.module.pa.providers.ext.ExternalAuthProvider;
+import com.feth.play.module.pa.providers.openid.exceptions.NoOpenIdAuthException;
+import com.feth.play.module.pa.providers.openid.exceptions.OpenIdConnectException;
+import com.google.inject.Inject;
 import play.Configuration;
 import play.Logger;
 import play.api.libs.openid.OpenIDError;
@@ -14,11 +15,9 @@ import play.libs.openid.UserInfo;
 import play.mvc.Http.Context;
 import play.mvc.Http.Request;
 
-import com.feth.play.module.pa.exceptions.AuthException;
-import com.feth.play.module.pa.providers.ext.ExternalAuthProvider;
-import com.feth.play.module.pa.providers.openid.exceptions.NoOpenIdAuthException;
-import com.feth.play.module.pa.providers.openid.exceptions.OpenIdConnectException;
-import com.google.inject.Inject;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class OpenIdAuthProvider extends ExternalAuthProvider {
 

@@ -1,17 +1,16 @@
 package com.feth.play.module.pa.providers.oauth2.github;
 
-import java.util.Collections;
-import java.util.Map;
-
-import play.inject.ApplicationLifecycle;
-import play.libs.ws.WS;
-import play.libs.ws.WSResponse;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.feth.play.module.pa.exceptions.AccessTokenException;
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
 import com.google.inject.Inject;
+import play.inject.ApplicationLifecycle;
+import play.libs.ws.WS;
+import play.libs.ws.WSResponse;
+
+import java.util.Collections;
+import java.util.Map;
 
 public class GithubAuthProvider extends
         OAuth2AuthProvider<GithubAuthUser, GithubAuthInfo> {

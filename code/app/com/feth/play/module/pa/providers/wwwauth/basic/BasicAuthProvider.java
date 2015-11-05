@@ -15,17 +15,16 @@
  */
 package com.feth.play.module.pa.providers.wwwauth.basic;
 
-import java.io.UnsupportedEncodingException;
-import java.util.Collections;
-import java.util.List;
-
-import play.inject.ApplicationLifecycle;
-import play.mvc.Http.Context;
-
 import com.feth.play.module.pa.providers.wwwauth.WWWAuthenticateProvider;
 import com.feth.play.module.pa.user.AuthUser;
 import com.ning.http.util.Base64;
 import com.ning.http.util.UTF8UrlEncoder;
+import play.inject.ApplicationLifecycle;
+import play.mvc.Http.Context;
+
+import java.io.UnsupportedEncodingException;
+import java.util.Collections;
+import java.util.List;
 
 /** A provider for RFC 2617 Basic Authentication.
  *

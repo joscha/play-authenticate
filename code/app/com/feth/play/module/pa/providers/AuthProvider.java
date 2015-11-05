@@ -1,27 +1,26 @@
 package com.feth.play.module.pa.providers;
 
+import com.feth.play.module.pa.PlayAuthenticate;
+import com.feth.play.module.pa.exceptions.AuthException;
+import com.feth.play.module.pa.user.AuthUser;
+import com.feth.play.module.pa.user.SessionAuthUser;
+import play.Configuration;
+import play.Logger;
+import play.inject.ApplicationLifecycle;
+import play.libs.F;
+import play.mvc.Http.Context;
+import play.mvc.Http.Request;
+import play.mvc.Http.Session;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import play.Configuration;
-import play.Logger;
-import play.inject.ApplicationLifecycle;
-import play.libs.F;
-import play.mvc.Http.Session;
-import play.mvc.Http.Context;
-import play.mvc.Http.Request;
-
-import com.feth.play.module.pa.PlayAuthenticate;
-import com.feth.play.module.pa.exceptions.AuthException;
-import com.feth.play.module.pa.user.AuthUser;
-import com.feth.play.module.pa.user.SessionAuthUser;
-
 public abstract class AuthProvider {
 
 	public abstract static class Registry {
-		private static Map<String, AuthProvider> providers = new HashMap<String, AuthProvider>();
+		private static Map<String, AuthProvider> providers = new HashMap<>();
 
 		public static void register(final String provider, final AuthProvider p) {
 			final Object previous = providers.put(provider, p);

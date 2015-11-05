@@ -1,16 +1,6 @@
 package com.feth.play.module.pa.providers.password;
 
-import java.util.Arrays;
-import java.util.List;
-
-import play.data.Form;
-import play.inject.ApplicationLifecycle;
-import play.mvc.Call;
-import play.mvc.Http;
-import play.mvc.Http.Context;
-import play.mvc.Result;
 import akka.actor.Cancellable;
-
 import com.feth.play.module.mail.Mailer;
 import com.feth.play.module.mail.Mailer.Mail;
 import com.feth.play.module.mail.Mailer.Mail.Body;
@@ -19,9 +9,19 @@ import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.AuthProvider;
 import com.feth.play.module.pa.user.AuthUser;
 import com.feth.play.module.pa.user.NameIdentity;
+import play.data.Form;
+import play.inject.ApplicationLifecycle;
+import play.mvc.Call;
+import play.mvc.Http;
+import play.mvc.Http.Context;
+import play.mvc.Result;
 
-public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswordAuthUser, US extends UsernamePasswordAuthUser, L extends UsernamePasswordAuthProvider.UsernamePassword, S extends UsernamePasswordAuthProvider.UsernamePassword>
-		extends AuthProvider {
+import java.util.Arrays;
+import java.util.List;
+
+public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswordAuthUser,
+		US extends UsernamePasswordAuthUser, L extends UsernamePasswordAuthProvider.UsernamePassword,
+		S extends UsernamePasswordAuthProvider.UsernamePassword> extends AuthProvider {
 
 	public static final String PROVIDER_KEY = "password";
 
@@ -61,7 +61,7 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 		public String getPassword();
 	}
 
-	public UsernamePasswordAuthProvider(final ApplicationLifecycle lifecycle) {
+	public UsernamePasswordAuthProvider(ApplicationLifecycle lifecycle) {
 		super(lifecycle);
 		mailer = Mailer.getCustomMailer(getConfiguration().getConfig(SETTING_KEY_MAIL));
 	}

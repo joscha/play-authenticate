@@ -18,6 +18,4 @@ libraryDependencies ++= Seq(
 // add resolver for easymail snapshots
 resolvers += Resolver.sonatypeRepo("snapshots")
 
-routesGenerator := InjectedRoutesGenerator
-
 lazy val playAuthenticate = (project in file(".")).enablePlugins(PlayJava)

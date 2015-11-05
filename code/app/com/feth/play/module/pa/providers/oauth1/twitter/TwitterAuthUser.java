@@ -1,14 +1,13 @@
 package com.feth.play.module.pa.providers.oauth1.twitter;
 
-import java.util.Locale;
-
 import com.fasterxml.jackson.databind.JsonNode;
-
 import com.feth.play.module.pa.providers.oauth1.BasicOAuth1AuthUser;
 import com.feth.play.module.pa.providers.oauth1.OAuth1AuthInfo;
 import com.feth.play.module.pa.user.AuthUser;
 import com.feth.play.module.pa.user.LocaleIdentity;
 import com.feth.play.module.pa.user.PicturedIdentity;
+
+import java.util.Locale;
 
 public class TwitterAuthUser extends BasicOAuth1AuthUser implements
 		PicturedIdentity, LocaleIdentity {

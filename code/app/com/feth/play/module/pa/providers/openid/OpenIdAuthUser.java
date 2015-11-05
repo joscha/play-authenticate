@@ -1,11 +1,10 @@
 package com.feth.play.module.pa.providers.openid;
 
-import java.util.Map;
-
-import play.libs.openid.UserInfo;
-
 import com.feth.play.module.pa.providers.openid.OpenIdAuthProvider.SettingKeys;
 import com.feth.play.module.pa.user.AuthUser;
+import play.libs.openid.UserInfo;
+
+import java.util.Map;
 
 public class OpenIdAuthUser extends AuthUser {
 

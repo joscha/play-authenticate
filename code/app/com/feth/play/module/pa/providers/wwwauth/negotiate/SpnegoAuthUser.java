@@ -15,12 +15,11 @@
  */
 package com.feth.play.module.pa.providers.wwwauth.negotiate;
 
-import java.util.Date;
-
+import com.feth.play.module.pa.user.AuthUser;
 import org.ietf.jgss.GSSContext;
 import org.ietf.jgss.GSSException;
 
-import com.feth.play.module.pa.user.AuthUser;
+import java.util.Date;
 
 public class SpnegoAuthUser extends AuthUser {
 

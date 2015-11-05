@@ -17,9 +17,8 @@ import play.mvc.Http;
 import play.mvc.Http.RequestBuilder;
 import play.mvc.Result;
 import providers.TestUsernamePasswordAuthProvider;
-import service.TestUserServicePlugin;
+import services.TestUserService;
 
-import com.feth.play.module.pa.service.UserServicePlugin;
 
 public class JavaControllerTest {
 	@Test
@@ -27,9 +26,8 @@ public class JavaControllerTest {
 		running(fakeApplication(), new Runnable() {
 			@Override
 			public void run() {
-				assertThat(userServicePlugin()).isNotNull();
-				Result result = route(controllers.routes.JavaController
-						.index());
+				assertThat(userServiceImpl()).isNotNull();
+				Result result = route(controllers.routes.JavaController.index());
 				assertThat(result.status()).isEqualTo(SEE_OTHER);
 			}
 		});
@@ -40,7 +38,7 @@ public class JavaControllerTest {
 		running(fakeApplication(), new Runnable() {
 			@Override
 			public void run() {
-				assertThat(userServicePlugin()).isNotNull();
+				assertThat(userServiceImpl()).isNotNull();
 				Http.Session session = signupAndLogin();
 				Result result = route(new RequestBuilder().uri(controllers.routes.JavaController.index().url()).session(session));
 				assertThat(result.status()).isEqualTo(OK);
@@ -88,12 +86,11 @@ public class JavaControllerTest {
 	}
 
 	private TestUsernamePasswordAuthProvider upAuthProvider() {
-		return Play.application()
-				.plugin(TestUsernamePasswordAuthProvider.class);
+		return Play.application().injector().instanceOf(TestUsernamePasswordAuthProvider.class);
 	}
 
-	private UserServicePlugin userServicePlugin() {
-		return Play.application().plugin(TestUserServicePlugin.class);
+	private TestUserService userServiceImpl() {
+		return Play.application().injector().instanceOf(TestUserService.class);
 	}
 
 }

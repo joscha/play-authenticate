@@ -1,23 +1,21 @@
 package com.feth.play.module.pa.providers.oauth2.untappd;
 
-import java.util.List;
-
+import com.fasterxml.jackson.databind.JsonNode;
+import com.feth.play.module.pa.exceptions.AccessTokenException;
+import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.exceptions.ResolverMissingException;
+import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
+import com.google.inject.Inject;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-import com.fasterxml.jackson.databind.JsonNode;
-
-import play.Application;
 import play.Configuration;
 import play.Logger;
+import play.inject.ApplicationLifecycle;
 import play.libs.ws.WS;
 import play.libs.ws.WSResponse;
 import play.mvc.Http.Request;
 
-import com.feth.play.module.pa.exceptions.AccessTokenException;
-import com.feth.play.module.pa.exceptions.AuthException;
-import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
-import com.google.inject.Inject;
+import java.util.List;
 
 /**
  * Auth provider for Untappd beer social network
@@ -45,8 +43,8 @@ public class UntappdAuthProvider extends
 	// "http://localhost:9000/authenticate/untappd";
 
 	@Inject
-	public UntappdAuthProvider(final Application app) {
-		super(app);
+	public UntappdAuthProvider(final ApplicationLifecycle lifecycle) {
+		super(lifecycle);
 	}
 
 	@Override

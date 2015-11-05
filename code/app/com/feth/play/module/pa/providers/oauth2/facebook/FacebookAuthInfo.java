@@ -1,10 +1,10 @@
 package com.feth.play.module.pa.providers.oauth2.facebook;
 
-import java.util.Date;
-import java.util.Map;
-
 import com.feth.play.module.pa.providers.oauth2.OAuth2AuthInfo;
 import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
+
+import java.util.Date;
+import java.util.Map;
 
 public class FacebookAuthInfo extends OAuth2AuthInfo {
 

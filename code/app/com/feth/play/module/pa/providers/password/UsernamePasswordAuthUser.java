@@ -1,9 +1,8 @@
 package com.feth.play.module.pa.providers.password;
 
-import org.mindrot.jbcrypt.BCrypt;
-
 import com.feth.play.module.pa.user.AuthUser;
 import com.feth.play.module.pa.user.EmailIdentity;
+import org.mindrot.jbcrypt.BCrypt;
 
 public abstract class UsernamePasswordAuthUser extends AuthUser implements EmailIdentity {
 	

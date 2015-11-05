@@ -1,11 +1,10 @@
 package com.feth.play.module.pa.providers.oauth2.vk;
 
-import java.util.Date;
-
 import com.fasterxml.jackson.databind.JsonNode;
-
 import com.feth.play.module.pa.providers.oauth2.OAuth2AuthInfo;
 import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
+
+import java.util.Date;
 
 /**
  * @author Denis Borisenko

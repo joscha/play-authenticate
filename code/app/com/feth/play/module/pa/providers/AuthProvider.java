@@ -1,33 +1,31 @@
 package com.feth.play.module.pa.providers;
 
+import com.feth.play.module.pa.PlayAuthenticate;
+import com.feth.play.module.pa.exceptions.AuthException;
+import com.feth.play.module.pa.user.AuthUser;
+import com.feth.play.module.pa.user.SessionAuthUser;
+import play.Configuration;
+import play.Logger;
+import play.inject.ApplicationLifecycle;
+import play.libs.F;
+import play.mvc.Http.Context;
+import play.mvc.Http.Request;
+import play.mvc.Http.Session;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import play.Application;
-import play.Configuration;
-import play.Logger;
-import play.Plugin;
-import play.mvc.Http.Session;
-import play.mvc.Http.Context;
-import play.mvc.Http.Request;
-
-import com.feth.play.module.pa.PlayAuthenticate;
-import com.feth.play.module.pa.exceptions.AuthException;
-import com.feth.play.module.pa.user.AuthUser;
-import com.feth.play.module.pa.user.SessionAuthUser;
-
-public abstract class AuthProvider extends Plugin {
+public abstract class AuthProvider {
 
 	public abstract static class Registry {
-		private static Map<String, AuthProvider> providers = new HashMap<String, AuthProvider>();
+		private static Map<String, AuthProvider> providers = new HashMap<>();
 
 		public static void register(final String provider, final AuthProvider p) {
 			final Object previous = providers.put(provider, p);
 			if (previous != null) {
-				Logger.warn("There are multiple AuthProviders registered for key '"
-						+ provider + "'");
+				Logger.warn("There are multiple AuthProviders registered for key '" + provider + "'");
 			}
 		}
 
@@ -48,42 +46,31 @@ public abstract class AuthProvider extends Plugin {
 		}
 	}
 
-	private Application application;
+	public AuthProvider(ApplicationLifecycle lifecycle) {
 
-	public AuthProvider(final Application app) {
-		application = app;
-	}
-
-	protected Application getApplication() {
-		return application;
-	}
-
-	@Override
-	public void onStart() {
-
+		// content from Plugin.onStart
 		final List<String> neededSettings = neededSettingKeys();
 		if (neededSettings != null) {
 			final Configuration c = getConfiguration();
 			if (c == null) {
-				throw new RuntimeException("No settings for provider '"
-						+ getKey() + "' available at all!");
+				throw new RuntimeException("No settings for provider '" + getKey() + "' available at all!");
 			}
 			for (final String key : neededSettings) {
 				final String setting = c.getString(key);
 				if (setting == null || "".equals(setting)) {
-					throw new RuntimeException("Provider '" + getKey()
-							+ "' missing needed setting '" + key + "'");
+					throw new RuntimeException("Provider '" + getKey() + "' missing needed setting '" + key + "'");
 				}
 			}
 		}
 
 		Registry.register(getKey(), this);
 		Logger.debug("Registered AuthProvider '" + getKey() + "'");
-	}
 
-	@Override
-	public void onStop() {
-		Registry.unregister(getKey());
+		lifecycle.addStopHook(() -> {
+			// content from Plugin.onStop
+			Registry.unregister(getKey());
+			return F.Promise.pure(null);
+		});
 	}
 
 	public String getUrl() {

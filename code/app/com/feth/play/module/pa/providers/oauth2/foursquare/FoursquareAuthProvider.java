@@ -1,16 +1,15 @@
 package com.feth.play.module.pa.providers.oauth2.foursquare;
 
-import play.Application;
-import play.Logger;
-import play.libs.ws.WS;
-import play.libs.ws.WSResponse;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.feth.play.module.pa.exceptions.AccessTokenException;
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
 import com.feth.play.module.pa.user.AuthUserIdentity;
 import com.google.inject.Inject;
+import play.Logger;
+import play.inject.ApplicationLifecycle;
+import play.libs.ws.WS;
+import play.libs.ws.WSResponse;
 
 public class FoursquareAuthProvider extends
 		OAuth2AuthProvider<FoursquareAuthUser, FoursquareAuthInfo> {
@@ -22,8 +21,8 @@ public class FoursquareAuthProvider extends
 	private static final String VERSION = "20120617";
 
 	@Inject
-	public FoursquareAuthProvider(Application app) {
-		super(app);
+	public FoursquareAuthProvider(ApplicationLifecycle lifecycle) {
+		super(lifecycle);
 	}
 
 	@Override

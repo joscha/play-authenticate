@@ -1,26 +1,24 @@
 package com.feth.play.module.pa.providers.oauth2.facebook;
 
-import java.net.URI;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.client.utils.URLEncodedUtils;
-import org.apache.http.message.BasicNameValuePair;
-
-import play.Application;
-import play.Configuration;
-import play.Logger;
-import play.libs.ws.WS;
-import play.libs.ws.WSResponse;
-import play.mvc.Http.Request;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.feth.play.module.pa.exceptions.AccessTokenException;
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
 import com.google.inject.Inject;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.message.BasicNameValuePair;
+import play.Configuration;
+import play.Logger;
+import play.inject.ApplicationLifecycle;
+import play.libs.ws.WS;
+import play.libs.ws.WSResponse;
+import play.mvc.Http.Request;
+
+import java.net.URI;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class FacebookAuthProvider extends
 		OAuth2AuthProvider<FacebookAuthUser, FacebookAuthInfo> {
@@ -35,8 +33,8 @@ public class FacebookAuthProvider extends
 	private static final String USER_INFO_FIELDS_SETTING_KEY = "userInfoFields";
 
 	@Inject
-	public FacebookAuthProvider(Application app) {
-		super(app);
+	public FacebookAuthProvider(ApplicationLifecycle lifecycle) {
+		super(lifecycle);
 	}
 
 	public static abstract class SettingKeys extends

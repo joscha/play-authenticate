@@ -1,7 +1,6 @@
 package com.feth.play.module.pa.providers.oauth1.xing;
 
 import com.fasterxml.jackson.databind.JsonNode;
-
 import com.feth.play.module.pa.providers.oauth1.BasicOAuth1AuthUser;
 import com.feth.play.module.pa.providers.oauth1.OAuth1AuthInfo;
 import com.feth.play.module.pa.user.ExtendedIdentity;

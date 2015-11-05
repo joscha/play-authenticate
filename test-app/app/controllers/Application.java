@@ -17,15 +17,15 @@ public class Application extends Controller {
 
 	public static final String FLASH_ERROR_KEY = "error";
 
-	public static Result index() {
+	public Result index() {
 		return ok(views.html.index.render());
 	}
 
-	public static Result login() {
+	public Result login() {
 		return ok(views.html.login.render(form(Login.class).bindFromRequest()));
 	}
 
-	public static Result doLogin() {
+	public Result doLogin() {
 		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
 		final Form<Login> filledForm = form(Login.class).bindFromRequest();
 		if (filledForm.hasErrors()) {
@@ -37,12 +37,12 @@ public class Application extends Controller {
 		}
 	}
 
-	public static Result signup() {
+	public Result signup() {
 		return ok(views.html.signup
 				.render(form(Signup.class).bindFromRequest()));
 	}
 
-	public static Result doSignup() {
+	public Result doSignup() {
 		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
 		final Form<Signup> filledForm = form(Signup.class).bindFromRequest();
 		if (filledForm.hasErrors()) {
@@ -54,15 +54,15 @@ public class Application extends Controller {
 		}
 	}
 
-	public static Result userExists() {
+	public Result userExists() {
 		return badRequest("User exists.");
 	}
 
-	public static Result userUnverified() {
+	public Result userUnverified() {
 		return badRequest("User not yet verified.");
 	}
 
-	public static Result verify(String token) {
+	public Result verify(String token) {
 		TestUsernamePasswordAuthProvider.LoginUser loginUser = upAuthProvider()
 				.verifyWithToken(token);
 		if (loginUser == null) {
@@ -71,7 +71,7 @@ public class Application extends Controller {
 		return PlayAuthenticate.loginAndRedirect(ctx(), loginUser);
 	}
 
-	public static Result oAuthDenied(String providerKey) {
+	public Result oAuthDenied(String providerKey) {
 		flash(FLASH_ERROR_KEY, "You need to accept the OAuth connection"
 				+ " in order to use this website!");
 		return redirect(routes.Application.index());

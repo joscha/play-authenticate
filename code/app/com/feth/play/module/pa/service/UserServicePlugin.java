@@ -7,6 +7,7 @@ import play.Plugin;
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.user.AuthUser;
 
+@Deprecated
 public abstract class UserServicePlugin extends Plugin implements UserService {
 
     private Application application;
@@ -27,6 +28,7 @@ public abstract class UserServicePlugin extends Plugin implements UserService {
             Logger.warn("A user service was already registered - replacing the old one (" + oldServiceClass + ") with the new one (" + getClass().getName() + "), " +
                     "however this might hint to a configuration problem if this is a production environment.");
         }
+        Logger.warn("UserServicePlugin is deprecated. Extend your class against UserServiceImpl");
         PlayAuthenticate.setUserService(this);
     }
 

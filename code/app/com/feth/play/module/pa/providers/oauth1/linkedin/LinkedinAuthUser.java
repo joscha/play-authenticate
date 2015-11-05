@@ -1,18 +1,14 @@
 package com.feth.play.module.pa.providers.oauth1.linkedin;
 
-import java.util.*;
-
-import org.apache.commons.lang3.StringUtils;
 import com.fasterxml.jackson.databind.JsonNode;
-
 import com.feth.play.module.pa.providers.oauth1.BasicOAuth1AuthUser;
 import com.feth.play.module.pa.providers.oauth1.OAuth1AuthInfo;
-import com.feth.play.module.pa.user.BasicIdentity;
-import com.feth.play.module.pa.user.EducationsIdentity;
-import com.feth.play.module.pa.user.EmploymentsIdentity;
-import com.feth.play.module.pa.user.FirstLastNameIdentity;
-import com.feth.play.module.pa.user.PicturedIdentity;
-import com.feth.play.module.pa.user.ProfiledIdentity;
+import com.feth.play.module.pa.user.*;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class LinkedinAuthUser extends BasicOAuth1AuthUser implements
 		BasicIdentity, FirstLastNameIdentity, PicturedIdentity,

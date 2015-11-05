@@ -1,9 +1,9 @@
 package com.feth.play.module.pa.providers.oauth2.pocket;
 
-import java.util.Map;
-
 import com.feth.play.module.pa.providers.oauth2.OAuth2AuthInfo;
 import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider.Constants;
+
+import java.util.Map;
 
 public class PocketAuthInfo extends OAuth2AuthInfo {
 

@@ -1,11 +1,10 @@
-package service;
+package services;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import com.feth.play.module.pa.service.UserServiceImpl;
-
 import com.feth.play.module.pa.PlayAuthenticate;
+import com.feth.play.module.pa.service.UserServiceImpl;
 import com.feth.play.module.pa.user.AuthUser;
 import com.feth.play.module.pa.user.AuthUserIdentity;
 import com.google.inject.Inject;
@@ -20,6 +19,7 @@ public class TestUserService extends UserServiceImpl {
 		super(lifecycle);
 		PlayAuthenticate.setUserService(this);
 	}
+
 
 	@Override
 	public Object save(final AuthUser authUser) {

@@ -1,19 +1,21 @@
-package service;
+package services;
 
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.exceptions.AccessDeniedException;
 import com.feth.play.module.pa.exceptions.AuthException;
-import com.google.inject.Inject;
-import play.Configuration;
+import com.google.inject.Singleton;
+import play.Logger;
 import play.mvc.Call;
 
 /**
- * Created by rgupta on 03/11/15.
+ * Created by rgupta on 04/11/15.
  */
-public class TestSecurityConfig implements SecurityConfig {
+@Singleton
+public class TestSecurityConfig {
 
-    @Inject
-    public TestSecurityConfig(Configuration config) {
+    public TestSecurityConfig() {
+        Logger.info("Initialising Play! Authenticate.");
+
         PlayAuthenticate.setResolver(new PlayAuthenticate.Resolver() {
 
             @Override
@@ -38,16 +40,13 @@ public class TestSecurityConfig implements SecurityConfig {
             public Call auth(final String provider) {
                 // You can provide your own authentication implementation,
                 // however the default should be sufficient for most cases
-                return com.feth.play.module.pa.controllers.routes.Authenticate
-                        .authenticate(provider);
+                return com.feth.play.module.pa.controllers.routes.Authenticate.authenticate(provider);
             }
 
             @Override
             public Call onException(final AuthException e) {
                 if (e instanceof AccessDeniedException) {
-                    return controllers.routes.Application
-                            .oAuthDenied(((AccessDeniedException) e)
-                                    .getProviderKey());
+                    return controllers.routes.Application.oAuthDenied(((AccessDeniedException) e).getProviderKey());
                 }
 
                 // more custom problem handling here...
@@ -69,5 +68,6 @@ public class TestSecurityConfig implements SecurityConfig {
                 return null;
             }
         });
+
     }
 }

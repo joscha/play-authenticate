@@ -7,8 +7,6 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
 
-import controllers.routes;
-
 public class JavaController extends Controller {
 
 	public static final String FLASH_ERROR_KEY = "error";

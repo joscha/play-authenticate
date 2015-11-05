@@ -5,24 +5,27 @@ import play.api.Configuration;
 import play.api.Environment;
 import play.api.inject.Binding;
 import play.api.inject.Module;
+import providers.TestUsernamePasswordAuthProvider;
 import scala.collection.Seq;
-import service.SecurityConfig;
-import service.TestSecurityConfig;
-import service.TestUserService;
+import services.TestSecurityConfig;
+import services.TestUserService;
 
 /**
- * Created by rgupta on 03/11/15.
+ * Created by rgupta on 04/11/15.
  */
 public class SecurityModule extends Module {
 
     @Override
     public Seq<Binding<?>> bindings(Environment environment, Configuration configuration) {
         return seq(
-                // load up resolver
-                bind(SecurityConfig.class).to(TestSecurityConfig.class).eagerly(),
+                // load global state
+                bind(TestSecurityConfig.class).toSelf().eagerly(),
 
-                // load up user serivce
-                bind(UserService.class).to(TestUserService.class).eagerly()
+                // load service
+                bind(UserService.class).to(TestUserService.class).eagerly(),
+
+                // load auth provider
+                bind(TestUsernamePasswordAuthProvider.class).toSelf().eagerly()
         );
     }
 }

@@ -1,6 +1,5 @@
 package test
 
-import controllers.ScalaController
 import org.specs2.mutable._
 
 import play.api.Logger
@@ -24,8 +23,7 @@ object ScalaControllerSpec extends PlaySpecification {
   "ScalaController" should {
 
     "send 303 for index page without login" in new WithApplication {
-
-      val result = new ScalaController().index()(FakeRequest()).run
+      val result = new controllers.ScalaController().index()(FakeRequest()).run
       status(result) must equalTo(SEE_OTHER);
       redirectLocation(result) must beSome like {
         case Some(s: String) =>
@@ -35,7 +33,7 @@ object ScalaControllerSpec extends PlaySpecification {
 
     "send 200 for index page with login" in new WithApplication {
       val someSession = signupAndLogin()
-      val result = new ScalaController().index()(
+      val result = new controllers.ScalaController().index()(
         FakeRequest().withSession(someSession.get.data.toSeq: _*)).run
       status(result) must equalTo(OK)
     }

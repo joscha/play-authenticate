@@ -3,4 +3,5 @@ playauthenticate.core.exception.signupuser_failed=Impossible de compléter l''in
 playauthenticate.core.exception.provider_not_found=Le fournisseur suivant {0} n''a pas été trouvé!
 playauthenticate.core.exception.merge.controller_undefined=Impossible de résoudre cette demande. Le fournisseur n''a pas été correctement défini: ''{0}''.
 playauthenticate.core.exception.link.controller_undefined=Impossible de résoudre cette demande. Le fournisseur n''a pas été correctement défini: ''{0}''.
+
 playauthenticate.core.exception.general=Un problème est survenu. Veuillez réessayer.

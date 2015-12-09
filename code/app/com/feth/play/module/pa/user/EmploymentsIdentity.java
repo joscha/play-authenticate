@@ -1,9 +1,10 @@
 package com.feth.play.module.pa.user;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 public interface EmploymentsIdentity {
-  public static class EmploymentInfo {
+  public static class EmploymentInfo implements Serializable {
     protected String id;
     protected String title;
     protected String summary;

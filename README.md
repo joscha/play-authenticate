@@ -10,10 +10,10 @@ Play Authenticate is cross-tested in Java 1.6, Java 1.7 (Up to `0.6.x`) and Java
 Works fine with
 
 * `2.0.2` to `2.0.x` (last: `0.2.3-SNAPSHOT` - [2.0.x branch](https://github.com/joscha/play-authenticate/tree/2.0.x))
-* `2.1.0` to `2.1.x` (last: `0.3.5-SNAPSHOT` - [2.1.x branch](https://github.com/joscha/play-authenticate/tree/2.1.x))
-* `2.2.0` to `2.2.x` (last: `0.5.2-SNAPSHOT` - [2.2.x branch](https://github.com/joscha/play-authenticate/tree/2.2.x))
-* `2.3.0` to `2.3.x` (last: `0.6.x-SNAPSHOT` - [2.3.x branch](https://github.com/joscha/play-authenticate/tree/2.3.x))
-* `2.4.0` to `2.4.x` (last: `0.7.x-SNAPSHOT` - [master branch](https://github.com/joscha/play-authenticate/tree/master))
+* `2.1.0` to `2.1.x` (last: `0.3.6` - [2.1.x branch](https://github.com/joscha/play-authenticate/tree/2.1.x))
+* `2.2.0` to `2.2.x` (last: `0.5.4` - [2.2.x branch](https://github.com/joscha/play-authenticate/tree/2.2.x))
+* `2.3.0` to `2.3.x` (last: `0.6.9` - [2.3.x branch](https://github.com/joscha/play-authenticate/tree/2.3.x))
+* `2.4.0` to `2.4.x` (last: `0.7.x` - [master branch](https://github.com/joscha/play-authenticate/tree/master))
 
 Releases are on [mvnrepository](http://mvnrepository.com/artifact/com.feth) and snapshots can be found on [sonatype](https://oss.sonatype.org/content/repositories/snapshots/com/feth/).
 
@@ -99,6 +99,9 @@ There is also a [sample application using Play!Authenticate with MongoDB](https:
 * **0.7.0** [preview on 2015-06-10, release on 2015-10-31]
   * Upgrade to play 2.4 (thanks @vmouta, @mkurz)
   * ATTENTION: This is for Play 2.4 - if you have Play 2.3 or older, use a `0.6.x` version.
+* **0.6.9** [2015-12-13] _(last version for Play 2.3.x)_
+  * LinkedIn profile URL fixes (thanks @akitaylor)
+  * Serialization fixes (thanks @EvanDooner)
 * **0.6.8** [2014-11-07]
   * Throw an exception if `Resolver` is not defined
   * Upgrade sample app to bootstrap 3.2 (thanks @joslash, @enalmada)
@@ -133,6 +136,9 @@ There is also a [sample application using Play!Authenticate with MongoDB](https:
 * **0.6.0-SNAPSHOT** [2014-06-10]
   * First release for Play 2.3.x (thanks @jakubvalenta)
   * Japanese localization (thanks @naruoga)
+* **0.5.4** [2015-12-13] _(last version for Play 2.2.x)_
+  * LinkedIn profile URL fixes (thanks @akitaylor)
+  * Serialization fixes (thanks @EvanDooner)
 * **0.5.3-SNAPSHOT** [2014-07-05]
   * Maintenance release: backports for play-easymail
   * Update to play-easymail 0.5.2
@@ -147,7 +153,10 @@ There is also a [sample application using Play!Authenticate with MongoDB](https:
   * Prepare for Play 2.2 (thanks @smola, @tjdett, @dribba, @goryuchkin)
   * Updated to deadbolt 2.2 RC2
   * Updated play-easymail to version `0.5` (Headers can now contain hyphens, thanks @jtammen)
-* **0.3.5-SNAPSHOT** [2013-10-23] _(last version for Play 2.1.x)_
+* **0.3.6** [2015-12-13] _(last version for Play 2.1.x)_
+  * LinkedIn profile URL fixes (thanks @akitaylor)
+  * Serialization fixes (thanks @EvanDooner)
+* **0.3.5-SNAPSHOT** [2013-10-23]
   * Fixed Error handling for OAuth1 providers (thanks @vlopato)
 * **0.3.4-SNAPSHOT** [2013-09-22]
   * Update to HttpClient 4.3

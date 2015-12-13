@@ -33,7 +33,7 @@ You can find a live demo on [heroku](https://play-authenticate.herokuapp.com/ "P
 As of now, the following authentication providers are supported out of the box:
 
 * _OAuth 2_
-  * Facebook 
+  * Facebook
   * Foursquare
   * Google
   * Untappd
@@ -60,13 +60,16 @@ The included sample application shows how to use all of those providers.
 ## Versions
 * **TRUNK** [not released in the repository, yet]
   * wanna contribute something? :)
+* **0.3.6** [2015-12-13]
+  * LinkedIn provider fix
+  * Serialization fix
 * **0.3.5-SNAPSHOT** [2013-10-23]
-  * Fixed Error handling for OAuth1 providers (thanks @vlopato) 
+  * Fixed Error handling for OAuth1 providers (thanks @vlopato)
 * **0.3.4-SNAPSHOT** [2013-09-22]
   * Update to HttpClient 4.3
   * Italian translation (thanks @ironmaiden189)
   * [Pocket](https://getpocket.com) provider (thanks @ironmaiden189)
-  * Xing and LinkedIn providers got more information (profile URL, ec.) (thanks @jtammen) 
+  * Xing and LinkedIn providers got more information (profile URL, ec.) (thanks @jtammen)
 * **0.3.3-SNAPSHOT** [2013-09-01]
   * New authentication provider for [Untappd](https://untappd.com) (thanks @sweigardc)
   * New authentication provider for [Xing](http://www.xing.com) (thanks @jtammen)
@@ -77,15 +80,15 @@ The included sample application shows how to use all of those providers.
   * Bumped deadbolt2 to version `2.1-RC2`
   * New authentication provider for [VK.com](http://ww.vk.com) (thanks @dborisenko)
   * Add `refresh_token`/`expires_in` to OAuth2 and Google/Facebook providers (thanks @jayceecam)
-  * Fix for Twitter API 1.1 (thanks @xjodoin) 
-  * Fix for facebook users that have no user name set (thanks @smola) 
-  * Fix for facebook error messages (issue #26, thanks @smola) 
+  * Fix for Twitter API 1.1 (thanks @xjodoin)
+  * Fix for facebook users that have no user name set (thanks @smola)
+  * Fix for facebook error messages (issue #26, thanks @smola)
   * Add setting for Facebook user fields to retrieve. (thanks @smola)
-  * Spanish translation, thanks to @petru-ghita 
+  * Spanish translation, thanks to @petru-ghita
 * **0.2.5-SNAPSHOT** [2013-02-14]
   * Fix for users signing up that shall be logged in straight away. **PLEASE NOTE: Breaking change!!! Upgrading to this version requires you to add one additional method to your custom UsernamePasswordAuthProvider. Have a look at the sample to see a default implementation that should work for almost everyone.**
 * **0.2.4-SNAPSHOT** [2013-02-06]
-  * First version for Play! Framework 2.1.0. 
+  * First version for Play! Framework 2.1.0.
 * **0.2.3-SNAPSHOT** [2012-12-17] _(last version for Play 2.0.x)_
   * Use reflection for email templates in samples to allow easier addition of new languages (thanks @biesoir for the initial version)
   * Linkedin added (thanks @tonygwu)

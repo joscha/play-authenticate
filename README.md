@@ -31,14 +31,14 @@ Play-Authenticate is available in [Maven Central](http://search.maven.org/#brows
 <dependency>
     <groupId>com.feth</groupId>
     <artifactId>play-authenticate_2.11</artifactId>
-    <version>0.7.0</version>
+    <version>0.7.1</version>
 </dependency>
 ```
 or
 
 ```scala
 val appDependencies = Seq(
-  "com.feth" %% "play-authenticate" % "0.7.0"
+  "com.feth" %% "play-authenticate" % "0.7.1"
 )
 ```
 

@@ -93,6 +93,9 @@ There is also a [sample application using Play!Authenticate with MongoDB](https:
 ## Versions
 * **TRUNK** [not released in the repository, yet]
   * Fancy contributing something? :-)
+* **0.7.1** [2015-12-13]
+  * LinkedIn profile URL fixes (thanks @akitaylor)
+  * Serialization fixes (thanks @EvanDooner)
 * **0.7.0** [preview on 2015-06-10, release on 2015-10-31]
   * Upgrade to play 2.4 (thanks @vmouta, @mkurz)
   * ATTENTION: This is for Play 2.4 - if you have Play 2.3 or older, use a `0.6.x` version.

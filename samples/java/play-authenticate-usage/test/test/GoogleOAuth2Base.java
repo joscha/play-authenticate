@@ -33,6 +33,9 @@ public abstract class GoogleOAuth2Base extends OAuth2Test {
         goToLogin();
         browser
                 .fill("#Email").with(GOOGLE_USER_EMAIL)
+                .find("#next").click();
+        browser.await().untilPage().isLoaded();
+        browser
                 .fill("#Passwd").with(System.getenv("GOOGLE_USER_PASSWORD"))
                 .find("#signIn").click();
         browser.await().untilPage().isLoaded();

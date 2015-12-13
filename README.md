@@ -22,20 +22,20 @@ Clone the project, go to `samples/java/play-authenticate-usage` and run `sbt run
 
 ### Including the Dependencies
 
-Play-Authenticate is available in [Maven Central](http://search.maven.org/#artifactdetails%7Ccom.feth%7Cplay-authenticate_2.11%7C0.6.8%7Cjar).
+Play-Authenticate is available in [Maven Central](http://search.maven.org/#artifactdetails%7Ccom.feth%7Cplay-authenticate_2.11%7C0.6.9%7Cjar).
 
 ```xml
 <dependency>
     <groupId>com.feth</groupId>
     <artifactId>play-authenticate_2.11</artifactId>
-    <version>0.6.8</version>
+    <version>0.6.9</version>
 </dependency>
 ```
 or
 
 ```scala
 val appDependencies = Seq(
-  "com.feth" %% "play-authenticate" % "0.6.8"
+  "com.feth" %% "play-authenticate" % "0.6.9"
 )
 ```
 
@@ -90,6 +90,9 @@ There is also a [sample application using Play!Authenticate with MongoDB](https:
 ## Versions
 * **TRUNK** [not released in the repository, yet]
   * Fancy contributing something? :-)
+* **0.6.9** [2015-12-13]
+  * LinkedIn fixes
+  * serialization fixes
 * **0.6.8** [2014-11-07]
   * Throw an exception if `Resolver` is not defined
   * Upgrade sample app to bootstrap 3.2 (thanks @joslash, @enalmada)

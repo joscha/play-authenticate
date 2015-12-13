@@ -66,6 +66,9 @@ The included sample application shows how to use all of those providers.
 * **TRUNK** [not released in the repository, yet]
   * Japanese localization (thanks @naruoga)
   * wanna contribute something? :)
+* **0.5.4** [2015-12-13]
+  * LinkedIn fixes
+  * serialization fixes 
 * **0.5.2-SNAPSHOT** [2013-11-11]
   * Automatically generate and use `state` parameter in OAuth2.
   * New github provider

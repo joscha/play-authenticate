@@ -285,6 +285,7 @@ Here is an example implementation of the UserServicePlugin:
 
 	public class MyUserServicePlugin extends UserServicePlugin {
 
+		@Inject
 		public MyUserServicePlugin(final Application app) {
 			super(app);
 		}

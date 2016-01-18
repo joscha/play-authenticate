@@ -44,7 +44,7 @@ public class User extends AppModel implements Subject {
 	public String firstName;
 	
 	public String lastName;
-
+	
 	@Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
 	public Date lastLogin;
 

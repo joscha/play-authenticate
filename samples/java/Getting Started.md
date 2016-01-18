@@ -52,6 +52,24 @@ The configuration file is also used to configure the different authentication pr
 	
 A list of all configuration options can be found here TODO.
 
+### Configuring Google reCaptcha v2
+
+In the play-authenticate-usage sample for Java, Google reCaptcha v2
+is available for the basic authentication signup flow to protect
+again signup spam bots.
+
+To enable the Google reCaptcha, you need to signup for a site key and secret key here:  https://www.google.com/recaptcha/admin#createsite
+
+Place the secret key and site key in your mine.conf file: 
+
+gcaptcha {
+        gsiteKey="6LdA6QATAAAAAIPjXXXXXXXXXXXyBbuiFIBu75j8PU"
+        gsecretKey="6LdA6QATAAAAAI555555555555555L96b4rrNkDy"
+    }
+
+The reCaptcha is displayed in the signup.scala.html view.
+The code that manages the reCaptcha is in the Application.java controller.
+
 ### Configuring Mail
 
 You also have to configure smtp and play-easymail. For testing purposes you can add the following line to your application.conf file:

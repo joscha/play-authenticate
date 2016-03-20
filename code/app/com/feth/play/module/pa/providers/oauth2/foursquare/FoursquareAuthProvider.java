@@ -1,17 +1,20 @@
 package com.feth.play.module.pa.providers.oauth2.foursquare;
 
-import play.Application;
-import play.Logger;
-import play.libs.ws.WS;
-import play.libs.ws.WSResponse;
-
 import com.fasterxml.jackson.databind.JsonNode;
+import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.exceptions.AccessTokenException;
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
 import com.feth.play.module.pa.user.AuthUserIdentity;
-import com.google.inject.Inject;
+import play.Logger;
+import play.inject.ApplicationLifecycle;
+import play.libs.ws.WSClient;
+import play.libs.ws.WSResponse;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+@Singleton
 public class FoursquareAuthProvider extends
 		OAuth2AuthProvider<FoursquareAuthUser, FoursquareAuthInfo> {
 
@@ -22,8 +25,8 @@ public class FoursquareAuthProvider extends
 	private static final String VERSION = "20120617";
 
 	@Inject
-	public FoursquareAuthProvider(Application app) {
-		super(app);
+	public FoursquareAuthProvider(final PlayAuthenticate auth, final ApplicationLifecycle lifecycle, final WSClient wsClient) {
+		super(auth, lifecycle, wsClient);
 	}
 
 	@Override
@@ -44,16 +47,12 @@ public class FoursquareAuthProvider extends
 	protected AuthUserIdentity transform(final FoursquareAuthInfo info, final String state)
 			throws AuthException {
 
-
 		final String url = getConfiguration().getString(
 				USER_INFO_URL_SETTING_KEY);
-		final WSResponse r = WS
-				.url(url)
-				.setQueryParameter(OAUTH_TOKEN,
-						info.getAccessToken())
-				.setQueryParameter("v", VERSION)
-				.get()
-				.get(getTimeout());
+
+		final WSResponse r = fetchAuthResponse(url,
+				new QueryParam(OAUTH_TOKEN, info.getAccessToken()),
+				new QueryParam("v", VERSION));
 
 		final JsonNode result = r.asJson();
 		if (r.getStatus() >= 400) {

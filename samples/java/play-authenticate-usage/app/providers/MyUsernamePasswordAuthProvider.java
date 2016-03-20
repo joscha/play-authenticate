@@ -4,24 +4,25 @@ import com.feth.play.module.mail.Mailer.Mail.Body;
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider;
 import com.feth.play.module.pa.providers.password.UsernamePasswordAuthUser;
-import com.google.inject.Inject;
-
 import controllers.routes;
 import models.LinkedAccount;
 import models.TokenAction;
 import models.TokenAction.Type;
 import models.User;
-import play.Application;
 import play.Logger;
 import play.data.Form;
+import play.data.FormFactory;
 import play.data.validation.Constraints.Email;
 import play.data.validation.Constraints.MinLength;
 import play.data.validation.Constraints.Required;
 import play.i18n.Lang;
 import play.i18n.Messages;
+import play.inject.ApplicationLifecycle;
 import play.mvc.Call;
 import play.mvc.Http.Context;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ import java.util.UUID;
 
 import static play.data.Form.form;
 
+@Singleton
 public class MyUsernamePasswordAuthProvider
 		extends
 		UsernamePasswordAuthProvider<String, MyLoginUsernamePasswordAuthUser, MyUsernamePasswordAuthUser, MyUsernamePasswordAuthProvider.MyLogin, MyUsernamePasswordAuthProvider.MySignup> {
@@ -50,11 +52,6 @@ public class MyUsernamePasswordAuthProvider
 		needed.add(SETTING_KEY_PASSWORD_RESET_LINK_SECURE);
 		needed.add(SETTING_KEY_LINK_LOGIN_AFTER_PASSWORD_RESET);
 		return needed;
-	}
-
-	public static MyUsernamePasswordAuthProvider getProvider() {
-		return (MyUsernamePasswordAuthProvider) PlayAuthenticate
-				.getProvider(UsernamePasswordAuthProvider.PROVIDER_KEY);
 	}
 
 	public static class MyIdentity {
@@ -78,16 +75,24 @@ public class MyUsernamePasswordAuthProvider
 
 		@Required
 		@MinLength(5)
-		public String password;
+		protected String password;
 
 		@Override
 		public String getEmail() {
 			return email;
 		}
 
+		public void setEmail(String email) {
+			this.email = email;
+		}
+
 		@Override
 		public String getPassword() {
 			return password;
+		}
+
+		public void setPassword(String password) {
+			this.password = password;
 		}
 	}
 
@@ -95,10 +100,10 @@ public class MyUsernamePasswordAuthProvider
 
 		@Required
 		@MinLength(5)
-		public String repeatPassword;
+		private String repeatPassword;
 
 		@Required
-		public String name;
+		private String name;
 
 		public String validate() {
 			if (password == null || !password.equals(repeatPassword)) {
@@ -107,21 +112,41 @@ public class MyUsernamePasswordAuthProvider
 			}
 			return null;
 		}
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+
+		public String getRepeatPassword() {
+			return repeatPassword;
+		}
+
+		public void setRepeatPassword(String repeatPassword) {
+			this.repeatPassword = repeatPassword;
+		}
 	}
 
-	public static final Form<MySignup> SIGNUP_FORM = form(MySignup.class);
-	public static final Form<MyLogin> LOGIN_FORM = form(MyLogin.class);
+	private final Form<MySignup> SIGNUP_FORM;
+	private final Form<MyLogin> LOGIN_FORM;
 
 	@Inject
-	public MyUsernamePasswordAuthProvider(Application app) {
-		super(app);
+	public MyUsernamePasswordAuthProvider(final PlayAuthenticate auth, final FormFactory formFactory,
+										  final ApplicationLifecycle lifecycle) {
+		super(auth, lifecycle);
+
+		this.SIGNUP_FORM = formFactory.form(MySignup.class);
+		this.LOGIN_FORM = formFactory.form(MyLogin.class);
 	}
 
-	protected Form<MySignup> getSignupForm() {
+	public Form<MySignup> getSignupForm() {
 		return SIGNUP_FORM;
 	}
 
-	protected Form<MyLogin> getLoginForm() {
+	public Form<MyLogin> getLoginForm() {
 		return LOGIN_FORM;
 	}
 

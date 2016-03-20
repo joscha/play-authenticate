@@ -1,19 +1,18 @@
 package com.feth.play.module.pa.providers.ext;
 
-import java.util.Collections;
-import java.util.List;
-
+import com.feth.play.module.pa.PlayAuthenticate;
+import com.feth.play.module.pa.Resolver;
 import com.feth.play.module.pa.exceptions.ResolverMissingException;
+import com.feth.play.module.pa.providers.AuthProvider;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URLEncodedUtils;
-
-import play.Application;
+import play.inject.ApplicationLifecycle;
 import play.mvc.Call;
 import play.mvc.Http.Request;
 
-import com.feth.play.module.pa.PlayAuthenticate;
-import com.feth.play.module.pa.providers.AuthProvider;
+import java.util.Collections;
+import java.util.List;
 
 public abstract class ExternalAuthProvider extends AuthProvider {
 
@@ -61,7 +60,7 @@ public abstract class ExternalAuthProvider extends AuthProvider {
 		final String overrideHost = getConfiguration().getString(
 				SettingKeys.REDIRECT_URI_HOST);
 		final boolean isHttps = useSecureRedirectUri();
-        final PlayAuthenticate.Resolver resolver = PlayAuthenticate.getResolver();
+        final Resolver resolver = this.auth.getResolver();
         if (resolver == null) {
             throw new ResolverMissingException("Resolver has not been set.");
         }
@@ -74,8 +73,8 @@ public abstract class ExternalAuthProvider extends AuthProvider {
 		}
 	}
 
-	public ExternalAuthProvider(Application app) {
-		super(app);
+	public ExternalAuthProvider(final PlayAuthenticate auth, final ApplicationLifecycle lifecycle) {
+		super(auth, lifecycle);
 	}
 
 	@Override

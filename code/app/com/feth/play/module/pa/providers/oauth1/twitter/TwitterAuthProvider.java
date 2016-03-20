@@ -1,19 +1,22 @@
 package com.feth.play.module.pa.providers.oauth1.twitter;
 
-import java.util.List;
-
-import play.Application;
-import play.libs.oauth.OAuth.OAuthCalculator;
-import play.libs.oauth.OAuth.RequestToken;
-import play.mvc.Http;
-
 import com.fasterxml.jackson.databind.JsonNode;
+import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.exceptions.AccessDeniedException;
 import com.feth.play.module.pa.exceptions.AccessTokenException;
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.oauth1.OAuth1AuthProvider;
 import com.google.inject.Inject;
+import play.inject.ApplicationLifecycle;
+import play.libs.oauth.OAuth.OAuthCalculator;
+import play.libs.oauth.OAuth.RequestToken;
+import play.libs.ws.WSClient;
+import play.mvc.Http;
 
+import javax.inject.Singleton;
+import java.util.List;
+
+@Singleton
 public class TwitterAuthProvider extends
 		OAuth1AuthProvider<TwitterAuthUser, TwitterAuthInfo> {
 
@@ -23,8 +26,8 @@ public class TwitterAuthProvider extends
     private static final String DENIED_KEY = "denied";
 
 	@Inject
-	public TwitterAuthProvider(final Application app) {
-		super(app);
+	public TwitterAuthProvider(final PlayAuthenticate auth, final ApplicationLifecycle lifecycle, final WSClient wsClient) {
+		super(auth, lifecycle, wsClient);
 	}
 
 	@Override

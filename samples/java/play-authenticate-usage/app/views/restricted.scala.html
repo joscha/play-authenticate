@@ -1,6 +1,7 @@
-@(localUser: models.User = null)
+@import service.UserProvider
+@(userProvider: UserProvider, localUser: models.User = null)
 
-@main(Messages("playauthenticate.navigation.restricted"), "restricted") {
+@main(userProvider, Messages("playauthenticate.navigation.restricted"), "restricted") {
     
     <h1>@Messages("playauthenticate.navigation.restricted")</h1>
     <p>

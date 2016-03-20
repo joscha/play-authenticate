@@ -1,4 +1,7 @@
-@main(Messages("playauthenticate.verify.account.title")) {
+@import service.UserProvider
+@(userProvider: UserProvider)
+
+@main(userProvider, Messages("playauthenticate.verify.account.title")) {
 
 	<h1>@Messages("playauthenticate.verify.account.title")</h1>
 	<p>

@@ -11,12 +11,12 @@ import static org.fest.assertions.Assertions.assertThat;
 public class GoogleOAuth2Test extends GoogleOAuth2Base {
 
     @Test
-    public void itShouldBePossibleToSignUp() {
+    public void itShouldBePossibleToSignUp() throws Exception {
         signupUser();
 
         Assertions.assertThat(browser.url()).isEqualTo("/");
 
-        final GoogleAuthUser authUser = (GoogleAuthUser) (OAuth2Test.MyTestUserServicePlugin.getLastAuthUser());
+        final GoogleAuthUser authUser = (GoogleAuthUser) (OAuth2Test.MyTestUserServiceService.getLastAuthUser());
         assertThat(authUser.getProfileLink()).isEqualTo("https://plus.google.com/109975614317978623876");
         assertThat(authUser.getId()).isEqualTo("109975614317978623876");
         assertThat(authUser.getGender()).isEqualTo("male");
@@ -29,7 +29,7 @@ public class GoogleOAuth2Test extends GoogleOAuth2Base {
     }
 
     @Test
-    public void itShouldStillWorkIfCacheGetsCleared() {
+    public void itShouldStillWorkIfCacheGetsCleared() throws Exception {
         signupFill();
         CacheManager.getInstance().clearAll();
         signupApprove();

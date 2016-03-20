@@ -3,7 +3,7 @@ package models;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-import be.objectify.deadbolt.core.models.Permission;
+import be.objectify.deadbolt.java.models.Permission;
 
 /**
  * Initial version based on work by Steve Chaloner (steve@objectify.be) for

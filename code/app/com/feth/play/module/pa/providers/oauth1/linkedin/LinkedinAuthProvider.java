@@ -1,19 +1,22 @@
 package com.feth.play.module.pa.providers.oauth1.linkedin;
 
-import java.util.List;
-
-import play.Application;
-import play.libs.oauth.OAuth.OAuthCalculator;
-import play.libs.oauth.OAuth.RequestToken;
-import play.mvc.Http;
-
 import com.fasterxml.jackson.databind.JsonNode;
+import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.exceptions.AccessDeniedException;
 import com.feth.play.module.pa.exceptions.AccessTokenException;
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.oauth1.OAuth1AuthProvider;
 import com.google.inject.Inject;
+import play.inject.ApplicationLifecycle;
+import play.libs.oauth.OAuth.OAuthCalculator;
+import play.libs.oauth.OAuth.RequestToken;
+import play.libs.ws.WSClient;
+import play.mvc.Http;
 
+import javax.inject.Singleton;
+import java.util.List;
+
+@Singleton
 public class LinkedinAuthProvider extends
 		OAuth1AuthProvider<LinkedinAuthUser, LinkedinAuthInfo> {
 
@@ -25,8 +28,8 @@ public class LinkedinAuthProvider extends
     public static final String OAUTH_ACCESS_DENIED= "user_refused";
 
 	@Inject
-	public LinkedinAuthProvider(final Application app) {
-		super(app);
+	public LinkedinAuthProvider(final PlayAuthenticate auth, final ApplicationLifecycle lifecycle, final WSClient wsClient) {
+		super(auth, lifecycle, wsClient);
 	}
 
 	@Override

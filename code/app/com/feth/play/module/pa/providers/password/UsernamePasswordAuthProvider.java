@@ -1,16 +1,6 @@
 package com.feth.play.module.pa.providers.password;
 
-import java.util.Arrays;
-import java.util.List;
-
-import play.Application;
-import play.data.Form;
-import play.mvc.Call;
-import play.mvc.Http;
-import play.mvc.Http.Context;
-import play.mvc.Result;
 import akka.actor.Cancellable;
-
 import com.feth.play.module.mail.Mailer;
 import com.feth.play.module.mail.Mailer.Mail;
 import com.feth.play.module.mail.Mailer.Mail.Body;
@@ -19,6 +9,16 @@ import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.AuthProvider;
 import com.feth.play.module.pa.user.AuthUser;
 import com.feth.play.module.pa.user.NameIdentity;
+import play.data.Form;
+import play.inject.ApplicationLifecycle;
+import play.mvc.Call;
+import play.mvc.Http;
+import play.mvc.Http.Context;
+import play.mvc.Result;
+
+import javax.inject.Inject;
+import java.util.Arrays;
+import java.util.List;
 
 public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswordAuthUser, US extends UsernamePasswordAuthUser, L extends UsernamePasswordAuthProvider.UsernamePassword, S extends UsernamePasswordAuthProvider.UsernamePassword>
 		extends AuthProvider {
@@ -61,12 +61,13 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 		public String getPassword();
 	}
 
-	public UsernamePasswordAuthProvider(final Application app) {
-		super(app);
+	@Inject
+	public UsernamePasswordAuthProvider(final PlayAuthenticate auth, final ApplicationLifecycle lifecycle) {
+		super(auth, lifecycle);
 	}
 
 	@Override
-	public void onStart() {
+	protected void onStart() {
 		super.onStart();
 		mailer = Mailer.getCustomMailer(getConfiguration().getConfig(
 				SETTING_KEY_MAIL));
@@ -124,16 +125,16 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 				throw new AuthException("Something in login went wrong");
 			}
 		} else {
-			return PlayAuthenticate.getResolver().login().url();
+			return this.auth.getResolver().login().url();
 		}
 	}
 
 	protected String onLoginUserNotFound(Context context) {
-		return PlayAuthenticate.getResolver().login().url();
+		return this.auth.getResolver().login().url();
 	}
 
-	public static Result handleLogin(final Context ctx) {
-		return PlayAuthenticate.handleAuthentication(PROVIDER_KEY, ctx,
+	public Result handleLogin(final Context ctx) {
+		return this.auth.handleAuthentication(PROVIDER_KEY, ctx,
 				Case.LOGIN);
 	}
 
@@ -142,8 +143,8 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 		return new SessionUsernamePasswordAuthUser(getKey(), id, expires);
 	}
 
-	public static Result handleSignup(final Context ctx) {
-		return PlayAuthenticate.handleAuthentication(PROVIDER_KEY, ctx,
+	public Result handleSignup(final Context ctx) {
+		return this.auth.handleAuthentication(PROVIDER_KEY, ctx,
 				Case.SIGNUP);
 	}
 

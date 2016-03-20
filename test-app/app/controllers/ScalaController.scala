@@ -1,9 +1,7 @@
 package controllers
 
+import javax.inject.Inject
 import play.api.mvc.Controller
-import play.api.mvc.Action
-
-import ScalaSecured.isAuthenticated
 
 /**
  *
@@ -13,9 +11,9 @@ import ScalaSecured.isAuthenticated
  * As a result, notifications are implemented in Scala here.
  *
  */
-object ScalaController extends Controller {
+class ScalaController @Inject() (secured: ScalaSecured) extends Controller {
 
-  def index = isAuthenticated { user => implicit request =>
+  def index = secured.isAuthenticated { user => implicit request =>
     Ok(s"${user.getProvider()}: ${user.getId()}")
   }
 

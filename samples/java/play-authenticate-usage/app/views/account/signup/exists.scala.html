@@ -1,5 +1,7 @@
+@import service.UserProvider
+@(userProvider: UserProvider)
 
-@main(Messages("playauthenticate.user.exists.title")) {
+@main(userProvider, Messages("playauthenticate.user.exists.title")) {
 	<h1>@Messages("playauthenticate.user.exists.title")</h1>
 	<p>@Messages("playauthenticate.user.exists.message")</p>
 }

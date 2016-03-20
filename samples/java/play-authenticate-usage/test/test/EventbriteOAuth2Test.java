@@ -27,7 +27,7 @@ public class EventbriteOAuth2Test extends OAuth2Test {
         return EventBriteAuthProvider.PROVIDER_KEY;
     }
 
-    protected Class<EventBriteAuthProvider> getProviderUnderTest() {
+    protected Class<EventBriteAuthProvider> getProviderClass() {
         return EventBriteAuthProvider.class;
     }
 
@@ -37,7 +37,7 @@ public class EventbriteOAuth2Test extends OAuth2Test {
 
         assertThat(browser.url()).isEqualTo("/");
 
-        final EventBriteAuthUser authUser = (EventBriteAuthUser) (MyTestUserServicePlugin.getLastAuthUser());
+        final EventBriteAuthUser authUser = (EventBriteAuthUser) (MyTestUserServiceService.getLastAuthUser());
         assertThat(authUser.getId()).isEqualTo("107949557141");
 
         final User user = User.findByEmail(EVENTBRITE_USER_EMAIL);

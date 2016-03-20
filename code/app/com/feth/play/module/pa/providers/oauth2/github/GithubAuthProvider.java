@@ -1,18 +1,20 @@
 package com.feth.play.module.pa.providers.oauth2.github;
 
-import java.util.Collections;
-import java.util.Map;
-
-import play.Application;
-import play.libs.ws.WS;
-import play.libs.ws.WSResponse;
-
 import com.fasterxml.jackson.databind.JsonNode;
+import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.exceptions.AccessTokenException;
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
-import com.google.inject.Inject;
+import play.inject.ApplicationLifecycle;
+import play.libs.ws.WSClient;
+import play.libs.ws.WSResponse;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import java.util.Collections;
+import java.util.Map;
+
+@Singleton
 public class GithubAuthProvider extends
         OAuth2AuthProvider<GithubAuthUser, GithubAuthInfo> {
 
@@ -21,8 +23,8 @@ public class GithubAuthProvider extends
     private static final String USER_INFO_URL_SETTING_KEY = "userInfoUrl";
 
     @Inject
-    public GithubAuthProvider(Application app) {
-        super(app);
+    public GithubAuthProvider(final PlayAuthenticate auth, final ApplicationLifecycle lifecycle, final WSClient wsClient) {
+        super(auth, lifecycle, wsClient);
     }
 
     @Override
@@ -41,11 +43,10 @@ public class GithubAuthProvider extends
 
         final String url = getConfiguration().getString(
                 USER_INFO_URL_SETTING_KEY);
-        final WSResponse r = WS
-                .url(url)
-                .setQueryParameter(Constants.ACCESS_TOKEN,
-                        info.getAccessToken()).get()
-                .get(getTimeout());
+
+        final WSResponse r = fetchAuthResponse(url,
+                new QueryParam(Constants.ACCESS_TOKEN, info.getAccessToken())
+        );
 
         final JsonNode result = r.asJson();
         if (result.get(Constants.ERROR) != null) {

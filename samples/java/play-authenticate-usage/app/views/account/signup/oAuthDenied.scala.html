@@ -1,6 +1,7 @@
-@(providerKey: String)
+@import service.UserProvider
+@(userProvider: UserProvider, providerKey: String)
 
-@main(Messages("playauthenticate.oauth.access.denied.title")) {
+@main(userProvider, Messages("playauthenticate.oauth.access.denied.title")) {
 
 	<h1>@Messages("playauthenticate.oauth.access.denied.title")</h1>
 	<p>

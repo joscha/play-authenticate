@@ -13,19 +13,30 @@ import providers.TestUsernamePasswordAuthProvider;
 import providers.TestUsernamePasswordAuthProvider.Login;
 import providers.TestUsernamePasswordAuthProvider.Signup;
 
-public class Application extends Controller {
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
-	public static final String FLASH_ERROR_KEY = "error";
+@Singleton
+public class ApplicationController extends Controller {
 
-	public static Result index() {
-		return ok(views.html.index.render());
+	public final String FLASH_ERROR_KEY = "error";
+
+	private TestUsernamePasswordAuthProvider testProvider;
+
+	@Inject
+	public ApplicationController(TestUsernamePasswordAuthProvider testProvider) {
+		this.testProvider = testProvider;
 	}
 
-	public static Result login() {
+	public Result index() {
+		return ok(views.html.index.render(testProvider.getAuth()));
+	}
+
+	public Result login() {
 		return ok(views.html.login.render(form(Login.class).bindFromRequest()));
 	}
 
-	public static Result doLogin() {
+	public Result doLogin() {
 		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
 		final Form<Login> filledForm = form(Login.class).bindFromRequest();
 		if (filledForm.hasErrors()) {
@@ -33,16 +44,16 @@ public class Application extends Controller {
 			return badRequest(views.html.login.render(filledForm));
 		} else {
 			// Everything was filled
-			return TestUsernamePasswordAuthProvider.handleLogin(ctx());
+			return testProvider.handleLogin(ctx());
 		}
 	}
 
-	public static Result signup() {
+	public Result signup() {
 		return ok(views.html.signup
 				.render(form(Signup.class).bindFromRequest()));
 	}
 
-	public static Result doSignup() {
+	public Result doSignup() {
 		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
 		final Form<Signup> filledForm = form(Signup.class).bindFromRequest();
 		if (filledForm.hasErrors()) {
@@ -50,36 +61,31 @@ public class Application extends Controller {
 			return badRequest(views.html.signup.render(filledForm));
 		} else {
 			// Everything was filled
-			return TestUsernamePasswordAuthProvider.handleSignup(ctx());
+			return testProvider.handleSignup(ctx());
 		}
 	}
 
-	public static Result userExists() {
+	public Result userExists() {
 		return badRequest("User exists.");
 	}
 
-	public static Result userUnverified() {
+	public Result userUnverified() {
 		return badRequest("User not yet verified.");
 	}
 
-	public static Result verify(String token) {
-		TestUsernamePasswordAuthProvider.LoginUser loginUser = upAuthProvider()
+	public Result verify(String token) {
+		TestUsernamePasswordAuthProvider.LoginUser loginUser = this.testProvider
 				.verifyWithToken(token);
 		if (loginUser == null) {
 			return notFound();
 		}
-		return PlayAuthenticate.loginAndRedirect(ctx(), loginUser);
+		return testProvider.getAuth().loginAndRedirect(ctx(), loginUser);
 	}
 
-	public static Result oAuthDenied(String providerKey) {
+	public Result oAuthDenied(String providerKey) {
 		flash(FLASH_ERROR_KEY, "You need to accept the OAuth connection"
 				+ " in order to use this website!");
-		return redirect(routes.Application.index());
-	}
-
-	private static TestUsernamePasswordAuthProvider upAuthProvider() {
-		return Play.application()
-				.plugin(TestUsernamePasswordAuthProvider.class);
+		return redirect(routes.ApplicationController.index());
 	}
 
 }

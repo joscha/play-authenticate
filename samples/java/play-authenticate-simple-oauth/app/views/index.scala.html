@@ -1,9 +1,10 @@
+@(playAuth: com.feth.play.module.pa.PlayAuthenticate)
 
 @import com.feth.play.module.pa.views.html._
 
 @main("Play! Authenticate simple OAuth sample") {
 
-@currentAuth() { auth =>
+@currentAuth(playAuth) { auth =>
 	@if(auth != null) {
 		<a href="@com.feth.play.module.pa.controllers.routes.Authenticate.logout">Logout</a>
 		<br/><br/>
@@ -11,7 +12,7 @@
 }
 
 Login/Signup: 
-	@forProviders() { p =>
+	@forProviders(playAuth) { p =>
 		<a href="@p.getUrl()">@p.getKey()</a>
 	}
 	

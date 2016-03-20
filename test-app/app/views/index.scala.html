@@ -1,20 +1,22 @@
+@(playAuth: com.feth.play.module.pa.PlayAuthenticate)
+
 @import com.feth.play.module.pa.views.html._
 
 
 @main("Index") {
   <h1>Welcome</h1>
-  
-  @currentAuth() { auth =>
+
+  @currentAuth(playAuth) { auth =>
       @if(auth == null) {
-          <a href="@controllers.routes.Application.login">Login</a><br/>
-          <a href="@controllers.routes.Application.signup">Signup</a>
+          <a href="@controllers.routes.ApplicationController.login">Login</a><br/>
+          <a href="@controllers.routes.ApplicationController.signup">Signup</a>
       }
       @if(auth != null) {
           <a href="@com.feth.play.module.pa.controllers.routes.Authenticate.logout">Logout</a>
       }
   }
-  
-  @forProviders() { p =>
+
+  @forProviders(playAuth) { p =>
       <a href="@p.getUrl()">@p.getKey()</a>
   }
 }

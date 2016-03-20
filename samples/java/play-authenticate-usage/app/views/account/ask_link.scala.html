@@ -1,4 +1,5 @@
-@(acceptForm: Form[Account.Accept], newAccount: com.feth.play.module.pa.user.AuthUser)
+@import service.UserProvider
+@(userProvider: UserProvider, acceptForm: Form[Account.Accept], newAccount: com.feth.play.module.pa.user.AuthUser)
 
 @import helper._
 @implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapBasic.f) }
@@ -7,7 +8,7 @@
 	@_providerIcon(newAccount.getProvider()) @Messages("playauthenticate.link.account.question",newAccount)
 }
 
-@main(Messages("playauthenticate.link.account.title")) {
+@main(userProvider, Messages("playauthenticate.link.account.title")) {
 
 	<h1>@Messages("playauthenticate.link.account.title")</h1>
 	<p>

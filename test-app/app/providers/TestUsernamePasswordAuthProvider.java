@@ -1,38 +1,39 @@
 package providers;
 
-import static play.data.Form.form;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.UUID;
-
-import play.Application;
+import com.feth.play.module.mail.Mailer.Mail.Body;
+import com.feth.play.module.pa.PlayAuthenticate;
+import com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider;
+import com.feth.play.module.pa.providers.password.UsernamePasswordAuthUser;
 import play.Logger;
 import play.data.Form;
 import play.data.validation.Constraints.Email;
 import play.data.validation.Constraints.MinLength;
 import play.data.validation.Constraints.Required;
+import play.inject.ApplicationLifecycle;
 import play.mvc.Call;
 import play.mvc.Http.Context;
 
-import com.feth.play.module.mail.Mailer.Mail.Body;
-import com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider;
-import com.feth.play.module.pa.providers.password.UsernamePasswordAuthUser;
-import com.feth.play.module.pa.user.AuthUser;
-import com.google.inject.Inject;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.UUID;
 
+import static play.data.Form.form;
+
+@Singleton
 public class TestUsernamePasswordAuthProvider
 		extends
 		UsernamePasswordAuthProvider<String, TestUsernamePasswordAuthProvider.LoginUser, TestUsernamePasswordAuthProvider.SignupUser, TestUsernamePasswordAuthProvider.Login, TestUsernamePasswordAuthProvider.Signup> {
 
-	private final Map<String, String> verifiedUsers = new HashMap<String, String>();
-	private final Map<String, String> unverifiedUsers = new HashMap<String, String>();
-	private final Map<String, String> verificationTokens = new HashMap<String, String>();
+	private final Map<String, String> verifiedUsers = new HashMap<>();
+	private final Map<String, String> unverifiedUsers = new HashMap<>();
+	private final Map<String, String> verificationTokens = new HashMap<>();
 
 	@Inject
-	public TestUsernamePasswordAuthProvider(Application app) {
-		super(app);
+	public TestUsernamePasswordAuthProvider(final PlayAuthenticate auth, final ApplicationLifecycle lifecycle) {
+		super(auth, lifecycle);
 	}
 
 	public static class Login implements
@@ -189,12 +190,12 @@ public class TestUsernamePasswordAuthProvider
 
 	@Override
 	protected Call userExists(UsernamePasswordAuthUser authUser) {
-		return controllers.routes.Application.userExists();
+		return controllers.routes.ApplicationController.userExists();
 	}
 
 	@Override
 	protected Call userUnverified(UsernamePasswordAuthUser authUser) {
-		return controllers.routes.Application.userUnverified();
+		return controllers.routes.ApplicationController.userUnverified();
 	}
 
 }

@@ -1,18 +1,21 @@
 package service;
 
-import models.User;
-import play.Application;
-
+import com.feth.play.module.pa.PlayAuthenticate;
+import com.feth.play.module.pa.service.AbstractUserService;
 import com.feth.play.module.pa.user.AuthUser;
 import com.feth.play.module.pa.user.AuthUserIdentity;
-import com.feth.play.module.pa.service.UserServicePlugin;
-import com.google.inject.Inject;
+import models.User;
 
-public class MyUserServicePlugin extends UserServicePlugin {
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+
+@Singleton
+public class MyUserService extends AbstractUserService {
 
 	@Inject
-	public MyUserServicePlugin(final Application app) {
-		super(app);
+	public MyUserService(final PlayAuthenticate auth) {
+		super(auth);
 	}
 
 	@Override
@@ -49,7 +52,14 @@ public class MyUserServicePlugin extends UserServicePlugin {
 	@Override
 	public AuthUser link(final AuthUser oldUser, final AuthUser newUser) {
 		User.addLinkedAccount(oldUser, newUser);
-		return null;
+		return newUser;
+	}
+	
+	@Override
+	public AuthUser update(final AuthUser knownUser) {
+		// User logged in again, bump last login date
+		User.setLastLoginDate(knownUser);
+		return knownUser;
 	}
 
 }

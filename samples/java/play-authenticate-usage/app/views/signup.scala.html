@@ -1,9 +1,10 @@
-@(signupForm: Form[_])
+@import service.UserProvider
+@(playAuth: com.feth.play.module.pa.PlayAuthenticate, userProvider: UserProvider, signupForm: Form[_])
 
 @import helper._
 @implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapBasic.f) }
 
-@main(Messages("playauthenticate.signup.title"),"signup") {
+@main(userProvider, Messages("playauthenticate.signup.title"),"signup") {
 
   <div class="row">
     <div class="col-xs-12 col-sm-6 col-md-8">
@@ -39,7 +40,7 @@
     <div class="col-xs-6 col-md-4">
         @Messages("playauthenticate.signup.oauth")
         @* Display list of available providers *@
-        @_providerPartial(skipCurrent=false)
+        @_providerPartial(playAuth, skipCurrent=false)
     </div>
 
   </div>

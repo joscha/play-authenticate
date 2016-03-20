@@ -1,4 +1,4 @@
-@(skipCurrent: Boolean = true)
+@(playAuth: com.feth.play.module.pa.PlayAuthenticate, skipCurrent: Boolean = true)
 
 @import com.feth.play.module.pa.views.html._
 
@@ -11,7 +11,7 @@ function askOpenID(url) {
 }
 </script>
 <ul class="providers">
-	@forProviders(skipCurrent) { p =>
+	@forProviders(playAuth, skipCurrent) { p =>
 		<li>
 		@if(p.getKey() == "openid") {
 			<a href="javascript:void(0);" onclick="askOpenID('@p.getUrl()');">

@@ -1,40 +1,51 @@
 package com.feth.play.module.pa.providers.oauth2;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
+import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.exceptions.*;
+import com.feth.play.module.pa.providers.ext.ExternalAuthProvider;
+import com.feth.play.module.pa.user.AuthUser;
+import com.feth.play.module.pa.user.AuthUserIdentity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
-
-import play.Application;
 import play.Configuration;
 import play.Logger;
 import play.i18n.Messages;
-import play.libs.ws.WS;
-import play.libs.ws.WSResponse;
+import play.inject.ApplicationLifecycle;
+import play.libs.ws.WSClient;
 import play.libs.ws.WSRequest;
+import play.libs.ws.WSResponse;
 import play.mvc.Http.Context;
 import play.mvc.Http.Request;
 import play.mvc.Http.Session;
 
-import com.feth.play.module.pa.PlayAuthenticate;
-import com.feth.play.module.pa.providers.ext.ExternalAuthProvider;
-import com.feth.play.module.pa.user.AuthUser;
-import com.feth.play.module.pa.user.AuthUserIdentity;
+import java.util.*;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeoutException;
+
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends OAuth2AuthInfo>
 		extends ExternalAuthProvider {
 
+	protected class QueryParam {
+		private String param;
+		private String value;
+
+		public QueryParam(String param, String value) {
+			this.param = param;
+			this.value = value;
+		}
+	}
+
     private static final String STATE_TOKEN = "pa.oauth2.state";
     protected static final String CONTENT_TYPE = "Content-Type";
 
-    public OAuth2AuthProvider(final Application app) {
-		super(app);
+	protected final WSClient wsClient;
+
+	public OAuth2AuthProvider(final PlayAuthenticate auth, final ApplicationLifecycle lifecycle, final WSClient wsClient) {
+		super(auth, lifecycle);
+		this.wsClient = wsClient;
 	}
 
 	@Override
@@ -79,6 +90,22 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 		public static final String REDIRECT_URI_MISMATCH = "redirect_uri_mismatch";
 	}
 
+	protected WSResponse fetchAuthResponse(String url, QueryParam...params) throws AuthException {
+		final List<QueryParam> queryParams = Arrays.asList(params);
+		final WSRequest request = wsClient.url(url);
+		for(QueryParam param : queryParams) {
+			request.setQueryParameter(param.param, param.value);
+		}
+
+		try {
+			return request.get()
+					.toCompletableFuture()
+					.get(getTimeout(), MILLISECONDS);
+		} catch(InterruptedException | ExecutionException | TimeoutException e) {
+			throw new AuthException(e.getMessage(), e);
+		}
+	}
+
 	protected String getAccessTokenParams(final Configuration c,
 			final String code, Request request) throws ResolverMissingException {
 		final List<NameValuePair> params = getParams(request, c);
@@ -100,15 +127,18 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 		final Configuration c = getConfiguration();
 		final String params = getAccessTokenParams(c, code, request);
 		final String url = c.getString(SettingKeys.ACCESS_TOKEN_URL);
-        final WSRequest wrh = WS.url(url);
+        final WSRequest wrh = wsClient.url(url);
         wrh.setHeader(CONTENT_TYPE, "application/x-www-form-urlencoded");
         for(final Map.Entry<String, String> header : getHeaders().entrySet()) {
             wrh.setHeader(header.getKey(), header.getValue());
         }
 
-		final WSResponse r = wrh.post(params).get(PlayAuthenticate.TIMEOUT);
-
-		return buildInfo(r);
+		try {
+			final WSResponse r = wrh.post(params).toCompletableFuture().get(PlayAuthenticate.TIMEOUT, MILLISECONDS);
+			return buildInfo(r);
+		} catch(InterruptedException | ExecutionException | TimeoutException e) {
+			throw new AccessTokenException(e.getMessage(), e);
+		}
 	}
 
 	protected abstract I buildInfo(final WSResponse r)
@@ -187,7 +217,7 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 			}
 		} else if (isCallbackRequest(context)) {
 			// second step in auth process
-            final UUID storedState = PlayAuthenticate.getFromCache(context.session(), STATE_TOKEN);
+            final UUID storedState = this.auth.getFromCache(context.session(), STATE_TOKEN);
             if(storedState == null) {
                 Logger.warn("Cache either timed out, or you are using a setup with multiple servers and a non-shared cache implementation");
                 // we will just behave as if there was no auth, yet...
@@ -209,7 +239,7 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 
     private String generateRedirectUrl(Context context, Request request) throws AuthException {
         final UUID state = UUID.randomUUID();
-        PlayAuthenticate.storeInCache(context.session(), STATE_TOKEN, state);
+		this.auth.storeInCache(context.session(), STATE_TOKEN, state);
         final String url = getAuthUrl(request, state.toString());
         Logger.debug("generated redirect URL for dialog: " + url);
         return url;
@@ -225,7 +255,7 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 
     @Override
     public void afterSave(final AuthUser user, final Object identity, final Session session) {
-        PlayAuthenticate.removeFromCache(session, STATE_TOKEN);
+		this.auth.removeFromCache(session, STATE_TOKEN);
     }
 
 	/**

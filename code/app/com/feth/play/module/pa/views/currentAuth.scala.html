@@ -1,7 +1,5 @@
-@()(body: com.feth.play.module.pa.user.AuthUser => play.twirl.api.Html)
+@(auth: com.feth.play.module.pa.PlayAuthenticate)(body: com.feth.play.module.pa.user.AuthUser => play.twirl.api.Html)
 
-@import com.feth.play.module.pa.PlayAuthenticate
-
-@defining(PlayAuthenticate.getUser(session())) { auth =>
+@defining(auth.getUser(session())) { auth =>
 	@body(auth)
 }

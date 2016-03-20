@@ -1,24 +1,23 @@
 package com.feth.play.module.pa.providers;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import play.Application;
-import play.Configuration;
-import play.Logger;
-import play.Plugin;
-import play.mvc.Http.Session;
-import play.mvc.Http.Context;
-import play.mvc.Http.Request;
-
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.user.AuthUser;
 import com.feth.play.module.pa.user.SessionAuthUser;
+import play.Configuration;
+import play.Logger;
+import play.inject.ApplicationLifecycle;
+import play.mvc.Http.Context;
+import play.mvc.Http.Request;
+import play.mvc.Http.Session;
 
-public abstract class AuthProvider extends Plugin {
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+
+public abstract class AuthProvider {
 
 	public abstract static class Registry {
 		private static Map<String, AuthProvider> providers = new HashMap<String, AuthProvider>();
@@ -48,18 +47,23 @@ public abstract class AuthProvider extends Plugin {
 		}
 	}
 
-	private Application application;
 
-	public AuthProvider(final Application app) {
-		application = app;
+	protected PlayAuthenticate auth;
+
+	public PlayAuthenticate getAuth() {
+		return auth;
 	}
 
-	protected Application getApplication() {
-		return application;
+	public AuthProvider(final PlayAuthenticate auth, final ApplicationLifecycle lifecycle) {
+		this.auth = auth;
+		onStart();
+		lifecycle.addStopHook(() -> {
+			onStop();
+			return CompletableFuture.completedFuture(null);
+		});
 	}
 
-	@Override
-	public void onStart() {
+	protected void onStart() {
 
 		final List<String> neededSettings = neededSettingKeys();
 		if (neededSettings != null) {
@@ -81,24 +85,23 @@ public abstract class AuthProvider extends Plugin {
 		Logger.debug("Registered AuthProvider '" + getKey() + "'");
 	}
 
-	@Override
-	public void onStop() {
+	protected void onStop() {
 		Registry.unregister(getKey());
 	}
 
 	public String getUrl() {
-		return PlayAuthenticate.getResolver().auth(getKey()).url();
+		return this.auth.getResolver().auth(getKey()).url();
 	}
 
 	protected String getAbsoluteUrl(final Request request) {
-		return PlayAuthenticate.getResolver().auth(getKey())
+		return this.auth.getResolver().auth(getKey())
 				.absoluteURL(request);
 	}
 
 	public abstract String getKey();
 
 	protected Configuration getConfiguration() {
-		return PlayAuthenticate.getConfiguration().getConfig(getKey());
+		return this.auth.getConfiguration().getConfig(getKey());
 	}
 
 	/**

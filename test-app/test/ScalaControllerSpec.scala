@@ -1,16 +1,9 @@
 package test
 
-import org.specs2.mutable._
-
-import play.api.Logger
-import play.api.Play
-import play.api.mvc.AnyContentAsEmpty
-import play.api.mvc.AnyContentAsEmpty
-import play.api.mvc.Call
-import play.api.mvc.Result
-import play.api.mvc.Session
+import controllers.ScalaController
+import play.api.mvc.{AnyContentAsEmpty, Call, Session}
 import play.api.test._
-import play.api.test.Helpers._
+import play.api.{Application, Logger}
 import providers.TestUsernamePasswordAuthProvider
 
 /**
@@ -23,23 +16,26 @@ object ScalaControllerSpec extends PlaySpecification {
   "ScalaController" should {
 
     "send 303 for index page without login" in new WithApplication {
-      val result = controllers.ScalaController.index()(FakeRequest()).run
-      status(result) must equalTo(SEE_OTHER);
+
+      val controller = app.injector.instanceOf(classOf[ScalaController])
+      val result = controller.index()(FakeRequest()).run
+      status(result) must equalTo(SEE_OTHER)
       redirectLocation(result) must beSome like {
         case Some(s: String) =>
-          s must_== controllers.routes.Application.login.url
+          s must_== controllers.routes.ApplicationController.login.url
       }
     }
 
     "send 200 for index page with login" in new WithApplication {
-      val someSession = signupAndLogin()
-      val result = controllers.ScalaController.index()(
+      val someSession = signupAndLogin
+      val controller = app.injector.instanceOf(classOf[ScalaController])
+      val result = controller.index()(
         FakeRequest().withSession(someSession.get.data.toSeq: _*)).run
       status(result) must equalTo(OK)
     }
   }
 
-  def signupAndLogin(): Option[Session] = {
+  def signupAndLogin(implicit app: Application): Option[Session] = {
     val email = "user@example.com"
     val password = "PaSSW0rd"
     def fakeRequestCall(call: Call): FakeRequest[AnyContentAsEmpty.type] = {
@@ -47,7 +43,7 @@ object ScalaControllerSpec extends PlaySpecification {
     }
     def signup(email: String, password: String) = {
       val someResult = route(fakeRequestCall(
-        controllers.routes.Application.doSignup())
+        controllers.routes.ApplicationController.doSignup())
         .withFormUrlEncodedBody("email" -> email, "password" -> password))
       someResult foreach { status(_) must_== SEE_OTHER }
       upAuthProvider.getVerificationToken(email)
@@ -57,7 +53,7 @@ object ScalaControllerSpec extends PlaySpecification {
       token must not beNull;
       Logger.debug(s"Verifying token: $token")
       val someResult = route(fakeRequestCall(
-        controllers.routes.Application.verify(token)))
+        controllers.routes.ApplicationController.verify(token)))
       someResult foreach { result =>
         status(result) must_== SEE_OTHER
         upAuthProvider.getVerificationToken(email) must beNull
@@ -69,7 +65,7 @@ object ScalaControllerSpec extends PlaySpecification {
     def login(username: String, password: String) = {
       // Log the user in
       val someResult = route(fakeRequestCall(
-        controllers.routes.Application.doLogin())
+        controllers.routes.ApplicationController.doLogin())
         .withFormUrlEncodedBody("email" -> email, "password" -> password))
       someResult map { result =>
         status(result) must_== SEE_OTHER
@@ -85,7 +81,7 @@ object ScalaControllerSpec extends PlaySpecification {
     login(email, password)
   }
 
-  def upAuthProvider: TestUsernamePasswordAuthProvider = {
-    Play.current.plugin(classOf[TestUsernamePasswordAuthProvider]).get
+  def upAuthProvider(implicit app: Application): TestUsernamePasswordAuthProvider = {
+    app.injector.instanceOf(classOf[TestUsernamePasswordAuthProvider])
   }
 }

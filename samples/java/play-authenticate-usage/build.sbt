@@ -7,15 +7,16 @@ scalaVersion := "2.11.6"
 version := "1.0-SNAPSHOT"
 
 val appDependencies = Seq(
-  "be.objectify"  %% "deadbolt-java"     % "2.4.3",
+  "be.objectify"  %% "deadbolt-java"     % "2.5.0",
   // Comment the next line for local development of the Play Authentication core:
-  "com.feth"      %% "play-authenticate" % "0.7.2-SNAPSHOT", // use 0.7.1 on production
+  "com.feth"      %% "play-authenticate" % "0.8.0-SNAPSHOT",
   "org.postgresql"    %  "postgresql"        % "9.4-1201-jdbc41",
   cache,
   javaWs,
   javaJdbc,
   "org.webjars" % "bootstrap" % "3.2.0",
-  "org.easytesting" % "fest-assert" % "1.4" % "test"
+  "org.easytesting" % "fest-assert" % "1.4" % "test",
+  "org.seleniumhq.selenium" % "selenium-java" % "2.52.0" % "test"
 )
 
 // add resolver for deadbolt and easymail snapshots

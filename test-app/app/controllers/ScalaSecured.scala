@@ -1,18 +1,16 @@
 package controllers
 
+import javax.inject.Inject
+
+import com.feth.play.module.pa.PlayAuthenticate
 import com.feth.play.module.pa.user.AuthUser
-import play.api.mvc.RequestHeader
+import play.api.mvc._
 import play.api.mvc.Results.Redirect
 import play.api.mvc.Security.Authenticated
-import play.api.mvc.Action
-import play.api.mvc.Result
-import play.api.mvc.Request
-import play.api.mvc.AnyContent
-import com.feth.play.module.pa.PlayAuthenticate
-import scala.collection.JavaConversions._
-import play.api.mvc.Call
 
-object ScalaSecured {
+import scala.collection.JavaConversions._
+
+class ScalaSecured @Inject() (auth: PlayAuthenticate)  {
 
   def isAuthenticated(f: => AuthUser => Request[AnyContent] => Result) = {
     Authenticated(username, onUnauthorized) { user =>
@@ -21,11 +19,11 @@ object ScalaSecured {
   }
 
   private def username(request: RequestHeader) = {
-    Option(PlayAuthenticate.getUser(javaSession(request)))
+    Option(auth.getUser(javaSession(request)))
   }
 
   private def onUnauthorized(request: RequestHeader) = {
-    Redirect(toScalaCall(PlayAuthenticate.getResolver.login))
+    Redirect(toScalaCall(auth.getResolver.login))
   }
 
   private def javaSession(request: RequestHeader): play.mvc.Http.Session = {

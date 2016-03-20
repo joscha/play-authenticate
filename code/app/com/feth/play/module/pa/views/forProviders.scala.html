@@ -1,12 +1,11 @@
-@(skipCurrent: Boolean = false, showInternal: Boolean = false, showExternal: Boolean = true)(body: com.feth.play.module.pa.providers.AuthProvider => play.twirl.api.Html)
+@(auth: com.feth.play.module.pa.PlayAuthenticate, skipCurrent: Boolean = false, showInternal: Boolean = false, showExternal: Boolean = true)(body: com.feth.play.module.pa.providers.AuthProvider => play.twirl.api.Html)
 
-@import com.feth.play.module.pa.PlayAuthenticate
 @import com.feth.play.module.pa.providers.AuthProvider.Registry
 
 @defining(Registry.getProviders()) { providers =>
 	@if(providers != null && providers.size() > 0) {
-		@defining(PlayAuthenticate.isLoggedIn(session())) { loggedIn =>
-			@defining(PlayAuthenticate.getUser(session())) { auth =>
+		@defining(auth.isLoggedIn(session())) { loggedIn =>
+			@defining(auth.getUser(session())) { auth =>
 			    @for(p <- providers) {
 			    	@if(((showExternal && p.isExternal()) || (showInternal && !p.isExternal())) && (!loggedIn || !skipCurrent || (skipCurrent && (loggedIn && !p.getKey().equals(auth.getProvider()))))) {
 			    		@body(p)

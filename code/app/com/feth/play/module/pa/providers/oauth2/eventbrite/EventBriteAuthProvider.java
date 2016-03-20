@@ -1,19 +1,22 @@
 package com.feth.play.module.pa.providers.oauth2.eventbrite;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.exceptions.AccessTokenException;
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
-import com.google.inject.Inject;
-
-import play.Application;
 import play.Logger;
-import play.libs.ws.WS;
+import play.inject.ApplicationLifecycle;
+import play.libs.ws.WSClient;
 import play.libs.ws.WSResponse;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 /**
  * Auth provider for Eventbrite https://www.eventbrite.com
  */
+@Singleton
 public class EventBriteAuthProvider extends
         OAuth2AuthProvider<EventBriteAuthUser, EventBriteAuthInfo> {
 
@@ -24,8 +27,8 @@ public class EventBriteAuthProvider extends
     private static final String TOKEN = "token";
 
     @Inject
-    public EventBriteAuthProvider(Application app) {
-        super(app);
+    public EventBriteAuthProvider(final PlayAuthenticate auth, final ApplicationLifecycle lifecycle, final WSClient wsClient) {
+        super(auth, lifecycle, wsClient);
     }
 
 
@@ -36,13 +39,8 @@ public class EventBriteAuthProvider extends
 
         final String url = getConfiguration().getString(
                 USER_INFO_URL_SETTING_KEY);
-        final WSResponse r = WS
-                .url(url)
-                .setQueryParameter(TOKEN,
-                        info.getAccessToken())
-                .get()
-                .get(getTimeout());
 
+        final WSResponse r = fetchAuthResponse(url, new QueryParam(TOKEN, info.getAccessToken()));
         final JsonNode result = r.asJson();
         if (r.getStatus() >= 400) {
             throw new AuthException(result.get("meta").get("errorDetail").asText());

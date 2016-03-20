@@ -15,21 +15,18 @@
  */
 package com.feth.play.module.pa.providers.wwwauth.negotiate;
 
-import org.ietf.jgss.GSSContext;
-import org.ietf.jgss.GSSCredential;
-import org.ietf.jgss.GSSException;
-import org.ietf.jgss.GSSManager;
-import org.ietf.jgss.Oid;
-
-import play.Application;
-import play.Logger;
-import play.mvc.Http.Context;
-
+import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.wwwauth.WWWAuthenticateProvider;
 import com.feth.play.module.pa.user.AuthUser;
-import com.google.inject.Inject;
-import com.ning.http.util.Base64;
+import org.ietf.jgss.*;
+import play.Logger;
+import play.inject.ApplicationLifecycle;
+import play.mvc.Http.Context;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import java.util.Base64;
 
 /** Authentication against a Windows Active Directory domain.
  *
@@ -39,11 +36,12 @@ import com.ning.http.util.Base64;
  *
  * See the README.md in this directory for more detailed usage instructions.
  */
+@Singleton
 public class SpnegoAuthProvider extends WWWAuthenticateProvider {
 
 	@Inject
-	public SpnegoAuthProvider(Application app) {
-		super(app);
+	public SpnegoAuthProvider(final PlayAuthenticate auth, final ApplicationLifecycle lifecycle) {
+		super(auth, lifecycle);
 		String realm = getConfiguration().getString(SettingKeys.REALM);
 		String kdc = getConfiguration().getString(SettingKeys.KDC);
 		if (realm != null && kdc != null) {
@@ -104,7 +102,7 @@ public class SpnegoAuthProvider extends WWWAuthenticateProvider {
 			Logger.warn("Discarding deprecated NTLMSSP authentication attempt");
 			return null;
 		}
-		byte[] token = Base64.decode(response);
+		byte[] token = Base64.getDecoder().decode(response);
 
 		try {
 			GSSManager gssManager = GSSManager.getInstance();

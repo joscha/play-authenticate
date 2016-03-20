@@ -1,5 +1,7 @@
+@import service.UserProvider
+@(userProvider: UserProvider)
 
-@main(Messages("playauthenticate.token.error.title")) {
+@main(userProvider, Messages("playauthenticate.token.error.title")) {
 	<h1>@Messages("playauthenticate.token.error.title")</h1>
 	<p>@Messages("playauthenticate.token.error.message")</p>
 }

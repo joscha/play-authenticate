@@ -16,7 +16,7 @@ public class MyUsernamePasswordAuthUser extends UsernamePasswordAuthUser
 
 	public MyUsernamePasswordAuthUser(final MySignup signup) {
 		super(signup.password, signup.email);
-		this.name = signup.name;
+		this.name = signup.getName();
 	}
 
 	/**

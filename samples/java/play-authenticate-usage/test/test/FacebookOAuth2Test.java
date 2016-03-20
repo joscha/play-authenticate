@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.openqa.selenium.ElementNotVisibleException;
 import org.openqa.selenium.NoSuchElementException;
 import play.libs.ws.WS;
+import play.libs.ws.WSClient;
 
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -31,7 +32,7 @@ public class FacebookOAuth2Test extends OAuth2Test {
         return FacebookAuthProvider.PROVIDER_KEY;
     }
 
-    protected Class<FacebookAuthProvider> getProviderUnderTest() {
+    protected Class<FacebookAuthProvider> getProviderClass() {
         return FacebookAuthProvider.class;
     }
 
@@ -39,12 +40,12 @@ public class FacebookOAuth2Test extends OAuth2Test {
     public void itShouldBePossibleToSignUp() throws InterruptedException {
         signupUser();
 
-        // Make sure the redirect from localhost to fb happened already (and that {@link MyUserServicePlugin#save()} gets called)
+        // Make sure the redirect from localhost to fb happened already (and that {@link MyUserService#save()} gets called)
         Thread.sleep(3000);
 
         assertThat(browser.url()).isEqualTo("/#_=_");
 
-        final FacebookAuthUser authUser = (FacebookAuthUser) (MyTestUserServicePlugin.getLastAuthUser());
+        final FacebookAuthUser authUser = (FacebookAuthUser) (MyTestUserServiceService.getLastAuthUser());
         assertThat(authUser.getProfileLink()).contains(FACEBOOK_USER_ID);
         assertThat(authUser.getId()).isEqualTo(FACEBOOK_USER_ID);
         assertThat(authUser.getGender()).isEqualTo("female");
@@ -105,8 +106,8 @@ public class FacebookOAuth2Test extends OAuth2Test {
      * See https://developers.facebook.com/docs/facebook-login/permissions/v2.1#revokelogin
      */
     @After
-    public void shutdown() {
-        final FacebookAuthUser authUser = (FacebookAuthUser) (MyTestUserServicePlugin.getLastAuthUser());
+    public void shutdown() throws Exception {
+        final FacebookAuthUser authUser = (FacebookAuthUser) (MyTestUserServiceService.getLastAuthUser());
 
         if (authUser == null) {
             // in case the test failed, we don't have an authUser
@@ -114,12 +115,14 @@ public class FacebookOAuth2Test extends OAuth2Test {
         }
 
         final String url = getConfig().getString("userInfoUrl") + "/permissions";
-        WS
+
+        WSClient wsClient = app.injector().instanceOf(WSClient.class);
+        wsClient
                 .url(url)
                 .setQueryParameter(OAuth2AuthProvider.Constants.ACCESS_TOKEN, authUser.getOAuth2AuthInfo().getAccessToken())
                 .setQueryParameter("format", "json")
                 .setQueryParameter("method", "delete")
-                .get().get(10, TimeUnit.SECONDS);
+                .get().toCompletableFuture().get(10, TimeUnit.SECONDS);
     }
 
 }

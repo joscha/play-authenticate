@@ -1,8 +1,8 @@
 package models;
 
-import be.objectify.deadbolt.core.models.Permission;
-import be.objectify.deadbolt.core.models.Role;
-import be.objectify.deadbolt.core.models.Subject;
+import be.objectify.deadbolt.java.models.Permission;
+import be.objectify.deadbolt.java.models.Role;
+import be.objectify.deadbolt.java.models.Subject;
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.ExpressionList;
 import com.feth.play.module.pa.providers.password.UsernamePasswordAuthUser;
@@ -40,9 +40,9 @@ public class User extends AppModel implements Subject {
 	public String email;
 
 	public String name;
-	
+
 	public String firstName;
-	
+
 	public String lastName;
 
 	@Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -128,7 +128,7 @@ public class User extends AppModel implements Subject {
 
 		// deactivate the merged user that got added to this one
 		otherUser.active = false;
-		Ebean.save(Arrays.asList(new User[] { otherUser, this }));
+		Arrays.asList(new User[] { otherUser, this }).forEach(u -> Ebean.save(u));
 	}
 
 	public static User create(final AuthUser authUser) {

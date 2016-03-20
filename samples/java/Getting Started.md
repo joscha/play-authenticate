@@ -5,7 +5,7 @@
 ---
 
 Add Play-Authenticate to your app dependencies. This is done by modifying the `project/Build.scala` file.
-Add `"com.feth"      %%  "play-authenticate" % "0.2.1-SNAPSHOT"` (`0.2.1` might actually change - have a look at the version history to select the latest version) as a dependency and add the resolvers as shown below:
+Add `"com.feth"      %%  "play-authenticate" % "0.8.0-SNAPSHOT"` (`0.8.0` might actually change - have a look at the version history to select the latest version) as a dependency and add the resolvers as shown below:
 
 	import sbt._
 	import Keys._
@@ -18,7 +18,7 @@ Add `"com.feth"      %%  "play-authenticate" % "0.2.1-SNAPSHOT"` (`0.2.1` might 
 	
 	    val appDependencies = Seq(
 	      // Add your project dependencies here,
-	      "com.feth"      %%  "play-authenticate" % "0.2.0-SNAPSHOT"
+	      "com.feth"      %%  "play-authenticate" % "0.8.0-SNAPSHOT"
 	    )
 	
 	    val main = PlayProject(appName, appVersion, appDependencies, mainLang = JAVA).settings(
@@ -107,12 +107,18 @@ You have to integrate Play-Authenticate into your views by yourself. Play-Authen
 You have to add one import to include theses templates:
 
 	@import com.feth.play.module.pa.views.html._
+	
+In order to use predefined helper templates you need to pass PlayAuthenticate as parameter to template like this:
+
+        @(playAuth: com.feth.play.module.pa.PlayAuthenticate)
+        
+It will be used in helper templates below. You can always access PlayAuthenticate in your controller by simply injecting it.
 
 ### Login
 
 The @forProviders helper lets you iterate over all registered providers. The following example creates a login-link for each provider:
 
-	@forProviders() { p =>
+	@forProviders(playAuth) { p =>
 		<a href="@p.getUrl()">@p.getKey()</a>
 	}
 
@@ -127,7 +133,7 @@ Creating a logout link is straight forward:
 The @currentAuth helper lets you do something with the current auth provider. 
 The following example checks if the user is logged in and displays an logout link if she is.
 
-	@currentAuth() { auth =>
+	@currentAuth(playAuth) { auth =>
 		@if(auth != null) {
 			<a href="@com.feth.play.module.pa.controllers.routes.Authenticate.logout">Logout</a>
 		}
@@ -135,7 +141,7 @@ The following example checks if the user is logged in and displays an logout lin
 
 This second example displays some account information: 
 
-	@currentAuth() { auth =>
+	@currentAuth(playAuth) { auth =>
         Logged in with provider '@auth.getProvider()' and the user ID '@auth.getId()'<br/>
         Your session expires
         @if(auth.expires() == -1){
@@ -156,25 +162,25 @@ Add the following routes to your `conf/routes` file:
 The controllers for the first two routes are provided by the framework, but you have to decide how you handle
 denied authentications. In the example above the controller for this is implemented by the method `oAuthDenied` in `controllers.Application`.
 
-Below you can see an example implementation of this method:
+Below you can see an example implementation of this method (this.auth is instance of injected PlayAuthenticate):
 
 	public static Result oAuthDenied(final String providerKey) {
 		flash(FLASH_ERROR_KEY,
 				"You need to accept the OAuth connection in order to use this website!");
-		return redirect(routes.Application.index());
+		return redirect(routes.Application.index(this.auth));
 	}
 	
 	
 ##Configure the Resolver
 ---
 
-Play-Authenticate needs some pages provided by your application. You configure these pages by setting a resolver
-in the `onStart` method of the [Global object](http://www.playframework.org/documentation/2.0.4/JavaGlobal).
+Play-Authenticate needs some pages provided by your application. You configure these pages by providing
+subclass of Resolver class via dependency injection mechanism:
 
+        bind(Resolver.class).to(MyResolver.class)
+        
 TODO explain Resolver interface and its methods
 	
-	import play.Application;
-	import play.GlobalSettings;
 	import play.mvc.Call;
 
 	import com.feth.play.module.pa.PlayAuthenticate;
@@ -184,83 +190,75 @@ TODO explain Resolver interface and its methods
 
 	import controllers.routes;
 
-	public class Global extends GlobalSettings {
+        class MyResolver {
 
-		public void onStart(final Application app) {
-			PlayAuthenticate.setResolver(new Resolver() {
+                @Override
+                public Call login() {
+                        // Your login page
+                        return routes.Application.index();
+                }
 
-				@Override
-				public Call login() {
-					// Your login page
-					return routes.Application.index();
-				}
+                @Override
+                public Call afterAuth() {
+                        // The user will be redirected to this page after authentication
+                        // if no original URL was saved
+                        return routes.Application.index();
+                }
 
-				@Override
-				public Call afterAuth() {
-					// The user will be redirected to this page after authentication
-					// if no original URL was saved
-					return routes.Application.index();
-				}
+                @Override
+                public Call afterLogout() {
+                        return routes.Application.index();
+                }
 
-				@Override
-				public Call afterLogout() {
-					return routes.Application.index();
-				}
+                @Override
+                public Call auth(final String provider) {
+                        // You can provide your own authentication implementation,
+                        // however the default should be sufficient for most cases
+                        return com.feth.play.module.pa.controllers.routes.Authenticate
+                                        .authenticate(provider);
+                }
 
-				@Override
-				public Call auth(final String provider) {
-					// You can provide your own authentication implementation,
-					// however the default should be sufficient for most cases
-					return com.feth.play.module.pa.controllers.routes.Authenticate
-							.authenticate(provider);
-				}
+                @Override
+                public Call onException(final AuthException e) {
+                        if (e instanceof AccessDeniedException) {
+                                return routes.Application
+                                                .oAuthDenied(((AccessDeniedException) e)
+                                                                .getProviderKey());
+                        }
 
-				@Override
-				public Call onException(final AuthException e) {
-					if (e instanceof AccessDeniedException) {
-						return routes.Application
-								.oAuthDenied(((AccessDeniedException) e)
-										.getProviderKey());
-					}
+                        // more custom problem handling here...
 
-					// more custom problem handling here...
+                        return super.onException(e);
+                }
 
-					return super.onException(e);
-				}
+                @Override
+                public Call askLink() {
+                        // We don't support moderated account linking in this sample.
+                        // See the play-authenticate-usage project for an example
+                        return null;
+                }
 
-				@Override
-				public Call askLink() {
-					// We don't support moderated account linking in this sample.
-					// See the play-authenticate-usage project for an example
-					return null;
-				}
-
-				@Override
-				public Call askMerge() {
-					// We don't support moderated account merging in this sample.
-					// See the play-authenticate-usage project for an example
-					return null;
-				}
-			});
-		}
-
-	}
+                @Override
+                public Call askMerge() {
+                        // We don't support moderated account merging in this sample.
+                        // See the play-authenticate-usage project for an example
+                        return null;
+                }
+        }
 	
 	
 Of course you have to create the pages to which the resolver refers by yourself.	
 
-##User Service Plugin
+##User Service
 ---
 
 We yet have to tell Play-Authenticate how to store users in a database. This is done by creating a sub class 
-of `com.feth.play.module.pa.service.UserServicePlugin` and implementing the abstract methods of this class.
-This subclass has to be registered as a plugin. To do this, create a new text file `play.plugins` in your `conf` folder 
-(if it does not exist) and add the following line:
+of `com.feth.play.module.pa.service.AbstractUserService` and implementing the abstract methods of this class.
+This subclass has to be registered in your dependency injection Module. To do this, create appropriate binding in your module:
 
-	10005:service.MyUserServicePlugin
+	bind(MyUserService.class).toSelf().eagerly(),
 	
-In this line `10005` determines when this plugin is loaded. Plugins with a higher number are loaded first. 
-`service.MyUserServicePlugin` is the fully qualified class name of your UserService class.
+`MyUserService` is the class name of your UserService class.
 
 The `UserService` interface works with `AuthUser` objects. The combination of `getId` and `getProvider` from `AuthUser` can be used to identify an user.
 
@@ -277,18 +275,21 @@ Here is an example implementation of the UserServicePlugin:
 	package service;
 
 	import models.User;
-	import play.Application;
 
 	import com.feth.play.module.pa.user.AuthUser;
 	import com.feth.play.module.pa.user.AuthUserIdentity;
-	import com.feth.play.module.pa.service.UserServicePlugin;
+	import com.feth.play.module.pa.service.UserService;
+	
+	import javax.inject.Inject;
+        import javax.inject.Singleton;
 
-	public class MyUserServicePlugin extends UserServicePlugin {
+	@Singleton
+	public class MyUserService extends UserService {
 
 		@Inject
-		public MyUserServicePlugin(final Application app) {
-			super(app);
-		}
+                public MyUserService(final PlayAuthenticate auth) {
+                        super(auth);
+                }
 
 		@Override
 		public Object save(final AuthUser authUser) {
@@ -343,10 +344,10 @@ should add `http://localhost:9000/authenticate/google` as an
 *Authorized Redirect URI*. Of course you should adjust this URI to your 
 application. 
 
-You then have to add the GoogleAuthProvider to the list of plugins
-in `conf/play.plugins`. Add the following line:
+You then have to add the GoogleAuthProvider to the list of dependencies in your dependency injection module.
+Add the following line:
 
-	10010:com.feth.play.module.pa.providers.oauth2.google.GoogleAuthProvider
+	bind(GoogleAuthProvider.class).toSelf().eagerly()
 
 
 Furthermore you need to configure the Google Auth Provider by adding 

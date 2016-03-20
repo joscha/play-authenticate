@@ -1,100 +1,102 @@
 package controllers;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
+import be.objectify.deadbolt.java.actions.Group;
+import be.objectify.deadbolt.java.actions.Restrict;
+import com.feth.play.module.pa.PlayAuthenticate;
 import models.User;
 import play.Routes;
 import play.data.Form;
-import play.mvc.*;
-import play.mvc.Http.Response;
-import play.mvc.Http.Session;
+import play.mvc.Controller;
 import play.mvc.Result;
 import providers.MyUsernamePasswordAuthProvider;
 import providers.MyUsernamePasswordAuthProvider.MyLogin;
 import providers.MyUsernamePasswordAuthProvider.MySignup;
-
+import service.UserProvider;
 import views.html.*;
-import be.objectify.deadbolt.java.actions.Group;
-import be.objectify.deadbolt.java.actions.Restrict;
 
-import com.feth.play.module.pa.PlayAuthenticate;
-import com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider;
-import com.feth.play.module.pa.user.AuthUser;
+import javax.inject.Inject;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Application extends Controller {
 
 	public static final String FLASH_MESSAGE_KEY = "message";
 	public static final String FLASH_ERROR_KEY = "error";
 	public static final String USER_ROLE = "user";
-	
-	public static Result index() {
-		return ok(index.render());
+
+	private final PlayAuthenticate auth;
+
+	private final MyUsernamePasswordAuthProvider provider;
+
+	private final UserProvider userProvider;
+
+	public static String formatTimestamp(final long t) {
+		return new SimpleDateFormat("yyyy-dd-MM HH:mm:ss").format(new Date(t));
 	}
 
-	public static User getLocalUser(final Session session) {
-		final AuthUser currentAuthUser = PlayAuthenticate.getUser(session);
-		final User localUser = User.findByAuthUserIdentity(currentAuthUser);
-		return localUser;
+	@Inject
+	public Application(final PlayAuthenticate auth, final MyUsernamePasswordAuthProvider provider,
+					   final UserProvider userProvider) {
+		this.auth = auth;
+		this.provider = provider;
+		this.userProvider = userProvider;
+	}
+
+	public Result index() {
+		return ok(index.render(this.userProvider));
 	}
 
 	@Restrict(@Group(Application.USER_ROLE))
-	public static Result restricted() {
-		final User localUser = getLocalUser(session());
-		return ok(restricted.render(localUser));
+	public Result restricted() {
+		final User localUser = this.userProvider.getUser(session());
+		return ok(restricted.render(this.userProvider, localUser));
 	}
 
 	@Restrict(@Group(Application.USER_ROLE))
-	public static Result profile() {
-		final User localUser = getLocalUser(session());
-		return ok(profile.render(localUser));
+	public Result profile() {
+		final User localUser = userProvider.getUser(session());
+		return ok(profile.render(this.auth, this.userProvider, localUser));
 	}
 
-	public static Result login() {
-		return ok(login.render(MyUsernamePasswordAuthProvider.LOGIN_FORM));
+	public Result login() {
+		return ok(login.render(this.auth, this.userProvider,  this.provider.getLoginForm()));
 	}
 
-	public static Result doLogin() {
+	public Result doLogin() {
 		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
-		final Form<MyLogin> filledForm = MyUsernamePasswordAuthProvider.LOGIN_FORM
+		final Form<MyLogin> filledForm = this.provider.getLoginForm()
 				.bindFromRequest();
 		if (filledForm.hasErrors()) {
 			// User did not fill everything properly
-			return badRequest(login.render(filledForm));
+			return badRequest(login.render(this.auth, this.userProvider, filledForm));
 		} else {
 			// Everything was filled
-			return UsernamePasswordAuthProvider.handleLogin(ctx());
+			return this.provider.handleLogin(ctx());
 		}
 	}
 
-	public static Result signup() {
-		return ok(signup.render(MyUsernamePasswordAuthProvider.SIGNUP_FORM));
+	public Result signup() {
+		return ok(signup.render(this.auth, this.userProvider, this.provider.getSignupForm()));
 	}
 
-	public static Result jsRoutes() {
+	public Result jsRoutes() {
 		return ok(
 				Routes.javascriptRouter("jsRoutes",
 						controllers.routes.javascript.Signup.forgotPassword()))
 				.as("text/javascript");
 	}
 
-	public static Result doSignup() {
+	public Result doSignup() {
 		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
-		final Form<MySignup> filledForm = MyUsernamePasswordAuthProvider.SIGNUP_FORM
-				.bindFromRequest();
+		final Form<MySignup> filledForm = this.provider.getSignupForm().bindFromRequest();
 		if (filledForm.hasErrors()) {
 			// User did not fill everything properly
-			return badRequest(signup.render(filledForm));
+			return badRequest(signup.render(this.auth, this.userProvider, filledForm));
 		} else {
 			// Everything was filled
 			// do something with your part of the form before handling the user
 			// signup
-			return UsernamePasswordAuthProvider.handleSignup(ctx());
+			return this.provider.handleSignup(ctx());
 		}
 	}
-
-	public static String formatTimestamp(final long t) {
-		return new SimpleDateFormat("yyyy-dd-MM HH:mm:ss").format(new Date(t));
-	}
-
 }

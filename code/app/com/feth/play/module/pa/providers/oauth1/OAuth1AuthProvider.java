@@ -1,23 +1,5 @@
 package com.feth.play.module.pa.providers.oauth1;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
-import play.Application;
-import play.Configuration;
-import play.Logger;
-import play.libs.F;
-import play.libs.oauth.OAuth;
-import play.libs.oauth.OAuth.OAuthCalculator;
-import play.libs.oauth.OAuth.ConsumerKey;
-import play.libs.oauth.OAuth.RequestToken;
-import play.libs.oauth.OAuth.ServiceInfo;
-import play.libs.ws.WS;
-import play.libs.ws.WSResponse;
-import play.mvc.Http.Context;
-import play.mvc.Http.Request;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.exceptions.AccessDeniedException;
@@ -25,14 +7,38 @@ import com.feth.play.module.pa.exceptions.AccessTokenException;
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.ext.ExternalAuthProvider;
 import com.feth.play.module.pa.user.AuthUserIdentity;
+import play.Configuration;
+import play.Logger;
+import play.inject.ApplicationLifecycle;
+import play.libs.oauth.OAuth;
+import play.libs.oauth.OAuth.ConsumerKey;
+import play.libs.oauth.OAuth.OAuthCalculator;
+import play.libs.oauth.OAuth.RequestToken;
+import play.libs.oauth.OAuth.ServiceInfo;
+import play.libs.ws.WSClient;
+import play.libs.ws.WSResponse;
+import play.mvc.Http.Context;
+import play.mvc.Http.Request;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeoutException;
+
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 public abstract class OAuth1AuthProvider<U extends AuthUserIdentity, I extends OAuth1AuthInfo>
 		extends ExternalAuthProvider {
 
 	private static final String CACHE_TOKEN = "pa.oauth1.rtoken";
 
-	public OAuth1AuthProvider(final Application app) {
-		super(app);
+	private final WSClient wsClient;
+
+	public OAuth1AuthProvider(final PlayAuthenticate auth, final ApplicationLifecycle lifecycle, final WSClient wsClient) {
+		super(auth, lifecycle);
+		this.wsClient = wsClient;
 	}
 
 	protected abstract I buildInfo(final RequestToken rtoken)
@@ -115,7 +121,7 @@ public abstract class OAuth1AuthProvider<U extends AuthUserIdentity, I extends O
 
         if (uri.contains(Constants.OAUTH_VERIFIER)) {
 
-			final RequestToken rtoken = (RequestToken) PlayAuthenticate
+			final RequestToken rtoken = (RequestToken) this.auth
 					.removeFromCache(context.session(), CACHE_TOKEN);
 			final String verifier = request.getQueryString(Constants.OAUTH_VERIFIER);
 			try {
@@ -138,7 +144,7 @@ public abstract class OAuth1AuthProvider<U extends AuthUserIdentity, I extends O
 				final String token = response.token;
 				final String redirectUrl = service.redirectUrl(token);
 
-				PlayAuthenticate.storeInCache(context.session(), CACHE_TOKEN,
+				this.auth.storeInCache(context.session(), CACHE_TOKEN,
 						new SerializableRequestToken(response));
 				return redirectUrl;
 			} catch (RuntimeException ex) {
@@ -150,11 +156,15 @@ public abstract class OAuth1AuthProvider<U extends AuthUserIdentity, I extends O
 
 	}
 
-	protected JsonNode signedOauthGet(final String url,
-			final OAuthCalculator calculator) {
-		final F.Promise<WSResponse> promise = WS.url(url).sign(calculator).get();
-		final WSResponse response = promise.get(getTimeout());
-		return response.asJson();
+	protected JsonNode signedOauthGet(final String url, final OAuthCalculator calculator) throws AuthException {
+		final Future<WSResponse> oathFuture = wsClient.url(url).sign(calculator).get().toCompletableFuture();
+
+		try {
+			final WSResponse response = oathFuture.get(getTimeout(), MILLISECONDS);
+			return response.asJson();
+		} catch(InterruptedException | ExecutionException | TimeoutException e) {
+			throw new AuthException(e.getMessage(), e);
+		}
 	}
 
 	protected OAuthCalculator getOAuthCalculator(final OAuth1AuthInfo info) {

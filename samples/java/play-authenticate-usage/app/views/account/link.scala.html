@@ -1,10 +1,12 @@
+@import service.UserProvider
+@(userProvider: UserProvider, playAuth: com.feth.play.module.pa.PlayAuthenticate)
 
-@main(Messages("playauthenticate.link.account.title")) {
+@main(userProvider, Messages("playauthenticate.link.account.title")) {
     
     <h1>@Messages("playauthenticate.link.account.title")</h1>
     
     <p>
-	@_providerPartial()
+	@_providerPartial(playAuth)
     <br/>
     </p>
 }

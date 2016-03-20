@@ -1,4 +1,4 @@
-@(localUser: models.User = null)
+@(playAuth: com.feth.play.module.pa.PlayAuthenticate, localUser: models.User = null)
 
 @import com.feth.play.module.pa.views.html._
 
@@ -18,7 +18,7 @@
     }</i>!
     
     <br/>
-    @currentAuth() { auth =>
+    @currentAuth(playAuth) { auth =>
         Logged in with provider '@auth.getProvider()' and the user ID '@auth.getId()'<br/>
         Your session expires
         @if(auth.expires() == -1){

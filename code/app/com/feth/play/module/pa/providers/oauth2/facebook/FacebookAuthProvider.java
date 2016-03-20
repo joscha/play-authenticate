@@ -1,27 +1,28 @@
 package com.feth.play.module.pa.providers.oauth2.facebook;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.feth.play.module.pa.PlayAuthenticate;
+import com.feth.play.module.pa.exceptions.AccessTokenException;
+import com.feth.play.module.pa.exceptions.AuthException;
+import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.message.BasicNameValuePair;
+import play.Configuration;
+import play.Logger;
+import play.inject.ApplicationLifecycle;
+import play.libs.ws.WSClient;
+import play.libs.ws.WSResponse;
+import play.mvc.Http.Request;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.client.utils.URLEncodedUtils;
-import org.apache.http.message.BasicNameValuePair;
-
-import play.Application;
-import play.Configuration;
-import play.Logger;
-import play.libs.ws.WS;
-import play.libs.ws.WSResponse;
-import play.mvc.Http.Request;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.feth.play.module.pa.exceptions.AccessTokenException;
-import com.feth.play.module.pa.exceptions.AuthException;
-import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
-import com.google.inject.Inject;
-
+@Singleton
 public class FacebookAuthProvider extends
 		OAuth2AuthProvider<FacebookAuthUser, FacebookAuthInfo> {
 
@@ -35,9 +36,10 @@ public class FacebookAuthProvider extends
 	private static final String USER_INFO_FIELDS_SETTING_KEY = "userInfoFields";
 
 	@Inject
-	public FacebookAuthProvider(Application app) {
-		super(app);
+	public FacebookAuthProvider(final PlayAuthenticate auth, final ApplicationLifecycle lifecycle, final WSClient wsClient) {
+		super(auth, lifecycle, wsClient);
 	}
+
 
 	public static abstract class SettingKeys extends
 			OAuth2AuthProvider.SettingKeys {
@@ -56,12 +58,10 @@ public class FacebookAuthProvider extends
 				USER_INFO_URL_SETTING_KEY);
 		final String fields = getConfiguration().getString(
 				USER_INFO_FIELDS_SETTING_KEY);
-		final WSResponse r = WS
-				.url(url)
-				.setQueryParameter(OAuth2AuthProvider.Constants.ACCESS_TOKEN,
-						info.getAccessToken())
-				.setQueryParameter(FIELDS, fields)
-				.get().get(getTimeout());
+
+		final WSResponse r = fetchAuthResponse(url,
+				new QueryParam(OAuth2AuthProvider.Constants.ACCESS_TOKEN, info.getAccessToken()),
+				new QueryParam(FIELDS, fields));
 
 		final JsonNode result = r.asJson();
 		if (result.get(OAuth2AuthProvider.Constants.ERROR) != null) {

@@ -1,20 +1,27 @@
 package com.feth.play.module.pa.controllers;
 
-import play.mvc.Controller;
+import com.feth.play.module.pa.PlayAuthenticate;
 import play.mvc.Result;
 
-import com.feth.play.module.pa.PlayAuthenticate;
+import javax.inject.Inject;
 
 public class Authenticate extends AuthenticateBase {
 
-	public static Result authenticate(final String provider) {
-		noCache(response());
-		final String payload = request().getQueryString(PAYLOAD_KEY);
-		return PlayAuthenticate.handleAuthentication(provider, ctx(), payload);
+	private PlayAuthenticate auth;
+
+	@Inject
+	public Authenticate(PlayAuthenticate auth) {
+		this.auth = auth;
 	}
 
-	public static Result logout() {
+	public Result authenticate(final String provider) {
 		noCache(response());
-		return PlayAuthenticate.logout(session());
+		final String payload = request().getQueryString(PAYLOAD_KEY);
+		return this.auth.handleAuthentication(provider, ctx(), payload);
+	}
+
+	public Result logout() {
+		noCache(response());
+		return this.auth.logout(session());
 	}
 }

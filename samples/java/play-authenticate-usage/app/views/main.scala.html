@@ -1,7 +1,8 @@
-@(title: String, nav: String = "")(content: Html)
+@import service.UserProvider
+@(userProvider: UserProvider, title: String, nav: String = "")(content: Html)
 
 @import be.objectify.deadbolt.java.views.html._
-@import be.objectify.deadbolt.core.utils.TemplateUtils._
+@import be.objectify.deadbolt.java.utils.TemplateUtils._
 
 <!DOCTYPE html>
 <html lang="@lang().code()">
@@ -49,7 +50,7 @@
 
                     @subjectPresentOr() {
                         <ul class="nav navbar-nav navbar-right">
-                        @defining(Application.getLocalUser(session())) { user =>
+                        @defining(userProvider.getUser(session())) { user =>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i> @user.name <span class="caret"></span></a>
                                 <ul class="dropdown-menu" role="menu">

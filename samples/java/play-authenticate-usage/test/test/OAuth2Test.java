@@ -7,14 +7,22 @@ import com.google.inject.Inject;
 import org.junit.Before;
 import play.Application;
 import play.Configuration;
-import play.test.FakeApplication;
+import play.inject.guice.GuiceApplicationBuilder;
 import play.test.Helpers;
 import play.test.TestBrowser;
 import play.test.WithBrowser;
+import service.MyUserService;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static play.inject.Bindings.bind;
+
 
 public abstract class OAuth2Test extends WithBrowser {
+    
     @Override
     protected TestBrowser provideBrowser(int port) {
         return Helpers.testBrowser(Helpers.FIREFOX, port);
@@ -26,7 +34,7 @@ public abstract class OAuth2Test extends WithBrowser {
     }
 
     @Override
-    protected FakeApplication provideFakeApplication() {
+    protected Application provideApplication() {
 
         final Map<String, String> additionalConfiguration = new HashMap<String, String>();
         additionalConfiguration.putAll(Helpers.inMemoryDatabase());
@@ -36,19 +44,21 @@ public abstract class OAuth2Test extends WithBrowser {
 
         amendConfiguration(additionalConfiguration);
 
-        final List<String> additionalPlugins = new ArrayList<String>();
-        additionalPlugins.add(MyTestUserServicePlugin.class.getName());
-        additionalPlugins.add(getProviderUnderTest().getName());
+        final List<String> additionalPlugins = new ArrayList<>();
+        additionalPlugins.add(MyTestUserServiceService.class.getName());
+        additionalPlugins.add(getProviderClass().getName());
         amendPlugins(additionalPlugins);
 
-        return Helpers.fakeApplication(
-                additionalConfiguration,
-                additionalPlugins,
-                Collections.singletonList(service.MyUserServicePlugin.class.getName())
-        );
+
+        return new GuiceApplicationBuilder()
+                .bindings(
+                        bind(getProviderClass()).toSelf().eagerly()
+                )
+                .overrides(bind(MyUserService.class).to(MyTestUserServiceService.class).eagerly())
+                .build();
     }
 
-    protected abstract Class<? extends OAuth2AuthProvider> getProviderUnderTest();
+    protected abstract Class<? extends OAuth2AuthProvider> getProviderClass();
     protected abstract String getProviderKey();
 
     protected abstract void amendConfiguration(final Map<String, String> additionalConfiguration);
@@ -66,21 +76,21 @@ public abstract class OAuth2Test extends WithBrowser {
     }
 
     protected Configuration getConfig() {
-        return PlayAuthenticate.getConfiguration().getConfig(getProviderKey());
+        return app.injector().instanceOf(PlayAuthenticate.class).getConfiguration().getConfig(getProviderKey());
     }
 
-    public static class MyTestUserServicePlugin extends service.MyUserServicePlugin {
+    public static class MyTestUserServiceService extends MyUserService {
 
         private static AuthUser lastAuthUser;
 
         @Inject
-        public MyTestUserServicePlugin(final Application app) {
-            super(app);
+        public MyTestUserServiceService(final PlayAuthenticate auth) {
+            super(auth);
         }
 
         @Override
         public void onStart() {
-            PlayAuthenticate.setUserService(this);
+            this.auth.setUserService(this);
         }
 
         @Override
@@ -101,7 +111,7 @@ public abstract class OAuth2Test extends WithBrowser {
 
     @Before
     public void resetLastAuthUser() {
-        MyTestUserServicePlugin.resetLasAuthUser();
+        MyTestUserServiceService.resetLasAuthUser();
     }
 
 }

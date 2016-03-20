@@ -1,28 +1,28 @@
 package service;
 
+import com.feth.play.module.pa.PlayAuthenticate;
+import com.feth.play.module.pa.service.AbstractUserService;
+import com.feth.play.module.pa.user.AuthUser;
+import com.feth.play.module.pa.user.AuthUserIdentity;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.HashMap;
 import java.util.Map;
 
-import play.Application;
+@Singleton
+public class TestUserService extends AbstractUserService {
 
-import com.feth.play.module.pa.PlayAuthenticate;
-import com.feth.play.module.pa.service.UserServicePlugin;
-import com.feth.play.module.pa.user.AuthUser;
-import com.feth.play.module.pa.user.AuthUserIdentity;
-import com.google.inject.Inject;
-
-public class TestUserServicePlugin extends UserServicePlugin {
-
-	private final Map<AuthUserIdentity, AuthUser> users = new HashMap<AuthUserIdentity, AuthUser>();
+	private final Map<AuthUserIdentity, AuthUser> users = new HashMap<>();
 
 	@Inject
-	public TestUserServicePlugin(Application app) {
-		super(app);
+	public TestUserService(PlayAuthenticate auth) {
+		super(auth);
 	}
 
 	@Override
 	public void onStart() {
-		PlayAuthenticate.setUserService(this);
+		this.auth.setUserService(this);
 	}
 
 	@Override
@@ -107,8 +107,8 @@ public class TestUserServicePlugin extends UserServicePlugin {
 			return true;
 		}
 
-		private TestUserServicePlugin getOuterType() {
-			return TestUserServicePlugin.this;
+		private TestUserService getOuterType() {
+			return TestUserService.this;
 		}
 
 	}

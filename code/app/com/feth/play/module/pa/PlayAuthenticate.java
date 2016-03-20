@@ -1,10 +1,11 @@
 package com.feth.play.module.pa;
 
-import java.util.Date;
-
+import com.feth.play.module.pa.exceptions.AuthException;
+import com.feth.play.module.pa.providers.AuthProvider;
+import com.feth.play.module.pa.service.UserService;
+import com.feth.play.module.pa.user.AuthUser;
 import play.Configuration;
 import play.Logger;
-import play.Play;
 import play.i18n.Messages;
 import play.mvc.Call;
 import play.mvc.Controller;
@@ -13,12 +14,12 @@ import play.mvc.Http.Context;
 import play.mvc.Http.Session;
 import play.mvc.Result;
 
-import com.feth.play.module.pa.exceptions.AuthException;
-import com.feth.play.module.pa.providers.AuthProvider;
-import com.feth.play.module.pa.service.UserService;
-import com.feth.play.module.pa.user.AuthUser;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import java.util.Date;
 
-public abstract class PlayAuthenticate {
+@Singleton
+public class PlayAuthenticate {
 
 	public static final String SETTING_KEY_PLAY_AUTHENTICATE = "play-authenticate";
 	private static final String SETTING_KEY_AFTER_AUTH_FALLBACK = "afterAuthFallback";
@@ -27,92 +28,29 @@ public abstract class PlayAuthenticate {
 	private static final String SETTING_KEY_ACCOUNT_AUTO_LINK = "accountAutoLink";
 	private static final String SETTING_KEY_ACCOUNT_AUTO_MERGE = "accountAutoMerge";
 
-	public abstract static class Resolver {
 
-		/**
-		 * This is the route to your login page
-		 *
-		 * @return
-		 */
-		public abstract Call login();
 
-		/**
-		 * Route to redirect to after authentication has been finished.
-		 * Only used if no original URL was stored.
-		 * If you return null here, the user will get redirected to the URL of
-		 * the setting
-		 * afterAuthFallback
-		 * You can use this to redirect to an external URL for example.
-		 *
-		 * @return
-		 */
-		public abstract Call afterAuth();
+	private Configuration config;
 
-		/**
-		 * This should usually point to the route where you registered
-		 * com.feth.play.module.pa.controllers.AuthenticateController.
-		 * authenticate(String)
-		 * however you might provide your own authentication implementation if
-		 * you want to
-		 * and point it there
-		 *
-		 * @param provider
-		 *            The provider ID matching one of your registered providers
-		 *            in play.plugins
-		 *
-		 * @return a Call to follow
-		 */
-		public abstract Call auth(final String provider);
-
-		/**
-		 * If you set the accountAutoMerge setting to true, you might return
-		 * null for this.
-		 *
-		 * @return
-		 */
-		public abstract Call askMerge();
-
-		/**
-		 * If you set the accountAutoLink setting to true, you might return null
-		 * for this
-		 *
-		 * @return
-		 */
-		public abstract Call askLink();
-
-		/**
-		 * Route to redirect to after logout has been finished.
-		 * If you return null here, the user will get redirected to the URL of
-		 * the setting
-		 * afterLogoutFallback
-		 * You can use this to redirect to an external URL for example.
-		 *
-		 * @return
-		 */
-		public abstract Call afterLogout();
-
-		public Call onException(final AuthException e) {
-			return null;
-		}
+	@Inject
+	public PlayAuthenticate(final Configuration config, final Resolver resolver) {
+		this.config = config;
+		this.resolver = resolver;
 	}
 
-	private static Resolver resolver;
+	private Resolver resolver;
 
-	public static void setResolver(Resolver res) {
-		resolver = res;
-	}
-
-	public static Resolver getResolver() {
+	public Resolver getResolver() {
 		return resolver;
 	}
 
-	private static UserService userService;
+	private UserService userService;
 
-	public static void setUserService(final UserService service) {
+	public void setUserService(final UserService service) {
 		userService = service;
 	}
 
-	public static UserService getUserService() {
+	public UserService getUserService() {
 		if (userService == null) {
 			throw new RuntimeException(
 					Messages.get("playauthenticate.core.exception.no_user_service"));
@@ -126,23 +64,23 @@ public abstract class PlayAuthenticate {
 	private static final String EXPIRES_KEY = "pa.u.exp";
 	private static final String SESSION_ID_KEY = "pa.s.id";
 
-	public static Configuration getConfiguration() {
-		return Play.application().configuration()
+	public Configuration getConfiguration() {
+		return config
 				.getConfig(SETTING_KEY_PLAY_AUTHENTICATE);
 	}
 
-	public static final long TIMEOUT = 10l * 1000;
+	public static final long TIMEOUT = 10L * 1000;
 	private static final String MERGE_USER_KEY = null;
 	private static final String LINK_USER_KEY = null;
 
-	public static String getOriginalUrl(final Http.Context context) {
+	public String getOriginalUrl(final Http.Context context) {
 		return context.session().remove(PlayAuthenticate.ORIGINAL_URL);
 	}
 
-	public static String storeOriginalUrl(final Http.Context context) {
+	public String storeOriginalUrl(final Http.Context context) {
 		String loginUrl = null;
-		if (PlayAuthenticate.getResolver().login() != null) {
-			loginUrl = PlayAuthenticate.getResolver().login().url();
+		if (this.getResolver().login() != null) {
+			loginUrl = this.getResolver().login().url();
 		} else {
 			Logger.warn("You should define a login call in the resolver");
 		}
@@ -161,7 +99,7 @@ public abstract class PlayAuthenticate {
 		return context.session().get(ORIGINAL_URL);
 	}
 
-	public static void storeUser(final Session session, final AuthUser authUser) {
+	public void storeUser(final Session session, final AuthUser authUser) {
 
 		// User logged in once more - wanna make some updates?
 		final AuthUser u = getUserService().update(authUser);
@@ -175,7 +113,7 @@ public abstract class PlayAuthenticate {
 		}
 	}
 
-	public static boolean isLoggedIn(final Session session) {
+	public boolean isLoggedIn(final Session session) {
 		boolean ret = session.containsKey(USER_KEY) // user is set
 				&& session.containsKey(PROVIDER_KEY); // provider is set
 		ret &= AuthProvider.Registry.hasProvider(session.get(PROVIDER_KEY)); // this
@@ -193,7 +131,7 @@ public abstract class PlayAuthenticate {
 		return ret;
 	}
 
-	public static Result logout(final Session session) {
+	public Result logout(final Session session) {
 		session.remove(USER_KEY);
 		session.remove(PROVIDER_KEY);
 		session.remove(EXPIRES_KEY);
@@ -206,15 +144,15 @@ public abstract class PlayAuthenticate {
 				SETTING_KEY_AFTER_LOGOUT_FALLBACK));
 	}
 
-	public static String peekOriginalUrl(final Context context) {
+	public String peekOriginalUrl(final Context context) {
 		return context.session().get(ORIGINAL_URL);
 	}
 
-	public static boolean hasUserService() {
+	public boolean hasUserService() {
 		return userService != null;
 	}
 
-	private static long getExpiration(final Session session) {
+	private long getExpiration(final Session session) {
 		long expires;
 		if (session.containsKey(EXPIRES_KEY)) {
 			try {
@@ -228,7 +166,7 @@ public abstract class PlayAuthenticate {
 		return expires;
 	}
 
-	public static AuthUser getUser(final Session session) {
+	public AuthUser getUser(final Session session) {
 		final String provider = session.get(PROVIDER_KEY);
 		final String id = session.get(USER_KEY);
 		final long expires = getExpiration(session);
@@ -240,23 +178,23 @@ public abstract class PlayAuthenticate {
 		}
 	}
 
-	public static AuthUser getUser(final Context context) {
+	public AuthUser getUser(final Context context) {
 		return getUser(context.session());
 	}
 
-	public static boolean isAccountAutoMerge() {
+	public boolean isAccountAutoMerge() {
 		return getConfiguration().getBoolean(SETTING_KEY_ACCOUNT_AUTO_MERGE);
 	}
 
-	public static boolean isAccountAutoLink() {
+	public boolean isAccountAutoLink() {
 		return getConfiguration().getBoolean(SETTING_KEY_ACCOUNT_AUTO_LINK);
 	}
 
-	public static boolean isAccountMergeEnabled() {
+	public boolean isAccountMergeEnabled() {
 		return getConfiguration().getBoolean(SETTING_KEY_ACCOUNT_MERGE_ENABLED);
 	}
 
-	private static String getPlayAuthSessionId(final Session session) {
+	private String getPlayAuthSessionId(final Session session) {
 		// Generate a unique id
 		String uuid = session.get(SESSION_ID_KEY);
 		if (uuid == null) {
@@ -266,17 +204,17 @@ public abstract class PlayAuthenticate {
 		return uuid;
 	}
 
-	private static void storeUserInCache(final Session session,
+	private void storeUserInCache(final Session session,
 			final String key, final AuthUser identity) {
 		storeInCache(session, key, identity);
 	}
 
-	public static void storeInCache(final Session session, final String key,
+	public void storeInCache(final Session session, final String key,
 			final Object o) {
 		play.cache.Cache.set(getCacheKey(session, key), o);
 	}
 
-    public static <T> T removeFromCache(final Session session, final String key) {
+    public <T> T removeFromCache(final Session session, final String key) {
         final T o = getFromCache(session, key);
 
 		final String k = getCacheKey(session, key);
@@ -284,17 +222,17 @@ public abstract class PlayAuthenticate {
 		return o;
 	}
 
-	private static String getCacheKey(final Session session, final String key) {
+	private String getCacheKey(final Session session, final String key) {
 		final String id = getPlayAuthSessionId(session);
 		return id + "_" + key;
 	}
 
     @SuppressWarnings("unchecked")
-    public static <T> T getFromCache(final Session session, final String key) {
+    public <T> T getFromCache(final Session session, final String key) {
         return (T) play.cache.Cache.get(getCacheKey(session, key));
 	}
 
-	private static AuthUser getUserFromCache(final Session session,
+	private AuthUser getUserFromCache(final Session session,
 			final String key) {
 
 		final Object o = getFromCache(session, key);
@@ -304,37 +242,37 @@ public abstract class PlayAuthenticate {
 		return null;
 	}
 
-	public static void storeMergeUser(final AuthUser identity,
+	public void storeMergeUser(final AuthUser identity,
 			final Session session) {
 		// TODO the cache is not ideal for this, because it might get cleared
 		// any time
 		storeUserInCache(session, MERGE_USER_KEY, identity);
 	}
 
-	public static AuthUser getMergeUser(final Session session) {
+	public AuthUser getMergeUser(final Session session) {
 		return getUserFromCache(session, MERGE_USER_KEY);
 	}
 
-	public static void removeMergeUser(final Session session) {
+	public void removeMergeUser(final Session session) {
 		removeFromCache(session, MERGE_USER_KEY);
 	}
 
-	public static void storeLinkUser(final AuthUser identity,
+	public void storeLinkUser(final AuthUser identity,
 			final Session session) {
 		// TODO the cache is not ideal for this, because it might get cleared
 		// any time
 		storeUserInCache(session, LINK_USER_KEY, identity);
 	}
 
-	public static AuthUser getLinkUser(final Session session) {
+	public AuthUser getLinkUser(final Session session) {
 		return getUserFromCache(session, LINK_USER_KEY);
 	}
 
-	public static void removeLinkUser(final Session session) {
+	public void removeLinkUser(final Session session) {
 		removeFromCache(session, LINK_USER_KEY);
 	}
 
-	private static String getJumpUrl(final Context ctx) {
+	private String getJumpUrl(final Context ctx) {
 		final String originalUrl = getOriginalUrl(ctx);
 		if (originalUrl != null) {
 			return originalUrl;
@@ -344,7 +282,7 @@ public abstract class PlayAuthenticate {
 		}
 	}
 
-	private static String getUrl(final Call c, final String settingFallback) {
+	private String getUrl(final Call c, final String settingFallback) {
 		// this can be null if the user did not correctly define the
 		// resolver
 		if (c != null) {
@@ -364,7 +302,7 @@ public abstract class PlayAuthenticate {
 		}
 	}
 
-	public static Result link(final Context context, final boolean link) {
+	public Result link(final Context context, final boolean link) {
 		final AuthUser linkUser = getLinkUser(context.session());
 
 		if (linkUser == null) {
@@ -388,13 +326,13 @@ public abstract class PlayAuthenticate {
 		return loginAndRedirect(context, loginUser);
 	}
 
-	public static Result loginAndRedirect(final Context context,
+	public Result loginAndRedirect(final Context context,
 			final AuthUser loginUser) {
 		storeUser(context.session(), loginUser);
 		return Controller.redirect(getJumpUrl(context));
 	}
 
-	public static Result merge(final Context context, final boolean merge) {
+	public Result merge(final Context context, final boolean merge) {
 		final AuthUser mergeUser = getMergeUser(context.session());
 
 		if (mergeUser == null) {
@@ -414,7 +352,7 @@ public abstract class PlayAuthenticate {
 		return loginAndRedirect(context, loginUser);
 	}
 
-	private static AuthUser signupUser(final AuthUser u, final Session session, final AuthProvider provider) throws AuthException {
+	private AuthUser signupUser(final AuthUser u, final Session session, final AuthProvider provider) throws AuthException {
         final Object id = getUserService().save(u);
 		if (id == null) {
 			throw new AuthException(
@@ -424,7 +362,7 @@ public abstract class PlayAuthenticate {
 		return u;
 	}
 
-	public static Result handleAuthentication(final String provider,
+	public Result handleAuthentication(final String provider,
 			final Context context, final Object payload) {
 		final AuthProvider ap = getProvider(provider);
 		if (ap == null) {
@@ -576,7 +514,7 @@ public abstract class PlayAuthenticate {
 		}
 	}
 
-	public static AuthProvider getProvider(final String providerKey) {
+	public AuthProvider getProvider(final String providerKey) {
 		return AuthProvider.Registry.get(providerKey);
 	}
 }

@@ -1,8 +1,9 @@
-@(localUser: models.User = null)
+@import service.UserProvider
+@(playAuth: com.feth.play.module.pa.PlayAuthenticate, userProvider: UserProvider, localUser: models.User = null)
 
 @import com.feth.play.module.pa.views.html._
 
-@main(Messages("playauthenticate.profile.title"),"profile") {
+@main(userProvider, Messages("playauthenticate.profile.title"),"profile") {
 
     <h1>@Messages("playauthenticate.profile.title")</h1>
     <p>
@@ -35,7 +36,7 @@
     }
 
     <br/>
-    @currentAuth() { auth =>
+    @currentAuth(playAuth) { auth =>
         @Messages("playauthenticate.profile.logged") @_providerIcon(auth.getProvider())<br/>
         @if(auth.expires() != -1){
             @Messages("playauthenticate.profile.session", auth.getId(), Application.formatTimestamp(auth.expires()))

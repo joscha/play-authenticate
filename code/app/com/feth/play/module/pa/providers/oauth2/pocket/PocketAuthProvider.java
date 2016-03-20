@@ -1,39 +1,39 @@
 package com.feth.play.module.pa.providers.oauth2.pocket;
 
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.feth.play.module.pa.PlayAuthenticate;
+import com.feth.play.module.pa.exceptions.AccessTokenException;
+import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.exceptions.ResolverMissingException;
+import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
+import com.feth.play.module.pa.user.AuthUserIdentity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import play.Application;
 import play.Configuration;
-import play.libs.ws.WS;
+import play.inject.ApplicationLifecycle;
+import play.libs.ws.WSClient;
 import play.libs.ws.WSResponse;
 import play.mvc.Http.Request;
 
-import com.feth.play.module.pa.exceptions.AccessTokenException;
-import com.feth.play.module.pa.exceptions.AuthException;
-import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
-import com.feth.play.module.pa.user.AuthUserIdentity;
-import com.google.inject.Inject;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import java.nio.charset.Charset;
+import java.util.*;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
+@Singleton
 public class PocketAuthProvider extends
 		OAuth2AuthProvider<PocketAuthUser, PocketAuthInfo> {
 
 	public static final String PROVIDER_KEY = "pocket";
 
 	@Inject
-	public PocketAuthProvider(Application app) {
-		super(app);
+	public PocketAuthProvider(final PlayAuthenticate auth, final ApplicationLifecycle lifecycle, final WSClient wsClient) {
+		super(auth, lifecycle, wsClient);
 	}
 
 	public static abstract class SettingKeys extends
@@ -104,15 +104,20 @@ public class PocketAuthProvider extends
 	private String getRequestToken(final Request request) throws AuthException {
 		final Configuration c = getConfiguration();
 		final List<NameValuePair> params = getRequestTokenParams(request, c);
-		final WSResponse r = WS.url(c.getString(SettingKeys.REQUEST_TOKEN_URL))
-				.setHeader("Content-Type", "application/json")
-				.setHeader("X-Accept", "application/json")
-				.post(encodeParamsAsJson(params)).get(getTimeout());
 
-		if (r.getStatus() >= 400) {
-			throw new AuthException(r.asJson().asText());
-		} else {
-			return r.asJson().get(PocketConstants.CODE).asText();
+		try {
+			final WSResponse r = wsClient.url(c.getString(SettingKeys.REQUEST_TOKEN_URL))
+					.setHeader("Content-Type", "application/json")
+					.setHeader("X-Accept", "application/json")
+					.post(encodeParamsAsJson(params)).toCompletableFuture().get(getTimeout(), TimeUnit.MILLISECONDS);
+
+			if (r.getStatus() >= 400) {
+				throw new AuthException(r.asJson().asText());
+			} else {
+				return r.asJson().get(PocketConstants.CODE).asText();
+			}
+		} catch(InterruptedException | ExecutionException | TimeoutException e) {
+			throw new AuthException(e.getMessage(), e);
 		}
 	}
 

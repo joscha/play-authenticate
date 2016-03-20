@@ -5,7 +5,8 @@ import com.feth.play.module.pa.providers.oauth2.google.GoogleAuthProvider;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import static com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider.SettingKeys.*;
+import static com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider.SettingKeys.CLIENT_ID;
+import static com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider.SettingKeys.CLIENT_SECRET;
 
 public abstract class GoogleOAuth2Base extends OAuth2Test {
 
@@ -20,21 +21,24 @@ public abstract class GoogleOAuth2Base extends OAuth2Test {
         return GoogleAuthProvider.PROVIDER_KEY;
     }
 
-    protected Class<GoogleAuthProvider> getProviderUnderTest() {
+    protected Class<GoogleAuthProvider> getProviderClass() {
         return GoogleAuthProvider.class;
     }
 
-    protected void signupUser() {
+    protected void signupUser() throws InterruptedException {
         signupFill();
         signupApprove();
     }
 
-    protected void signupFill() {
+    protected void signupFill() throws InterruptedException {
         goToLogin();
         browser
                 .fill("#Email").with(GOOGLE_USER_EMAIL)
                 .find("#next").click();
         browser.await().untilPage().isLoaded();
+        TimeUnit.SECONDS.sleep(2); // couldn't figure any other way to make it work
+        // apparently page is actually not ready at this point
+        // #Passwd element is not being found without this sleep
         browser
                 .fill("#Passwd").with(System.getenv("GOOGLE_USER_PASSWORD"))
                 .find("#signIn").click();

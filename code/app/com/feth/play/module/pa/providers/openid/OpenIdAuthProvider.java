@@ -1,25 +1,29 @@
 package com.feth.play.module.pa.providers.openid;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
-import play.Application;
-import play.Configuration;
-import play.Logger;
-import play.api.libs.openid.OpenIDError;
-import play.libs.F.Promise;
-import play.libs.openid.OpenID;
-import play.libs.openid.UserInfo;
-import play.mvc.Http.Context;
-import play.mvc.Http.Request;
-
+import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.ext.ExternalAuthProvider;
 import com.feth.play.module.pa.providers.openid.exceptions.NoOpenIdAuthException;
 import com.feth.play.module.pa.providers.openid.exceptions.OpenIdConnectException;
-import com.google.inject.Inject;
+import play.Configuration;
+import play.Logger;
+import play.api.libs.openid.OpenIDError;
+import play.inject.ApplicationLifecycle;
+import play.libs.openid.OpenIdClient;
+import play.libs.openid.UserInfo;
+import play.mvc.Http.Context;
+import play.mvc.Http.Request;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.Future;
+
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+
+@Singleton
 public class OpenIdAuthProvider extends ExternalAuthProvider {
 
 	static abstract class SettingKeys {
@@ -29,10 +33,14 @@ public class OpenIdAuthProvider extends ExternalAuthProvider {
 		public static final String ATTRIBUTES_OPTIONAL = "optional";
 	}
 
+	private final OpenIdClient openIdClient;
+
 	@Inject
-	public OpenIdAuthProvider(final Application app) {
-		super(app);
+	public OpenIdAuthProvider(final PlayAuthenticate auth, final ApplicationLifecycle lifecycle, final OpenIdClient openIdClient) {
+		super(auth, lifecycle);
+		this.openIdClient = openIdClient;
 	}
+
 
 	@Override
 	public String getKey() {
@@ -54,8 +62,8 @@ public class OpenIdAuthProvider extends ExternalAuthProvider {
 
 		if (!hasOpenID) {
             try {
-                final Promise<UserInfo> pu = OpenID.verifiedId();
-                return new OpenIdAuthUser(pu.get(getTimeout()));
+                final Future<UserInfo> pu = openIdClient.verifiedId().toCompletableFuture();
+                return new OpenIdAuthUser(pu.get(getTimeout(), MILLISECONDS));
             } catch (final Throwable t) {
                 if (t instanceof OpenIDError) {
                     if (!hasOpenID) {
@@ -77,11 +85,11 @@ public class OpenIdAuthProvider extends ExternalAuthProvider {
 			final Map<String, String> optional = getAttributes(SettingKeys.ATTRIBUTES_OPTIONAL);
 
 			try {
-				final Promise<String> pr = OpenID.redirectURL(
+				final Future<String> pr = openIdClient.redirectURL(
 						payload.toString(), getRedirectUrl(context.request()),
-						required, optional);
+						required, optional).toCompletableFuture();
 
-				return pr.get(getTimeout());
+				return pr.get(getTimeout(), MILLISECONDS);
 			} catch (final Throwable t) {
 				if (t instanceof java.net.ConnectException) {
 					throw new OpenIdConnectException(t.getMessage());

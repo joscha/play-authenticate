@@ -1,28 +1,32 @@
 package com.feth.play.module.pa.providers.oauth2.untappd;
 
-import java.util.List;
-
+import com.fasterxml.jackson.databind.JsonNode;
+import com.feth.play.module.pa.PlayAuthenticate;
+import com.feth.play.module.pa.exceptions.AccessTokenException;
+import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.exceptions.ResolverMissingException;
+import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
+import com.google.inject.Inject;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-import com.fasterxml.jackson.databind.JsonNode;
-
-import play.Application;
 import play.Configuration;
 import play.Logger;
-import play.libs.ws.WS;
+import play.inject.ApplicationLifecycle;
+import play.libs.ws.WSClient;
 import play.libs.ws.WSResponse;
 import play.mvc.Http.Request;
 
-import com.feth.play.module.pa.exceptions.AccessTokenException;
-import com.feth.play.module.pa.exceptions.AuthException;
-import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
-import com.google.inject.Inject;
+import javax.inject.Singleton;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 /**
  * Auth provider for Untappd beer social network
  * https://www.untappd.com
  */
+@Singleton
 public class UntappdAuthProvider extends
 		OAuth2AuthProvider<UntappdAuthUser, UntappdAuthInfo> {
 
@@ -45,8 +49,8 @@ public class UntappdAuthProvider extends
 	// "http://localhost:9000/authenticate/untappd";
 
 	@Inject
-	public UntappdAuthProvider(final Application app) {
-		super(app);
+	public UntappdAuthProvider(final PlayAuthenticate auth, final ApplicationLifecycle lifecycle, final WSClient wsClient) {
+		super(auth, lifecycle, wsClient);
 	}
 
 	@Override
@@ -61,12 +65,9 @@ public class UntappdAuthProvider extends
 		final String url = getConfiguration().getString(
 				USER_INFO_URL_SETTING_KEY);
 
-		final WSResponse r = WS
-				.url(url)
-				.setQueryParameter(OAuth2AuthProvider.Constants.ACCESS_TOKEN,
-						info.getAccessToken()).get()
-				.get(getTimeout());
-
+		final WSResponse r = fetchAuthResponse(url,
+				new QueryParam(OAuth2AuthProvider.Constants.ACCESS_TOKEN, info.getAccessToken())
+		);
 		final JsonNode result = r.asJson();
 		if (result.get(OAuth2AuthProvider.Constants.ERROR) != null) {
 			throw new AuthException(result.get(
@@ -95,19 +96,23 @@ public class UntappdAuthProvider extends
 
 		final String url = c.getString(SettingKeys.ACCESS_TOKEN_URL);
 
-		final WSResponse r = WS
-				.url(url)
-				.setQueryParameter(Constants.CLIENT_ID,
-						c.getString(SettingKeys.CLIENT_ID))
-				.setQueryParameter(Constants.CLIENT_SECRET,
-						c.getString(SettingKeys.CLIENT_SECRET))
-				.setQueryParameter(Constants.RESPONSE_TYPE, Constants.CODE)
-				.setQueryParameter(Constants.CODE, code)
-				.setQueryParameter(getRedirectUriKey(), getRedirectUrl(request))
-				// we use GET here
-				.get().get(getTimeout());
+		try {
+			final WSResponse r = wsClient
+					.url(url)
+					.setQueryParameter(Constants.CLIENT_ID,
+							c.getString(SettingKeys.CLIENT_ID))
+					.setQueryParameter(Constants.CLIENT_SECRET,
+							c.getString(SettingKeys.CLIENT_SECRET))
+					.setQueryParameter(Constants.RESPONSE_TYPE, Constants.CODE)
+					.setQueryParameter(Constants.CODE, code)
+					.setQueryParameter(getRedirectUriKey(), getRedirectUrl(request))
+					// we use GET here
+					.get().toCompletableFuture().get(getTimeout(), TimeUnit.MILLISECONDS);
 
-		return buildInfo(r);
+			return buildInfo(r);
+		} catch(InterruptedException | ExecutionException | TimeoutException e) {
+			throw new AccessTokenException(e.getMessage(), e);
+		}
 	}
 
 	@Override

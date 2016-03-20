@@ -14,6 +14,7 @@ Works fine with
 * `2.2.0` to `2.2.x` (last: `0.5.4` - [2.2.x branch](https://github.com/joscha/play-authenticate/tree/2.2.x))
 * `2.3.0` to `2.3.x` (last: `0.6.9` - [2.3.x branch](https://github.com/joscha/play-authenticate/tree/2.3.x))
 * `2.4.0` to `2.4.x` (last: `0.7.x` - [master branch](https://github.com/joscha/play-authenticate/tree/master))
+* `2.5.0` to `2.5.x` (last: `0.8.x` - [master branch](https://github.com/joscha/play-authenticate/tree/master))
 
 Releases are on [mvnrepository](http://mvnrepository.com/artifact/com.feth) and snapshots can be found on [sonatype](https://oss.sonatype.org/content/repositories/snapshots/com/feth/).
 
@@ -31,14 +32,14 @@ Play-Authenticate is available in [Maven Central](http://search.maven.org/#brows
 <dependency>
     <groupId>com.feth</groupId>
     <artifactId>play-authenticate_2.11</artifactId>
-    <version>0.7.1</version>
+    <version>0.8.0</version>
 </dependency>
 ```
 or
 
 ```scala
 val appDependencies = Seq(
-  "com.feth" %% "play-authenticate" % "0.7.1"
+  "com.feth" %% "play-authenticate" % "0.8.0"
 )
 ```
 
@@ -93,6 +94,8 @@ There is also a [sample application using Play!Authenticate with MongoDB](https:
 ## Versions
 * **TRUNK** [not released in the repository, yet]
   * Fancy contributing something? :-)
+* **0.8.0** [2016-04-xx]
+  * Upgraded to Play 2.5
 * **0.7.1** [2015-12-13]
   * LinkedIn profile URL fixes (thanks @akitaylor)
   * Serialization fixes (thanks @EvanDooner)

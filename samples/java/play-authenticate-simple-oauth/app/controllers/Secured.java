@@ -7,11 +7,20 @@ import play.mvc.Security;
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.user.AuthUser;
 
+import javax.inject.Inject;
+
 public class Secured extends Security.Authenticator {
+
+	private final PlayAuthenticate auth;
+
+	@Inject
+	public Secured(final PlayAuthenticate auth) {
+		this.auth = auth;
+	}
 
 	@Override
 	public String getUsername(final Context ctx) {
-		final AuthUser u = PlayAuthenticate.getUser(ctx.session());
+		final AuthUser u = this.auth.getUser(ctx.session());
 
 		if (u != null) {
 			return u.getId();

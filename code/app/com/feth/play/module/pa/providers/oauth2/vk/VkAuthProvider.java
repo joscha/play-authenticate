@@ -1,19 +1,22 @@
 package com.feth.play.module.pa.providers.oauth2.vk;
 
-import play.Application;
-import play.Logger;
-import play.libs.ws.WS;
-import play.libs.ws.WSResponse;
-
 import com.fasterxml.jackson.databind.JsonNode;
+import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.exceptions.AccessTokenException;
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
-import com.google.inject.Inject;
+import play.Logger;
+import play.inject.ApplicationLifecycle;
+import play.libs.ws.WSClient;
+import play.libs.ws.WSResponse;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 /**
  * @author Denis Borisenko
  */
+@Singleton
 public class VkAuthProvider extends OAuth2AuthProvider<VkAuthUser, VkAuthInfo> {
 
 	public static final String PROVIDER_KEY = "vk";
@@ -27,8 +30,8 @@ public class VkAuthProvider extends OAuth2AuthProvider<VkAuthUser, VkAuthInfo> {
 	private static final String BODY_RESPONSE_KEY = "response";
 
 	@Inject
-	public VkAuthProvider(final Application app) {
-		super(app);
+	public VkAuthProvider(final PlayAuthenticate auth, final ApplicationLifecycle lifecycle, final WSClient wsClient) {
+		super(auth, lifecycle, wsClient);
 	}
 
 	@Override
@@ -39,10 +42,10 @@ public class VkAuthProvider extends OAuth2AuthProvider<VkAuthUser, VkAuthInfo> {
 				USER_INFO_URL_SETTING_KEY);
 		final String fields = getConfiguration().getString(
 				USER_INFO_FIELDS_SETTING_KEY);
-		final WSResponse r = WS.url(url)
-				.setQueryParameter(UIDS_REQUEST_KEY, info.getUserId())
-				.setQueryParameter(FIELDS_REQUEST_KEY, fields).get()
-				.get(getTimeout());
+		final WSResponse r = fetchAuthResponse(url,
+				new QueryParam(UIDS_REQUEST_KEY, info.getUserId()),
+				new QueryParam(FIELDS_REQUEST_KEY, fields)
+		);
 
 		final JsonNode result = r.asJson();
 

@@ -15,17 +15,15 @@
  */
 package com.feth.play.module.pa.providers.wwwauth.basic;
 
-import java.io.UnsupportedEncodingException;
-import java.util.Collections;
-import java.util.List;
-
-import play.Application;
-import play.mvc.Http.Context;
-
+import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.providers.wwwauth.WWWAuthenticateProvider;
 import com.feth.play.module.pa.user.AuthUser;
-import com.ning.http.util.Base64;
-import com.ning.http.util.UTF8UrlEncoder;
+import play.inject.ApplicationLifecycle;
+import play.mvc.Http.Context;
+
+import java.util.Base64;
+import java.util.Collections;
+import java.util.List;
 
 /** A provider for RFC 2617 Basic Authentication.
  *
@@ -36,8 +34,8 @@ import com.ning.http.util.UTF8UrlEncoder;
  */
 public abstract class BasicAuthProvider extends WWWAuthenticateProvider {
 
-	public BasicAuthProvider(Application app) {
-		super(app);
+	public BasicAuthProvider(final PlayAuthenticate auth, final ApplicationLifecycle lifecycle) {
+		super(auth, lifecycle);
 	}
 
 	/** Check the provided credentials.
@@ -68,18 +66,12 @@ public abstract class BasicAuthProvider extends WWWAuthenticateProvider {
 	protected String challenge(Context context) {
 		String realm = getConfiguration().getString(SettingKeys.REALM);
 		// TODO: Check that this is actually the correct encoding
-		return String.format("realm=\"%s\"", UTF8UrlEncoder.encode(realm));
+		return String.format("realm=\"%s\"", Base64.getEncoder().encode(realm.getBytes()));
 	}
 
 	@Override
 	protected AuthUser authenticateResponse(String response) {
-		String decoded;
-		try {
-			decoded = new String(Base64.decode(response), "UTF-8");
-			// Working non-ASCII in Basic Auth is pure luck, anyway
-		} catch (UnsupportedEncodingException e) {
-			decoded = "";
-		}
+		String decoded = new String(Base64.getDecoder().decode(response));
 		String[] parts = decoded.split(":", 2);
 		if (parts.length == 2) {
 			return authenticateUser(parts[0], parts[1]);

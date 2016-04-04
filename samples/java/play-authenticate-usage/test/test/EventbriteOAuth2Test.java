@@ -18,7 +18,7 @@ public class EventbriteOAuth2Test extends OAuth2Test {
 
     public static final String EVENTBRITE_USER_EMAIL = "fethjoscha@gmail.com";
 
-    protected void amendConfiguration(final Map<String, String> additionalConfiguration) {
+    protected void amendConfiguration(final Map<String, Object> additionalConfiguration) {
         additionalConfiguration.put(constructSettingKey(CLIENT_ID), System.getenv("EVENTBRITE_CLIENT_ID"));
         additionalConfiguration.put(constructSettingKey(CLIENT_SECRET), System.getenv("EVENTBRITE_CLIENT_SECRET"));
     }

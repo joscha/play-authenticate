@@ -7,13 +7,13 @@ This plugin uses concepts from [securesocial2][] and [Play20StartApp][] and prov
 
 Play Authenticate is cross-tested in Java 1.6, Java 1.7 (Up to `0.6.x`) and Java 1.8 (from `0.7.0`)
 
-Works fine with
+Works fine with Play version
 
 * `2.0.2` to `2.0.x` (last: `0.2.3-SNAPSHOT` - [2.0.x branch](https://github.com/joscha/play-authenticate/tree/2.0.x))
 * `2.1.0` to `2.1.x` (last: `0.3.6` - [2.1.x branch](https://github.com/joscha/play-authenticate/tree/2.1.x))
 * `2.2.0` to `2.2.x` (last: `0.5.4` - [2.2.x branch](https://github.com/joscha/play-authenticate/tree/2.2.x))
 * `2.3.0` to `2.3.x` (last: `0.6.9` - [2.3.x branch](https://github.com/joscha/play-authenticate/tree/2.3.x))
-* `2.4.0` to `2.4.x` (last: `0.7.x` - [master branch](https://github.com/joscha/play-authenticate/tree/master))
+* `2.4.0` to `2.4.x` (last: `0.7.x` - [2.4.x branch](https://github.com/joscha/play-authenticate/tree/2.4.x))
 * `2.5.0` to `2.5.x` (last: `0.8.x` - [master branch](https://github.com/joscha/play-authenticate/tree/master))
 
 Releases are on [mvnrepository](http://mvnrepository.com/artifact/com.feth) and snapshots can be found on [sonatype](https://oss.sonatype.org/content/repositories/snapshots/com/feth/).

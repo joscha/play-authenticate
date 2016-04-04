@@ -19,3 +19,5 @@ libraryDependencies ++= Seq(
 resolvers += Resolver.sonatypeRepo("snapshots")
 
 lazy val playAuthenticate = (project in file(".")).enablePlugins(PlayJava)
+
+releasePublishArtifactsAction := PgpKeys.publishSigned.value

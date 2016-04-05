@@ -45,5 +45,8 @@ env:
   - secure: "cqk+2dpYEPKW2uqqxIWF907HRVFYgA4TyI2ws5/RZ5OVD6wcOWepqXMdtGGnOUDQSLZX8i1uQO7jrSshloL9y37Ne6UnO7SbcAXp08k0jT/FbtTHcG8fYSny+TzX7zRJVYaCjSUKsn3W/71AsgIKSsTrQzK61hanHi+WJuCfLaI="
     # FACEBOOK_USER_PASSWORD
   - secure: "Nv/y82hWjkmAdE+DaRABP6rB8ENaAIfHw0QtPCdxt60J+8r3Gq+ainJuHJ7qa73MHZumhuNRUMalyMvlL4TMoaXuKLIKS42WBL88IA5Kc9p50oxP+EJLJif9sz+Inz1sCtxnAUGBtbqn8YQIf2pPpNWm096KnaMQum6fsfucKmE="
+    # HEROKU_API_KEY
+  - secure: "ADkRhMtW2uzNT8gPxKuBYE5tc1WCSrtWKvEy2wpOehR8KbpN5PYnYk7rWE3H4YnRwSXn38VuTVL2Lyc4HWNB3VWqSLeIegzQQ0ie5Yt5DtG6lbgYXWtgUsUsH1E5H/ozKhthfDASCONHv0zqZC6sJci6EAT+HiX80ilQ0h386jA="
 after_success:
 - '[[ $TRAVIS_BRANCH == "master" ]] && { cd $TRAVIS_BUILD_DIR/code && sbt --info ++$TRAVIS_SCALA_VERSION -Dtravis=1 publish; };'
+- '[[ $TRAVIS_BRANCH == "master" ]] && { cd $TRAVIS_BUILD_DIR/samples/java/play-authenticate-usage && sbt --info ++$TRAVIS_SCALA_VERSION stage deployHeroku; };'

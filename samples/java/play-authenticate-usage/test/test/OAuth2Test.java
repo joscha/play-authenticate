@@ -13,9 +13,7 @@ import play.test.TestBrowser;
 import play.test.WithBrowser;
 import service.MyUserService;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static play.inject.Bindings.bind;
@@ -36,7 +34,7 @@ public abstract class OAuth2Test extends WithBrowser {
     @Override
     protected Application provideApplication() {
 
-        final Map<String, String> additionalConfiguration = new HashMap<String, String>();
+        final Map<String, Object> additionalConfiguration = new HashMap<>();
         additionalConfiguration.putAll(Helpers.inMemoryDatabase());
 
         additionalConfiguration.put("smtp.mock", "true");
@@ -44,16 +42,11 @@ public abstract class OAuth2Test extends WithBrowser {
 
         amendConfiguration(additionalConfiguration);
 
-        final List<String> additionalPlugins = new ArrayList<>();
-        additionalPlugins.add(MyTestUserServiceService.class.getName());
-        additionalPlugins.add(getProviderClass().getName());
-        amendPlugins(additionalPlugins);
-
-
         return new GuiceApplicationBuilder()
                 .bindings(
                         bind(getProviderClass()).toSelf().eagerly()
                 )
+                .configure(additionalConfiguration)
                 .overrides(bind(MyUserService.class).to(MyTestUserServiceService.class).eagerly())
                 .build();
     }
@@ -61,10 +54,7 @@ public abstract class OAuth2Test extends WithBrowser {
     protected abstract Class<? extends OAuth2AuthProvider> getProviderClass();
     protected abstract String getProviderKey();
 
-    protected abstract void amendConfiguration(final Map<String, String> additionalConfiguration);
-    protected void amendPlugins(final List<String> additionalPlugins) {
-
-    }
+    protected abstract void amendConfiguration(final Map<String, Object> additionalConfiguration);
 
     protected void goToLogin() {
         browser.goTo("/authenticate/" + getProviderKey());

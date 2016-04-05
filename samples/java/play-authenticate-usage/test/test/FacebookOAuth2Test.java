@@ -8,7 +8,6 @@ import org.junit.After;
 import org.junit.Test;
 import org.openqa.selenium.ElementNotVisibleException;
 import org.openqa.selenium.NoSuchElementException;
-import play.libs.ws.WS;
 import play.libs.ws.WSClient;
 
 import java.util.Map;
@@ -23,7 +22,7 @@ public class FacebookOAuth2Test extends OAuth2Test {
     public static final String FACEBOOK_USER_EMAIL = "ufbullq_fallerman_1414534488@tfbnw.net";
     public static final String FACEBOOK_USER_ID = "100005169708842";
 
-    protected void amendConfiguration(final Map<String, String> additionalConfiguration) {
+    protected void amendConfiguration(final Map<String, Object> additionalConfiguration) {
         additionalConfiguration.put(constructSettingKey(CLIENT_ID), System.getenv("FACEBOOK_CLIENT_ID"));
         additionalConfiguration.put(constructSettingKey(CLIENT_SECRET), System.getenv("FACEBOOK_CLIENT_SECRET"));
     }

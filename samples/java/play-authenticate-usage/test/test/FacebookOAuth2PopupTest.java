@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class FacebookOAuth2PopupTest extends FacebookOAuth2Test {
 
-    protected void amendConfiguration(final Map<String, String> additionalConfiguration) {
+    protected void amendConfiguration(final Map<String, Object> additionalConfiguration) {
         super.amendConfiguration(additionalConfiguration);
         additionalConfiguration.put(constructSettingKey(FacebookAuthProvider.SettingKeys.DISPLAY), "popup");
     }

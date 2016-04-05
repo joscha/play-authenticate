@@ -1,9 +1,21 @@
 package providers;
 
-import com.feth.play.module.mail.Mailer.Mail.Body;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+import com.feth.play.module.mail.MailerImpl.Mail.Body;
+import com.feth.play.module.mail.MailerImpl.MailerFactory;
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider;
 import com.feth.play.module.pa.providers.password.UsernamePasswordAuthUser;
+import com.google.inject.assistedinject.Assisted;
+
 import controllers.routes;
 import models.LinkedAccount;
 import models.TokenAction;
@@ -20,16 +32,6 @@ import play.i18n.Messages;
 import play.inject.ApplicationLifecycle;
 import play.mvc.Call;
 import play.mvc.Http.Context;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
-import static play.data.Form.form;
 
 @Singleton
 public class MyUsernamePasswordAuthProvider
@@ -135,8 +137,8 @@ public class MyUsernamePasswordAuthProvider
 
 	@Inject
 	public MyUsernamePasswordAuthProvider(final PlayAuthenticate auth, final FormFactory formFactory,
-										  final ApplicationLifecycle lifecycle) {
-		super(auth, lifecycle);
+										  final ApplicationLifecycle lifecycle, MailerFactory mailerFactory) {
+		super(auth, lifecycle, mailerFactory);
 
 		this.SIGNUP_FORM = formFactory.form(MySignup.class);
 		this.LOGIN_FORM = formFactory.form(MyLogin.class);

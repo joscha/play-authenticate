@@ -1,24 +1,28 @@
 package com.feth.play.module.pa.providers.password;
 
-import akka.actor.Cancellable;
+import java.util.Arrays;
+import java.util.List;
+
+import javax.inject.Inject;
+
 import com.feth.play.module.mail.Mailer;
-import com.feth.play.module.mail.Mailer.Mail;
-import com.feth.play.module.mail.Mailer.Mail.Body;
+import com.feth.play.module.mail.MailerImpl;
+import com.feth.play.module.mail.MailerImpl.Mail;
+import com.feth.play.module.mail.MailerImpl.Mail.Body;
+import com.feth.play.module.mail.MailerImpl.MailerFactory;
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.AuthProvider;
 import com.feth.play.module.pa.user.AuthUser;
 import com.feth.play.module.pa.user.NameIdentity;
+
+import akka.actor.Cancellable;
 import play.data.Form;
 import play.inject.ApplicationLifecycle;
 import play.mvc.Call;
 import play.mvc.Http;
 import play.mvc.Http.Context;
 import play.mvc.Result;
-
-import javax.inject.Inject;
-import java.util.Arrays;
-import java.util.List;
 
 public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswordAuthUser, US extends UsernamePasswordAuthUser, L extends UsernamePasswordAuthProvider.UsernamePassword, S extends UsernamePasswordAuthProvider.UsernamePassword>
 		extends AuthProvider {
@@ -27,11 +31,11 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 
 	protected static final String SETTING_KEY_MAIL = "mail";
 
-	private static final String SETTING_KEY_MAIL_FROM_EMAIL = Mailer.SettingKeys.FROM_EMAIL;
+	private static final String SETTING_KEY_MAIL_FROM_EMAIL = MailerImpl.SettingKeys.FROM_EMAIL;
 
-	private static final String SETTING_KEY_MAIL_DELAY = Mailer.SettingKeys.DELAY;
+	private static final String SETTING_KEY_MAIL_DELAY = MailerImpl.SettingKeys.DELAY;
 
-	private static final String SETTING_KEY_MAIL_FROM = Mailer.SettingKeys.FROM;
+	private static final String SETTING_KEY_MAIL_FROM = MailerImpl.SettingKeys.FROM;
 
 	@Override
 	protected List<String> neededSettingKeys() {
@@ -41,6 +45,7 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 	}
 
 	protected Mailer mailer;
+	protected MailerFactory mailerFactory;
 
 	private enum Case {
 		SIGNUP, LOGIN
@@ -54,6 +59,7 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 		USER_UNVERIFIED, USER_LOGGED_IN, NOT_FOUND, WRONG_PASSWORD
 	}
 
+	
 	public static interface UsernamePassword {
 
 		public String getEmail();
@@ -62,15 +68,16 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 	}
 
 	@Inject
-	public UsernamePasswordAuthProvider(final PlayAuthenticate auth, final ApplicationLifecycle lifecycle) {
+	public UsernamePasswordAuthProvider(final PlayAuthenticate auth, final ApplicationLifecycle lifecycle, final MailerFactory mailerFactory) {
 		super(auth, lifecycle);
+		this.mailerFactory = mailerFactory;
+		mailer = mailerFactory.create(getConfiguration().getConfig(
+				SETTING_KEY_MAIL));
 	}
 
 	@Override
 	protected void onStart() {
 		super.onStart();
-		mailer = Mailer.getCustomMailer(getConfiguration().getConfig(
-				SETTING_KEY_MAIL));
 	}
 
 	@Override
@@ -180,7 +187,7 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 	}
 
 	protected String getEmailName(final String email, final String name) {
-		return Mailer.getEmailName(email, name);
+		return MailerImpl.getEmailName(email, name);
 	}
 
 	protected abstract R generateVerificationRecord(final US user);

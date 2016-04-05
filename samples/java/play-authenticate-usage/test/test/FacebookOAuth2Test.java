@@ -8,6 +8,7 @@ import org.junit.After;
 import org.junit.Test;
 import org.openqa.selenium.ElementNotVisibleException;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriverException;
 import play.libs.ws.WSClient;
 
 import java.util.Map;
@@ -61,19 +62,23 @@ public class FacebookOAuth2Test extends OAuth2Test {
         browser
                 .fill("#email").with(FACEBOOK_USER_EMAIL)
                 .fill("#pass").with(System.getenv("FACEBOOK_USER_PASSWORD"))
-                .find("#u_0_2").click();
+                .find("#loginbutton").click();
         browser.await().untilPage().isLoaded();
 
         // save browser? no!
         try {
             // try, because this is not checked for test users, because they are not asked
-            browser.find("#u_0_2").click();
+            final String selector = "#u_0_2";
+            browser.await().atMost(10, TimeUnit.SECONDS).until(selector);
+            browser.find(selector).click();
             browser.find("#checkpointSubmitButton").click();
             browser.await().untilPage().isLoaded();
         } catch (final NoSuchElementException nsee) {
             // mobile
         } catch(final ElementNotVisibleException enve) {
             // desktop
+        } catch(final WebDriverException wde) {
+            // something else
         }
 
         // check login layout

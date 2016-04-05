@@ -9,7 +9,7 @@
 		</layout>
 	</appender>
 
-	<logger name="com.feth" level="debug"
+	<logger name="com.feth" level="warn"
 		additivity="false">
 		<appender-ref ref="STDOUT" />
 	</logger>

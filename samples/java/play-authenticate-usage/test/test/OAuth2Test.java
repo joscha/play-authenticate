@@ -38,7 +38,6 @@ public abstract class OAuth2Test extends WithBrowser {
         additionalConfiguration.putAll(Helpers.inMemoryDatabase());
 
         additionalConfiguration.put("smtp.mock", "true");
-        additionalConfiguration.put("logger.application", "WARN");
 
         amendConfiguration(additionalConfiguration);
 

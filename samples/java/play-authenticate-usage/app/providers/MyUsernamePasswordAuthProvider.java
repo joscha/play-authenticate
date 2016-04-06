@@ -1,20 +1,10 @@
 package providers;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
-import com.feth.play.module.mail.MailerImpl.Mail.Body;
-import com.feth.play.module.mail.MailerImpl.MailerFactory;
+import com.feth.play.module.mail.Mailer.Mail.Body;
+import com.feth.play.module.mail.Mailer.MailerFactory;
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider;
 import com.feth.play.module.pa.providers.password.UsernamePasswordAuthUser;
-import com.google.inject.assistedinject.Assisted;
 
 import controllers.routes;
 import models.LinkedAccount;
@@ -32,6 +22,14 @@ import play.i18n.Messages;
 import play.inject.ApplicationLifecycle;
 import play.mvc.Call;
 import play.mvc.Http.Context;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 @Singleton
 public class MyUsernamePasswordAuthProvider
@@ -227,7 +225,7 @@ public class MyUsernamePasswordAuthProvider
 		return new MyLoginUsernamePasswordAuthUser(login.getPassword(),
 				login.getEmail());
 	}
-	
+
 
 	@Override
 	protected MyLoginUsernamePasswordAuthUser transformAuthUser(final MyUsernamePasswordAuthUser authUser, final Context context) {

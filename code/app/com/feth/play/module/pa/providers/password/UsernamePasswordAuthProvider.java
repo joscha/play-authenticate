@@ -1,28 +1,28 @@
 package com.feth.play.module.pa.providers.password;
 
-import java.util.Arrays;
-import java.util.List;
+import akka.actor.Cancellable;
 
-import javax.inject.Inject;
-
+import com.feth.play.module.mail.IMailer;
 import com.feth.play.module.mail.Mailer;
-import com.feth.play.module.mail.MailerImpl;
-import com.feth.play.module.mail.MailerImpl.Mail;
-import com.feth.play.module.mail.MailerImpl.Mail.Body;
-import com.feth.play.module.mail.MailerImpl.MailerFactory;
+import com.feth.play.module.mail.Mailer.Mail;
+import com.feth.play.module.mail.Mailer.Mail.Body;
+import com.feth.play.module.mail.Mailer.MailerFactory;
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.AuthProvider;
 import com.feth.play.module.pa.user.AuthUser;
 import com.feth.play.module.pa.user.NameIdentity;
 
-import akka.actor.Cancellable;
 import play.data.Form;
 import play.inject.ApplicationLifecycle;
 import play.mvc.Call;
 import play.mvc.Http;
 import play.mvc.Http.Context;
 import play.mvc.Result;
+
+import javax.inject.Inject;
+import java.util.Arrays;
+import java.util.List;
 
 public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswordAuthUser, US extends UsernamePasswordAuthUser, L extends UsernamePasswordAuthProvider.UsernamePassword, S extends UsernamePasswordAuthProvider.UsernamePassword>
 		extends AuthProvider {
@@ -31,11 +31,11 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 
 	protected static final String SETTING_KEY_MAIL = "mail";
 
-	private static final String SETTING_KEY_MAIL_FROM_EMAIL = MailerImpl.SettingKeys.FROM_EMAIL;
+	private static final String SETTING_KEY_MAIL_FROM_EMAIL = Mailer.SettingKeys.FROM_EMAIL;
 
-	private static final String SETTING_KEY_MAIL_DELAY = MailerImpl.SettingKeys.DELAY;
+	private static final String SETTING_KEY_MAIL_DELAY = Mailer.SettingKeys.DELAY;
 
-	private static final String SETTING_KEY_MAIL_FROM = MailerImpl.SettingKeys.FROM;
+	private static final String SETTING_KEY_MAIL_FROM = Mailer.SettingKeys.FROM;
 
 	@Override
 	protected List<String> neededSettingKeys() {
@@ -44,7 +44,7 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 						+ SETTING_KEY_MAIL_FROM_EMAIL);
 	}
 
-	protected Mailer mailer;
+	protected IMailer mailer;
 	protected MailerFactory mailerFactory;
 
 	private enum Case {
@@ -59,7 +59,6 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 		USER_UNVERIFIED, USER_LOGGED_IN, NOT_FOUND, WRONG_PASSWORD
 	}
 
-	
 	public static interface UsernamePassword {
 
 		public String getEmail();
@@ -173,7 +172,7 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 	 * You might overwrite this to provide your own recipient format
 	 * implementation,
 	 * however the default should be fine for most cases
-	 * 
+	 *
 	 * @param user
 	 * @return
 	 */
@@ -187,7 +186,7 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 	}
 
 	protected String getEmailName(final String email, final String name) {
-		return MailerImpl.getEmailName(email, name);
+		return Mailer.getEmailName(email, name);
 	}
 
 	protected abstract R generateVerificationRecord(final US user);
@@ -203,7 +202,7 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 	 * Called to send mails. You might want to override this in order to
 	 * customize mail sending e.g. by using a different mailer service
 	 * implementation.
-	 * 
+	 *
 	 * @param subject
 	 *            The mail's subject.
 	 * @param body
@@ -220,7 +219,7 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 
 	/**
 	 * Send a pre-assembled mail.
-	 * 
+	 *
 	 * @param mail
 	 *            The mail to be sent.
 	 * @return The {@link akka.actor.Cancellable} that can be used to cancel the
@@ -242,16 +241,16 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 			final R verificationRecord, final US user, final Context ctx);
 
 	protected abstract UL buildLoginAuthUser(final L login, final Context ctx);
-	
+
 	/**
 	 * This gets called when the user shall be logged in directly after signing up
-	 * 
+	 *
 	 * @param authUser
 	 * @param context
 	 * @return
 	 */
 	protected abstract UL transformAuthUser(final US authUser, final Context context);
-	
+
 	protected abstract US buildSignupAuthUser(final S signup, final Context ctx);
 
 	protected abstract LoginResult loginUser(final UL authUser);

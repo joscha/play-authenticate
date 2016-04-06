@@ -8,7 +8,7 @@ scalaVersion := "2.11.7"
 
 libraryDependencies ++= Seq(
   "org.apache.httpcomponents" % "httpclient" % "4.5",
-  "com.feth" %% "play-easymail" % "0.8.0-SNAPSHOT",
+  "com.feth" %% "play-easymail" % "0.8.1-SNAPSHOT",
   "org.mindrot" % "jbcrypt" % "0.3m",
   "org.apache.commons" % "commons-lang3" % "3.4",
   cache,

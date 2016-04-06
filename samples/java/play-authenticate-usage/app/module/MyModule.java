@@ -26,7 +26,7 @@ public class MyModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		install(new FactoryModuleBuilder().implement(Mailer.class, Mailer.class).build(MailerFactory.class));
+		install(new FactoryModuleBuilder().implement(IMailer.class, Mailer.class).build(MailerFactory.class));
 
 		bind(Resolver.class).to(MyResolver.class);
 

@@ -1,6 +1,7 @@
 package providers;
 
 import com.feth.play.module.mail.Mailer.Mail.Body;
+import com.feth.play.module.mail.Mailer.MailerFactory;
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider;
 import com.feth.play.module.pa.providers.password.UsernamePasswordAuthUser;
@@ -32,8 +33,8 @@ public class TestUsernamePasswordAuthProvider
 	private final Map<String, String> verificationTokens = new HashMap<>();
 
 	@Inject
-	public TestUsernamePasswordAuthProvider(final PlayAuthenticate auth, final ApplicationLifecycle lifecycle) {
-		super(auth, lifecycle);
+	public TestUsernamePasswordAuthProvider(final PlayAuthenticate auth, final ApplicationLifecycle lifecycle, final MailerFactory mailerFactory) {
+		super(auth, lifecycle, mailerFactory);
 	}
 
 	public static class Login implements

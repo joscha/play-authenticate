@@ -8,6 +8,7 @@ install: true
 before_install:
 - export DISPLAY=:99.0
 - sh -e /etc/init.d/xvfb start
+- wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
 script:
 - cd $TRAVIS_BUILD_DIR/code
 - travis_retry sbt --warn ++$TRAVIS_SCALA_VERSION compile

@@ -1,27 +1,8 @@
 #!/bin/sh
 set -e
+set -x
 
-echo "Delete app"
-curl -X DELETE https://api.heroku.com/apps/play-authenticate \
--H "Accept: application/vnd.heroku+json; version=3" \
--H "Authorization: Bearer $HEROKU_API_KEY"
-
-echo "Create app"
-curl -X POST https://api.heroku.com/apps \
--H "Accept: application/vnd.heroku+json; version=3" \
--H "Authorization: Bearer $HEROKU_API_KEY" \
--H "Content-Type: application/json" \
--d '{
-    "name": "play-authenticate"
-}'
-
-echo "Attach postgres addon"
-curl -n -X POST https://api.heroku.com/addon-attachments \
--H "Content-Type: application/json" \
--H "Authorization: Bearer $HEROKU_API_KEY" \
--H "Accept: application/vnd.heroku+json; version=3" \
--d '{
-  "addon": "heroku-postgresql:dev",
-  "app": "play-authenticate",
-  "name": "DATABASE"
-}'
+gem install heroku -V
+heroku apps:destroy --app play-authenticate --confirm play-authenticate
+heroku apps:create play-authenticate
+heroku addons:create heroku-postgresql:hobby-dev --app play-authenticate

@@ -23,6 +23,5 @@ curl -n -X POST https://api.heroku.com/addon-attachments \
 -d '{
   "addon": "heroku-postgresql:dev",
   "app": "play-authenticate",
-  "force": false,
   "name": "DATABASE"
 }'

@@ -1,5 +1,5 @@
 language: scala
-sudo: false
+sudo: true
 scala:
 - 2.11.7
 jdk:

@@ -4,7 +4,6 @@ import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
 import com.feth.play.module.pa.PlayAuthenticate;
 import models.User;
-import play.Routes;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -81,9 +80,10 @@ public class Application extends Controller {
 
 	public Result jsRoutes() {
 		return ok(
-				Routes.javascriptRouter("jsRoutes",
-						controllers.routes.javascript.Signup.forgotPassword()))
+				play.routing.JavaScriptReverseRouter.create("jsRoutes",
+						routes.javascript.Signup.forgotPassword()))
 				.as("text/javascript");
+
 	}
 
 	public Result doSignup() {

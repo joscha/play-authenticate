@@ -39,7 +39,7 @@ or
 
 ```scala
 val appDependencies = Seq(
-  "com.feth" %% "play-authenticate" % "0.8.1-SNAPSHOT"
+  "com.feth" % "play-authenticate_2.11" % "0.8.1-SNAPSHOT"
 )
 ```
 

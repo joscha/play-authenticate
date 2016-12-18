@@ -11,7 +11,7 @@ herokuAppName in Compile := "play-authenticate"
 val appDependencies = Seq(
   "be.objectify"  %% "deadbolt-java"     % "2.5.0",
   // Comment the next line for local development of the Play Authentication core:
-  "com.feth"      %% "play-authenticate" % "0.8.1-SNAPSHOT",
+  "com.feth"      %% "play-authenticate" % "0.8.2-SNAPSHOT",
   "org.postgresql"    %  "postgresql"        % "9.4-1201-jdbc41",
   cache,
   javaWs,

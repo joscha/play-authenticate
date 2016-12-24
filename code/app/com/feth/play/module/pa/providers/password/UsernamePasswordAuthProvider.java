@@ -154,20 +154,6 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 				Case.SIGNUP);
 	}
 
-	private S getSignup(final Context ctx) {
-		// TODO change to getSignupForm().bindFromRequest(request) after 2.1
-		Http.Context.current.set(ctx);
-		final Form<S> filledForm = getSignupForm().bindFromRequest();
-		return filledForm.get();
-	}
-
-	private L getLogin(final Context ctx) {
-		// TODO change to getSignupForm().bindFromRequest(request) after 2.1
-		Http.Context.current.set(ctx);
-		final Form<L> filledForm = getLoginForm().bindFromRequest();
-		return filledForm.get();
-	}
-
 	/**
 	 * You might overwrite this to provide your own recipient format
 	 * implementation,
@@ -257,9 +243,9 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 
 	protected abstract SignupResult signupUser(final US user);
 
-	protected abstract Form<S> getSignupForm();
+	protected abstract S getSignup(final Context ctx);
 
-	protected abstract Form<L> getLoginForm();
+	protected abstract L getLogin(final Context ctx);
 
 	protected abstract Call userExists(final UsernamePasswordAuthUser authUser);
 

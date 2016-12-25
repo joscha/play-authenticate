@@ -179,14 +179,28 @@ public class TestUsernamePasswordAuthProvider
 		return SignupResult.USER_CREATED_UNVERIFIED;
 	}
 
-	@Override
 	protected Form<Signup> getSignupForm() {
 		return form(Signup.class);
 	}
 
-	@Override
 	protected Form<Login> getLoginForm() {
 		return form(Login.class);
+	}
+
+	@Override
+	protected Signup getSignup(final Context ctx) {
+		// TODO change to getSignupForm().bindFromRequest(request) after 2.1
+		Context.current.set(ctx);
+		final Form<Signup> filledForm = getSignupForm().bindFromRequest();
+		return filledForm.get();
+	}
+
+	@Override
+	protected Login getLogin(final Context ctx) {
+		// TODO change to getLoginForm().bindFromRequest(request) after 2.1
+		Context.current.set(ctx);
+		final Form<Login> filledForm = getLoginForm().bindFromRequest();
+		return filledForm.get();
 	}
 
 	@Override

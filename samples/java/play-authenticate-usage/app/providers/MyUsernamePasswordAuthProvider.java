@@ -151,6 +151,22 @@ public class MyUsernamePasswordAuthProvider
 	}
 
 	@Override
+	protected MySignup getSignup(final Context ctx) {
+		// TODO change to getSignupForm().bindFromRequest(request) after 2.1
+		Context.current.set(ctx);
+		final Form<MySignup> filledForm = SIGNUP_FORM.bindFromRequest();
+		return filledForm.get();
+	}
+
+	@Override
+	protected MyLogin getLogin(final Context ctx) {
+		// TODO change to getLoginForm().bindFromRequest(request) after 2.1
+		Context.current.set(ctx);
+		final Form<MyLogin> filledForm = LOGIN_FORM.bindFromRequest();
+		return filledForm.get();
+	}
+
+	@Override
 	protected com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider.SignupResult signupUser(final MyUsernamePasswordAuthUser user) {
 		final User u = User.findByUsernamePasswordIdentity(user);
 		if (u != null) {

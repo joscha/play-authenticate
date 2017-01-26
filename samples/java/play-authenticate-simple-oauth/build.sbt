@@ -8,7 +8,7 @@ version := "1.0-SNAPSHOT"
 
 val appDependencies = Seq(
   // Comment the next line for local development of the Play Authentication core:
-  "com.feth" %% "play-authenticate" % "0.8.2-SNAPSHOT",
+  "com.feth" %% "play-authenticate" % "0.8.1",
   cache,
   javaWs
 )

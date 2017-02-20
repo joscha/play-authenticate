@@ -27,14 +27,9 @@ import com.feth.play.module.pa.providers.ext.ExternalAuthProvider;
 import com.feth.play.module.pa.user.AuthUserIdentity;
 
 public abstract class OAuth1AuthProvider<U extends AuthUserIdentity, I extends OAuth1AuthInfo>
-		extends ExternalAuthProvider implements Serializable {
+		extends ExternalAuthProvider {
 
 	private static final String CACHE_TOKEN = "pa.oauth1.rtoken";
-    private static final long serialVersionUID = 7234050973334652723L;
-
-    public OAuth1AuthProvider() {
-        super(null);
-    }
 
     public OAuth1AuthProvider(final Application app) {
 		super(app);

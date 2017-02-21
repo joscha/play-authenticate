@@ -170,11 +170,6 @@ public abstract class OAuth1AuthProvider<U extends AuthUserIdentity, I extends O
 
 			final SerializableRequestToken rtoken = PlayAuthenticate
                     .removeFromCache(context.session(), CACHE_TOKEN);
-            
-            if (Logger.isDebugEnabled()) {
-                Logger.debug("Retrieved token from the cache: source"
-                        + rtoken.getToken() + ", secret " + rtoken.getSecret());
-            }
 
 			final String verifier = request.getQueryString(Constants.OAUTH_VERIFIER);
 			try {

@@ -31,7 +31,7 @@ public abstract class OAuth1AuthProvider<U extends AuthUserIdentity, I extends O
 
 	private static final String CACHE_TOKEN = "pa.oauth1.rtoken";
 
-	public OAuth1AuthProvider(final Application app) {
+    public OAuth1AuthProvider(final Application app) {
 		super(app);
 	}
 
@@ -66,17 +66,62 @@ public abstract class OAuth1AuthProvider<U extends AuthUserIdentity, I extends O
         public static final String OAUTH_ACCESS_DENIED = "access_denied";
 	}
 
-	public static class SerializableRequestToken extends RequestToken implements Serializable {
-		private static final long serialVersionUID = 1L;
+   public static class DefaultNonSerializableRequestToken extends RequestToken {
 
-		public SerializableRequestToken() {
-			super(null, null);
-		}
+        public DefaultNonSerializableRequestToken() {
+            super(null, null);
+        }
+
+        public DefaultNonSerializableRequestToken(String token, String secret) {
+            super(token, secret);
+        }
+
+    }
+
+	public static class SerializableRequestToken extends DefaultNonSerializableRequestToken implements Serializable {
+	    
+        private static final long serialVersionUID = 7258408812687395069L;
+
+        public String token;
+
+        public String secret;
+        
+        public SerializableRequestToken() {
+            super();
+        }
+
+        public SerializableRequestToken(String token, String secret) {
+            super(token, secret);
+            this.token = token;
+            this.secret = secret;
+        }
 
 		public SerializableRequestToken(RequestToken source) {
-			super(source.token, source.secret);
+            this(source.token, source.secret);
 		}
-	}
+
+		public RequestToken getRequestToken() {
+            return new RequestToken(token, secret);
+        }
+
+        public String getToken() {
+            return token;
+        }
+
+        public void setToken(String token) {
+            super.token = token;
+            this.token = token;
+        }
+
+        public String getSecret() {
+            return secret;
+        }
+
+        public void setSecret(String secret) {
+            super.secret = secret;
+            this.secret = secret;
+        }
+    }
 
     protected void checkError(Request request) throws AuthException{
         final String error = request.getQueryString(Constants.OAUTH_PROBLEM);
@@ -119,12 +164,17 @@ public abstract class OAuth1AuthProvider<U extends AuthUserIdentity, I extends O
 
         if (uri.contains(Constants.OAUTH_VERIFIER)) {
 
-			final RequestToken rtoken = (RequestToken) PlayAuthenticate
-					.removeFromCache(context.session(), CACHE_TOKEN);
+            if (Logger.isDebugEnabled()) {
+                Logger.debug("Retrieving token from the cache....");
+            }
+
+			final SerializableRequestToken rtoken = PlayAuthenticate
+                    .removeFromCache(context.session(), CACHE_TOKEN);
+
 			final String verifier = request.getQueryString(Constants.OAUTH_VERIFIER);
 			try {
 				final RequestToken response = service
-						.retrieveAccessToken(rtoken, verifier);
+						.retrieveAccessToken(rtoken.getRequestToken(), verifier);
 				final I i = buildInfo(response);
 				return transform(i);
 			} catch (RuntimeException ex) {

@@ -24,92 +24,87 @@ import java.util.Map;
 
 @Singleton
 public class FacebookAuthProvider extends
-		OAuth2AuthProvider<FacebookAuthUser, FacebookAuthInfo> {
+        OAuth2AuthProvider<FacebookAuthUser, FacebookAuthInfo> {
 
-	private static final String MESSAGE = "message";
-	private static final String ERROR = "error";
-	private static final String FIELDS = "fields";
+    private static final String MESSAGE = "message";
+    private static final String ERROR = "error";
+    private static final String FIELDS = "fields";
 
-	public static final String PROVIDER_KEY = "facebook";
+    public static final String PROVIDER_KEY = "facebook";
 
-	private static final String USER_INFO_URL_SETTING_KEY = "userInfoUrl";
-	private static final String USER_INFO_FIELDS_SETTING_KEY = "userInfoFields";
+    private static final String USER_INFO_URL_SETTING_KEY = "userInfoUrl";
+    private static final String USER_INFO_FIELDS_SETTING_KEY = "userInfoFields";
 
-	@Inject
-	public FacebookAuthProvider(final PlayAuthenticate auth, final ApplicationLifecycle lifecycle, final WSClient wsClient) {
-		super(auth, lifecycle, wsClient);
-	}
+    @Inject
+    public FacebookAuthProvider(final PlayAuthenticate auth, final ApplicationLifecycle lifecycle, final WSClient wsClient) {
+        super(auth, lifecycle, wsClient);
+    }
 
 
-	public static abstract class SettingKeys extends
-			OAuth2AuthProvider.SettingKeys {
-		public static final String DISPLAY = "display";
-	}
+    public static abstract class SettingKeys extends
+            OAuth2AuthProvider.SettingKeys {
+        public static final String DISPLAY = "display";
+    }
 
-	public static abstract class FacebookConstants extends Constants {
-		public static final String DISPLAY = "display";
-	}
+    public static abstract class FacebookConstants extends Constants {
+        public static final String DISPLAY = "display";
+    }
 
-	@Override
-	protected FacebookAuthUser transform(FacebookAuthInfo info, final String state)
-			throws AuthException {
+    @Override
+    protected FacebookAuthUser transform(FacebookAuthInfo info, final String state)
+            throws AuthException {
 
-		final String url = getConfiguration().getString(
-				USER_INFO_URL_SETTING_KEY);
-		final String fields = getConfiguration().getString(
-				USER_INFO_FIELDS_SETTING_KEY);
+        final String url = getConfiguration().getString(
+                USER_INFO_URL_SETTING_KEY);
+        final String fields = getConfiguration().getString(
+                USER_INFO_FIELDS_SETTING_KEY);
 
-		final WSResponse r = fetchAuthResponse(url,
-				new QueryParam(OAuth2AuthProvider.Constants.ACCESS_TOKEN, info.getAccessToken()),
-				new QueryParam(FIELDS, fields));
+        final WSResponse r = fetchAuthResponse(url,
+                new QueryParam(OAuth2AuthProvider.Constants.ACCESS_TOKEN, info.getAccessToken()),
+                new QueryParam(FIELDS, fields));
 
-		final JsonNode result = r.asJson();
-		if (result.get(OAuth2AuthProvider.Constants.ERROR) != null) {
-			throw new AuthException(result.get(ERROR).get(MESSAGE).asText());
-		} else {
-			Logger.debug(result.toString());
-			return new FacebookAuthUser(result, info, state);
-		}
-	}
+        final JsonNode result = r.asJson();
+        if (result.get(OAuth2AuthProvider.Constants.ERROR) != null) {
+            throw new AuthException(result.get(ERROR).get(MESSAGE).asText());
+        } else {
+            Logger.debug(result.toString());
+            return new FacebookAuthUser(result, info, state);
+        }
+    }
 
-	@Override
-	public String getKey() {
-		return PROVIDER_KEY;
-	}
+    @Override
+    public String getKey() {
+        return PROVIDER_KEY;
+    }
 
-	@Override
-	protected FacebookAuthInfo buildInfo(final WSResponse r)
-			throws AccessTokenException {
-		if (r.getStatus() >= 400) {
-			throw new AccessTokenException(r.asJson().get(ERROR).get(MESSAGE).asText());
-		} else {
-			final String query = r.getBody();
-			Logger.debug(query);
-			final List<NameValuePair> pairs = URLEncodedUtils.parse(
-					URI.create("/?" + query), "utf-8");
-			if (pairs.size() < 2) {
-				throw new AccessTokenException();
-			}
-			final Map<String, String> m = new HashMap<String, String>(
-					pairs.size());
-			for (final NameValuePair nameValuePair : pairs) {
-				m.put(nameValuePair.getName(), nameValuePair.getValue());
-			}
+    @Override
+    protected FacebookAuthInfo buildInfo(final WSResponse r) throws AccessTokenException {
 
-			return new FacebookAuthInfo(m);
-		}
-	}
+        final JsonNode respJson = r.asJson();
 
-	@Override
-	protected List<NameValuePair> getAuthParams(final Configuration c,
-			final Request request, final String state) throws AuthException {
-		final List<NameValuePair> params = super.getAuthParams(c, request, state);
+        if (r.getStatus() >= 400) {
+            throw new AccessTokenException(r.asJson().get(ERROR).get(MESSAGE).asText());
 
-		if (c.getString(SettingKeys.DISPLAY) != null) {
-			params.add(new BasicNameValuePair(FacebookConstants.DISPLAY, c
-					.getString(SettingKeys.DISPLAY)));
-		}
+        } else {
 
-		return params;
-	}
+            if (respJson.size() < 2) {
+                throw new AccessTokenException("At least two values were expected, but got " + respJson.size());
+            }
+
+            return new FacebookAuthInfo(respJson);
+        }
+    }
+
+    @Override
+    protected List<NameValuePair> getAuthParams(final Configuration c,
+                                                final Request request, final String state) throws AuthException {
+        final List<NameValuePair> params = super.getAuthParams(c, request, state);
+
+        if (c.getString(SettingKeys.DISPLAY) != null) {
+            params.add(new BasicNameValuePair(FacebookConstants.DISPLAY, c
+                    .getString(SettingKeys.DISPLAY)));
+        }
+
+        return params;
+    }
 }

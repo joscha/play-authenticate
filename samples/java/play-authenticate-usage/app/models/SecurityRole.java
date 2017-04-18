@@ -36,8 +36,7 @@ public class SecurityRole extends Model implements Role {
 
 	public String roleName;
 
-	public static final Finder<Long, SecurityRole> find = new Finder<Long, SecurityRole>(
-			Long.class, SecurityRole.class);
+	public static final Find<Long, SecurityRole> find = new Find<Long, SecurityRole>(){};
 
 	@Override
 	public String getName() {

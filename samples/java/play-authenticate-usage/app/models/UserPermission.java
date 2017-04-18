@@ -21,8 +21,7 @@ public class UserPermission extends AppModel implements Permission {
 
 	public String value;
 
-	public static final AppModel.Finder<Long, UserPermission> find = new AppModel.Finder<Long, UserPermission>(
-			Long.class, UserPermission.class);
+	public static final AppModel.Find<Long, UserPermission> find = new AppModel.Find<Long, UserPermission>(){};
 
 	public String getValue() {
 		return value;

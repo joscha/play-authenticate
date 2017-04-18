@@ -61,8 +61,7 @@ public class User extends AppModel implements Subject {
 	@ManyToMany
 	public List<UserPermission> permissions;
 
-	public static final AppModel.Finder<Long, User> find = new AppModel.Finder<Long, User>(
-			Long.class, User.class);
+	public static final AppModel.Find<Long, User> find = new AppModel.Find<Long, User>(){};
 
 	@Override
 	public String getIdentifier()
@@ -88,7 +87,7 @@ public class User extends AppModel implements Subject {
 		} else {
 			exp = getAuthUserFind(identity);
 		}
-		return exp.findRowCount() > 0;
+		return exp.findCount() > 0;
 	}
 
 	private static ExpressionList<User> getAuthUserFind(

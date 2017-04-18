@@ -4,7 +4,7 @@ name := "play-authenticate"
 
 javacOptions ++= Seq("-Werror")
 
-scalaVersion := "2.11.7"
+scalaVersion := "2.11.8"
 
 libraryDependencies ++= Seq(
   "org.apache.httpcomponents" % "httpclient" % "4.5",

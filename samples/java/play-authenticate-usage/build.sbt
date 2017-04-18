@@ -7,9 +7,6 @@ scalaVersion := "2.11.8"
 version := "1.0-SNAPSHOT"
 
 herokuAppName in Compile := "play-authenticate"
-herokuProcessTypes in Compile := Map(
-  "web" -> "target/universal/stage/bin/play-authenticate-usage -Dhttp.port=$PORT -Dplay.version=2.5.14 -Dplay.evolutions.db.default.autoApply=true -Ddb.default.driver=org.postgresql.Driver -Ddb.default.url=$DATABASE_URL"
-)
 
 val appDependencies = Seq(
   "be.objectify"  %% "deadbolt-java"     % "2.5.0",

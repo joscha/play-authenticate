@@ -1,0 +1,7 @@
+playauthenticate.core.exception.no_user_service=没有已注册的 UserService！
+playauthenticate.core.exception.signupuser_failed=注册失败
+playauthenticate.core.exception.provider_not_found=找不到这个第三方平台 {0}!
+playauthenticate.core.exception.merge.controller_undefined=Resolver 里的 Merge Call 没有正确定义，尽管'{0}'已被设置为 false！
+playauthenticate.core.exception.link.controller_undefined=Resolver 里的 Link Call 没有正确定义，尽管'{0}'已被设置为 false！
+playauthenticate.core.exception.oauth2.state_param_forged=状态参数可能被篡改了！
+playauthenticate.core.exception.general=出错了

@@ -1,0 +1,150 @@
+# Override default Play's validation messages
+
+# --- Constraints
+constraint.required=必填
+constraint.min=最小值: {0}
+constraint.max=最大值: {0}
+constraint.minLength=最短: {0}
+constraint.maxLength=最长: {0}
+constraint.email=Email
+
+# --- Formats
+format.date=日期 (''{0}'')
+format.numeric=数字
+format.real=Real 类型
+
+# --- Errors
+error.invalid=这个值无效
+error.required=这是必填项
+error.number=请填数字类型的值
+error.real=请填 Real 类型的值
+error.min=必须大于或等于 {0}
+error.max=必须小于或等于 {0}
+error.minLength=最小长度是 {0}
+error.maxLength=最大长度是 {0}
+error.email=请填有效的邮箱地址
+error.pattern=必须满足这个条件 {0}
+
+### --- play-authenticate START
+
+# play-authenticate: Initial translations
+
+playauthenticate.accounts.link.success=账号绑定成功
+playauthenticate.accounts.merge.success=账号合并成功
+
+playauthenticate.verify_email.error.already_validated=你的邮箱已经验证过了。
+playauthenticate.verify_email.error.set_email_first=你得先设置一个邮箱。
+playauthenticate.verify_email.message.instructions_sent=验证邮箱的邮件已经发给{0}了。
+playauthenticate.verify_email.success=邮件地址 ({0}) 验证成功。
+
+playauthenticate.reset_password.message.instructions_sent=重置密码的邮件已经发送给 {0} 了。
+playauthenticate.reset_password.message.email_not_verified=你的账号还未验证。验证邮件已经发送给你的邮箱。请验证后再重置密码。
+playauthenticate.reset_password.message.no_password_account=你的用户还没有设置密码登录。
+playauthenticate.reset_password.message.success.auto_login=密码已重置。
+playauthenticate.reset_password.message.success.manual_login=你的密码已充值。请用新密码重新登录。
+
+playauthenticate.change_password.error.passwords_not_same=密码不匹配。
+playauthenticate.change_password.success=已成功修改密码。
+
+playauthenticate.password.signup.error.passwords_not_same=密码不匹配。
+playauthenticate.password.login.unknown_user_or_pw=用户名或密码错误。
+
+playauthenticate.password.verify_signup.subject=PlayAuthenticate: 请完成注册
+playauthenticate.password.verify_email.subject=PlayAuthenticate: 请确认邮箱地址
+playauthenticate.password.reset_email.subject=PlayAuthenticate: 如何重置密码
+
+# play-authenticate: Additional translations
+
+playauthenticate.login.email.placeholder=电子邮件
+playauthenticate.login.password.placeholder=输入密码
+playauthenticate.login.password.repeat=重复密码
+playauthenticate.login.title=登录
+playauthenticate.login.password.placeholder=密码
+playauthenticate.login.now=登录
+playauthenticate.login.forgot.password=忘记密码？
+playauthenticate.login.oauth=或者使用下面的第三方平台登录：
+playauthenticate.login.basic=或者使用基本 HTTP 验证登录
+
+playauthenticate.signup.title=注册
+playauthenticate.signup.name=姓名
+playauthenticate.signup.now=注册
+playauthenticate.signup.oauth=或者使用下面的第三方平台注册:
+
+playauthenticate.verify.account.title=需要验证邮箱
+playauthenticate.verify.account.before=要设置密码，你得
+playauthenticate.verify.account.first=先验证邮箱
+
+playauthenticate.change.password.title=更改密码
+playauthenticate.change.password.cta=更改密码
+
+playauthenticate.merge.accounts.title=合并账户
+playauthenticate.merge.accounts.question=你是要把 {1} 与当前账户 ({0}) 合并吗？
+playauthenticate.merge.accounts.true=对，合并这两个账户
+playauthenticate.merge.accounts.false=不，退出当前账户然后用新账户登录
+playauthenticate.merge.accounts.ok=确定
+
+playauthenticate.link.account.title=绑定账户
+playauthenticate.link.account.question=把 ({0}) 和你的用户绑定?
+playauthenticate.link.account.true=是，绑定
+playauthenticate.link.account.false=不，退出登录然后创建一个新的账户
+playauthenticate.link.account.ok=确定
+
+# play-authenticate: Signup folder translations
+
+playauthenticate.verify.email.title=验证你的邮箱
+playauthenticate.verify.email.requirement=在使用 PlayAuthenticate 之前, 你得先验证你的邮箱。
+playauthenticate.verify.email.cta=一封验证邮件已经发送到你的邮箱了，请进入邮件里的链接来激活你的账户。
+
+playauthenticate.password.reset.title=重置密码
+playauthenticate.password.reset.cta=重置我的密码
+
+playauthenticate.password.forgot.title=忘记密码
+playauthenticate.password.forgot.cta=发送重置密码邮件
+
+playauthenticate.oauth.access.denied.title=OAuth 权限被拒绝
+playauthenticate.oauth.access.denied.explanation=要使用 PlayAuthenticate 的 OAuth 登录, 你必须接受连接。
+playauthenticate.oauth.access.denied.alternative=如果你不想使用 OAuth，你还可以
+playauthenticate.oauth.access.denied.alternative.cta=用一个用户名和密码注册
+
+playauthenticate.token.error.title=Token 错误
+playauthenticate.token.error.message=这个 token 已过期或者不存在。
+
+playauthenticate.user.exists.title=用户已存在
+playauthenticate.user.exists.message=这个用户已存在。
+
+# play-authenticate: Navigation
+playauthenticate.navigation.profile=用户资料
+playauthenticate.navigation.link_more=绑定更多第三方
+playauthenticate.navigation.logout=退出登录
+playauthenticate.navigation.login=登录
+playauthenticate.navigation.home=主页
+playauthenticate.navigation.restricted=访问受限
+playauthenticate.navigation.signup=注册
+
+# play-authenticate: Handler
+playauthenticate.handler.loginfirst=要访问『{0}』，你必须先登录
+
+# play-authenticate: Profile
+playauthenticate.profile.title=用户资料
+playauthenticate.profile.mail=你的名字是 {0} ，你的邮箱是 {1}。
+playauthenticate.profile.unverified=未验证–—点击验证
+playauthenticate.profile.verified=已验证
+playauthenticate.profile.providers_many=你的账户已和 {0} 个第三方平台绑定:
+playauthenticate.profile.providers_one = 你的账户已和这个第三方平台绑定:
+playauthenticate.profile.logged=你当前登录的用户为:
+playauthenticate.profile.session=你的用户 ID 是 {0}，当前登录会在 {1} 失效
+playauthenticate.profile.session_endless=你的用户 ID 是 {0}，并且登录永久有效
+playauthenticate.profile.password_change=更改/设置密码
+
+# play-authenticate - sample: Index page
+playauthenticate.index.title=欢迎使用 Play Authenticate
+playauthenticate.index.intro=Play Authenticate 示例应用
+playauthenticate.index.intro_2=这是一个有登录功能的应用的模板。
+playauthenticate.index.intro_3=主菜单里有一些简单的示例，包括支持哪些验证登录功能。
+playauthenticate.index.heading=标题
+playauthenticate.index.details=查看详情
+
+# play-authenticate - sample: Restricted page
+playauthenticate.restricted.secrets=秘密无处不在！
+
+### --- play-authenticate END

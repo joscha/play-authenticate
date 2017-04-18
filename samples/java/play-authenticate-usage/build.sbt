@@ -15,8 +15,9 @@ val appDependencies = Seq(
   "be.objectify"  %% "deadbolt-java"     % "2.5.0",
   // Comment the next line for local development of the Play Authentication core:
   "com.feth"      %% "play-authenticate" % "0.8.3",
-  "org.postgresql"    %  "postgresql"        % "9.4-1201-jdbc41",
+  "org.postgresql"    %  "postgresql"        % "9.4-1206-jdbc42",
   cache,
+  evolutions,
   javaWs,
   javaJdbc,
   "org.webjars" % "bootstrap" % "3.2.0",

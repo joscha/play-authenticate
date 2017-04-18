@@ -11,18 +11,18 @@ before_install:
 - wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
 script:
 - cd $TRAVIS_BUILD_DIR/code
-- travis_retry sbt --warn ++$TRAVIS_SCALA_VERSION compile
-- sbt ++$TRAVIS_SCALA_VERSION test
-- sbt --warn ++$TRAVIS_SCALA_VERSION publish-local
+- travis_retry sbt --warn ++$TRAVIS_SCALA_VERSION compile < /dev/null
+- sbt ++$TRAVIS_SCALA_VERSION test < /dev/null
+- sbt --warn ++$TRAVIS_SCALA_VERSION publish-local < /dev/null
 - cd $TRAVIS_BUILD_DIR/test-app
-- travis_retry sbt --warn ++$TRAVIS_SCALA_VERSION compile
-- sbt ++$TRAVIS_SCALA_VERSION test
+- travis_retry sbt --warn ++$TRAVIS_SCALA_VERSION compile < /dev/null
+- sbt ++$TRAVIS_SCALA_VERSION test < /dev/null
 - cd $TRAVIS_BUILD_DIR/samples/java/play-authenticate-usage
-- travis_retry sbt --warn ++$TRAVIS_SCALA_VERSION compile
-- if [[ "$TRAVIS_SECURE_ENV_VARS" == "true" ]]; then travis_retry sbt --info ++$TRAVIS_SCALA_VERSION test; fi
+- travis_retry sbt --warn ++$TRAVIS_SCALA_VERSION compile < /dev/null
+- if [[ "$TRAVIS_SECURE_ENV_VARS" == "true" ]]; then travis_retry sbt --info ++$TRAVIS_SCALA_VERSION test < /dev/null; fi
 - cd $TRAVIS_BUILD_DIR/samples/java/play-authenticate-simple-oauth
-- travis_retry sbt --warn ++$TRAVIS_SCALA_VERSION compile
-- sbt ++$TRAVIS_SCALA_VERSION test
+- travis_retry sbt --warn ++$TRAVIS_SCALA_VERSION compile < /dev/null
+- sbt ++$TRAVIS_SCALA_VERSION test < /dev/null
 notifications:
   email: false
 env:

@@ -87,7 +87,7 @@ public class User extends AppModel implements Subject {
 		} else {
 			exp = getAuthUserFind(identity);
 		}
-		return exp.findCount() > 0;
+		return exp.findRowCount() > 0;
 	}
 
 	private static ExpressionList<User> getAuthUserFind(

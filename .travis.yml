@@ -49,5 +49,5 @@ env:
     # HEROKU_API_KEY
   - secure: "ADkRhMtW2uzNT8gPxKuBYE5tc1WCSrtWKvEy2wpOehR8KbpN5PYnYk7rWE3H4YnRwSXn38VuTVL2Lyc4HWNB3VWqSLeIegzQQ0ie5Yt5DtG6lbgYXWtgUsUsH1E5H/ozKhthfDASCONHv0zqZC6sJci6EAT+HiX80ilQ0h386jA="
 after_success:
-- '[[ $TRAVIS_BRANCH == "master" ]] && { cd $TRAVIS_BUILD_DIR/code && sbt --info ++$TRAVIS_SCALA_VERSION -Dtravis=1 publish; };'
-- '[[ $TRAVIS_BRANCH == "master" ]] && { $TRAVIS_BUILD_DIR/.ci/setup-heroku.sh && cd $TRAVIS_BUILD_DIR/samples/java/play-authenticate-usage && sbt --info ++$TRAVIS_SCALA_VERSION stage deployHeroku; };'
+- 'test $TRAVIS_BRANCH = "master" && test $TRAVIS_PULL_REQUEST = "false" && { cd $TRAVIS_BUILD_DIR/code && sbt --info ++$TRAVIS_SCALA_VERSION -Dtravis=1 publish; };'
+- 'test $TRAVIS_BRANCH = "master" && test $TRAVIS_PULL_REQUEST = "false" && { $TRAVIS_BUILD_DIR/.ci/setup-heroku.sh && cd $TRAVIS_BUILD_DIR/samples/java/play-authenticate-usage && sbt --info ++$TRAVIS_SCALA_VERSION stage deployHeroku; };'

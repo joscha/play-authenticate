@@ -32,14 +32,14 @@ Play-Authenticate is available in [Maven Central](http://search.maven.org/#brows
 <dependency>
     <groupId>com.feth</groupId>
     <artifactId>play-authenticate_2.11</artifactId>
-    <version>0.8.1</version>
+    <version>0.8.2</version>
 </dependency>
 ```
 or
 
 ```scala
 val appDependencies = Seq(
-  "com.feth" %% "play-authenticate" % "0.8.1"
+  "com.feth" %% "play-authenticate" % "0.8.2"
 )
 ```
 
@@ -94,6 +94,8 @@ There is also a [sample application using Play!Authenticate with MongoDB](https:
 ## Versions
 * **TRUNK** [not released in the repository, yet]
   * Fancy contributing something? :-)
+* **0.8.2** [2017-04-18]
+  * Fix for facebook changes (thanks @Shenker93)
 * **0.8.1** [2016-12-18]
   * play-easymail upgrade
 * **0.8.0-SNAPSHOT** [2016-04-04]

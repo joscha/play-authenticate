@@ -23,7 +23,7 @@ public class FacebookAuthInfo extends OAuth2AuthInfo {
         super(
                 json.get(ACCESS_TOKEN).asText(),
                 new Date().getTime() + json.get(EXPIRES_IN).asLong() * 1000,
-                json.get(REFRESH_TOKEN).asText()
+                json.get(REFRESH_TOKEN) != null ? json.get(REFRESH_TOKEN).asText() : null
         );
     }
 

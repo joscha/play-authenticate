@@ -90,10 +90,12 @@ There is also a [sample application using Play!Authenticate with MongoDB](https:
 * Italian (as of 2013-09-21, core only, commit `b1b9e2a46b`)
 * Japanese (as of 2013-11-27, commit `fd4cc56b168d9ed447943c879dd61f271158edf7`)
 * Portuguese (as of 2014-07-29)
+* Chinese (as of 2017-04-18)
 
 ## Versions
 * **TRUNK** [not released in the repository, yet]
   * Fancy contributing something? :-)
+  * Chinese translation (thanks @frederick036)
 * **0.8.2** [2017-04-18]
   * Fix for facebook changes (thanks @Shenker93)
 * **0.8.1** [2016-12-18]

@@ -10,6 +10,7 @@ import static org.fest.assertions.Assertions.assertThat;
 
 public class GoogleOAuth2Test extends GoogleOAuth2Base {
 
+    @Ignore("Security issues, Google preventing login from travis")
     @Test
     public void itShouldBePossibleToSignUp() throws Exception {
         signupUser();
@@ -28,6 +29,7 @@ public class GoogleOAuth2Test extends GoogleOAuth2Base {
         assertThat(user.name).isEqualTo("Joscha Feth");
     }
 
+    @Ignore("Security issues, Google preventing login from travis")
     @Test
     public void itShouldStillWorkIfCacheGetsCleared() throws Exception {
         signupFill();

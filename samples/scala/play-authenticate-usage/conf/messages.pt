@@ -1,0 +1,149 @@
+# Override default Play's validation messages
+
+# --- Constraints
+constraint.required=Necessário
+constraint.min=Valor mínimo: {0}
+constraint.max=Valor máximo: {0}
+constraint.minLength=Comprimento mínimo: {0}
+constraint.maxLength=Comprimento máximo: {0}
+constraint.email=Endereço de email
+
+# --- Formats
+format.date=Data (''{0}'')
+format.numeric=Numérico
+format.real=Real
+
+# --- Errors
+error.invalid=Valor inválido
+error.required=Este campo é necessário
+error.number=Valor numérico esperado
+error.real=Valor real esperado
+error.min=Tem que ser maior ou igual a {0}
+error.max=Tem que ser menor ou igual a {0}
+error.minLength=O comprimento mínimo é {0}
+error.maxLength=O comprimento máximo é {0}
+error.email=á necessário email válido
+error.pattern=Tem que satisfazer {0}
+
+### --- play-authenticate START
+
+# play-authenticate: Initial translations
+
+playauthenticate.accounts.link.success=Contas ligadas com sucesso
+playauthenticate.accounts.merge.success=Contas fundidads com sucesso
+
+playauthenticate.verify_email.error.already_validated=O seu endereço de email já foi validado.
+playauthenticate.verify_email.error.set_email_first=Precisa de introduzir um novo endereço de email primeiro.
+playauthenticate.verify_email.message.instructions_sent=Instruções sobre como verificar o seu endereço de email foram enviadas para {0}.
+playauthenticate.verify_email.success=O endereço de email ({0}) foi verificado com sucesso.
+
+playauthenticate.reset_password.message.instructions_sent=Instruções sobre como criar uma nova palavra passe foram enviadas para {0}.
+playauthenticate.reset_password.message.email_not_verified=A sua conta não foi verificada ainda. Uma mensagem de email com instruções de verificaáão foi enviada. Actualize a palavra passe mais tarde.
+playauthenticate.reset_password.message.no_password_account=O utilizador ainda não configurou uma palavra passe.
+playauthenticate.reset_password.message.success.auto_login=A sua palavra passe foi actualizada.
+playauthenticate.reset_password.message.success.manual_login=A sua palavra passe foi actualizada. Por favor, autentique-se com a nova palavra passe.
+
+playauthenticate.change_password.error.passwords_not_same=Palavras passe não correspondem.
+playauthenticate.change_password.success=Palavra passe alterada com sucesso.
+
+playauthenticate.password.signup.error.passwords_not_same=Palavras passe não correspondem.
+playauthenticate.password.login.unknown_user_or_pw=Utilizador ou palavra passe desconhecido/a.
+
+playauthenticate.password.verify_signup.subject=PlayAuthenticate: Complete o seu registo
+playauthenticate.password.verify_email.subject=PlayAuthenticate: Confirme o seu endereço de email
+playauthenticate.password.reset_email.subject=PlayAuthenticate: Como actualizar a palavra passe
+
+# play-authenticate: Additional translations
+
+playauthenticate.login.email.placeholder=O seu endereço de email
+playauthenticate.login.password.placeholder=Escolha uma palavra passe
+playauthenticate.login.password.repeat=Repita a palavra passe
+playauthenticate.login.title=Autenticar
+playauthenticate.login.password.placeholder=Palavra passe
+playauthenticate.login.now=Autenticar agora
+playauthenticate.login.forgot.password=Esqueceu a palavra passe?
+playauthenticate.login.oauth=ou autentique-se utilizando um dos seguintes serviços:
+
+playauthenticate.signup.title=Registar
+playauthenticate.signup.name=O seu nome
+playauthenticate.signup.now=Registe-se agora
+playauthenticate.signup.oauth=ou registe-se utilizando um dos seguintes serviços:
+
+playauthenticate.verify.account.title=á necessário verificar o endereço de email
+playauthenticate.verify.account.before=Antes de criar uma nova palavra passe, precisa
+playauthenticate.verify.account.first=verificar endereço de email.
+
+playauthenticate.change.password.title=Altere palavra passe aqui
+playauthenticate.change.password.cta=Alterar minha palavra passe
+
+playauthenticate.merge.accounts.title=Fundir contas
+playauthenticate.merge.accounts.question=Deseja fundir esta conta ({0}) com esta conta: {1}?
+playauthenticate.merge.accounts.true=Sim, quero fundir as duas contas.
+playauthenticate.merge.accounts.false=Não, quero terminar a sessão actual e autenticar-me como novo utilizador.
+playauthenticate.merge.accounts.ok=OK
+
+playauthenticate.link.account.title=Ligar contas
+playauthenticate.link.account.question=Ligar ({0}) com o utilizador?
+playauthenticate.link.account.true=Sim, quero ligar a esta conta.
+playauthenticate.link.account.false=Não, quero sair e criar um novo utilizador com esta conta.
+playauthenticate.link.account.ok=OK
+
+# play-authenticate: Signup folder translations
+
+playauthenticate.verify.email.title=Verifique o seu endereço de email
+playauthenticate.verify.email.requirement=Antes de usar o PlayAuthenticate, terá que verificar o seu endereço de email.
+playauthenticate.verify.email.cta=Foi enviada uma mensagem para o endereço de email registado. Por favor, siga a ligação indicada para activar a sua conta..
+
+playauthenticate.password.reset.title=Actualizar palavra passe
+playauthenticate.password.reset.cta=Actualizar a minha palavra passe
+
+playauthenticate.password.forgot.title=Esqueci-me da palavra passe
+playauthenticate.password.forgot.cta=Enviar instruções para reestabelecer palavra passe
+
+playauthenticate.oauth.access.denied.title=Acesso negado ao OAuth
+playauthenticate.oauth.access.denied.explanation=Se quiser utilizador o PlayAuthenticate com OAuth, terá que aceitar a ligação.
+playauthenticate.oauth.access.denied.alternative=Se não quiser, poderá alternativamente
+playauthenticate.oauth.access.denied.alternative.cta=autenticar-se com utilizador e palavra passe
+
+playauthenticate.token.error.title=Erro no "token"
+playauthenticate.token.error.message=O "token" fornecido expirou ou não existe.
+
+playauthenticate.user.exists.title=Utilizador existente.
+playauthenticate.user.exists.message=Este utilizador já existe.
+
+# play-authenticate: Navigation
+playauthenticate.navigation.profile=Perfil
+playauthenticate.navigation.link_more=Ligar mais serviços
+playauthenticate.navigation.logout=Sair
+playauthenticate.navigation.login=Autenticar
+playauthenticate.navigation.home=Home
+playauthenticate.navigation.restricted=Página restrita
+playauthenticate.navigation.signup=Registar
+
+# play-authenticate: Handler
+playauthenticate.handler.loginfirst=Precisa de autenticar-se para ver ''{0}''
+
+# play-authenticate: Profile
+playauthenticate.profile.title=Perfil de utilizador
+playauthenticate.profile.mail=O seu nome á {0} e o seu endereço de email é {1}!
+playauthenticate.profile.unverified=não verificado - clique para verificar
+playauthenticate.profile.verified=verificado
+playauthenticate.profile.providers_many=Há {0} serviços ligados á sua conta:
+playauthenticate.profile.providers_one = Não há serviços ligados á sua conta:
+playauthenticate.profile.logged=Está actualmente autenticado com:
+playauthenticate.profile.session=O seu ID de utilzador é {0} e a sua sessão irá experirar em {1}
+playauthenticate.profile.session_endless=O seu ID de utilzador é {0} e a sua sessão não irá experirar, porque não tem fim
+playauthenticate.profile.password_change=Alterar/criar palavra passe para esta conta
+
+# play-authenticate - sample: Index page
+playauthenticate.index.title=Bem-vindo ao Play Authenticate
+playauthenticate.index.intro=Play Authenticate aplicação exemplo
+playauthenticate.index.intro_2=This is a template for a simple application with authentication.
+playauthenticate.index.intro_3=Check the main navigation above for simple page examples including supported authentication features.
+playauthenticate.index.heading=Cabeçalho
+playauthenticate.index.details=Ver detalhes
+
+# play-authenticate - sample: Restricted page
+playauthenticate.restricted.secrets=Segredos, por todo o lado!
+
+### --- play-authenticate END

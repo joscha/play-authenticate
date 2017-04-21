@@ -1,0 +1,8 @@
+@(verificationUrl: String, token: String, name: String, email: String)Cześć @name,
+
+
+Aby zweryfikować konto, użyj ten link
+@verificationUrl
+
+Pozdrawiamy,
+Ekipa PlayAuthenticate

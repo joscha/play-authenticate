@@ -248,7 +248,7 @@ TODO explain Resolver interface and its methods
 	
 Of course you have to create the pages to which the resolver refers by yourself.	
 
-##User Service
+## User Service
 ---
 
 We yet have to tell Play-Authenticate how to store users in a database. This is done by creating a sub class 
@@ -415,5 +415,5 @@ The [Application](play-authenticate-usage/app/controllers/Application.java) clas
 
     @Restrict(@Group(Application.USER_ROLE))
 
-As USER_ROLE equals user and the users that are created contain the role_name user methods that contain that annotation may be viewed by such users. If one decides to change Application.USER_ROLE to foo for example and the role_name remains role then one will see a forbidden in the web browser.
+As `USER_ROLE` equals `user` and the users that are created contain the `role_name` `user` methods that contain that annotation may be viewed by such users. If one decides to change `Application.USER_ROLE` to `foo` for example and the `role_name` remains `role` then one will see a `forbidden` in the web browser.
 

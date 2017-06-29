@@ -1,7 +1,6 @@
-#Getting Started
+# Getting Started
 
-
-##Importing the Plugin
+## Importing the Plugin
 ---
 
 Add Play-Authenticate to your app dependencies. This is done by modifying the `project/Build.scala` file.
@@ -34,7 +33,7 @@ Add `"com.feth"      %%  "play-authenticate" % "0.8.0-SNAPSHOT"` (`0.8.0` might 
 	}
 	
  
-##Configuration File
+## Configuration File
 ---
 
 Create a new file `play-authenticate/mine.conf` in your conf folder. Include this file in your `application.conf` by adding the following line to it:
@@ -100,7 +99,7 @@ For a real application you can use the following template ([source](https://gith
 	}
 
 
-##Creating the necessary views
+## Creating the necessary views
 ---
 
 You have to integrate Play-Authenticate into your views by yourself. Play-Authenticate provides some template helpers to do this.
@@ -151,7 +150,7 @@ This second example displays some account information:
         }
     }
 
-##Routes
+## Routes
 ---
 Add the following routes to your `conf/routes` file:
 
@@ -171,7 +170,7 @@ Below you can see an example implementation of this method (this.auth is instanc
 	}
 	
 	
-##Configure the Resolver
+## Configure the Resolver
 ---
 
 Play-Authenticate needs some pages provided by your application. You configure these pages by providing
@@ -331,7 +330,7 @@ Here is an example implementation of the UserServicePlugin:
 	}
 
 	
-##Adding Authentication Providers
+## Adding Authentication Providers
 ---
 
 ### Google Authentication Provider
@@ -378,7 +377,7 @@ own keys. The keys above are not valid.
 
 TODO short description for other providers.
 
-##Adding Access Control
+## Adding Access Control
 ---
 
 TODO
@@ -391,5 +390,30 @@ TODO
 ### Using Deadbolt
 ---
 
-TODO
+[Deadbolt](https://github.com/schaloner/deadbolt-2-java) is used for authorization. If one starts the [play-authenticate-usage](play-authenticate-usage) sample app and one logs in, a user could be created.
+
+The create method that resides in the [User](play-authenticate-usage/app/models/User.java) class indicates that:
+
+	public static User create(final AuthUser authUser) {
+			final User user = new User();
+			user.roles = Collections.singletonList(SecurityRole
+				.findByRoleName(controllers.Application.USER_ROLE));
+
+If a user has been created and the database will be consulted using
+
+    select * from security_role where id=1;
+
+one could see:
+
+    +----+-----------+
+    | id | role_name |
+    +----+-----------+
+    |  1 | user      |
+    +----+-----------+
+
+The [Application](play-authenticate-usage/app/controllers/Application.java) class contains:
+
+    @Restrict(@Group(Application.USER_ROLE))
+
+As USER_ROLE equals user and the users that are created contain the role_name user methods that contain that annotation may be viewed by such users. If one decides to change Application.USER_ROLE to foo for example and the role_name remains role then one will see a forbidden in the web browser.
 

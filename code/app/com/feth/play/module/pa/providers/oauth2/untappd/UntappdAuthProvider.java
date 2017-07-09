@@ -7,10 +7,11 @@ import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.exceptions.ResolverMissingException;
 import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
 import com.google.inject.Inject;
+import com.typesafe.config.Config;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-import play.Configuration;
 import play.Logger;
+import play.i18n.MessagesApi;
 import play.inject.ApplicationLifecycle;
 import play.libs.ws.WSClient;
 import play.libs.ws.WSResponse;
@@ -49,8 +50,8 @@ public class UntappdAuthProvider extends
 	// "http://localhost:9000/authenticate/untappd";
 
 	@Inject
-	public UntappdAuthProvider(final PlayAuthenticate auth, final ApplicationLifecycle lifecycle, final WSClient wsClient) {
-		super(auth, lifecycle, wsClient);
+	public UntappdAuthProvider(final PlayAuthenticate auth, final ApplicationLifecycle lifecycle, final WSClient wsClient, final MessagesApi messagesApi) {
+		super(auth, lifecycle, wsClient, messagesApi);
 	}
 
 	@Override
@@ -92,20 +93,20 @@ public class UntappdAuthProvider extends
 
 	protected UntappdAuthInfo getAccessToken(final String code,
 			final Request request) throws AccessTokenException, ResolverMissingException {
-		final Configuration c = getConfiguration();
+		final Config c = getConfiguration();
 
 		final String url = c.getString(SettingKeys.ACCESS_TOKEN_URL);
 
 		try {
 			final WSResponse r = wsClient
 					.url(url)
-					.setQueryParameter(Constants.CLIENT_ID,
+					.addQueryParameter(Constants.CLIENT_ID,
 							c.getString(SettingKeys.CLIENT_ID))
-					.setQueryParameter(Constants.CLIENT_SECRET,
+					.addQueryParameter(Constants.CLIENT_SECRET,
 							c.getString(SettingKeys.CLIENT_SECRET))
-					.setQueryParameter(Constants.RESPONSE_TYPE, Constants.CODE)
-					.setQueryParameter(Constants.CODE, code)
-					.setQueryParameter(getRedirectUriKey(), getRedirectUrl(request))
+					.addQueryParameter(Constants.RESPONSE_TYPE, Constants.CODE)
+					.addQueryParameter(Constants.CODE, code)
+					.addQueryParameter(getRedirectUriKey(), getRedirectUrl(request))
 					// we use GET here
 					.get().toCompletableFuture().get(getTimeout(), TimeUnit.MILLISECONDS);
 
@@ -117,7 +118,7 @@ public class UntappdAuthProvider extends
 
 	@Override
 	protected List<NameValuePair> getParams(final Request request,
-			final Configuration c) throws ResolverMissingException {
+			final Config c) throws ResolverMissingException {
 		final List<NameValuePair> params = super.getParams(request, c);
 
 		params.add(new BasicNameValuePair(Constants.CLIENT_SECRET, c

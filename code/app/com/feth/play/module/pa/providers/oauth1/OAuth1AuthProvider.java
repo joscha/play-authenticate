@@ -7,7 +7,7 @@ import com.feth.play.module.pa.exceptions.AccessTokenException;
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.ext.ExternalAuthProvider;
 import com.feth.play.module.pa.user.AuthUserIdentity;
-import play.Configuration;
+import com.typesafe.config.Config;
 import play.Logger;
 import play.inject.ApplicationLifecycle;
 import play.libs.oauth.OAuth;
@@ -103,7 +103,7 @@ public abstract class OAuth1AuthProvider<U extends AuthUserIdentity, I extends O
 			Logger.debug("Returned with URL: '" + uri + "'");
 		}
 
-		final Configuration c = getConfiguration();
+		final Config c = getConfiguration();
 
 		final ConsumerKey key = new ConsumerKey(
 				c.getString(SettingKeys.CONSUMER_KEY),
@@ -170,7 +170,7 @@ public abstract class OAuth1AuthProvider<U extends AuthUserIdentity, I extends O
 	protected OAuthCalculator getOAuthCalculator(final OAuth1AuthInfo info) {
 		final RequestToken token = new RequestToken(info.getAccessToken(),
 				info.getAccessTokenSecret());
-		final Configuration c = getConfiguration();
+		final Config c = getConfiguration();
 		final ConsumerKey cK = new ConsumerKey(
 				c.getString(SettingKeys.CONSUMER_KEY),
 				c.getString(SettingKeys.CONSUMER_SECRET));

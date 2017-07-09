@@ -99,7 +99,7 @@ public abstract class WWWAuthenticateProvider extends AuthProvider {
 
 	@Override
 	public Object authenticate(Context context, Object payload)	throws AuthException {
-		String auth = context.request().getHeader("Authorization");
+		String auth = context.request().header("Authorization").get();
 
 		if (auth == null) {
 			return deny(context);

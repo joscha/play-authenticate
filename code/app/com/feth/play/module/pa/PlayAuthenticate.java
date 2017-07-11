@@ -33,7 +33,7 @@ public class PlayAuthenticate {
 	private static final String SETTING_KEY_ACCOUNT_AUTO_LINK = "accountAutoLink";
 	private static final String SETTING_KEY_ACCOUNT_AUTO_MERGE = "accountAutoMerge";
 
-	private List<Lang> prefferedLangs;
+	private List<Lang> preferredLangs;
 	private Config config;
 
 	@Inject
@@ -45,7 +45,7 @@ public class PlayAuthenticate {
 
 		Locale englishLocale = new Locale("en");
 		Lang englishLang = new Lang(englishLocale);
-		prefferedLangs = Arrays.asList(englishLang);
+		preferredLangs = Arrays.asList(englishLang);
 	}
 
 	private Resolver resolver;
@@ -65,7 +65,7 @@ public class PlayAuthenticate {
 	public UserService getUserService() {
 		if (userService == null) {
 			throw new RuntimeException(
-					messagesApi.preferred(prefferedLangs).at("playauthenticate.core.exception.no_user_service"));
+					messagesApi.preferred(preferredLangs).at("playauthenticate.core.exception.no_user_service"));
 		}
 		return userService;
 	}
@@ -368,7 +368,7 @@ public class PlayAuthenticate {
         final Object id = getUserService().save(u);
 		if (id == null) {
 			throw new AuthException(
-					messagesApi.preferred(prefferedLangs).at("playauthenticate.core.exception.signupuser_failed"));
+					messagesApi.preferred(preferredLangs).at("playauthenticate.core.exception.signupuser_failed"));
 		}
         provider.afterSave(u, id, session);
 		return u;
@@ -380,7 +380,7 @@ public class PlayAuthenticate {
 		if (ap == null) {
 			// Provider wasn't found and/or user was fooling with our stuff -
 			// tell him off:
-			return Controller.notFound(messagesApi.preferred(prefferedLangs).at(
+			return Controller.notFound(messagesApi.preferred(preferredLangs).at(
 					"playauthenticate.core.exception.provider_not_found",
 					provider));
 		}
@@ -464,7 +464,7 @@ public class PlayAuthenticate {
 							final Call c = getResolver().askMerge();
 							if (c == null) {
 								throw new RuntimeException(
-										messagesApi.preferred(prefferedLangs).at(
+										messagesApi.preferred(preferredLangs).at(
 												"playauthenticate.core.exception.merge.controller_undefined",
 												SETTING_KEY_ACCOUNT_AUTO_MERGE));
 							}
@@ -496,7 +496,7 @@ public class PlayAuthenticate {
 						final Call c = getResolver().askLink();
 						if (c == null) {
 							throw new RuntimeException(
-									messagesApi.preferred(prefferedLangs).at(
+									messagesApi.preferred(preferredLangs).at(
 											"playauthenticate.core.exception.link.controller_undefined",
 											SETTING_KEY_ACCOUNT_AUTO_LINK));
 						}
@@ -509,7 +509,7 @@ public class PlayAuthenticate {
 				return loginAndRedirect(context, loginUser);
 			} else {
 				return Controller.internalServerError(messagesApi
-						.preferred(prefferedLangs).at("playauthenticate.core.exception.general"));
+						.preferred(preferredLangs).at("playauthenticate.core.exception.general"));
 			}
 		} catch (final AuthException e) {
 			final Call c = getResolver().onException(e);

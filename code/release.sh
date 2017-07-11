@@ -1,2 +1,2 @@
 #!/bin/sh
-sbt --info release
+sbt --info +release

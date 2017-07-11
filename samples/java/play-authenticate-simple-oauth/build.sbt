@@ -2,13 +2,14 @@ organization := "com.feth"
 
 name := "play-authenticate-simple-oauth"
 
-scalaVersion := "2.11.8"
+scalaVersion := "2.12.2"
 
 version := "1.0-SNAPSHOT"
 
 val appDependencies = Seq(
   // Comment the next line for local development of the Play Authentication core:
-  "com.feth" %% "play-authenticate" % "0.8.3",
+  // Use the latest release version when copying this code, e.g. "0.9.0"
+  "com.feth" %% "play-authenticate" % "0.9.0-SNAPSHOT",
   cache,
   javaWs
 )

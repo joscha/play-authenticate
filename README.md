@@ -34,7 +34,7 @@ Play-Authenticate is available in [Maven Central](http://search.maven.org/#brows
 ```xml
 <dependency>
     <groupId>com.feth</groupId>
-    <artifactId>play-authenticate_2.11</artifactId>
+    <artifactId>play-authenticate</artifactId>
     <version>0.9.0</version>
 </dependency>
 ```
@@ -98,6 +98,9 @@ There is also a [sample application using Play!Authenticate with MongoDB](https:
 ## Versions
 * **TRUNK** [not released in the repository, yet]
   * Fancy contributing something? :-)
+* **0.9.0** [tbd]
+  * Upgrade to Play 2.6 (thanks @KadekM)
+  * ATTENTION: This is for Play 2.6 - if you have Play 2.5, use a `0.8.x` version.
 * **0.8.3** [2017-04-18]
   * Chinese translation (thanks @frederick036)
   * Fix for facebook refresh token

@@ -43,7 +43,7 @@ public class PocketAuthProvider extends
 		public static final String CONSUMER_KEY = "consumerKey";
 	}
 
-	public static abstract class PocketConstants extends Constants {
+	public static abstract class PocketConstants extends OAuth2AuthProvider.Constants {
 		public static final String CONSUMER_KEY = "consumer_key";
 		public static final String REQUEST_TOKEN = "request_token";
 	}

@@ -1,8 +1,8 @@
 package models;
 
-import javax.persistence.MappedSuperclass;
+import io.ebean.Model;
 
-import com.avaje.ebean.Model;
+import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
 public class AppModel extends Model

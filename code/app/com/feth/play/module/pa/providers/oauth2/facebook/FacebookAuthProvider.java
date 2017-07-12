@@ -43,7 +43,7 @@ public class FacebookAuthProvider extends
         public static final String DISPLAY = "display";
     }
 
-    public static abstract class FacebookConstants extends Constants {
+    public static abstract class FacebookConstants extends OAuth2AuthProvider.Constants {
         public static final String DISPLAY = "display";
     }
 

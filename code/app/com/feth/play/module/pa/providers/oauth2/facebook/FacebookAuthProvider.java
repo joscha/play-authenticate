@@ -1,12 +1,11 @@
 package com.feth.play.module.pa.providers.oauth2.facebook;
 
-import java.net.URI;
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
+
 
 import org.apache.http.NameValuePair;
-import org.apache.http.client.utils.URLEncodedUtils;
+
 import org.apache.http.message.BasicNameValuePair;
 
 import play.Application;
@@ -80,24 +79,21 @@ public class FacebookAuthProvider extends
 	@Override
 	protected FacebookAuthInfo buildInfo(final WSResponse r)
 			throws AccessTokenException {
+
+		final JsonNode respJson = r.asJson();
+
 		if (r.getStatus() >= 400) {
 			throw new AccessTokenException(r.asJson().get(ERROR).get(MESSAGE).asText());
+
 		} else {
-			final String query = r.getBody();
-			Logger.debug(query);
-			final List<NameValuePair> pairs = URLEncodedUtils.parse(
-					URI.create("/?" + query), "utf-8");
-			if (pairs.size() < 2) {
-				throw new AccessTokenException();
-			}
-			final Map<String, String> m = new HashMap<String, String>(
-					pairs.size());
-			for (final NameValuePair nameValuePair : pairs) {
-				m.put(nameValuePair.getName(), nameValuePair.getValue());
+
+			if (respJson.size() < 2) {
+				throw new AccessTokenException("At least two values were expected, but got " + respJson.size());
 			}
 
-			return new FacebookAuthInfo(m);
+			return new FacebookAuthInfo(respJson);
 		}
+
 	}
 
 	@Override

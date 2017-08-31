@@ -75,6 +75,10 @@ public abstract class OAuth1AuthProvider<U extends AuthUserIdentity, I extends O
 	public static class SerializableRequestToken extends RequestToken implements Serializable {
 		private static final long serialVersionUID = 1L;
 
+		public SerializableRequestToken() {
+			super(null, null);
+		}
+
 		public SerializableRequestToken(RequestToken source) {
 			super(source.token, source.secret);
 		}

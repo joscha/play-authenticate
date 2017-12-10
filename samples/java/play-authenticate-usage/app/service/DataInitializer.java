@@ -9,7 +9,7 @@ import java.util.Arrays;
  */
 public class DataInitializer {
     public DataInitializer() {
-        if (SecurityRole.find.findCount() == 0) {
+        if (SecurityRole.find.query().findCount() == 0) {
             for (final String roleName : Arrays
                     .asList(controllers.Application.USER_ROLE)) {
                 final SecurityRole role = new SecurityRole();

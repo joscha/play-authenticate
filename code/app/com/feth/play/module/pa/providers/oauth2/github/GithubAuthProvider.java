@@ -5,6 +5,7 @@ import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.exceptions.AccessTokenException;
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
+import play.i18n.MessagesApi;
 import play.inject.ApplicationLifecycle;
 import play.libs.ws.WSClient;
 import play.libs.ws.WSResponse;
@@ -23,8 +24,8 @@ public class GithubAuthProvider extends
     private static final String USER_INFO_URL_SETTING_KEY = "userInfoUrl";
 
     @Inject
-    public GithubAuthProvider(final PlayAuthenticate auth, final ApplicationLifecycle lifecycle, final WSClient wsClient) {
-        super(auth, lifecycle, wsClient);
+    public GithubAuthProvider(final PlayAuthenticate auth, final ApplicationLifecycle lifecycle, final WSClient wsClient, final MessagesApi messagesApi) {
+        super(auth, lifecycle, wsClient, messagesApi);
     }
 
     @Override

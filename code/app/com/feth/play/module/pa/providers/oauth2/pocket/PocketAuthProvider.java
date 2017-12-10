@@ -8,10 +8,11 @@ import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.exceptions.ResolverMissingException;
 import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
 import com.feth.play.module.pa.user.AuthUserIdentity;
+import com.typesafe.config.Config;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
-import play.Configuration;
+import play.i18n.MessagesApi;
 import play.inject.ApplicationLifecycle;
 import play.libs.ws.WSClient;
 import play.libs.ws.WSResponse;
@@ -32,8 +33,8 @@ public class PocketAuthProvider extends
 	public static final String PROVIDER_KEY = "pocket";
 
 	@Inject
-	public PocketAuthProvider(final PlayAuthenticate auth, final ApplicationLifecycle lifecycle, final WSClient wsClient) {
-		super(auth, lifecycle, wsClient);
+	public PocketAuthProvider(final PlayAuthenticate auth, final ApplicationLifecycle lifecycle, final WSClient wsClient, final MessagesApi messagesApi) {
+		super(auth, lifecycle, wsClient, messagesApi);
 	}
 
 	public static abstract class SettingKeys extends
@@ -42,7 +43,7 @@ public class PocketAuthProvider extends
 		public static final String CONSUMER_KEY = "consumerKey";
 	}
 
-	public static abstract class PocketConstants extends Constants {
+	public static abstract class PocketConstants extends OAuth2AuthProvider.Constants {
 		public static final String CONSUMER_KEY = "consumer_key";
 		public static final String REQUEST_TOKEN = "request_token";
 	}
@@ -91,7 +92,7 @@ public class PocketAuthProvider extends
 	}
 
 	@Override
-	protected String getAccessTokenParams(final Configuration c,
+	protected String getAccessTokenParams(final Config c,
 			final String code, final Request request) {
 		final List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair(PocketConstants.CONSUMER_KEY, c
@@ -102,13 +103,13 @@ public class PocketAuthProvider extends
 	}
 
 	private String getRequestToken(final Request request) throws AuthException {
-		final Configuration c = getConfiguration();
+		final Config c = getConfiguration();
 		final List<NameValuePair> params = getRequestTokenParams(request, c);
 
 		try {
 			final WSResponse r = wsClient.url(c.getString(SettingKeys.REQUEST_TOKEN_URL))
-					.setHeader("Content-Type", "application/json")
-					.setHeader("X-Accept", "application/json")
+					.addHeader("Content-Type", "application/json")
+					.addHeader("X-Accept", "application/json")
 					.post(encodeParamsAsJson(params)).toCompletableFuture().get(getTimeout(), TimeUnit.MILLISECONDS);
 
 			if (r.getStatus() >= 400) {
@@ -122,7 +123,7 @@ public class PocketAuthProvider extends
 	}
 
 	private List<NameValuePair> getRequestTokenParams(final Request request,
-			final Configuration c) throws ResolverMissingException {
+			final Config c) throws ResolverMissingException {
 		final List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair(PocketConstants.CONSUMER_KEY, c
 				.getString(SettingKeys.CONSUMER_KEY)));
@@ -132,7 +133,7 @@ public class PocketAuthProvider extends
 	}
 
 	@Override
-	protected List<NameValuePair> getAuthParams(final Configuration c,
+	protected List<NameValuePair> getAuthParams(final Config c,
 			final Request request, final String state) throws AuthException {
 		final List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair(PocketConstants.CONSUMER_KEY, c

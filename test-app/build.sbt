@@ -2,7 +2,7 @@ organization := "com.feth"
 
 name := "play-authenticate-tests"
 
-scalaVersion := "2.11.8"
+scalaVersion := "2.12.2"
 
 version := "1.0-SNAPSHOT"
 
@@ -14,13 +14,13 @@ val appDependencies = Seq(
 // Needed for specs2
 resolvers += "scalaz-bintray" at "https://dl.bintray.com/scalaz/releases"
 
-// add resolver for easymail snapshots
+// add resolver for deadbolt and easymail snapshots
 resolvers += Resolver.sonatypeRepo("snapshots")
 
 lazy val playAuthenticate = (project in file("modules/play-authenticate")).enablePlugins(PlayJava)
 
 lazy val root = (project in file("."))
-  .enablePlugins(PlayJava)
+  .enablePlugins(PlayJava, PlayEbean)
   .settings(
     libraryDependencies ++= appDependencies
   )

@@ -23,6 +23,7 @@ import play.mvc.Call;
 import play.mvc.Http.Context;
 
 import javax.inject.Inject;
+import javax.inject.Provider;
 import javax.inject.Singleton;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -128,15 +129,15 @@ public class MyUsernamePasswordAuthProvider
 		}
 	}
 
-	private final Application app;
+	private final Provider<Application> appProvider;
 	private final Form<MySignup> SIGNUP_FORM;
 	private final Form<MyLogin> LOGIN_FORM;
 
 	@Inject
-	public MyUsernamePasswordAuthProvider(final Application app, final PlayAuthenticate auth, final FormFactory formFactory,
+	public MyUsernamePasswordAuthProvider(final Provider<Application> appProvider, final PlayAuthenticate auth, final FormFactory formFactory,
 										  final ApplicationLifecycle lifecycle, MailerFactory mailerFactory) {
 		super(auth, lifecycle, mailerFactory);
-		this.app = app;
+		this.appProvider = appProvider;
 
 		this.SIGNUP_FORM = formFactory.form(MySignup.class);
 		this.LOGIN_FORM = formFactory.form(MyLogin.class);
@@ -154,7 +155,7 @@ public class MyUsernamePasswordAuthProvider
 	protected MySignup getSignup(final Context ctx) {
 		// TODO change to getSignupForm().bindFromRequest(request) after 2.1
 		Context.current.set(ctx);
-		final Form<MySignup> filledForm = SIGNUP_FORM.bindFromRequest();
+		final Form<MySignup> filledForm = getSignupForm().bindFromRequest();
 		return filledForm.get();
 	}
 
@@ -162,7 +163,7 @@ public class MyUsernamePasswordAuthProvider
 	protected MyLogin getLogin(final Context ctx) {
 		// TODO change to getLoginForm().bindFromRequest(request) after 2.1
 		Context.current.set(ctx);
-		final Form<MyLogin> filledForm = LOGIN_FORM.bindFromRequest();
+		final Form<MyLogin> filledForm = getLoginForm().bindFromRequest();
 		return filledForm.get();
 	}
 
@@ -271,7 +272,7 @@ public class MyUsernamePasswordAuthProvider
 		final String url = routes.Signup.verify(token).absoluteURL(
 				ctx.request(), isSecure);
 
-		final Lang lang = Lang.preferred(app, ctx.request().acceptLanguages());
+		final Lang lang = Lang.preferred(appProvider.get(), ctx.request().acceptLanguages());
 		final String langCode = lang.code();
 
 		final String html = getEmailTemplate(
@@ -320,7 +321,7 @@ public class MyUsernamePasswordAuthProvider
 		final String url = routes.Signup.resetPassword(token).absoluteURL(
 				ctx.request(), isSecure);
 
-		final Lang lang = Lang.preferred(app, ctx.request().acceptLanguages());
+		final Lang lang = Lang.preferred(appProvider.get(), ctx.request().acceptLanguages());
 		final String langCode = lang.code();
 
 		final String html = getEmailTemplate(
@@ -401,7 +402,7 @@ public class MyUsernamePasswordAuthProvider
 		final String url = routes.Signup.verify(token).absoluteURL(
 				ctx.request(), isSecure);
 
-		final Lang lang = Lang.preferred(app, ctx.request().acceptLanguages());
+		final Lang lang = Lang.preferred(appProvider.get(), ctx.request().acceptLanguages());
 		final String langCode = lang.code();
 
 		final String html = getEmailTemplate(

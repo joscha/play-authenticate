@@ -7,6 +7,7 @@ scalaVersion := "2.12.2"
 version := "1.0-SNAPSHOT"
 
 val appDependencies = Seq(
+  javaForms,
   specs2 % "test",
   "org.easytesting" % "fest-assert" % "1.4" % "test"
 )
@@ -16,6 +17,11 @@ resolvers += "scalaz-bintray" at "https://dl.bintray.com/scalaz/releases"
 
 // add resolver for deadbolt and easymail snapshots
 resolvers += Resolver.sonatypeRepo("snapshots")
+
+// display deprecated or poorly formed Java
+javacOptions ++= Seq("-Xlint:unchecked")
+javacOptions ++= Seq("-Xlint:deprecation")
+javacOptions ++= Seq("-Xdiags:verbose")
 
 lazy val playAuthenticate = (project in file("modules/play-authenticate")).enablePlugins(PlayJava)
 

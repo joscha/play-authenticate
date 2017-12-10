@@ -11,6 +11,6 @@ addSbtPlugin("com.typesafe.sbt" %% "sbt-play-ebean" % "4.0.2")
 
 addSbtPlugin("com.jsuereth" % "sbt-pgp" % "1.0.0")
 
-addSbtPlugin("com.github.gseitz" % "sbt-release" % "1.0.0")
+addSbtPlugin("com.github.gseitz" % "sbt-release" % "1.0.7")
 
 addSbtPlugin("com.typesafe.sbt" % "sbt-play-enhancer" % "1.1.0")

@@ -13,10 +13,10 @@ addSbtPlugin("com.typesafe.sbt" %% "sbt-play-ebean" % "4.0.2")
 // if you see this and know how to do it, please open a pull request :)
 
 // Uncomment the next line for local development of the Play Authentication core:
-//addSbtPlugin("com.jsuereth" % "sbt-pgp" % "1.0.0")
+//addSbtPlugin("com.jsuereth" % "sbt-pgp" % "1.1.0")
 
 // Uncomment the next line for local development of the Play Authentication core:
-//addSbtPlugin("com.github.gseitz" % "sbt-release" % "1.0.0")
+//addSbtPlugin("com.github.gseitz" % "sbt-release" % "1.0.7")
 
 addSbtPlugin("com.typesafe.sbt" % "sbt-play-enhancer" % "1.1.0")
 

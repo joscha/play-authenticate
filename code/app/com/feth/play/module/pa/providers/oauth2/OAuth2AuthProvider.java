@@ -5,12 +5,12 @@ import com.feth.play.module.pa.exceptions.*;
 import com.feth.play.module.pa.providers.ext.ExternalAuthProvider;
 import com.feth.play.module.pa.user.AuthUser;
 import com.feth.play.module.pa.user.AuthUserIdentity;
+import com.typesafe.config.Config;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
-import play.Configuration;
 import play.Logger;
-import play.i18n.Messages;
+import play.i18n.MessagesApi;
 import play.inject.ApplicationLifecycle;
 import play.libs.ws.WSClient;
 import play.libs.ws.WSRequest;
@@ -42,10 +42,12 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
     protected static final String CONTENT_TYPE = "Content-Type";
 
 	protected final WSClient wsClient;
+	private final MessagesApi messagesApi;
 
-	public OAuth2AuthProvider(final PlayAuthenticate auth, final ApplicationLifecycle lifecycle, final WSClient wsClient) {
+	public OAuth2AuthProvider(final PlayAuthenticate auth, final ApplicationLifecycle lifecycle, final WSClient wsClient, final MessagesApi messagesApi) {
 		super(auth, lifecycle);
 		this.wsClient = wsClient;
+		this.messagesApi = messagesApi;
 	}
 
 	@Override
@@ -94,7 +96,7 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 		final List<QueryParam> queryParams = Arrays.asList(params);
 		final WSRequest request = wsClient.url(url);
 		for(QueryParam param : queryParams) {
-			request.setQueryParameter(param.param, param.value);
+			request.addQueryParameter(param.param, param.value);
 		}
 
 		try {
@@ -106,7 +108,7 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 		}
 	}
 
-	protected String getAccessTokenParams(final Configuration c,
+	protected String getAccessTokenParams(final Config c,
 			final String code, Request request) throws ResolverMissingException {
 		final List<NameValuePair> params = getParams(request, c);
 		params.add(new BasicNameValuePair(Constants.CLIENT_SECRET, c
@@ -124,13 +126,13 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 
 	protected I getAccessToken(final String code, final Request request)
             throws AccessTokenException, ResolverMissingException {
-		final Configuration c = getConfiguration();
+		final Config c = getConfiguration();
 		final String params = getAccessTokenParams(c, code, request);
 		final String url = c.getString(SettingKeys.ACCESS_TOKEN_URL);
         final WSRequest wrh = wsClient.url(url);
-        wrh.setHeader(CONTENT_TYPE, "application/x-www-form-urlencoded");
+        wrh.addHeader(CONTENT_TYPE, "application/x-www-form-urlencoded");
         for(final Map.Entry<String, String> header : getHeaders().entrySet()) {
-            wrh.setHeader(header.getKey(), header.getValue());
+            wrh.addHeader(header.getKey(), header.getValue());
         }
 
 		try {
@@ -146,12 +148,12 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 
 	protected String getAuthUrl(final Request request, final String state)
 			throws AuthException {
-		final Configuration c = getConfiguration();
+		final Config c = getConfiguration();
 		final List<NameValuePair> params = getAuthParams(c, request, state);
 		return generateURI(c.getString(SettingKeys.AUTHORIZATION_URL), params);
 	}
 
-	protected List<NameValuePair> getAuthParams(final Configuration c,
+	protected List<NameValuePair> getAuthParams(final Config c,
 			final Request request, final String state) throws AuthException {
 		final List<NameValuePair> params = getParams(request, c);
 		if (c.getString(SettingKeys.SCOPE) != null) {
@@ -179,7 +181,7 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 	}
 
 	protected List<NameValuePair> getParams(final Request request,
-			final Configuration c) throws ResolverMissingException {
+			final Config c) throws ResolverMissingException {
 		final List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair(Constants.CLIENT_ID, c
 				.getString(SettingKeys.CLIENT_ID)));
@@ -226,7 +228,7 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
             final String callbackState = request.getQueryString(Constants.STATE);
             if(!storedState.equals(UUID.fromString(callbackState))) {
                 // the return callback may have been forged
-                throw new AuthException(Messages.get("playauthenticate.core.exception.oauth2.state_param_forged"));
+                throw new AuthException(messagesApi.preferred(request).at("playauthenticate.core.exception.oauth2.state_param_forged"));
             }
 			final String code = request.getQueryString(Constants.CODE);
 			final I info = getAccessToken(code, request);

@@ -9,7 +9,9 @@ version := "1.0-SNAPSHOT"
 val appDependencies = Seq(
   javaForms,
   specs2 % "test",
-  "org.easytesting" % "fest-assert" % "1.4" % "test"
+  "org.easytesting" % "fest-assert" % "1.4" % "test",
+  cacheApi,
+  ehcache
 )
 
 // Needed for specs2

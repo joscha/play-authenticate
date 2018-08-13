@@ -139,9 +139,8 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 		return this.auth.getResolver().login().url();
 	}
 
-	public Result handleLogin(final Context ctx) {
-		return this.auth.handleAuthentication(PROVIDER_KEY, ctx,
-				Case.LOGIN);
+	public Result handleLogin(final Context ctx, boolean rememberMe) {
+		return this.auth.handleAuthentication(PROVIDER_KEY, ctx, Case.LOGIN, rememberMe);
 	}
 
 	@Override
@@ -150,8 +149,7 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 	}
 
 	public Result handleSignup(final Context ctx) {
-		return this.auth.handleAuthentication(PROVIDER_KEY, ctx,
-				Case.SIGNUP);
+		return this.auth.handleAuthentication(PROVIDER_KEY, ctx, Case.SIGNUP, false);
 	}
 
 	/**

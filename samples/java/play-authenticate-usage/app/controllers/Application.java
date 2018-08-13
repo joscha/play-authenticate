@@ -47,13 +47,13 @@ public class Application extends Controller {
 
 	@Restrict(@Group(Application.USER_ROLE))
 	public Result restricted() {
-		final User localUser = this.userProvider.getUser(session());
+		final User localUser = this.userProvider.getUser(ctx());
 		return ok(restricted.render(this.userProvider, localUser));
 	}
 
 	@Restrict(@Group(Application.USER_ROLE))
 	public Result profile() {
-		final User localUser = userProvider.getUser(session());
+		final User localUser = userProvider.getUser(ctx());
 		return ok(profile.render(this.auth, this.userProvider, localUser));
 	}
 
@@ -70,7 +70,7 @@ public class Application extends Controller {
 			return badRequest(login.render(this.auth, this.userProvider, filledForm));
 		} else {
 			// Everything was filled
-			return this.provider.handleLogin(ctx());
+			return this.provider.handleLogin(ctx(), filledForm.get().isRememberMe());
 		}
 	}
 

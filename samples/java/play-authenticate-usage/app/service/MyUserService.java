@@ -54,7 +54,12 @@ public class MyUserService extends AbstractUserService {
 		User.addLinkedAccount(oldUser, newUser);
 		return newUser;
 	}
-	
+
+	@Override
+	public void unlink(AuthUser knownUser) {
+
+	}
+
 	@Override
 	public AuthUser update(final AuthUser knownUser) {
 		// User logged in again, bump last login date

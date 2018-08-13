@@ -10,7 +10,8 @@ val appDependencies = Seq(
   // Comment the next line for local development of the Play Authentication core:
   "com.feth" %% "play-authenticate" % "0.8.3",
   cache,
-  javaWs
+  javaWs,
+  "mysql" % "mysql-connector-java" % "5.1.21"
 )
 
 // add resolver for easymail snapshots

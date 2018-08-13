@@ -77,6 +77,8 @@ public class MyUsernamePasswordAuthProvider
 		@MinLength(5)
 		protected String password;
 
+		protected boolean rememberMe;
+
 		@Override
 		public String getEmail() {
 			return email;
@@ -93,6 +95,14 @@ public class MyUsernamePasswordAuthProvider
 
 		public void setPassword(String password) {
 			this.password = password;
+		}
+
+		public boolean isRememberMe() {
+			return rememberMe;
+		}
+
+		public void setRememberMe(boolean rememberMe) {
+			this.rememberMe = rememberMe;
 		}
 	}
 

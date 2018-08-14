@@ -10,7 +10,7 @@ import com.feth.play.module.pa.user.AuthUser;
 public class LinkedAccount extends AppModel {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -25,6 +25,11 @@ public class LinkedAccount extends AppModel {
 
 	public static final Find<Long, LinkedAccount> find = new Find<Long, LinkedAccount>(){};
 
+	public static LinkedAccount findByProvider(String key, String providerUserId) {
+		return find.where().eq("providerKey", key).eq("providerUserId", providerUserId)
+				.findUnique();
+	}
+
 	public static LinkedAccount findByProviderKey(final User user, String key) {
 		return find.where().eq("user", user).eq("providerKey", key)
 				.findUnique();
@@ -35,7 +40,7 @@ public class LinkedAccount extends AppModel {
 		ret.update(authUser);
 		return ret;
 	}
-	
+
 	public void update(final AuthUser authUser) {
 		this.providerKey = authUser.getProvider();
 		this.providerUserId = authUser.getId();

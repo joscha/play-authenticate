@@ -2,6 +2,8 @@ package com.feth.play.module.pa;
 
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.AuthProvider;
+import com.feth.play.module.pa.providers.cookie.CookieAuthProvider;
+import com.feth.play.module.pa.providers.cookie.CookieAuthUser;
 import com.feth.play.module.pa.service.UserService;
 import com.feth.play.module.pa.user.AuthUser;
 import play.Configuration;
@@ -17,6 +19,7 @@ import play.mvc.Result;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.Date;
+import java.util.Optional;
 
 @Singleton
 public class PlayAuthenticate {
@@ -117,15 +120,15 @@ public class PlayAuthenticate {
 		boolean ret = session.containsKey(USER_KEY) // user is set
 				&& session.containsKey(PROVIDER_KEY); // provider is set
 		ret &= AuthProvider.Registry.hasProvider(session.get(PROVIDER_KEY)); // this
-																				// provider
-																				// is
-																				// active
+		// provider
+		// is
+		// active
 		if (session.containsKey(EXPIRES_KEY)) {
 			// expiration is set
 			final long expires = getExpiration(session);
 			if (expires != AuthUser.NO_EXPIRATION) {
 				ret &= (new Date()).getTime() < expires; // and the session
-															// expires after now
+				// expires after now
 			}
 		}
 		return ret;
@@ -166,7 +169,7 @@ public class PlayAuthenticate {
 		return expires;
 	}
 
-	public AuthUser getUser(final Session session) {
+	protected AuthUser getUser(final Session session) {
 		final String provider = session.get(PROVIDER_KEY);
 		final String id = session.get(USER_KEY);
 		final long expires = getExpiration(session);
@@ -178,8 +181,30 @@ public class PlayAuthenticate {
 		}
 	}
 
+	private Optional<CookieAuthProvider> getCookieAuthProvider() {
+		return AuthProvider.Registry.getProviders().stream()
+				.filter(x -> x instanceof CookieAuthProvider)
+				.map(x -> (CookieAuthProvider)x)
+				.findAny();
+	}
+
 	public AuthUser getUser(final Context context) {
-		return getUser(context.session());
+		AuthUser user = getUser(context.session());
+
+		if(user == null) {
+			Optional<CookieAuthProvider> cookieAuthProvider = getCookieAuthProvider();
+
+			Optional<CookieAuthUser> cookieAuthUser =
+					cookieAuthProvider.flatMap(provider -> Optional.ofNullable(provider.authenticate(context)));
+
+			if(cookieAuthUser.isPresent()) {
+				user = cookieAuthUser.get();
+				rememberUser(context, user);
+			}
+
+		}
+
+		return user;
 	}
 
 	public boolean isAccountAutoMerge() {
@@ -205,17 +230,17 @@ public class PlayAuthenticate {
 	}
 
 	private void storeUserInCache(final Session session,
-			final String key, final AuthUser identity) {
+								  final String key, final AuthUser identity) {
 		storeInCache(session, key, identity);
 	}
 
 	public void storeInCache(final Session session, final String key,
-			final Object o) {
+							 final Object o) {
 		play.cache.Cache.set(getCacheKey(session, key), o);
 	}
 
-    public <T> T removeFromCache(final Session session, final String key) {
-        final T o = getFromCache(session, key);
+	public <T> T removeFromCache(final Session session, final String key) {
+		final T o = getFromCache(session, key);
 
 		final String k = getCacheKey(session, key);
 		play.cache.Cache.remove(k);
@@ -227,13 +252,13 @@ public class PlayAuthenticate {
 		return id + "_" + key;
 	}
 
-    @SuppressWarnings("unchecked")
-    public <T> T getFromCache(final Session session, final String key) {
-        return (T) play.cache.Cache.get(getCacheKey(session, key));
+	@SuppressWarnings("unchecked")
+	public <T> T getFromCache(final Session session, final String key) {
+		return (T) play.cache.Cache.get(getCacheKey(session, key));
 	}
 
 	private AuthUser getUserFromCache(final Session session,
-			final String key) {
+									  final String key) {
 
 		final Object o = getFromCache(session, key);
 		if (o != null && o instanceof AuthUser) {
@@ -243,7 +268,7 @@ public class PlayAuthenticate {
 	}
 
 	public void storeMergeUser(final AuthUser identity,
-			final Session session) {
+							   final Session session) {
 		// TODO the cache is not ideal for this, because it might get cleared
 		// any time
 		storeUserInCache(session, MERGE_USER_KEY, identity);
@@ -258,7 +283,7 @@ public class PlayAuthenticate {
 	}
 
 	public void storeLinkUser(final AuthUser identity,
-			final Session session) {
+							  final Session session) {
 		// TODO the cache is not ideal for this, because it might get cleared
 		// any time
 		storeUserInCache(session, LINK_USER_KEY, identity);
@@ -312,7 +337,7 @@ public class PlayAuthenticate {
 		final AuthUser loginUser;
 		if (link) {
 			// User accepted link - add account to existing local user
-			loginUser = getUserService().link(getUser(context.session()),
+			loginUser = getUserService().link(getUser(context),
 					linkUser);
 		} else {
 			// User declined link - create new user
@@ -327,7 +352,7 @@ public class PlayAuthenticate {
 	}
 
 	public Result loginAndRedirect(final Context context,
-			final AuthUser loginUser) {
+								   final AuthUser loginUser) {
 		storeUser(context.session(), loginUser);
 		return Controller.redirect(getJumpUrl(context));
 	}
@@ -342,7 +367,7 @@ public class PlayAuthenticate {
 		if (merge) {
 			// User accepted merge, so do it
 			loginUser = getUserService().merge(mergeUser,
-					getUser(context.session()));
+					getUser(context));
 		} else {
 			// User declined merge, so log out the old user, and log out with
 			// the new one
@@ -353,17 +378,31 @@ public class PlayAuthenticate {
 	}
 
 	private AuthUser signupUser(final AuthUser u, final Session session, final AuthProvider provider) throws AuthException {
-        final Object id = getUserService().save(u);
+		final Object id = getUserService().save(u);
 		if (id == null) {
 			throw new AuthException(
 					Messages.get("playauthenticate.core.exception.signupuser_failed"));
 		}
-        provider.afterSave(u, id, session);
+		provider.afterSave(u, id, session);
 		return u;
 	}
 
+	private void rememberUser(final Context context, AuthUser authUser) {
+		getCookieAuthProvider().ifPresent(cookieAuthProvider -> {
+			cookieAuthProvider.remember(context, authUser);
+
+			context.session().put(PlayAuthenticate.USER_KEY, authUser.getId());
+			context.session().put(PlayAuthenticate.PROVIDER_KEY, authUser.getProvider());
+			if (authUser.expires() != AuthUser.NO_EXPIRATION) {
+				context.session().put(EXPIRES_KEY, Long.toString(authUser.expires()));
+			} else {
+				context.session().remove(EXPIRES_KEY);
+			}
+		});
+	}
+
 	public Result handleAuthentication(final String provider,
-			final Context context, final Object payload) {
+									   final Context context, final Object payload, boolean rememberMe) {
 		final AuthProvider ap = getProvider(provider);
 		if (ap == null) {
 			// Provider wasn't found and/or user was fooling with our stuff -
@@ -399,7 +438,7 @@ public class PlayAuthenticate {
 				// are
 				// not logged in (does NOT check expiration)
 
-				AuthUser oldUser = getUser(session);
+				AuthUser oldUser = getUser(context);
 
 				// checks if the user is logged in (also checks the expiration!)
 				boolean isLoggedIn = isLoggedIn(session);
@@ -492,6 +531,10 @@ public class PlayAuthenticate {
 						return Controller.redirect(c);
 					}
 
+				}
+
+				if(rememberMe) {
+					rememberUser(context, loginUser);
 				}
 
 				return loginAndRedirect(context, loginUser);

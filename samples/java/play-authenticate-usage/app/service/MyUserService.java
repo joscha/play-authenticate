@@ -4,6 +4,7 @@ import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.service.AbstractUserService;
 import com.feth.play.module.pa.user.AuthUser;
 import com.feth.play.module.pa.user.AuthUserIdentity;
+import models.LinkedAccount;
 import models.User;
 
 import javax.inject.Inject;
@@ -57,7 +58,10 @@ public class MyUserService extends AbstractUserService {
 
 	@Override
 	public void unlink(AuthUser knownUser) {
-		// TODO
+		LinkedAccount linkedAccount = LinkedAccount.findByProvider(knownUser.getProvider(), knownUser.getId());
+		if(linkedAccount != null) {
+			linkedAccount.delete();
+		}
 	}
 
 	@Override

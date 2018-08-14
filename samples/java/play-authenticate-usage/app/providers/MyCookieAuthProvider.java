@@ -6,6 +6,7 @@ import com.feth.play.module.pa.providers.cookie.CookieAuthUser;
 import com.feth.play.module.pa.user.AuthUser;
 import models.CookieTokenSeries;
 import models.LinkedAccount;
+import models.User;
 import play.api.Play;
 import play.inject.ApplicationLifecycle;
 
@@ -33,12 +34,12 @@ public class MyCookieAuthProvider extends CookieAuthProvider {
     }
 
     @Override
-    protected void deleteSeries(CookieAuthUser cookieAuthUser) {
-        LinkedAccount linkedAccount = LinkedAccount.findByProvider(getKey(), cookieAuthUser.getSeries());
+    protected void deleteSeries(AuthUser authUser, String series) {
+        LinkedAccount linkedAccount = LinkedAccount.findByProvider(getKey(), series);
 
-        getAuth().getUserService().unlink(cookieAuthUser);
+        getAuth().getUserService().unlink(authUser);
 
-        CookieTokenSeries cookieSeries = CookieTokenSeries.findBySeries(linkedAccount.user, cookieAuthUser.getSeries());
+        CookieTokenSeries cookieSeries = CookieTokenSeries.findBySeries(linkedAccount.user, series);
 
         cookieSeries.delete();
     }

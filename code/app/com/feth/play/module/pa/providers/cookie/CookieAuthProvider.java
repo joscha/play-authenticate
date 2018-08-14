@@ -56,6 +56,10 @@ public abstract class CookieAuthProvider extends AuthProvider {
         return PROVIDER_KEY;
     }
 
+    public static String getProviderKey() {
+        return PROVIDER_KEY;
+    }
+
     protected static enum CheckResult {
         SUCCESS,
         INVALID_TOKEN,
@@ -69,10 +73,8 @@ public abstract class CookieAuthProvider extends AuthProvider {
     /**
      * Deletes an auth cookie. This assumes that any persisted auth cookie
      * with the given series (cookieAuthUser.getSeries()) is deleted.
-     *
-     * @param cookieAuthUser
      */
-    protected abstract void deleteSeries(final CookieAuthUser cookieAuthUser);
+    protected abstract void deleteSeries(AuthUser authUser, String series);
 
     protected void potentialTheft(final CookieAuthUser cookieAuthUser) {
         log.warn("Potential cookie theft: {}", cookieAuthUser.getId());
@@ -144,8 +146,8 @@ public abstract class CookieAuthProvider extends AuthProvider {
     public void forget(final Context ctx) {
         final AuthUser authUser = getAuth().getUser(ctx);
         ctx.response().discardCookie(getCookieName());
-        if (authUser instanceof CookieAuthUser) {
-            deleteSeries((CookieAuthUser)authUser);
+        if (authUser != null && authUser.getProvider().equals(CookieAuthProvider.getProviderKey())) {
+            deleteSeries(authUser, authUser.getId());
         }
     }
 
@@ -190,7 +192,7 @@ public abstract class CookieAuthProvider extends AuthProvider {
 
         } else if (CheckResult.INVALID_TOKEN == checkResult) {
             potentialTheft(cookieAuthUser);
-            deleteSeries(cookieAuthUser);
+            deleteSeries(cookieAuthUser, cookieAuthUser.getSeries());
             ctx.response().discardCookie(getCookieName());
             return null;
 

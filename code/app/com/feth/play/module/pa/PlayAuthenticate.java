@@ -485,6 +485,10 @@ public class PlayAuthenticate {
 						// so kill the session
 						logout(context);
 						oldUser = null;
+					} else if(oldUser.getProvider().equals(CookieAuthProvider.getProviderKey())) {
+						getCookieAuthProvider().ifPresent(cookieAuthProvider ->
+							cookieAuthProvider.forget(context)
+						);
 					}
 				}
 

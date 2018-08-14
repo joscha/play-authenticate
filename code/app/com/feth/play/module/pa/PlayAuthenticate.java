@@ -199,7 +199,7 @@ public class PlayAuthenticate {
 
 			if(cookieAuthUser.isPresent()) {
 				user = cookieAuthUser.get();
-				cookieAuthProvider.get().remember(context, user);
+				rememberUser(context, user);
 			}
 
 		}
@@ -390,6 +390,14 @@ public class PlayAuthenticate {
 	private void rememberUser(final Context context, AuthUser authUser) {
 		getCookieAuthProvider().ifPresent(cookieAuthProvider -> {
 			cookieAuthProvider.remember(context, authUser);
+
+			context.session().put(PlayAuthenticate.USER_KEY, authUser.getId());
+			context.session().put(PlayAuthenticate.PROVIDER_KEY, authUser.getProvider());
+			if (authUser.expires() != AuthUser.NO_EXPIRATION) {
+				context.session().put(EXPIRES_KEY, Long.toString(authUser.expires()));
+			} else {
+				context.session().remove(EXPIRES_KEY);
+			}
 		});
 	}
 

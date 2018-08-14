@@ -64,9 +64,7 @@ public abstract class CookieAuthProvider extends AuthProvider {
         ERROR
     }
 
-    protected void save(final CookieAuthUser cookieAuthUser, final AuthUser loginUser) {
-        getAuth().getUserService().link(loginUser, cookieAuthUser);
-    }
+    protected abstract void save(final CookieAuthUser cookieAuthUser, final AuthUser loginUser);
 
     /**
      * Deletes an auth cookie. This assumes that any persisted auth cookie

@@ -116,7 +116,9 @@ public class PlayAuthenticate {
 		}
 	}
 
-	public boolean isLoggedIn(final Session session) {
+	public boolean isLoggedIn(final Context context) {
+		Session session = context.session();
+
 		boolean ret = session.containsKey(USER_KEY) // user is set
 				&& session.containsKey(PROVIDER_KEY); // provider is set
 		ret &= AuthProvider.Registry.hasProvider(session.get(PROVIDER_KEY)); // this
@@ -131,6 +133,11 @@ public class PlayAuthenticate {
 				// expires after now
 			}
 		}
+
+		if(!ret) {
+			ret = tryAuthenticateWithCookie(context).isPresent();
+		}
+
 		return ret;
 	}
 
@@ -181,6 +188,30 @@ public class PlayAuthenticate {
 		}
 	}
 
+	public AuthUser getUser(final Context context) {
+		AuthUser user = getUser(context.session());
+
+		if(user == null) {
+			user = tryAuthenticateWithCookie(context).orElse(null);
+		}
+
+		return user;
+	}
+
+	private Optional<CookieAuthUser> tryAuthenticateWithCookie(final Context context) {
+		Optional<CookieAuthProvider> cookieAuthProvider = getCookieAuthProvider();
+
+		Optional<CookieAuthUser> cookieAuthUser =
+				cookieAuthProvider.flatMap(provider -> Optional.ofNullable(provider.authenticate(context)));
+
+		Optional<CookieAuthUser> user = Optional.empty();
+		if(cookieAuthUser.isPresent()) {
+			user = Optional.of(cookieAuthUser.get());
+			rememberUser(context, user.get());
+		}
+		return user;
+	}
+
 	private Optional<CookieAuthProvider> getCookieAuthProvider() {
 		return AuthProvider.Registry.getProviders().stream()
 				.filter(x -> x instanceof CookieAuthProvider)
@@ -196,24 +227,7 @@ public class PlayAuthenticate {
 		).orElse(false);
 	}
 
-	public AuthUser getUser(final Context context) {
-		AuthUser user = getUser(context.session());
 
-		if(user == null) {
-			Optional<CookieAuthProvider> cookieAuthProvider = getCookieAuthProvider();
-
-			Optional<CookieAuthUser> cookieAuthUser =
-					cookieAuthProvider.flatMap(provider -> Optional.ofNullable(provider.authenticate(context)));
-
-			if(cookieAuthUser.isPresent()) {
-				user = cookieAuthUser.get();
-				rememberUser(context, user);
-			}
-
-		}
-
-		return user;
-	}
 
 	public boolean isAccountAutoMerge() {
 		return getConfiguration().getBoolean(SETTING_KEY_ACCOUNT_AUTO_MERGE);
@@ -449,7 +463,7 @@ public class PlayAuthenticate {
 				AuthUser oldUser = getUser(context);
 
 				// checks if the user is logged in (also checks the expiration!)
-				boolean isLoggedIn = isLoggedIn(session);
+				boolean isLoggedIn = isLoggedIn(context);
 
 				Object oldIdentity = null;
 

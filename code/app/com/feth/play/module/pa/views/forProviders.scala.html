@@ -4,7 +4,7 @@
 
 @defining(Registry.getProviders()) { providers =>
 	@if(providers != null && providers.size() > 0) {
-		@defining(auth.isLoggedIn(session())) { loggedIn =>
+		@defining(auth.isLoggedIn(ctx())) { loggedIn =>
 			@defining(auth.getUser(ctx())) { auth =>
 			    @for(p <- providers) {
 			    	@if(((showExternal && p.isExternal()) || (showInternal && !p.isExternal())) && (!loggedIn || !skipCurrent || (skipCurrent && (loggedIn && !p.getKey().equals(auth.getProvider()))))) {

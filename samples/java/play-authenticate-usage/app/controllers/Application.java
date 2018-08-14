@@ -55,7 +55,8 @@ public class Application extends Controller {
 	public Result restrictedForbidCookie() {
 		final User localUser = this.userProvider.getUser(ctx());
 		if(auth.isAuthorizedWithCookie(ctx())) {
-			return redirect("login");
+			ctx().flash().put("error", "Please login again to access requested page");
+			return redirect(this.auth.getResolver().login());
 		}
 		return ok(restrictedForbidCookie.render(this.userProvider, localUser));
 	}

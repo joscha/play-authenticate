@@ -1,0 +1,10 @@
+@import service.UserProvider
+@(userProvider: UserProvider, localUser: models.User = null)
+
+@main(userProvider, Messages("playauthenticate.navigation.restrictedForbidCookie"), "restrictedForbidCookie") {
+    
+    <h1>@Messages("playauthenticate.navigation.restricted")</h1>
+    <p>
+        @Messages("playauthenticate.restricted.secrets")
+    </p>
+}

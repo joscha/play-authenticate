@@ -52,6 +52,15 @@ public class Application extends Controller {
 	}
 
 	@Restrict(@Group(Application.USER_ROLE))
+	public Result restrictedForbidCookie() {
+		final User localUser = this.userProvider.getUser(ctx());
+		if(auth.isAuthorizedWithCookie(ctx())) {
+			return redirect("login");
+		}
+		return ok(restrictedForbidCookie.render(this.userProvider, localUser));
+	}
+
+	@Restrict(@Group(Application.USER_ROLE))
 	public Result profile() {
 		final User localUser = userProvider.getUser(ctx());
 		return ok(profile.render(this.auth, this.userProvider, localUser));

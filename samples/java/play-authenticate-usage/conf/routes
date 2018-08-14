@@ -5,6 +5,7 @@
 # Home page
 GET     /                           controllers.Application.index
 GET     /restricted                 controllers.Application.restricted
+GET     /restrictedForbidCookie     controllers.Application.restrictedForbidCookie
 GET     /assets/javascript/routes.js    controllers.Application.jsRoutes
 
 GET     /profile                    controllers.Application.profile

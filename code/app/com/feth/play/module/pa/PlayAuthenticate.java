@@ -188,6 +188,14 @@ public class PlayAuthenticate {
 				.findAny();
 	}
 
+	public boolean isAuthorizedWithCookie(final Context context) {
+		AuthUser user = getUser(context);
+
+		return getCookieAuthProvider().map(cookieAuthProvider ->
+			user.getProvider().equals(cookieAuthProvider.getKey())
+		).orElse(false);
+	}
+
 	public AuthUser getUser(final Context context) {
 		AuthUser user = getUser(context.session());
 

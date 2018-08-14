@@ -141,7 +141,9 @@ public class PlayAuthenticate {
 		return ret;
 	}
 
-	public Result logout(final Session session) {
+	public Result logout(final Context context) {
+	    Session session = context.session();
+
 		session.remove(USER_KEY);
 		session.remove(PROVIDER_KEY);
 		session.remove(EXPIRES_KEY);
@@ -149,6 +151,10 @@ public class PlayAuthenticate {
 		// shouldn't be in any more, but just in case lets kill it from the
 		// cookie
 		session.remove(ORIGINAL_URL);
+
+		getCookieAuthProvider().ifPresent(cookieAuthProvider -> {
+		    cookieAuthProvider.forget(context);
+        });
 
 		return Controller.redirect(getUrl(getResolver().afterLogout(),
 				SETTING_KEY_AFTER_LOGOUT_FALLBACK));
@@ -477,7 +483,7 @@ public class PlayAuthenticate {
 						// if isLoggedIn is false here, then the local user has
 						// been deleted/deactivated
 						// so kill the session
-						logout(session);
+						logout(context);
 						oldUser = null;
 					}
 				}

@@ -72,9 +72,7 @@ public abstract class CookieAuthProvider extends AuthProvider {
      *
      * @param cookieAuthUser
      */
-    protected void deleteSeries(final CookieAuthUser cookieAuthUser) {
-        getAuth().getUserService().unlink(cookieAuthUser);
-    }
+    protected abstract void deleteSeries(final CookieAuthUser cookieAuthUser);
 
     protected void potentialTheft(final CookieAuthUser cookieAuthUser) {
         log.warn("Potential cookie theft: {}", cookieAuthUser.getId());

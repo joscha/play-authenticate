@@ -33,6 +33,17 @@ public class MyCookieAuthProvider extends CookieAuthProvider {
     }
 
     @Override
+    protected void deleteSeries(CookieAuthUser cookieAuthUser) {
+        LinkedAccount linkedAccount = LinkedAccount.findByProvider(getKey(), cookieAuthUser.getSeries());
+
+        getAuth().getUserService().unlink(cookieAuthUser);
+
+        CookieTokenSeries cookieSeries = CookieTokenSeries.findBySeries(linkedAccount.user, cookieAuthUser.getSeries());
+
+        cookieSeries.delete();
+    }
+
+    @Override
     protected CheckResult check(CookieAuthUser cookieAuthUser) {
         if(cookieAuthUser.getSeries() == null) {
             return CheckResult.MISSING_SERIES;

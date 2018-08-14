@@ -19,6 +19,6 @@ public class AuthenticateDI extends AuthenticateBase {
 
 	public Result logout() {
 		noCache(response());
-		return this.auth.logout(session());
+		return this.auth.logout(ctx());
 	}
 }

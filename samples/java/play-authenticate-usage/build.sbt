@@ -11,8 +11,9 @@ herokuAppName in Compile := "play-authenticate"
 val appDependencies = Seq(
   "be.objectify"  %% "deadbolt-java"     % "2.5.0",
   // Comment the next line for local development of the Play Authentication core:
-  "com.feth"      %% "play-authenticate" % "0.8.3",
-  "org.postgresql"    %  "postgresql"        % "9.4-1206-jdbc42",
+//  "com.feth"      %% "play-authenticate" % "0.8.3",
+//  "org.postgresql"    %  "postgresql"        % "9.4-1206-jdbc42",
+  "mysql" % "mysql-connector-java" % "5.1.21",
   cache,
   evolutions,
   javaWs,
@@ -31,7 +32,7 @@ javacOptions ++= Seq("-Xlint:deprecation")
 javacOptions ++= Seq("-Xdiags:verbose")
 
 //  Uncomment the next line for local development of the Play Authenticate core:
-//lazy val playAuthenticate = project.in(file("modules/play-authenticate")).enablePlugins(PlayJava)
+lazy val playAuthenticate = project.in(file("modules/play-authenticate")).enablePlugins(PlayJava)
 
 lazy val root = project.in(file("."))
   .enablePlugins(PlayJava, PlayEbean)
@@ -39,5 +40,5 @@ lazy val root = project.in(file("."))
     libraryDependencies ++= appDependencies
   )
   /* Uncomment the next lines for local development of the Play Authenticate core: */
-  //.dependsOn(playAuthenticate)
-  //.aggregate(playAuthenticate)
+  .dependsOn(playAuthenticate)
+  .aggregate(playAuthenticate)

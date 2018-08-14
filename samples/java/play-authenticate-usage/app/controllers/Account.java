@@ -106,7 +106,7 @@ public class Account extends Controller {
 	@Restrict(@Group(Application.USER_ROLE))
 	public Result verifyEmail() {
 		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
-		final User user = this.userProvider.getUser(session());
+		final User user = this.userProvider.getUser(ctx());
 		if (user.emailValidated) {
 			// E-Mail has been validated already
 			flash(Application.FLASH_MESSAGE_KEY,
@@ -127,7 +127,7 @@ public class Account extends Controller {
 	@Restrict(@Group(Application.USER_ROLE))
 	public Result changePassword() {
 		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
-		final User u = this.userProvider.getUser(session());
+		final User u = this.userProvider.getUser(ctx());
 
 		if (!u.emailValidated) {
 			return ok(unverified.render(this.userProvider));
@@ -145,7 +145,7 @@ public class Account extends Controller {
 			// User did not select whether to link or not link
 			return badRequest(password_change.render(this.userProvider, filledForm));
 		} else {
-			final User user = this.userProvider.getUser(session());
+			final User user = this.userProvider.getUser(ctx());
 			final String newPassword = filledForm.get().password;
 			user.changePassword(new MyUsernamePasswordAuthUser(newPassword),
 					true);
@@ -194,7 +194,7 @@ public class Account extends Controller {
 	public Result askMerge() {
 		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
 		// this is the currently logged in user
-		final AuthUser aUser = this.auth.getUser(session());
+		final AuthUser aUser = this.auth.getUser(ctx());
 
 		// this is the user that was selected for a login
 		final AuthUser bUser = this.auth.getMergeUser(session());
@@ -212,7 +212,7 @@ public class Account extends Controller {
 	public Result doMerge() {
 		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
 		// this is the currently logged in user
-		final AuthUser aUser = this.auth.getUser(session());
+		final AuthUser aUser = this.auth.getUser(ctx());
 
 		// this is the user that was selected for a login
 		final AuthUser bUser = this.auth.getMergeUser(session());

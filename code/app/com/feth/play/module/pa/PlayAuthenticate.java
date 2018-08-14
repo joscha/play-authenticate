@@ -2,6 +2,8 @@ package com.feth.play.module.pa;
 
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.AuthProvider;
+import com.feth.play.module.pa.providers.cookie.CookieAuthProvider;
+import com.feth.play.module.pa.providers.cookie.CookieAuthUser;
 import com.feth.play.module.pa.service.UserService;
 import com.feth.play.module.pa.user.AuthUser;
 import play.Configuration;
@@ -17,6 +19,7 @@ import play.mvc.Result;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.Date;
+import java.util.Optional;
 
 @Singleton
 public class PlayAuthenticate {
@@ -166,7 +169,7 @@ public class PlayAuthenticate {
 		return expires;
 	}
 
-	public AuthUser getUser(final Session session) {
+	protected AuthUser getUser(final Session session) {
 		final String provider = session.get(PROVIDER_KEY);
 		final String id = session.get(USER_KEY);
 		final long expires = getExpiration(session);
@@ -178,8 +181,30 @@ public class PlayAuthenticate {
 		}
 	}
 
+	private Optional<CookieAuthProvider> getCookieAuthProvider() {
+		return AuthProvider.Registry.getProviders().stream()
+				.filter(x -> x instanceof CookieAuthProvider)
+				.map(x -> (CookieAuthProvider)x)
+				.findAny();
+	}
+
 	public AuthUser getUser(final Context context) {
-		return getUser(context.session());
+		AuthUser user = getUser(context.session());
+
+		if(user == null) {
+			Optional<CookieAuthProvider> cookieAuthProvider = getCookieAuthProvider();
+
+			Optional<CookieAuthUser> cookieAuthUser =
+					cookieAuthProvider.flatMap(provider -> Optional.ofNullable(provider.authenticate(context)));
+
+			if(cookieAuthUser.isPresent()) {
+				user = cookieAuthUser.get();
+				rememberUser(context, user);
+			}
+
+		}
+
+		return user;
 	}
 
 	public boolean isAccountAutoMerge() {
@@ -312,7 +337,7 @@ public class PlayAuthenticate {
 		final AuthUser loginUser;
 		if (link) {
 			// User accepted link - add account to existing local user
-			loginUser = getUserService().link(getUser(context.session()),
+			loginUser = getUserService().link(getUser(context),
 					linkUser);
 		} else {
 			// User declined link - create new user
@@ -342,7 +367,7 @@ public class PlayAuthenticate {
 		if (merge) {
 			// User accepted merge, so do it
 			loginUser = getUserService().merge(mergeUser,
-					getUser(context.session()));
+					getUser(context));
 		} else {
 			// User declined merge, so log out the old user, and log out with
 			// the new one
@@ -362,8 +387,22 @@ public class PlayAuthenticate {
 		return u;
 	}
 
+	private void rememberUser(final Context context, AuthUser authUser) {
+		getCookieAuthProvider().ifPresent(cookieAuthProvider -> {
+			cookieAuthProvider.remember(context, authUser);
+
+			context.session().put(PlayAuthenticate.USER_KEY, authUser.getId());
+			context.session().put(PlayAuthenticate.PROVIDER_KEY, authUser.getProvider());
+			if (authUser.expires() != AuthUser.NO_EXPIRATION) {
+				context.session().put(EXPIRES_KEY, Long.toString(authUser.expires()));
+			} else {
+				context.session().remove(EXPIRES_KEY);
+			}
+		});
+	}
+
 	public Result handleAuthentication(final String provider,
-			final Context context, final Object payload) {
+			final Context context, final Object payload, boolean rememberMe) {
 		final AuthProvider ap = getProvider(provider);
 		if (ap == null) {
 			// Provider wasn't found and/or user was fooling with our stuff -
@@ -399,7 +438,7 @@ public class PlayAuthenticate {
 				// are
 				// not logged in (does NOT check expiration)
 
-				AuthUser oldUser = getUser(session);
+				AuthUser oldUser = getUser(context);
 
 				// checks if the user is logged in (also checks the expiration!)
 				boolean isLoggedIn = isLoggedIn(session);
@@ -492,6 +531,10 @@ public class PlayAuthenticate {
 						return Controller.redirect(c);
 					}
 
+				}
+
+				if(rememberMe) {
+					rememberUser(context, loginUser);
 				}
 
 				return loginAndRedirect(context, loginUser);

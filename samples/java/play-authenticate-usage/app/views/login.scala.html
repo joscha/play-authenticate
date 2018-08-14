@@ -4,6 +4,7 @@
 @import helper._
 @implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapBasic.f) }
 @import com.feth.play.module.pa.views.html._
+@import views.html.helper.checkbox
 
 @main(userProvider, Messages("playauthenticate.login.title"),"login") {
 
@@ -33,7 +34,9 @@
           '_label -> Messages("playauthenticate.login.password.placeholder")
         )
 
-            <button type="submit" class="btn btn-default">@Messages("playauthenticate.login.now")</button>
+        <input type="checkbox" id="rememberMe" name="rememberMe" value="true"/> <span>Remember me</span> <br>
+
+        <button type="submit" class="btn btn-default">@Messages("playauthenticate.login.now")</button>
 
         <a href="javascript:void(0);" onclick="window.location.href = jsRoutes.controllers.Signup.forgotPassword($('#email').val() || null).absoluteURL();">@Messages("playauthenticate.login.forgot.password")</a>
 
@@ -47,7 +50,7 @@
       @providerAvailable("basic") { available: Boolean =>
           @if(available) {
               <br>
-              <a href="@com.feth.play.module.pa.controllers.routes.Authenticate.authenticate("basic")">@Messages("playauthenticate.login.basic")</a>
+              <a href="@com.feth.play.module.pa.controllers.routes.Authenticate.authenticate("basic", false)">@Messages("playauthenticate.login.basic")</a>
           }
       }
     </div>

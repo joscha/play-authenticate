@@ -225,7 +225,7 @@ public class Signup extends Controller {
 		User.verify(ta.targetUser);
 		flash(Application.FLASH_MESSAGE_KEY,
 				this.msg.preferred(request()).at("playauthenticate.verify_email.success", email));
-		if (this.userProvider.getUser(session()) != null) {
+		if (this.userProvider.getUser(ctx()) != null) {
 			return redirect(routes.Application.index());
 		} else {
 			return redirect(routes.Application.login());

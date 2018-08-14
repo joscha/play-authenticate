@@ -33,7 +33,7 @@ public class MyResolver extends Resolver {
         // You can provide your own authentication implementation,
         // however the default should be sufficient for most cases
         return com.feth.play.module.pa.controllers.routes.Authenticate
-                .authenticate(provider);
+                .authenticate(provider, false);
     }
 
     @Override

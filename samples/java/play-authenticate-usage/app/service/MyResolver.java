@@ -17,6 +17,11 @@ public class MyResolver extends Resolver {
     }
 
     @Override
+    public Call relogin() {
+        return routes.Application.relogin();
+    }
+
+    @Override
     public Call afterAuth() {
         // The user will be redirected to this page after authentication
         // if no original URL was saved

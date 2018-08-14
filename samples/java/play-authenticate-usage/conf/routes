@@ -11,6 +11,7 @@ GET     /assets/javascript/routes.js    controllers.Application.jsRoutes
 GET     /profile                    controllers.Application.profile
 
 GET     /login                      controllers.Application.login
+GET     /relogin                    controllers.Application.relogin
 POST    /login                      controllers.Application.doLogin
 
 GET     /logout                     com.feth.play.module.pa.controllers.Authenticate.logout

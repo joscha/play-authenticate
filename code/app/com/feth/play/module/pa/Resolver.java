@@ -20,6 +20,13 @@ public abstract class Resolver {
     public abstract Call login();
 
     /**
+     * Route to "re-type password" page
+     *
+     * @return
+     */
+    public abstract Call relogin();
+
+    /**
      * Route to redirect to after authentication has been finished.
      * Only used if no original URL was stored.
      * If you return null here, the user will get redirected to the URL of

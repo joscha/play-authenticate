@@ -16,6 +16,8 @@ import views.html.*;
 import javax.inject.Inject;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Application extends Controller {
 
@@ -55,8 +57,8 @@ public class Application extends Controller {
 	public Result restrictedForbidCookie() {
 		final User localUser = this.userProvider.getUser(ctx());
 		if(auth.isAuthorizedWithCookie(ctx())) {
-			ctx().flash().put("error", "Please login again to access requested page");
-			return redirect(this.auth.getResolver().login());
+			ctx().flash().put("error", "Please type password again to access requested page");
+			return redirect(this.auth.getResolver().relogin());
 		}
 		return ok(restrictedForbidCookie.render(this.userProvider, localUser));
 	}
@@ -69,6 +71,17 @@ public class Application extends Controller {
 
 	public Result login() {
 		return ok(login.render(this.auth, this.userProvider,  this.provider.getLoginForm()));
+	}
+
+	@Restrict(@Group(Application.USER_ROLE))
+	public Result relogin() {
+		Form form = this.provider.getLoginForm();
+		Map<String, String> formData = form.data();
+		formData.put("rememberMe", "true");
+		formData.put("email", userProvider.getUser(ctx()).email);
+		form.fill(formData);
+
+		return ok(relogin.render(this.auth, this.userProvider, form));
 	}
 
 	public Result doLogin() {

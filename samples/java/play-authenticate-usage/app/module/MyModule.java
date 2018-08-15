@@ -4,7 +4,6 @@ import com.feth.play.module.mail.IMailer;
 import com.feth.play.module.mail.Mailer;
 import com.feth.play.module.mail.Mailer.MailerFactory;
 import com.feth.play.module.pa.Resolver;
-import com.feth.play.module.pa.providers.cookie.CookieAuthProvider;
 import com.feth.play.module.pa.providers.openid.OpenIdAuthProvider;
 import com.google.inject.AbstractModule;
 import com.google.inject.assistedinject.FactoryModuleBuilder;

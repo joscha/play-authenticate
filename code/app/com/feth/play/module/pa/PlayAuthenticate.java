@@ -132,10 +132,6 @@ public class PlayAuthenticate {
 			}
 		}
 
-//		if(!ret) {
-//			ret = tryAuthenticateWithCookie(context).isPresent();
-//		}
-
 		return ret;
 	}
 
@@ -192,15 +188,9 @@ public class PlayAuthenticate {
 		}
 	}
 
-//	public AuthUser getUser(final Context context) {
-//		AuthUser user = getUser(context.session());
-//
-//		if(user == null) {
-////			user = tryAuthenticateWithCookie(context).orElse(null);
-//		}
-//
-//		return user;
-//	}
+	public AuthUser getUser(final Context context) {
+		return getUser(context.session());
+	}
 
 	public boolean tryAuthenticateWithCookie(final Context context) {
 		Optional<CookieAuthProvider> cookieAuthProvider = getCookieAuthProvider();
@@ -464,10 +454,10 @@ public class PlayAuthenticate {
 				// are
 				// not logged in (does NOT check expiration)
 
-				AuthUser oldUser = getUser(context.session());
+				AuthUser oldUser = getUser(session);
 
 				// checks if the user is logged in (also checks the expiration!)
-				boolean isLoggedIn = isLoggedIn(context.session());
+				boolean isLoggedIn = isLoggedIn(session);
 
 				Object oldIdentity = null;
 

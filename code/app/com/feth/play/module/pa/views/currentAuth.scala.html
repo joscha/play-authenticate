@@ -1,5 +1,5 @@
 @(auth: com.feth.play.module.pa.PlayAuthenticate)(body: com.feth.play.module.pa.user.AuthUser => play.twirl.api.Html)
 
-@defining(auth.getUser(ctx())) { auth =>
+@defining(auth.getUser(session())) { auth =>
 	@body(auth)
 }

@@ -27,7 +27,7 @@ public abstract class CookieAuthProvider extends AuthProvider {
     protected static final String SESSION_KEY_DO_NOT_REMEMBER = "pa.cookie.do_not_remember";
 
     private static final String SETTING_KEY_COOKIE_NAME = "cookieName";
-    private static final String SETTING_KEY_TIMEOUT = "timeout";
+    private static final String SETTING_KEY_TIMEOUT_DAYS = "timeoutDays.sinceFirstLogin";
     private static final String SETTING_KEY_SECURE_ONLY = "secureOnly";
     private static final String SETTING_KEY_PATH = "path";
 
@@ -35,7 +35,7 @@ public abstract class CookieAuthProvider extends AuthProvider {
     protected List<String> neededSettingKeys() {
         return Arrays.asList(
                 SETTING_KEY_COOKIE_NAME,
-                SETTING_KEY_TIMEOUT,
+                SETTING_KEY_TIMEOUT_DAYS,
                 SETTING_KEY_SECURE_ONLY,
                 SETTING_KEY_PATH
         );
@@ -93,7 +93,7 @@ public abstract class CookieAuthProvider extends AuthProvider {
     }
 
     protected int getTimeout() {
-        return getConfiguration().getInt(SETTING_KEY_TIMEOUT);
+        return getConfiguration().getInt(SETTING_KEY_TIMEOUT_DAYS) * 24 * 60 * 60;
     }
 
     public String getCookieName() {

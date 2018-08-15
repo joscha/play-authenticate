@@ -94,41 +94,41 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 			final SignupResult r = signupUser(authUser);
 
 			switch (r) {
-				case USER_EXISTS:
-					// The user exists already
-					return userExists(authUser).url();
-				case USER_EXISTS_UNVERIFIED:
-				case USER_CREATED_UNVERIFIED:
-					// User got created as unverified
-					// Send validation email
-					sendVerifyEmailMailing(context, authUser);
-					return userUnverified(authUser).url();
-				case USER_CREATED:
-					// continue to login...
-					return transformAuthUser(authUser, context);
-				default:
-					throw new AuthException("Something in signup went wrong");
+            case USER_EXISTS:
+                // The user exists already
+                return userExists(authUser).url();
+            case USER_EXISTS_UNVERIFIED:
+            case USER_CREATED_UNVERIFIED:
+                // User got created as unverified
+                // Send validation email
+                sendVerifyEmailMailing(context, authUser);
+                return userUnverified(authUser).url();
+            case USER_CREATED:
+                // continue to login...
+                return transformAuthUser(authUser, context);
+            default:
+                throw new AuthException("Something in signup went wrong");
 			}
 		} else if (payload == Case.LOGIN) {
 			final L login = getLogin(context);
 			final UL authUser = buildLoginAuthUser(login, context);
 			final LoginResult r = loginUser(authUser);
 			switch (r) {
-				case USER_UNVERIFIED:
-					// The email of the user is not verified, yet - we won't allow
-					// him to log in
-					return userUnverified(authUser).url();
-				case USER_LOGGED_IN:
-					// The user exists and the given password was correct
-					return authUser;
-				case WRONG_PASSWORD:
-					// don't expose this - it might harm users privacy if anyone
-					// knows they signed up for our service
-				case NOT_FOUND:
-					// forward to login page
-					return onLoginUserNotFound(context);
-				default:
-					throw new AuthException("Something in login went wrong");
+            case USER_UNVERIFIED:
+                // The email of the user is not verified, yet - we won't allow
+                // him to log in
+                return userUnverified(authUser).url();
+            case USER_LOGGED_IN:
+                // The user exists and the given password was correct
+                return authUser;
+            case WRONG_PASSWORD:
+                // don't expose this - it might harm users privacy if anyone
+                // knows they signed up for our service
+            case NOT_FOUND:
+                // forward to login page
+                return onLoginUserNotFound(context);
+            default:
+                throw new AuthException("Something in login went wrong");
 			}
 		} else {
 			return this.auth.getResolver().login().url();
@@ -197,7 +197,7 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 	 *         action.
 	 */
 	protected Cancellable sendMail(final String subject, final Body body,
-								   final String recipient) {
+			final String recipient) {
 		return sendMail(new Mail(subject, body, recipient));
 	}
 
@@ -219,7 +219,7 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 	}
 
 	protected abstract String getVerifyEmailMailingSubject(final US user,
-														   final Context ctx);
+			final Context ctx);
 
 	protected abstract Body getVerifyEmailMailingBody(
 			final R verificationRecord, final US user, final Context ctx);

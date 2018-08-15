@@ -45,7 +45,7 @@ public class MyDeadboltHandler extends AbstractDeadboltHandler {
 
 	@Override
 	public CompletionStage<Optional<? extends Subject>> getSubject(final Http.Context context) {
-		final AuthUserIdentity u = this.auth.getUser(context.session());
+		final AuthUserIdentity u = this.auth.getUser(context);
 		// Caching might be a good idea here
 		return CompletableFuture.completedFuture(Optional.ofNullable((Subject)User.findByAuthUserIdentity(u)));
 	}

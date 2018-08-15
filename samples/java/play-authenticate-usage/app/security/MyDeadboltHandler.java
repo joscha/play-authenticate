@@ -25,7 +25,7 @@ public class MyDeadboltHandler extends AbstractDeadboltHandler {
 
 	@Override
 	public CompletionStage<Optional<Result>> beforeAuthCheck(final Http.Context context) {
-		if (this.auth.isLoggedIn(context)) {
+		if (this.auth.isLoggedIn(context.session())) {
 			// user is logged in
 			return CompletableFuture.completedFuture(Optional.empty());
 		} else {
@@ -45,7 +45,7 @@ public class MyDeadboltHandler extends AbstractDeadboltHandler {
 
 	@Override
 	public CompletionStage<Optional<? extends Subject>> getSubject(final Http.Context context) {
-		final AuthUserIdentity u = this.auth.getUser(context);
+		final AuthUserIdentity u = this.auth.getUser(context.session());
 		// Caching might be a good idea here
 		return CompletableFuture.completedFuture(Optional.ofNullable((Subject)User.findByAuthUserIdentity(u)));
 	}

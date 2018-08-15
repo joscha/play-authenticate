@@ -49,13 +49,13 @@ public class Application extends Controller {
 
 	@Restrict(@Group(Application.USER_ROLE))
 	public Result restricted() {
-		final User localUser = this.userProvider.getUser(ctx());
+		final User localUser = this.userProvider.getUser(session());
 		return ok(restricted.render(this.userProvider, localUser));
 	}
 
 	@Restrict(@Group(Application.USER_ROLE))
 	public Result restrictedForbidCookie() {
-		final User localUser = this.userProvider.getUser(ctx());
+		final User localUser = this.userProvider.getUser(session());
 		if(auth.isAuthorizedWithCookie(ctx())) {
 			ctx().flash().put("error", "Please type password again to access requested page");
 			return redirect(this.auth.getResolver().relogin());
@@ -65,7 +65,7 @@ public class Application extends Controller {
 
 	@Restrict(@Group(Application.USER_ROLE))
 	public Result profile() {
-		final User localUser = userProvider.getUser(ctx());
+		final User localUser = userProvider.getUser(session());
 		return ok(profile.render(this.auth, this.userProvider, localUser));
 	}
 
@@ -78,7 +78,7 @@ public class Application extends Controller {
 		Form form = this.provider.getLoginForm();
 		Map<String, String> formData = form.data();
 		formData.put("rememberMe", "true");
-		formData.put("email", userProvider.getUser(ctx()).email);
+		formData.put("email", userProvider.getUser(session()).email);
 		form.fill(formData);
 
 		return ok(relogin.render(this.auth, this.userProvider, form));

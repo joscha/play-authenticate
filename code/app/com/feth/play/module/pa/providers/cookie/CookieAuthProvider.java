@@ -109,7 +109,7 @@ public abstract class CookieAuthProvider extends AuthProvider {
     }
 
     public void remember(final Context ctx) {
-        remember(ctx, getAuth().getUser(ctx));
+        remember(ctx, getAuth().getUser(ctx.session()));
     }
 
     public void remember(final Context ctx, final AuthUser authUser) {
@@ -144,7 +144,7 @@ public abstract class CookieAuthProvider extends AuthProvider {
     }
 
     public void forget(final Context ctx) {
-        final AuthUser authUser = getAuth().getUser(ctx);
+        final AuthUser authUser = getAuth().getUser(ctx.session());
         ctx.response().discardCookie(getCookieName());
         if (authUser != null && authUser.getProvider().equals(CookieAuthProvider.getProviderKey())) {
             deleteSeries(authUser, authUser.getId());

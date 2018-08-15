@@ -22,7 +22,7 @@ public class UserProvider {
     }
 
     @Nullable
-    public User getUser(Http.Context session) {
+    public User getUser(Http.Session session) {
         final AuthUser currentAuthUser = this.auth.getUser(session);
         final User localUser = User.findByAuthUserIdentity(currentAuthUser);
         return localUser;

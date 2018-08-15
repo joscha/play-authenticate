@@ -131,7 +131,6 @@ public class PlayAuthenticate {
 															// expires after now
 			}
 		}
-
 		return ret;
 	}
 

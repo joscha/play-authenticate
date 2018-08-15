@@ -120,15 +120,15 @@ public class PlayAuthenticate {
 		boolean ret = session.containsKey(USER_KEY) // user is set
 				&& session.containsKey(PROVIDER_KEY); // provider is set
 		ret &= AuthProvider.Registry.hasProvider(session.get(PROVIDER_KEY)); // this
-												// provider
-												// is
-                                                // active
+																				// provider
+																				// is
+																				// active
 		if (session.containsKey(EXPIRES_KEY)) {
 			// expiration is set
 			final long expires = getExpiration(session);
 			if (expires != AuthUser.NO_EXPIRATION) {
 				ret &= (new Date()).getTime() < expires; // and the session
-                                                // expires after now
+															// expires after now
 			}
 		}
 

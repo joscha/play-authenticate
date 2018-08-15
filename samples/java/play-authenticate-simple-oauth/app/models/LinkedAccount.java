@@ -31,6 +31,11 @@ public class LinkedAccount extends AppModel {
 				.findUnique();
 	}
 
+	public static LinkedAccount findByProvider(String key, String providerUserId) {
+		return find.where().eq("providerKey", key).eq("providerUserId", providerUserId)
+				.findUnique();
+	}
+
 	public static LinkedAccount create(final AuthUser authUser) {
 		final LinkedAccount ret = new LinkedAccount();
 		ret.update(authUser);

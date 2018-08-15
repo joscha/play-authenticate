@@ -19,7 +19,7 @@ public class CookieAuthActionCreator implements ActionCreator {
         return new Action.Simple() {
             @Override
             public CompletionStage<Result> call(Http.Context ctx) {
-                if(!auth.isLoggedIn(ctx.session())) {
+                if(!auth.isLoggedIn(ctx)) {
                     auth.tryAuthenticateWithCookie(ctx);
                 }
 

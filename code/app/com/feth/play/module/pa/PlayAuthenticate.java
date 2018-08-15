@@ -463,7 +463,7 @@ public class PlayAuthenticate {
 				AuthUser oldUser = getUser(session);
 
 				// checks if the user is logged in (also checks the expiration!)
-				boolean isLoggedIn = isLoggedIn(session);
+				boolean isLoggedIn = isLoggedIn(context);
 
 				Object oldIdentity = null;
 

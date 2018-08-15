@@ -116,7 +116,9 @@ public class PlayAuthenticate {
 		}
 	}
 
-	public boolean isLoggedIn(final Session session) {
+	public boolean isLoggedIn(final Context context) {
+		Session session = context.session();
+
 		boolean ret = session.containsKey(USER_KEY) // user is set
 				&& session.containsKey(PROVIDER_KEY); // provider is set
 		ret &= AuthProvider.Registry.hasProvider(session.get(PROVIDER_KEY)); // this
@@ -131,6 +133,11 @@ public class PlayAuthenticate {
 															// expires after now
 			}
 		}
+
+		if(!ret) {
+			ret = tryAuthenticateWithCookie(context);
+		}
+
 		return ret;
 	}
 

@@ -2,11 +2,13 @@ package controllers;
 
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
+import com.feth.play.module.pa.providers.cookie.SudoForbidCookieAuthAction;
 import com.feth.play.module.pa.PlayAuthenticate;
 import models.User;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.With;
 import providers.MyUsernamePasswordAuthProvider;
 import providers.MyUsernamePasswordAuthProvider.MyLogin;
 import providers.MyUsernamePasswordAuthProvider.MySignup;
@@ -53,12 +55,9 @@ public class Application extends Controller {
 	}
 
 	@Restrict(@Group(Application.USER_ROLE))
+	@With(SudoForbidCookieAuthAction.class)
 	public Result restrictedForbidCookie() {
 		final User localUser = this.userProvider.getUser(session());
-		if(auth.isAuthorizedWithCookie(ctx())) {
-			ctx().flash().put("error", "Please type password again to access requested page");
-			return redirect(this.auth.getResolver().relogin());
-		}
 		return ok(restrictedForbidCookie.render(this.userProvider, localUser));
 	}
 

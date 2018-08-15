@@ -1,5 +1,6 @@
-package com.feth.play.module.pa;
+package com.feth.play.module.pa.providers.cookie;
 
+import com.feth.play.module.pa.PlayAuthenticate;
 import play.http.ActionCreator;
 import play.mvc.Action;
 import play.mvc.Http;

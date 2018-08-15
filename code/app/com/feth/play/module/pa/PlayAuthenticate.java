@@ -251,7 +251,7 @@ public class PlayAuthenticate {
 	}
 
 	public void storeInCache(final Session session, final String key,
-	 		final Object o) {
+			final Object o) {
 		play.cache.Cache.set(getCacheKey(session, key), o);
 	}
 

@@ -105,6 +105,8 @@ public class MyUsernamePasswordAuthProvider
         @Required
         private String name;
 
+        private boolean rememberMe;
+
         public String validate() {
             if (password == null || !password.equals(repeatPassword)) {
                 return Messages
@@ -127,6 +129,14 @@ public class MyUsernamePasswordAuthProvider
 
         public void setRepeatPassword(String repeatPassword) {
             this.repeatPassword = repeatPassword;
+        }
+
+        public void setRememberMe(boolean rememberMe) {
+            this.rememberMe = rememberMe;
+        }
+
+        public boolean isRememberMe() {
+            return rememberMe;
         }
     }
 

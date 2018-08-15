@@ -102,8 +102,6 @@ public class MyUsernamePasswordAuthProvider
         @MinLength(5)
         private String repeatPassword;
 
-        private boolean rememberMe;
-
         @Required
         private String name;
 
@@ -129,14 +127,6 @@ public class MyUsernamePasswordAuthProvider
 
         public void setRepeatPassword(String repeatPassword) {
             this.repeatPassword = repeatPassword;
-        }
-
-        public boolean isRememberMe() {
-            return rememberMe;
-        }
-
-        public void setRememberMe(boolean rememberMe) {
-            this.rememberMe = rememberMe;
         }
     }
 

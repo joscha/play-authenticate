@@ -102,6 +102,8 @@ public class MyUsernamePasswordAuthProvider
         @MinLength(5)
         private String repeatPassword;
 
+        private boolean rememberMe;
+
         @Required
         private String name;
 
@@ -127,6 +129,14 @@ public class MyUsernamePasswordAuthProvider
 
         public void setRepeatPassword(String repeatPassword) {
             this.repeatPassword = repeatPassword;
+        }
+
+        public boolean isRememberMe() {
+            return rememberMe;
+        }
+
+        public void setRememberMe(boolean rememberMe) {
+            this.rememberMe = rememberMe;
         }
     }
 
@@ -264,7 +274,7 @@ public class MyUsernamePasswordAuthProvider
 
     @Override
     protected Body getVerifyEmailMailingBody(final String token,
-                                             final MyUsernamePasswordAuthUser user, final Context ctx) {
+            final MyUsernamePasswordAuthUser user, final Context ctx) {
 
         final boolean isSecure = getConfiguration().getBoolean(
                 SETTING_KEY_VERIFICATION_LINK_SECURE);
@@ -308,12 +318,12 @@ public class MyUsernamePasswordAuthProvider
     }
 
     protected String getPasswordResetMailingSubject(final User user,
-                                                    final Context ctx) {
+            final Context ctx) {
         return Messages.get("playauthenticate.password.reset_email.subject");
     }
 
     protected Body getPasswordResetMailingBody(final String token,
-                                               final User user, final Context ctx) {
+            final User user, final Context ctx) {
 
         final boolean isSecure = getConfiguration().getBoolean(
                 SETTING_KEY_PASSWORD_RESET_LINK_SECURE);
@@ -346,13 +356,13 @@ public class MyUsernamePasswordAuthProvider
     }
 
     protected String getVerifyEmailMailingSubjectAfterSignup(final User user,
-                                                             final Context ctx) {
+            final Context ctx) {
         return Messages.get("playauthenticate.password.verify_email.subject");
     }
 
     protected String getEmailTemplate(final String template,
-                                      final String langCode, final String url, final String token,
-                                      final String name, final String email) {
+            final String langCode, final String url, final String token,
+            final String name, final String email) {
         Class<?> cls = null;
         String ret = null;
         try {
@@ -394,7 +404,7 @@ public class MyUsernamePasswordAuthProvider
     }
 
     protected Body getVerifyEmailMailingBodyAfterSignup(final String token,
-                                                        final User user, final Context ctx) {
+            final User user, final Context ctx) {
 
         final boolean isSecure = getConfiguration().getBoolean(
                 SETTING_KEY_VERIFICATION_LINK_SECURE);
@@ -415,7 +425,7 @@ public class MyUsernamePasswordAuthProvider
     }
 
     public void sendVerifyEmailMailingAfterSignup(final User user,
-                                                  final Context ctx) {
+            final Context ctx) {
 
         final String subject = getVerifyEmailMailingSubjectAfterSignup(user,
                 ctx);

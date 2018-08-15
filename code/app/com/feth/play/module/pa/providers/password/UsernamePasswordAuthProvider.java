@@ -129,11 +129,11 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
                 return onLoginUserNotFound(context);
             default:
                 throw new AuthException("Something in login went wrong");
-			}
-		} else {
-			return this.auth.getResolver().login().url();
-		}
-	}
+                }
+            } else {
+                return this.auth.getResolver().login().url();
+            }
+    }
 
 	protected String onLoginUserNotFound(Context context) {
 		return this.auth.getResolver().login().url();

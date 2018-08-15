@@ -120,15 +120,15 @@ public class PlayAuthenticate {
 		boolean ret = session.containsKey(USER_KEY) // user is set
 				&& session.containsKey(PROVIDER_KEY); // provider is set
 		ret &= AuthProvider.Registry.hasProvider(session.get(PROVIDER_KEY)); // this
-		// provider
-		// is
-		// active
+												// provider
+												// is
+                                                // active
 		if (session.containsKey(EXPIRES_KEY)) {
 			// expiration is set
 			final long expires = getExpiration(session);
 			if (expires != AuthUser.NO_EXPIRATION) {
 				ret &= (new Date()).getTime() < expires; // and the session
-				// expires after now
+                                                // expires after now
 			}
 		}
 
@@ -246,17 +246,17 @@ public class PlayAuthenticate {
 	}
 
 	private void storeUserInCache(final Session session,
-								  final String key, final AuthUser identity) {
+			final String key, final AuthUser identity) {
 		storeInCache(session, key, identity);
 	}
 
 	public void storeInCache(final Session session, final String key,
-							 final Object o) {
+	 		final Object o) {
 		play.cache.Cache.set(getCacheKey(session, key), o);
 	}
 
-	public <T> T removeFromCache(final Session session, final String key) {
-		final T o = getFromCache(session, key);
+    public <T> T removeFromCache(final Session session, final String key) {
+        final T o = getFromCache(session, key);
 
 		final String k = getCacheKey(session, key);
 		play.cache.Cache.remove(k);
@@ -268,13 +268,13 @@ public class PlayAuthenticate {
 		return id + "_" + key;
 	}
 
-	@SuppressWarnings("unchecked")
-	public <T> T getFromCache(final Session session, final String key) {
-		return (T) play.cache.Cache.get(getCacheKey(session, key));
+    @SuppressWarnings("unchecked")
+    public <T> T getFromCache(final Session session, final String key) {
+        return (T) play.cache.Cache.get(getCacheKey(session, key));
 	}
 
 	private AuthUser getUserFromCache(final Session session,
-									  final String key) {
+			final String key) {
 
 		final Object o = getFromCache(session, key);
 		if (o != null && o instanceof AuthUser) {
@@ -284,7 +284,7 @@ public class PlayAuthenticate {
 	}
 
 	public void storeMergeUser(final AuthUser identity,
-							   final Session session) {
+			final Session session) {
 		// TODO the cache is not ideal for this, because it might get cleared
 		// any time
 		storeUserInCache(session, MERGE_USER_KEY, identity);
@@ -299,7 +299,7 @@ public class PlayAuthenticate {
 	}
 
 	public void storeLinkUser(final AuthUser identity,
-							  final Session session) {
+			final Session session) {
 		// TODO the cache is not ideal for this, because it might get cleared
 		// any time
 		storeUserInCache(session, LINK_USER_KEY, identity);
@@ -368,7 +368,7 @@ public class PlayAuthenticate {
 	}
 
 	public Result loginAndRedirect(final Context context,
-								   final AuthUser loginUser) {
+			final AuthUser loginUser) {
 		storeUser(context.session(), loginUser);
 		return Controller.redirect(getJumpUrl(context));
 	}
@@ -394,12 +394,12 @@ public class PlayAuthenticate {
 	}
 
 	private AuthUser signupUser(final AuthUser u, final Session session, final AuthProvider provider) throws AuthException {
-		final Object id = getUserService().save(u);
+        final Object id = getUserService().save(u);
 		if (id == null) {
 			throw new AuthException(
 					Messages.get("playauthenticate.core.exception.signupuser_failed"));
 		}
-		provider.afterSave(u, id, session);
+        provider.afterSave(u, id, session);
 		return u;
 	}
 
@@ -418,7 +418,7 @@ public class PlayAuthenticate {
 	}
 
 	public Result handleAuthentication(final String provider,
-									   final Context context, final Object payload, boolean rememberMe) {
+			final Context context, final Object payload, boolean rememberMe) {
 		final AuthProvider ap = getProvider(provider);
 		if (ap == null) {
 			// Provider wasn't found and/or user was fooling with our stuff -

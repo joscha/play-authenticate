@@ -48,6 +48,11 @@ public class TestUserService extends AbstractUserService {
 		return newUser;
 	}
 
+	@Override
+	public void unlink(AuthUser otherUser) {
+		// Not Implemented
+	}
+
 	private class ImmutableAuthUserIdentity implements AuthUserIdentity {
 
 		private final String id;

@@ -10,5 +10,5 @@ GET     /verify/:token              controllers.ApplicationController.verify(tok
 GET     /java                       controllers.JavaController.index
 GET     /scala                      controllers.ScalaController.index
 GET     /logout                     com.feth.play.module.pa.controllers.Authenticate.logout
-GET     /authenticate/:provider     com.feth.play.module.pa.controllers.Authenticate.authenticate(provider: String)
+GET     /authenticate/:provider     com.feth.play.module.pa.controllers.Authenticate.authenticate(provider: String, rememberMe: Boolean ?= false)
 GET     /authenticate/:provider/denied     controllers.ApplicationController.oAuthDenied(provider: String)

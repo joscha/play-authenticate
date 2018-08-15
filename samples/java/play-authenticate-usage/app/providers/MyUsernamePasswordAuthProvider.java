@@ -77,6 +77,8 @@ public class MyUsernamePasswordAuthProvider
         @MinLength(5)
         protected String password;
 
+        private boolean rememberMe; 
+
         @Override
         public String getEmail() {
             return email;
@@ -94,6 +96,14 @@ public class MyUsernamePasswordAuthProvider
         public void setPassword(String password) {
             this.password = password;
         }
+
+        public void setRememberMe(boolean rememberMe) {
+            this.rememberMe = rememberMe;
+        }
+
+        public boolean isRememberMe() {
+            return rememberMe;
+        }
     }
 
     public static class MySignup extends MyLogin {
@@ -104,8 +114,6 @@ public class MyUsernamePasswordAuthProvider
 
         @Required
         private String name;
-
-        private boolean rememberMe;
 
         public String validate() {
             if (password == null || !password.equals(repeatPassword)) {
@@ -129,14 +137,6 @@ public class MyUsernamePasswordAuthProvider
 
         public void setRepeatPassword(String repeatPassword) {
             this.repeatPassword = repeatPassword;
-        }
-
-        public void setRememberMe(boolean rememberMe) {
-            this.rememberMe = rememberMe;
-        }
-
-        public boolean isRememberMe() {
-            return rememberMe;
         }
     }
 

@@ -1,0 +1,8 @@
+playauthenticate.core.exception.no_user_service=Kayıtlı UserService bulunamadı!
+playauthenticate.core.exception.signupuser_failed=Kaydınız oluşturulamadı
+playauthenticate.core.exception.provider_not_found=Kimlik sağlayıcı {0} bulunamadı!
+playauthenticate.core.exception.merge.controller_undefined='{0}' ayarı false olarak ayarlanmış olmasına rağmen, Merge Call düzgün bir şekilde ayarlanmamış.
+playauthenticate.core.exception.link.controller_undefined='{0}' ayarı false olarak ayarlanmış olmasına rağmen, Link Call düzgün bir şekilde ayarlanmamış.
+playauthenticate.core.exception.oauth2.state_param_forged=State parametresi manipüle edilmiş olabilir!
+
+playauthenticate.core.exception.general=Bir hata oluştu

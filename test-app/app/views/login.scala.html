@@ -5,6 +5,7 @@ loginForm: play.data.Form[providers.TestUsernamePasswordAuthProvider.Login]
 @main("Login") {
   <h1>Login</h1>
   @helper.form(action = routes.ApplicationController.doLogin()) {
+      @helper.CSRF.formField
       @if(loginForm.hasGlobalErrors) {
         <p class="error">@loginForm.globalError.message</p>
       }

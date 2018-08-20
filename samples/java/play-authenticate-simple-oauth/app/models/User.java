@@ -14,8 +14,8 @@ import javax.persistence.Table;
 
 import play.data.validation.Constraints;
 
-import com.avaje.ebean.Ebean;
-import com.avaje.ebean.ExpressionList;
+import io.ebean.Ebean;
+import io.ebean.ExpressionList;
 import com.feth.play.module.pa.user.AuthUser;
 import com.feth.play.module.pa.user.AuthUserIdentity;
 import com.feth.play.module.pa.user.EmailIdentity;

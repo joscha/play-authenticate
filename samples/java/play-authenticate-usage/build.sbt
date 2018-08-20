@@ -22,7 +22,11 @@ val appDependencies = Seq(
   javaJdbc,
   "org.webjars" % "bootstrap" % "3.2.0",
   "org.easytesting" % "fest-assert" % "1.4" % "test",
-  "org.seleniumhq.selenium" % "selenium-java" % "2.52.0" % "test"
+  "org.fluentlenium" % "fluentlenium-core" % "3.1.1" % "test",
+  "org.seleniumhq.selenium" % "selenium-java" % "3.14.0" % "test",
+  "org.seleniumhq.selenium" % "selenium-api" % "3.3.1", % "test",
+  "org.seleniumhq.selenium" % "selenium-firefox-driver" % "3.3.1" % "test",
+  "org.seleniumhq.selenium" % "selenium-support" % "3.0.1" % "test",
 )
 
 // add resolver for deadbolt and easymail snapshots

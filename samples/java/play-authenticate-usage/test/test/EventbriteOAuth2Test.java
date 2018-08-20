@@ -51,7 +51,7 @@ public class EventbriteOAuth2Test extends OAuth2Test {
         goToLogin();
         try {
             final String migrationLightboxSelector = "#migration_lightbox";
-            final FluentWebElement migrationLightbox = browser.findFirst(migrationLightboxSelector);
+            final FluentWebElement migrationLightbox = browser.find(migrationLightboxSelector).first();
             migrationLightbox.find(".mfp-close").click();
             browser.await().atMost(5L, TimeUnit.SECONDS).until(migrationLightboxSelector).areNotDisplayed();
         } catch(final NoSuchElementException nsee) {

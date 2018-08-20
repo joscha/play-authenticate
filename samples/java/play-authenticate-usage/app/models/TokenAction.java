@@ -1,18 +1,17 @@
 package models;
 
-import java.util.Date;
+import io.ebean.Ebean;
+import io.ebean.Finder;
+import io.ebean.Model;
+import io.ebean.QueryIterator;
+import io.ebean.annotation.EnumValue;
+import play.data.format.Formats;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-
-import play.data.format.Formats;
-import com.avaje.ebean.Model;
-
-import com.avaje.ebean.Ebean;
-import com.avaje.ebean.QueryIterator;
-import com.avaje.ebean.annotation.EnumValue;
+import java.util.Date;
 
 @Entity
 public class TokenAction extends Model {
@@ -54,14 +53,14 @@ public class TokenAction extends Model {
 	@Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
 	public Date expires;
 
-	public static final Find<Long, TokenAction> find = new Find<Long, TokenAction>(){};
+	public static final Finder<Long, TokenAction> find = new Finder<>(TokenAction.class);
 
 	public static TokenAction findByToken(final String token, final Type type) {
-		return find.where().eq("token", token).eq("type", type).findUnique();
+		return find.query().where().eq("token", token).eq("type", type).findUnique();
 	}
 
 	public static void deleteByUser(final User u, final Type type) {
-		QueryIterator<TokenAction> iterator = find.where()
+		QueryIterator<TokenAction> iterator = find.query().where()
 				.eq("targetUser.id", u.id).eq("type", type).findIterate();
 		while(iterator.hasNext()) {
 			Ebean.delete(iterator.next());

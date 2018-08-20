@@ -6,6 +6,7 @@ import com.feth.play.module.pa.exceptions.AccessTokenException;
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
 import play.Logger;
+import play.i18n.MessagesApi;
 import play.inject.ApplicationLifecycle;
 import play.libs.ws.WSClient;
 import play.libs.ws.WSResponse;
@@ -27,8 +28,8 @@ public class EventBriteAuthProvider extends
     private static final String TOKEN = "token";
 
     @Inject
-    public EventBriteAuthProvider(final PlayAuthenticate auth, final ApplicationLifecycle lifecycle, final WSClient wsClient) {
-        super(auth, lifecycle, wsClient);
+    public EventBriteAuthProvider(final PlayAuthenticate auth, final ApplicationLifecycle lifecycle, final WSClient wsClient, final MessagesApi messagesApi) {
+        super(auth, lifecycle, wsClient, messagesApi);
     }
 
 

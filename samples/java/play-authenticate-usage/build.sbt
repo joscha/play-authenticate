@@ -24,7 +24,7 @@ val appDependencies = Seq(
   "org.easytesting" % "fest-assert" % "1.4" % "test",
   "org.fluentlenium" % "fluentlenium-core" % "3.1.1" % "test",
   "org.seleniumhq.selenium" % "selenium-java" % "3.13.0" % "test",
-  "org.seleniumhq.selenium" % "selenium-api" % "3.13.0", % "test",
+  "org.seleniumhq.selenium" % "selenium-api" % "3.13.0" % "test",
   "org.seleniumhq.selenium" % "selenium-firefox-driver" % "3.13.0" % "test",
   "org.seleniumhq.selenium" % "selenium-support" % "3.13.0" % "test"
 )

@@ -59,17 +59,16 @@ public class FacebookOAuth2Test extends OAuth2Test {
 
     private void signupUser() {
         goToLogin();
-        browser
-                .fill("#email").with(FACEBOOK_USER_EMAIL)
-                .fill("#pass").with(System.getenv("FACEBOOK_USER_PASSWORD"))
-                .find("#loginbutton").click();
+        browser.find("#email").fill().withText(FACEBOOK_USER_EMAIL);
+        browser.find("#pass").fill().withText(System.getenv("FACEBOOK_USER_PASSWORD"));
+        browser.find("#loginbutton").click();
         browser.await().untilPage().isLoaded();
 
         // save browser? no!
         try {
             // try, because this is not checked for test users, because they are not asked
             final String selector = "#u_0_2";
-            browser.await().atMost(10, TimeUnit.SECONDS).until(selector);
+            browser.await().atMost(10, TimeUnit.SECONDS).until(browser.find(selector));
             browser.find(selector).click();
             browser.find("#checkpointSubmitButton").click();
             browser.await().untilPage().isLoaded();
@@ -101,8 +100,8 @@ public class FacebookOAuth2Test extends OAuth2Test {
 
     private void checkLoginLayout() {
         final String selector = "[name='display']";
-        browser.await().atMost(10, TimeUnit.SECONDS).until(selector);
-        assertThat(browser.find(selector).getValue()).isEqualTo(expectedLoginLayout());
+        browser.await().atMost(10, TimeUnit.SECONDS).until(browser.find(selector));
+        assertThat(browser.find(selector).value()).isEqualTo(expectedLoginLayout());
     }
 
     /**

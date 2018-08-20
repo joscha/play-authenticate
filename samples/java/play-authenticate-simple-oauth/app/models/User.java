@@ -16,6 +16,7 @@ import play.data.validation.Constraints;
 
 import io.ebean.Ebean;
 import io.ebean.ExpressionList;
+import io.ebean.Finder;
 import com.feth.play.module.pa.user.AuthUser;
 import com.feth.play.module.pa.user.AuthUserIdentity;
 import com.feth.play.module.pa.user.EmailIdentity;

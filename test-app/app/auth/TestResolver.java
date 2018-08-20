@@ -12,11 +12,16 @@ import javax.inject.Singleton;
  */
 @Singleton
 public class TestResolver extends Resolver {
-
     @Override
     public Call login() {
         // Your login page
         return controllers.routes.ApplicationController.login();
+    }
+
+    @Override
+    public Call relogin() {
+        // Your login page
+        return controllers.routes.ApplicationController.index();
     }
 
     @Override
@@ -36,7 +41,7 @@ public class TestResolver extends Resolver {
         // You can provide your own authentication implementation,
         // however the default should be sufficient for most cases
         return com.feth.play.module.pa.controllers.routes.Authenticate
-                .authenticate(provider);
+                .authenticate(provider, false);
     }
 
     @Override

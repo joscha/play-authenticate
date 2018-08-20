@@ -12,6 +12,7 @@ import play.api.Configuration;
 import play.api.Environment;
 import play.api.inject.Binding;
 import play.api.inject.Module;
+import providers.MyCookieAuthProvider;
 import providers.MyStupidBasicAuthProvider;
 import providers.MyUsernamePasswordAuthProvider;
 import scala.collection.Seq;
@@ -46,6 +47,7 @@ public class MyModule extends AbstractModule {
 		//bind(PocketAuthProvider.class).asEagerSingleton();
 		//bind(GithubAuthProvider.class).asEagerSingleton();
 		bind(MyStupidBasicAuthProvider.class).asEagerSingleton();
+		bind(MyCookieAuthProvider.class).asEagerSingleton();
 		//bind(SpnegoAuthProvider.class).asEagerSingleton();
 		//bind(EventBriteAuthProvider.class).asEagerSingleton();
 	}

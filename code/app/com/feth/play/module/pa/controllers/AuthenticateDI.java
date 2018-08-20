@@ -11,14 +11,14 @@ public class AuthenticateDI extends AuthenticateBase {
 		this.auth = auth;
 	}
 
-	public Result authenticate(final String provider) {
+	public Result authenticate(final String provider, boolean rememberMe) {
 		noCache(response());
 		final String payload = request().getQueryString(PAYLOAD_KEY);
-		return this.auth.handleAuthentication(provider, ctx(), payload);
+		return this.auth.handleAuthentication(provider, ctx(), payload, rememberMe);
 	}
 
 	public Result logout() {
 		noCache(response());
-		return this.auth.logout(session());
+		return this.auth.logout(ctx());
 	}
 }

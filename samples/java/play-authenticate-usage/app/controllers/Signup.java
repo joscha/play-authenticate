@@ -134,7 +134,7 @@ public class Signup extends Controller {
 
 	/**
 	 * Returns a token object if valid, null if not
-	 * 
+	 *
 	 * @param token
 	 * @param type
 	 * @return

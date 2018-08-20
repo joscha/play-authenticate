@@ -2,6 +2,8 @@ package com.feth.play.module.pa;
 
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.AuthProvider;
+import com.feth.play.module.pa.providers.cookie.CookieAuthProvider;
+import com.feth.play.module.pa.providers.cookie.CookieAuthUser;
 import com.feth.play.module.pa.service.UserService;
 import com.feth.play.module.pa.user.AuthUser;
 import play.Configuration;
@@ -17,6 +19,7 @@ import play.mvc.Result;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.Date;
+import java.util.Optional;
 
 @Singleton
 public class PlayAuthenticate {
@@ -113,7 +116,9 @@ public class PlayAuthenticate {
 		}
 	}
 
-	public boolean isLoggedIn(final Session session) {
+	public boolean isLoggedIn(final Context context) {
+		Session session = context.session();
+
 		boolean ret = session.containsKey(USER_KEY) // user is set
 				&& session.containsKey(PROVIDER_KEY); // provider is set
 		ret &= AuthProvider.Registry.hasProvider(session.get(PROVIDER_KEY)); // this
@@ -128,10 +133,17 @@ public class PlayAuthenticate {
 															// expires after now
 			}
 		}
+
+		if(!ret) {
+			ret = tryAuthenticateWithCookie(context);
+		}
+
 		return ret;
 	}
 
-	public Result logout(final Session session) {
+	public Result logout(final Context context) {
+	    Session session = context.session();
+
 		session.remove(USER_KEY);
 		session.remove(PROVIDER_KEY);
 		session.remove(EXPIRES_KEY);
@@ -139,6 +151,10 @@ public class PlayAuthenticate {
 		// shouldn't be in any more, but just in case lets kill it from the
 		// cookie
 		session.remove(ORIGINAL_URL);
+
+		getCookieAuthProvider().ifPresent(cookieAuthProvider -> {
+		    cookieAuthProvider.forget(context);
+        });
 
 		return Controller.redirect(getUrl(getResolver().afterLogout(),
 				SETTING_KEY_AFTER_LOGOUT_FALLBACK));
@@ -181,6 +197,37 @@ public class PlayAuthenticate {
 	public AuthUser getUser(final Context context) {
 		return getUser(context.session());
 	}
+
+	public boolean tryAuthenticateWithCookie(final Context context) {
+		Optional<CookieAuthProvider> cookieAuthProvider = getCookieAuthProvider();
+
+		Optional<CookieAuthUser> cookieAuthUser =
+				cookieAuthProvider.flatMap(provider -> Optional.ofNullable(provider.authenticate(context)));
+
+		Optional<CookieAuthUser> user = Optional.empty();
+		if(cookieAuthUser.isPresent()) {
+			user = cookieAuthUser;
+			rememberUser(context, user.get());
+		}
+		return cookieAuthUser.isPresent();
+	}
+
+	private Optional<CookieAuthProvider> getCookieAuthProvider() {
+		return AuthProvider.Registry.getProviders().stream()
+				.filter(x -> x instanceof CookieAuthProvider)
+				.map(x -> (CookieAuthProvider)x)
+				.findAny();
+	}
+
+	public boolean isAuthorizedWithCookie(final Context context) {
+		AuthUser user = getUser(context.session());
+
+		return getCookieAuthProvider().map(cookieAuthProvider ->
+			user.getProvider().equals(cookieAuthProvider.getKey())
+		).orElse(false);
+	}
+
+
 
 	public boolean isAccountAutoMerge() {
 		return getConfiguration().getBoolean(SETTING_KEY_ACCOUNT_AUTO_MERGE);
@@ -362,8 +409,22 @@ public class PlayAuthenticate {
 		return u;
 	}
 
+	private void rememberUser(final Context context, AuthUser authUser) {
+		getCookieAuthProvider().ifPresent(cookieAuthProvider -> {
+			cookieAuthProvider.remember(context, authUser);
+
+			context.session().put(PlayAuthenticate.USER_KEY, authUser.getId());
+			context.session().put(PlayAuthenticate.PROVIDER_KEY, authUser.getProvider());
+			if (authUser.expires() != AuthUser.NO_EXPIRATION) {
+				context.session().put(EXPIRES_KEY, Long.toString(authUser.expires()));
+			} else {
+				context.session().remove(EXPIRES_KEY);
+			}
+		});
+	}
+
 	public Result handleAuthentication(final String provider,
-			final Context context, final Object payload) {
+			final Context context, final Object payload, boolean rememberMe) {
 		final AuthProvider ap = getProvider(provider);
 		if (ap == null) {
 			// Provider wasn't found and/or user was fooling with our stuff -
@@ -402,7 +463,7 @@ public class PlayAuthenticate {
 				AuthUser oldUser = getUser(session);
 
 				// checks if the user is logged in (also checks the expiration!)
-				boolean isLoggedIn = isLoggedIn(session);
+				boolean isLoggedIn = isLoggedIn(context);
 
 				Object oldIdentity = null;
 
@@ -416,8 +477,12 @@ public class PlayAuthenticate {
 						// if isLoggedIn is false here, then the local user has
 						// been deleted/deactivated
 						// so kill the session
-						logout(session);
+						logout(context);
 						oldUser = null;
+					} else if(oldUser.getProvider().equals(CookieAuthProvider.getProviderKey())) {
+						getCookieAuthProvider().ifPresent(cookieAuthProvider ->
+							cookieAuthProvider.forget(context)
+						);
 					}
 				}
 
@@ -492,6 +557,10 @@ public class PlayAuthenticate {
 						return Controller.redirect(c);
 					}
 
+				}
+
+				if(rememberMe) {
+					rememberUser(context, loginUser);
 				}
 
 				return loginAndRedirect(context, loginUser);

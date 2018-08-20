@@ -5,15 +5,17 @@
 # Home page
 GET     /                           controllers.Application.index
 GET     /restricted                 controllers.Application.restricted
+GET     /restrictedForbidCookie     controllers.Application.restrictedForbidCookie
 GET     /assets/javascript/routes.js    controllers.Application.jsRoutes
 
 GET     /profile                    controllers.Application.profile
 
 GET     /login                      controllers.Application.login
+GET     /relogin                    controllers.Application.relogin
 POST    /login                      controllers.Application.doLogin
 
 GET     /logout                     com.feth.play.module.pa.controllers.Authenticate.logout
-GET     /authenticate/:provider     com.feth.play.module.pa.controllers.Authenticate.authenticate(provider: String)
+GET     /authenticate/:provider     com.feth.play.module.pa.controllers.Authenticate.authenticate(provider: String, rememberMe: Boolean ?= false)
 
 GET     /signup                     controllers.Application.signup
 POST    /signup                     controllers.Application.doSignup

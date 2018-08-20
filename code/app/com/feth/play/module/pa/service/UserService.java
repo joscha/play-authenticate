@@ -42,6 +42,12 @@ public interface UserService {
 	public AuthUser link(final AuthUser oldUser, final AuthUser newUser);
 
 	/**
+	 * Unlinks an account from a user. It is up to the implementor if the user
+	 * should be removed if there are no more accounts linked to it.
+	 */
+	public void unlink(final AuthUser knownUser);
+
+	/**
 	 * Gets called when a user logs in - you might make profile updates here with data coming from the login provider
 	 * or bump a last-logged-in date
 	 * 

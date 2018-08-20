@@ -44,7 +44,7 @@ public class ApplicationController extends Controller {
 			return badRequest(views.html.login.render(filledForm));
 		} else {
 			// Everything was filled
-			return testProvider.handleLogin(ctx());
+			return testProvider.handleLogin(ctx(), false);
 		}
 	}
 

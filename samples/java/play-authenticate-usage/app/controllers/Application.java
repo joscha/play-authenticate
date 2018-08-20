@@ -2,11 +2,13 @@ package controllers;
 
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
+import com.feth.play.module.pa.providers.cookie.SudoForbidCookieAuthAction;
 import com.feth.play.module.pa.PlayAuthenticate;
 import models.User;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.With;
 import providers.MyUsernamePasswordAuthProvider;
 import providers.MyUsernamePasswordAuthProvider.MyLogin;
 import providers.MyUsernamePasswordAuthProvider.MySignup;
@@ -16,6 +18,7 @@ import views.html.*;
 import javax.inject.Inject;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 
 public class Application extends Controller {
 
@@ -52,6 +55,13 @@ public class Application extends Controller {
 	}
 
 	@Restrict(@Group(Application.USER_ROLE))
+	@With(SudoForbidCookieAuthAction.class)
+	public Result restrictedForbidCookie() {
+		final User localUser = this.userProvider.getUser(session());
+		return ok(restrictedForbidCookie.render(this.userProvider, localUser));
+	}
+
+	@Restrict(@Group(Application.USER_ROLE))
 	public Result profile() {
 		final User localUser = userProvider.getUser(session());
 		return ok(profile.render(this.auth, this.userProvider, localUser));
@@ -59,6 +69,17 @@ public class Application extends Controller {
 
 	public Result login() {
 		return ok(login.render(this.auth, this.userProvider,  this.provider.getLoginForm()));
+	}
+
+	@Restrict(@Group(Application.USER_ROLE))
+	public Result relogin() {
+		Form form = this.provider.getLoginForm();
+		Map<String, String> formData = form.data();
+		formData.put("rememberMe", "true");
+		formData.put("email", userProvider.getUser(session()).email);
+		form.fill(formData);
+
+		return ok(relogin.render(this.auth, this.userProvider, form));
 	}
 
 	public Result doLogin() {
@@ -70,7 +91,7 @@ public class Application extends Controller {
 			return badRequest(login.render(this.auth, this.userProvider, filledForm));
 		} else {
 			// Everything was filled
-			return this.provider.handleLogin(ctx());
+			return this.provider.handleLogin(ctx(), filledForm.get().isRememberMe());
 		}
 	}
 

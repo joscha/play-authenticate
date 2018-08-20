@@ -54,7 +54,7 @@ public class User extends AppModel {
 	public static boolean existsByAuthUserIdentity(
 			final AuthUserIdentity identity) {
 		final ExpressionList<User> exp = getAuthUserFind(identity);
-		return exp.findRowCount() > 0;
+		return exp.findCount() > 0;
 	}
 
 	private static ExpressionList<User> getAuthUserFind(

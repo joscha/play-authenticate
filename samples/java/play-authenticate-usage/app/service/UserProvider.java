@@ -1,12 +1,13 @@
 package service;
 
+import javax.annotation.*;
+import javax.inject.Inject;
+
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.user.AuthUser;
-import models.User;
-import org.jetbrains.annotations.Nullable;
-import play.mvc.Http.Session;
 
-import javax.inject.Inject;
+import models.User;
+import play.mvc.Http.Session;
 
 /**
  * Service layer for User DB entity

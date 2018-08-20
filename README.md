@@ -95,6 +95,7 @@ There is also a [sample application using Play!Authenticate with MongoDB](https:
 ## Versions
 * **TRUNK** [not released in the repository, yet]
   * Fancy contributing something? :-)
+  * Turkish core (thanks @canoztokmak)
 * **0.8.3** [2017-04-18]
   * Chinese translation (thanks @frederick036)
   * Fix for facebook refresh token

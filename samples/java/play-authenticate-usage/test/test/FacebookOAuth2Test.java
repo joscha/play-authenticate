@@ -101,7 +101,7 @@ public class FacebookOAuth2Test extends OAuth2Test {
     private void checkLoginLayout() {
         final String selector = "[name='display']";
         browser.await().atMost(10, TimeUnit.SECONDS).until(browser.find(selector));
-        assertThat(browser.find(selector).value()).isEqualTo(expectedLoginLayout());
+        assertThat(browser.find(selector).first().value()).isEqualTo(expectedLoginLayout());
     }
 
     /**

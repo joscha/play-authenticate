@@ -10,6 +10,8 @@ install: true
 before_install:
 # See https://github.com/SeleniumHQ/docker-selenium/issues/87
 - export DBUS_SESSION_BUS_ADDRESS=/dev/null
+- export $(dbus-launch)
+- export NSS_USE_SHARED_DB=ENABLED
 - "export DISPLAY=:99.0"
 - "Xvfb :99 +extension RANDR 2>/dev/null &"
 - sleep 5 # give xvfb some time to start

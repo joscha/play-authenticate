@@ -9,11 +9,12 @@ install: true
 before_install:
 # See https://github.com/SeleniumHQ/docker-selenium/issues/87
 - export DBUS_SESSION_BUS_ADDRESS=/dev/null
-- export DISPLAY=:99.0
-- sh -e /etc/init.d/xvfb start
+- export CHROME_BIN=/usr/bin/google-chrome
+- "export DISPLAY=:99.0"
+- "Xvfb :99 +extension RANDR 2>/dev/null &"
+- sleep 5 # give xvfb some time to start
 - "mkdir -p ~/tmp/bin"
 - "pushd ~/tmp/bin && wget -c https://chromedriver.storage.googleapis.com/2.40/chromedriver_linux64.zip && unzip chromedriver_linux64.zip && popd"
-- "pushd ~/tmp/bin && wget -c https://github.com/mozilla/geckodriver/releases/download/v0.21.0/geckodriver-v0.21.0-linux64.tar.gz && tar -xzvf geckodriver-v0.21.0-linux64.tar.gz && popd"
 - "chmod -vv +x ~/tmp/bin/*"
 - "export PATH=$HOME/tmp/bin:$PATH"
 - wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh

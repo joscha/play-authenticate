@@ -48,8 +48,7 @@ public class User extends AppModel {
 	@OneToMany(cascade = CascadeType.ALL)
 	public List<LinkedAccount> linkedAccounts;
 
-	public static final Finder<Long, User> find = new Finder<Long, User>(
-			Long.class, User.class);
+	public static final Finder<Long, User> find = new Finder<Long, User>(User.class);
 
 	public static boolean existsByAuthUserIdentity(
 			final AuthUserIdentity identity) {
@@ -59,7 +58,7 @@ public class User extends AppModel {
 
 	private static ExpressionList<User> getAuthUserFind(
 			final AuthUserIdentity identity) {
-		return find.where().eq("active", true)
+		return find.query().where().eq("active", true)
 				.eq("linkedAccounts.providerUserId", identity.getId())
 				.eq("linkedAccounts.providerKey", identity.getProvider());
 	}
@@ -135,7 +134,7 @@ public class User extends AppModel {
 	}
 
 	private static ExpressionList<User> getEmailUserFind(final String email) {
-		return find.where().eq("active", true).eq("email", email);
+		return find.query().where().eq("active", true).eq("email", email);
 	}
 
 	public LinkedAccount getAccountByProvider(final String providerKey) {

@@ -9,6 +9,6 @@ addSbtPlugin("com.typesafe.play" % "sbt-plugin" % Option(System.getProperty("pla
 
 addSbtPlugin("com.jsuereth" % "sbt-pgp" % "1.1.0")
 
-addSbtPlugin("com.github.gseitz" % "sbt-release" % "1.0.7")
+addSbtPlugin("com.github.gseitz" % "sbt-release" % "1.0.9")
 
 addSbtPlugin("com.typesafe.sbt" % "sbt-play-enhancer" % "1.2.2")

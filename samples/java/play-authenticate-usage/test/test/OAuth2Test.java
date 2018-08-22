@@ -25,7 +25,7 @@ public abstract class OAuth2Test extends WithBrowser {
     
     @Override
     protected TestBrowser provideBrowser(int port) {
-        return Helpers.testBrowser(Helpers.CHROME, port);
+        return Helpers.testBrowser(Helpers.FIREFOX, port);
     }
 
     @Override

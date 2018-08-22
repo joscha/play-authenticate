@@ -122,9 +122,9 @@ public class FacebookOAuth2Test extends OAuth2Test {
         WSClient wsClient = app.injector().instanceOf(WSClient.class);
         wsClient
                 .url(url)
-                .setQueryParameter(OAuth2AuthProvider.Constants.ACCESS_TOKEN, authUser.getOAuth2AuthInfo().getAccessToken())
-                .setQueryParameter("format", "json")
-                .setQueryParameter("method", "delete")
+                .addQueryParameter(OAuth2AuthProvider.Constants.ACCESS_TOKEN, authUser.getOAuth2AuthInfo().getAccessToken())
+                .addQueryParameter("format", "json")
+                .addQueryParameter("method", "delete")
                 .get().toCompletableFuture().get(10, TimeUnit.SECONDS);
     }
 

@@ -20,7 +20,7 @@
             @helper.CSRF.formField
             @if(signupForm.hasGlobalErrors) {
 		        <p class="alert alert-danger">
-		          @signupForm.globalError.message
+		          @signupForm.getGlobalError.get.message
 		     	</p>
             }
 

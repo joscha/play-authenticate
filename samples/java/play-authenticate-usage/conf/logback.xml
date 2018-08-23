@@ -36,6 +36,9 @@
   <!-- Off these ones as they are annoying, and anyway we manage configuration ourselves -->
   <logger name="com.gargoylesoftware.htmlunit.javascript" level="OFF" />
 
+  <!-- https://groups.google.com/forum/#!topic/play-framework/5c2bF-tcjP0 -->
+  <logger name="org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator" level="error"/>
+
   <root level="WARN">
     <appender-ref ref="ASYNCFILE" />
     <appender-ref ref="ASYNCSTDOUT" />

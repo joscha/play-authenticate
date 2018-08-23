@@ -29,6 +29,6 @@ public class UserPermission extends AppModel implements Permission {
 	}
 
 	public static UserPermission findByValue(String value) {
-		return find.query().where().eq("value", value).findUnique();
+		return find.query().where().eq("value", value).findOne();
 	}
 }

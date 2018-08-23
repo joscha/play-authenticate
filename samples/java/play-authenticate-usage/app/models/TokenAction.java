@@ -56,7 +56,7 @@ public class TokenAction extends Model {
 	public static final Finder<Long, TokenAction> find = new Finder<>(TokenAction.class);
 
 	public static TokenAction findByToken(final String token, final Type type) {
-		return find.query().where().eq("token", token).eq("type", type).findUnique();
+		return find.query().where().eq("token", token).eq("type", type).findOne();
 	}
 
 	public static void deleteByUser(final User u, final Type type) {

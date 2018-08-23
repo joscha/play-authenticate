@@ -28,7 +28,7 @@ public class LinkedAccount extends AppModel {
 
 	public static LinkedAccount findByProviderKey(final User user, String key) {
 		return find.query().where().eq("user", user).eq("providerKey", key)
-				.findUnique();
+				.findOne();
 	}
 
 	public static LinkedAccount create(final AuthUser authUser) {

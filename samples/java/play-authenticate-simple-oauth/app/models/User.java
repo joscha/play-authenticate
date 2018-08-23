@@ -67,7 +67,7 @@ public class User extends AppModel {
 		if (identity == null) {
 			return null;
 		}
-		return getAuthUserFind(identity).findUnique();
+		return getAuthUserFind(identity).findOne();
 	}
 
 	public void merge(final User otherUser) {
@@ -130,7 +130,7 @@ public class User extends AppModel {
 	}
 	
 	public static User findByEmail(final String email) {
-		return getEmailUserFind(email).findUnique();
+		return getEmailUserFind(email).findOne();
 	}
 
 	private static ExpressionList<User> getEmailUserFind(final String email) {

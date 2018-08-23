@@ -105,13 +105,13 @@ public class User extends AppModel implements Subject {
 		if (identity instanceof UsernamePasswordAuthUser) {
 			return findByUsernamePasswordIdentity((UsernamePasswordAuthUser) identity);
 		} else {
-			return getAuthUserFind(identity).findUnique();
+			return getAuthUserFind(identity).findOne();
 		}
 	}
 
 	public static User findByUsernamePasswordIdentity(
 			final UsernamePasswordAuthUser identity) {
-		return getUsernamePasswordAuthUserFind(identity).findUnique();
+		return getUsernamePasswordAuthUserFind(identity).findOne();
 	}
 
 	private static ExpressionList<User> getUsernamePasswordAuthUserFind(
@@ -205,7 +205,7 @@ public class User extends AppModel implements Subject {
 	}
 
 	public static User findByEmail(final String email) {
-		return getEmailUserFind(email).findUnique();
+		return getEmailUserFind(email).findOne();
 	}
 
 	private static ExpressionList<User> getEmailUserFind(final String email) {

@@ -302,9 +302,9 @@ public class PlayAuthenticate {
 		} else {
 			// go to root instead, but log this
 			Logger.warn("Resolver did not contain information about where to go - redirecting to /");
-			final String afterAuthFallback = getConfiguration().getString(
-					settingFallback);
-			if (afterAuthFallback != null && !afterAuthFallback.equals("")) {
+			final String afterAuthFallback;
+			if (getConfiguration().hasPath(settingFallback) && !(afterAuthFallback = getConfiguration().getString(
+					settingFallback)).isEmpty()) {
 				return afterAuthFallback;
 			}
 			// Not even the config setting was there or valid...meh

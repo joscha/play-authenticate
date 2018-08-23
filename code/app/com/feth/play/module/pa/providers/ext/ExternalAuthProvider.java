@@ -64,10 +64,10 @@ public abstract class ExternalAuthProvider extends AuthProvider {
         }
 		final Call c = resolver.auth(getKey());
 
-		final String overrideHost;
-		if (getConfiguration().hasPath(SettingKeys.REDIRECT_URI_HOST) && !(overrideHost = getConfiguration().getString(
-				SettingKeys.REDIRECT_URI_HOST)).trim().isEmpty()) {
-			return "http" + (isHttps ? "s" : "") + "://" + overrideHost
+        final String overrideHost;
+        if (getConfiguration().hasPath(SettingKeys.REDIRECT_URI_HOST)
+                && !(overrideHost = getConfiguration().getString(SettingKeys.REDIRECT_URI_HOST)).trim().isEmpty()) {
+            return "http" + (isHttps ? "s" : "") + "://" + overrideHost
 					+ c.url();
 		} else {
 			return c.absoluteURL(request, isHttps);

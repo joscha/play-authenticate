@@ -97,7 +97,7 @@ public class FacebookAuthProvider extends
                                                 final Request request, final String state) throws AuthException {
         final List<NameValuePair> params = super.getAuthParams(c, request, state);
 
-        if (c.getString(SettingKeys.DISPLAY) != null) {
+        if (c.hasPath(SettingKeys.DISPLAY)) {
             params.add(new BasicNameValuePair(FacebookConstants.DISPLAY, c
                     .getString(SettingKeys.DISPLAY)));
         }

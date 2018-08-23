@@ -73,8 +73,7 @@ public abstract class AuthProvider {
 						+ getKey() + "' available at all!");
 			}
 			for (final String key : neededSettings) {
-				final String setting = c.getString(key);
-				if (setting == null || "".equals(setting)) {
+				if (!c.hasPath(key) || c.getString(key).isEmpty()) {
 					throw new RuntimeException("Provider '" + getKey()
 							+ "' missing needed setting '" + key + "'");
 				}

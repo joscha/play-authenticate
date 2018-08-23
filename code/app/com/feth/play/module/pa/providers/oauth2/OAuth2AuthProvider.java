@@ -156,7 +156,7 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 	protected List<NameValuePair> getAuthParams(final Config c,
 			final Request request, final String state) throws AuthException {
 		final List<NameValuePair> params = getParams(request, c);
-		if (c.getString(SettingKeys.SCOPE) != null) {
+		if (c.hasPath(SettingKeys.SCOPE)) {
 			params.add(new BasicNameValuePair(Constants.SCOPE, c
 					.getString(SettingKeys.SCOPE)));
 		}
@@ -164,12 +164,12 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 		params.add(new BasicNameValuePair(Constants.RESPONSE_TYPE,
 				Constants.CODE));
 
-		if (c.getString(SettingKeys.ACCESS_TYPE) != null) {
+		if (c.hasPath(SettingKeys.ACCESS_TYPE)) {
 			params.add(new BasicNameValuePair(Constants.ACCESS_TYPE, c
 					.getString(SettingKeys.ACCESS_TYPE)));
 		}
 
-		if (c.getString(SettingKeys.APPROVAL_PROMPT) != null) {
+		if (c.hasPath(SettingKeys.APPROVAL_PROMPT)) {
 			params.add(new BasicNameValuePair(Constants.APPROVAL_PROMPT, c
 					.getString(SettingKeys.APPROVAL_PROMPT)));
 		}

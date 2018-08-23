@@ -57,15 +57,16 @@ public abstract class ExternalAuthProvider extends AuthProvider {
 	}
 
 	protected String getRedirectUrl(final Request request) throws ResolverMissingException {
-		final String overrideHost = getConfiguration().getString(
-				SettingKeys.REDIRECT_URI_HOST);
 		final boolean isHttps = useSecureRedirectUri();
         final Resolver resolver = this.auth.getResolver();
         if (resolver == null) {
             throw new ResolverMissingException("Resolver has not been set.");
         }
 		final Call c = resolver.auth(getKey());
-		if (overrideHost != null && !overrideHost.trim().isEmpty()) {
+
+		final String overrideHost;
+		if (getConfiguration().hasPath(SettingKeys.REDIRECT_URI_HOST) && !(overrideHost = getConfiguration().getString(
+				SettingKeys.REDIRECT_URI_HOST)).trim().isEmpty()) {
 			return "http" + (isHttps ? "s" : "") + "://" + overrideHost
 					+ c.url();
 		} else {

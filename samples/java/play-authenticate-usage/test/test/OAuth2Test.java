@@ -1,22 +1,24 @@
 package test;
 
+import static play.inject.Bindings.bind;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
 import com.feth.play.module.pa.user.AuthUser;
 import com.google.inject.Inject;
+import com.typesafe.config.Config;
+
 import org.junit.Before;
+
 import play.Application;
-import play.Configuration;
 import play.inject.guice.GuiceApplicationBuilder;
 import play.test.Helpers;
 import play.test.TestBrowser;
 import play.test.WithBrowser;
 import service.MyUserService;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import static play.inject.Bindings.bind;
 
 
 public abstract class OAuth2Test extends WithBrowser {
@@ -64,7 +66,7 @@ public abstract class OAuth2Test extends WithBrowser {
         return PlayAuthenticate.SETTING_KEY_PLAY_AUTHENTICATE + "." + getProviderKey() + "." + setting;
     }
 
-    protected Configuration getConfig() {
+    protected Config getConfig() {
         return app.injector().instanceOf(PlayAuthenticate.class).getConfiguration().getConfig(getProviderKey());
     }
 
@@ -92,7 +94,7 @@ public abstract class OAuth2Test extends WithBrowser {
             return lastAuthUser;
         }
 
-        public static void resetLasAuthUser() {
+        public static void resetLastAuthUser() {
             lastAuthUser = null;
         }
 
@@ -100,7 +102,7 @@ public abstract class OAuth2Test extends WithBrowser {
 
     @Before
     public void resetLastAuthUser() {
-        MyTestUserServiceService.resetLasAuthUser();
+        MyTestUserServiceService.resetLastAuthUser();
     }
 
 }

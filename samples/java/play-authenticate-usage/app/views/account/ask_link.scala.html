@@ -16,7 +16,7 @@
 
             @if(acceptForm.hasGlobalErrors) {
 		        <p class="alert alert-danger">
-		          @acceptForm.globalError.message
+		          @acceptForm.getGlobalError.get.message
 		     	</p>
             }
 

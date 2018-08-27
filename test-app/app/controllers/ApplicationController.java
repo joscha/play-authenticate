@@ -1,12 +1,10 @@
 package controllers;
 
-import static play.data.Form.form;
-
 import com.feth.play.module.pa.PlayAuthenticate;
 
 import play.Logger;
-import play.Play;
 import play.data.Form;
+import play.data.FormFactory;
 import play.mvc.Controller;
 import play.mvc.Result;
 import providers.TestUsernamePasswordAuthProvider;
@@ -18,6 +16,8 @@ import javax.inject.Singleton;
 
 @Singleton
 public class ApplicationController extends Controller {
+
+	@Inject FormFactory formFactory;
 
 	public final String FLASH_ERROR_KEY = "error";
 
@@ -33,12 +33,12 @@ public class ApplicationController extends Controller {
 	}
 
 	public Result login() {
-		return ok(views.html.login.render(form(Login.class).bindFromRequest()));
+		return ok(views.html.login.render(formFactory.form(Login.class).bindFromRequest()));
 	}
 
 	public Result doLogin() {
 		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
-		final Form<Login> filledForm = form(Login.class).bindFromRequest();
+		final Form<Login> filledForm = formFactory.form(Login.class).bindFromRequest();
 		if (filledForm.hasErrors()) {
 			// User did not fill everything properly
 			return badRequest(views.html.login.render(filledForm));
@@ -50,12 +50,12 @@ public class ApplicationController extends Controller {
 
 	public Result signup() {
 		return ok(views.html.signup
-				.render(form(Signup.class).bindFromRequest()));
+				.render(formFactory.form(Signup.class).bindFromRequest()));
 	}
 
 	public Result doSignup() {
 		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
-		final Form<Signup> filledForm = form(Signup.class).bindFromRequest();
+		final Form<Signup> filledForm = formFactory.form(Signup.class).bindFromRequest();
 		if (filledForm.hasErrors()) {
 			// User did not fill everything properly
 			return badRequest(views.html.signup.render(filledForm));

@@ -42,12 +42,12 @@ public class SpnegoAuthProvider extends WWWAuthenticateProvider {
 	@Inject
 	public SpnegoAuthProvider(final PlayAuthenticate auth, final ApplicationLifecycle lifecycle) {
 		super(auth, lifecycle);
-		String realm = getConfiguration().getString(SettingKeys.REALM);
-		String kdc = getConfiguration().getString(SettingKeys.KDC);
-		if (realm != null && kdc != null) {
+		if (getConfiguration().hasPath(SettingKeys.REALM) && getConfiguration().hasPath(SettingKeys.KDC)) {
+			String realm = getConfiguration().getString(SettingKeys.REALM);
+			String kdc = getConfiguration().getString(SettingKeys.KDC);
 			System.setProperty("java.security.krb5.realm", realm);
 			System.setProperty("java.security.krb5.kdc", kdc);
-		} else if (realm != null || kdc != null) {
+		} else {
 			Logger.error("Both realm and kdc must be given, falling back to krb5.conf");
 		}
 	}

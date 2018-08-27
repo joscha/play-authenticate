@@ -18,10 +18,10 @@
     <div class="col-xs-6 col-sm-4">
       @* Display proprietary login form *@
     	@helper.form(routes.Application.doLogin, 'class -> "form-horizontal", 'role -> "form") {
-
+        @helper.CSRF.formField
         @if(loginForm.hasGlobalErrors) {
           	<p class="alert alert-danger">
-	          @loginForm.globalError.message
+	          @loginForm.getGlobalError.get.message
 	     	</p>
         }
 

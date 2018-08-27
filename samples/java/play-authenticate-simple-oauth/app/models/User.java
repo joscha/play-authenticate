@@ -14,8 +14,9 @@ import javax.persistence.Table;
 
 import play.data.validation.Constraints;
 
-import com.avaje.ebean.Ebean;
-import com.avaje.ebean.ExpressionList;
+import io.ebean.Ebean;
+import io.ebean.ExpressionList;
+import io.ebean.Finder;
 import com.feth.play.module.pa.user.AuthUser;
 import com.feth.play.module.pa.user.AuthUserIdentity;
 import com.feth.play.module.pa.user.EmailIdentity;
@@ -47,18 +48,17 @@ public class User extends AppModel {
 	@OneToMany(cascade = CascadeType.ALL)
 	public List<LinkedAccount> linkedAccounts;
 
-	public static final Finder<Long, User> find = new Finder<Long, User>(
-			Long.class, User.class);
+	public static final Finder<Long, User> find = new Finder<Long, User>(User.class);
 
 	public static boolean existsByAuthUserIdentity(
 			final AuthUserIdentity identity) {
 		final ExpressionList<User> exp = getAuthUserFind(identity);
-		return exp.findRowCount() > 0;
+		return exp.findCount() > 0;
 	}
 
 	private static ExpressionList<User> getAuthUserFind(
 			final AuthUserIdentity identity) {
-		return find.where().eq("active", true)
+		return find.query().where().eq("active", true)
 				.eq("linkedAccounts.providerUserId", identity.getId())
 				.eq("linkedAccounts.providerKey", identity.getProvider());
 	}
@@ -67,7 +67,7 @@ public class User extends AppModel {
 		if (identity == null) {
 			return null;
 		}
-		return getAuthUserFind(identity).findUnique();
+		return getAuthUserFind(identity).findOne();
 	}
 
 	public void merge(final User otherUser) {
@@ -130,11 +130,11 @@ public class User extends AppModel {
 	}
 	
 	public static User findByEmail(final String email) {
-		return getEmailUserFind(email).findUnique();
+		return getEmailUserFind(email).findOne();
 	}
 
 	private static ExpressionList<User> getEmailUserFind(final String email) {
-		return find.where().eq("active", true).eq("email", email);
+		return find.query().where().eq("active", true).eq("email", email);
 	}
 
 	public LinkedAccount getAccountByProvider(final String providerKey) {

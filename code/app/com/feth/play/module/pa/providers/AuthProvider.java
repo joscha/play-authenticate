@@ -4,7 +4,7 @@ import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.user.AuthUser;
 import com.feth.play.module.pa.user.SessionAuthUser;
-import play.Configuration;
+import com.typesafe.config.Config;
 import play.Logger;
 import play.inject.ApplicationLifecycle;
 import play.mvc.Http.Context;
@@ -67,14 +67,13 @@ public abstract class AuthProvider {
 
 		final List<String> neededSettings = neededSettingKeys();
 		if (neededSettings != null) {
-			final Configuration c = getConfiguration();
+			final Config c = getConfiguration();
 			if (c == null) {
 				throw new RuntimeException("No settings for provider '"
 						+ getKey() + "' available at all!");
 			}
 			for (final String key : neededSettings) {
-				final String setting = c.getString(key);
-				if (setting == null || "".equals(setting)) {
+				if (!c.hasPath(key) || c.getString(key).isEmpty()) {
 					throw new RuntimeException("Provider '" + getKey()
 							+ "' missing needed setting '" + key + "'");
 				}
@@ -100,7 +99,7 @@ public abstract class AuthProvider {
 
 	public abstract String getKey();
 
-	protected Configuration getConfiguration() {
+	protected Config getConfiguration() {
 		return this.auth.getConfiguration().getConfig(getKey());
 	}
 

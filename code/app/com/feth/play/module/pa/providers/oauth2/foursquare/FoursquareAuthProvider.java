@@ -7,6 +7,7 @@ import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
 import com.feth.play.module.pa.user.AuthUserIdentity;
 import play.Logger;
+import play.i18n.MessagesApi;
 import play.inject.ApplicationLifecycle;
 import play.libs.ws.WSClient;
 import play.libs.ws.WSResponse;
@@ -25,8 +26,8 @@ public class FoursquareAuthProvider extends
 	private static final String VERSION = "20120617";
 
 	@Inject
-	public FoursquareAuthProvider(final PlayAuthenticate auth, final ApplicationLifecycle lifecycle, final WSClient wsClient) {
-		super(auth, lifecycle, wsClient);
+	public FoursquareAuthProvider(final PlayAuthenticate auth, final ApplicationLifecycle lifecycle, final WSClient wsClient, final MessagesApi messagesApi) {
+		super(auth, lifecycle, wsClient, messagesApi);
 	}
 
 	@Override

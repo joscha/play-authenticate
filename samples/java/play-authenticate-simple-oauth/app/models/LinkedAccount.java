@@ -1,5 +1,7 @@
 package models;
 
+import io.ebean.Finder;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -23,12 +25,11 @@ public class LinkedAccount extends AppModel {
 	public String providerUserId;
 	public String providerKey;
 
-	public static final Finder<Long, LinkedAccount> find = new Finder<Long, LinkedAccount>(
-			Long.class, LinkedAccount.class);
+	public static final Finder<Long, LinkedAccount> find = new Finder<Long, LinkedAccount>(LinkedAccount.class);
 
 	public static LinkedAccount findByProviderKey(final User user, String key) {
-		return find.where().eq("user", user).eq("providerKey", key)
-				.findUnique();
+		return find.query().where().eq("user", user).eq("providerKey", key)
+				.findOne();
 	}
 
 	public static LinkedAccount create(final AuthUser authUser) {

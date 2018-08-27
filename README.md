@@ -7,6 +7,8 @@ This plugin uses concepts from [securesocial2][] and [Play20StartApp][] and prov
 
 Play Authenticate is cross-tested in Java 1.6, Java 1.7 (Up to `0.6.x`) and Java 1.8 (from `0.7.0`)
 
+Since Play 2.6 it's cross-compiled for both Scala 2.11 and 2.12.
+
 Works fine with Play version
 
 * `2.0.2` to `2.0.x` (last: `0.2.3-SNAPSHOT` - [2.0.x branch](https://github.com/joscha/play-authenticate/tree/2.0.x))
@@ -14,7 +16,8 @@ Works fine with Play version
 * `2.2.0` to `2.2.x` (last: `0.5.4` - [2.2.x branch](https://github.com/joscha/play-authenticate/tree/2.2.x))
 * `2.3.0` to `2.3.x` (last: `0.6.9` - [2.3.x branch](https://github.com/joscha/play-authenticate/tree/2.3.x))
 * `2.4.0` to `2.4.x` (last: `0.7.x` - [2.4.x branch](https://github.com/joscha/play-authenticate/tree/2.4.x))
-* `2.5.0` to `2.5.x` (last: `0.8.x` - [master branch](https://github.com/joscha/play-authenticate/tree/master))
+* `2.5.0` to `2.5.x` (last: `0.8.x` - [2.5.x branch](https://github.com/joscha/play-authenticate/tree/2.5.x))
+* `2.6.0` to `2.6.x` (last: `0.9.x` - [master branch](https://github.com/joscha/play-authenticate/tree/master))
 
 Releases are on [mvnrepository](http://mvnrepository.com/artifact/com.feth) and snapshots can be found on [sonatype](https://oss.sonatype.org/content/repositories/snapshots/com/feth/).
 
@@ -31,15 +34,15 @@ Play-Authenticate is available in [Maven Central](http://search.maven.org/#brows
 ```xml
 <dependency>
     <groupId>com.feth</groupId>
-    <artifactId>play-authenticate_2.11</artifactId>
-    <version>0.8.3</version>
+    <artifactId>play-authenticate</artifactId>
+    <version>0.9.0</version>
 </dependency>
 ```
 or
 
 ```scala
 val appDependencies = Seq(
-  "com.feth" % "play-authenticate_2.11" % "0.8.3"
+  "com.feth" %% "play-authenticate" % "0.9.0"
 )
 ```
 
@@ -95,6 +98,9 @@ There is also a [sample application using Play!Authenticate with MongoDB](https:
 ## Versions
 * **TRUNK** [not released in the repository, yet]
   * Fancy contributing something? :-)
+* **0.9.0** [tbd]
+  * Upgrade to Play 2.6 (thanks @KadekM)
+  * ATTENTION: This is for Play 2.6 - if you have Play 2.5, use a `0.8.x` version.
   * Turkish core (thanks @canoztokmak)
 * **0.8.3** [2017-04-18]
   * Chinese translation (thanks @frederick036)

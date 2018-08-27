@@ -15,11 +15,12 @@
  */
 package models;
 
+import be.objectify.deadbolt.java.models.Role;
+import io.ebean.Finder;
+import io.ebean.Model;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
-
-import com.avaje.ebean.Model;
-import be.objectify.deadbolt.java.models.Role;
 
 /**
  * @author Steve Chaloner (steve@objectify.be)
@@ -36,7 +37,7 @@ public class SecurityRole extends Model implements Role {
 
 	public String roleName;
 
-	public static final Find<Long, SecurityRole> find = new Find<Long, SecurityRole>(){};
+	public static final Finder<Long, SecurityRole> find = new Finder<>(SecurityRole.class);
 
 	@Override
 	public String getName() {
@@ -44,6 +45,6 @@ public class SecurityRole extends Model implements Role {
 	}
 
 	public static SecurityRole findByRoleName(String roleName) {
-		return find.where().eq("roleName", roleName).findUnique();
+		return find.query().where().eq("roleName", roleName).findOne();
 	}
 }

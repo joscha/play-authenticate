@@ -7,6 +7,7 @@ import com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider;
 import com.feth.play.module.pa.providers.password.UsernamePasswordAuthUser;
 import play.Logger;
 import play.data.Form;
+import play.data.FormFactory;
 import play.data.validation.Constraints.Email;
 import play.data.validation.Constraints.MinLength;
 import play.data.validation.Constraints.Required;
@@ -21,8 +22,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
-import static play.data.Form.form;
-
 @Singleton
 public class TestUsernamePasswordAuthProvider
 		extends
@@ -31,10 +30,12 @@ public class TestUsernamePasswordAuthProvider
 	private final Map<String, String> verifiedUsers = new HashMap<>();
 	private final Map<String, String> unverifiedUsers = new HashMap<>();
 	private final Map<String, String> verificationTokens = new HashMap<>();
+	private final FormFactory formFactory;
 
 	@Inject
-	public TestUsernamePasswordAuthProvider(final PlayAuthenticate auth, final ApplicationLifecycle lifecycle, final MailerFactory mailerFactory) {
+	public TestUsernamePasswordAuthProvider(final PlayAuthenticate auth, final ApplicationLifecycle lifecycle, final MailerFactory mailerFactory, final FormFactory formFactory) {
 		super(auth, lifecycle, mailerFactory);
+		this.formFactory = formFactory;
 	}
 
 	public static class Login implements
@@ -180,16 +181,15 @@ public class TestUsernamePasswordAuthProvider
 	}
 
 	protected Form<Signup> getSignupForm() {
-		return form(Signup.class);
+		return formFactory.form(Signup.class);
 	}
 
 	protected Form<Login> getLoginForm() {
-		return form(Login.class);
+		return formFactory.form(Login.class);
 	}
 
 	@Override
 	protected Signup getSignup(final Context ctx) {
-		// TODO change to getSignupForm().bindFromRequest(request) after 2.1
 		Context.current.set(ctx);
 		final Form<Signup> filledForm = getSignupForm().bindFromRequest();
 		return filledForm.get();

@@ -1,10 +1,11 @@
 package models;
 
+import com.feth.play.module.pa.user.AuthUser;
+import io.ebean.Finder;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-
-import com.feth.play.module.pa.user.AuthUser;
 
 @Entity
 public class LinkedAccount extends AppModel {
@@ -23,11 +24,11 @@ public class LinkedAccount extends AppModel {
 	public String providerUserId;
 	public String providerKey;
 
-	public static final Find<Long, LinkedAccount> find = new Find<Long, LinkedAccount>(){};
+	public static final Finder<Long, LinkedAccount> find = new Finder<>(LinkedAccount.class);
 
 	public static LinkedAccount findByProviderKey(final User user, String key) {
-		return find.where().eq("user", user).eq("providerKey", key)
-				.findUnique();
+		return find.query().where().eq("user", user).eq("providerKey", key)
+				.findOne();
 	}
 
 	public static LinkedAccount create(final AuthUser authUser) {

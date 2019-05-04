@@ -12,6 +12,7 @@ import javax.inject.Singleton;
  */
 @Singleton
 public class TestResolver extends Resolver {
+
     @Override
     public Call login() {
         // Your login page

@@ -1,11 +1,8 @@
 package controllers;
 
-import static play.data.Form.form;
-
 import com.feth.play.module.pa.PlayAuthenticate;
 
 import play.Logger;
-import play.Play;
 import play.data.Form;
 import play.data.FormFactory;
 import play.mvc.Controller;

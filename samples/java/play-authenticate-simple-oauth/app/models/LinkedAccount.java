@@ -27,6 +27,11 @@ public class LinkedAccount extends AppModel {
 
 	public static final Finder<Long, LinkedAccount> find = new Finder<Long, LinkedAccount>(LinkedAccount.class);
 
+	public static LinkedAccount findByProvider(String key, String providerUserId) {
+		return find.query().where().eq("providerKey", key).eq("providerUserId", providerUserId).
+				findOne();
+	}
+
 	public static LinkedAccount findByProviderKey(final User user, String key) {
 		return find.query().where().eq("user", user).eq("providerKey", key)
 				.findOne();

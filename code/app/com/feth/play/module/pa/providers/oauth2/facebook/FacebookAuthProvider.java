@@ -5,11 +5,11 @@ import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.exceptions.AccessTokenException;
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
+import com.typesafe.config.Config;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
-import play.Configuration;
 import play.Logger;
+import play.i18n.MessagesApi;
 import play.inject.ApplicationLifecycle;
 import play.libs.ws.WSClient;
 import play.libs.ws.WSResponse;
@@ -17,10 +17,7 @@ import play.mvc.Http.Request;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.net.URI;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Singleton
 public class FacebookAuthProvider extends
@@ -36,8 +33,8 @@ public class FacebookAuthProvider extends
     private static final String USER_INFO_FIELDS_SETTING_KEY = "userInfoFields";
 
     @Inject
-    public FacebookAuthProvider(final PlayAuthenticate auth, final ApplicationLifecycle lifecycle, final WSClient wsClient) {
-        super(auth, lifecycle, wsClient);
+    public FacebookAuthProvider(final PlayAuthenticate auth, final ApplicationLifecycle lifecycle, final WSClient wsClient, final MessagesApi messagesApi) {
+        super(auth, lifecycle, wsClient, messagesApi);
     }
 
 
@@ -46,7 +43,7 @@ public class FacebookAuthProvider extends
         public static final String DISPLAY = "display";
     }
 
-    public static abstract class FacebookConstants extends Constants {
+    public static abstract class FacebookConstants extends OAuth2AuthProvider.Constants {
         public static final String DISPLAY = "display";
     }
 
@@ -96,11 +93,11 @@ public class FacebookAuthProvider extends
     }
 
     @Override
-    protected List<NameValuePair> getAuthParams(final Configuration c,
+    protected List<NameValuePair> getAuthParams(final Config c,
                                                 final Request request, final String state) throws AuthException {
         final List<NameValuePair> params = super.getAuthParams(c, request, state);
 
-        if (c.getString(SettingKeys.DISPLAY) != null) {
+        if (c.hasPath(SettingKeys.DISPLAY)) {
             params.add(new BasicNameValuePair(FacebookConstants.DISPLAY, c
                     .getString(SettingKeys.DISPLAY)));
         }

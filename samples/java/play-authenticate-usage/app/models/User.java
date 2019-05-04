@@ -3,14 +3,15 @@ package models;
 import be.objectify.deadbolt.java.models.Permission;
 import be.objectify.deadbolt.java.models.Role;
 import be.objectify.deadbolt.java.models.Subject;
-import com.avaje.ebean.Ebean;
-import com.avaje.ebean.ExpressionList;
+import io.ebean.Ebean;
+import io.ebean.ExpressionList;
 import com.feth.play.module.pa.providers.password.UsernamePasswordAuthUser;
 import com.feth.play.module.pa.user.AuthUser;
 import com.feth.play.module.pa.user.AuthUserIdentity;
 import com.feth.play.module.pa.user.EmailIdentity;
 import com.feth.play.module.pa.user.NameIdentity;
 import com.feth.play.module.pa.user.FirstLastNameIdentity;
+import io.ebean.Finder;
 import models.TokenAction.Type;
 import play.data.format.Formats;
 import play.data.validation.Constraints;
@@ -61,7 +62,7 @@ public class User extends AppModel implements Subject {
 	@ManyToMany
 	public List<UserPermission> permissions;
 
-	public static final AppModel.Find<Long, User> find = new AppModel.Find<Long, User>(){};
+	public static final Finder<Long, User> find = new Finder<>(User.class);
 
 	@Override
 	public String getIdentifier()
@@ -87,12 +88,12 @@ public class User extends AppModel implements Subject {
 		} else {
 			exp = getAuthUserFind(identity);
 		}
-		return exp.findRowCount() > 0;
+		return exp.query().findCount() > 0;
 	}
 
 	private static ExpressionList<User> getAuthUserFind(
 			final AuthUserIdentity identity) {
-		return find.where().eq("active", true)
+		return find.query().where().eq("active", true)
 				.eq("linkedAccounts.providerUserId", identity.getId())
 				.eq("linkedAccounts.providerKey", identity.getProvider());
 	}
@@ -104,13 +105,13 @@ public class User extends AppModel implements Subject {
 		if (identity instanceof UsernamePasswordAuthUser) {
 			return findByUsernamePasswordIdentity((UsernamePasswordAuthUser) identity);
 		} else {
-			return getAuthUserFind(identity).findUnique();
+			return getAuthUserFind(identity).findOne();
 		}
 	}
 
 	public static User findByUsernamePasswordIdentity(
 			final UsernamePasswordAuthUser identity) {
-		return getUsernamePasswordAuthUserFind(identity).findUnique();
+		return getUsernamePasswordAuthUserFind(identity).findOne();
 	}
 
 	private static ExpressionList<User> getUsernamePasswordAuthUserFind(
@@ -204,11 +205,11 @@ public class User extends AppModel implements Subject {
 	}
 
 	public static User findByEmail(final String email) {
-		return getEmailUserFind(email).findUnique();
+		return getEmailUserFind(email).findOne();
 	}
 
 	private static ExpressionList<User> getEmailUserFind(final String email) {
-		return find.where().eq("active", true).eq("email", email);
+		return find.query().where().eq("active", true).eq("email", email);
 	}
 
 	public LinkedAccount getAccountByProvider(final String providerKey) {

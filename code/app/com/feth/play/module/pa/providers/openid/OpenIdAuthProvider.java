@@ -5,7 +5,7 @@ import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.ext.ExternalAuthProvider;
 import com.feth.play.module.pa.providers.openid.exceptions.NoOpenIdAuthException;
 import com.feth.play.module.pa.providers.openid.exceptions.OpenIdConnectException;
-import play.Configuration;
+import com.typesafe.config.Config;
 import play.Logger;
 import play.api.libs.openid.OpenIDError;
 import play.inject.ApplicationLifecycle;
@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Future;
+import java.util.stream.Collectors;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
@@ -101,10 +102,10 @@ public class OpenIdAuthProvider extends ExternalAuthProvider {
 	}
 
 	private Map<String, String> getAttributes(final String subKey) {
-		final Configuration attributes = getConfiguration().getConfig(
+		final Config attributes = getConfiguration().getConfig(
 				SettingKeys.ATTRIBUTES + "." + subKey);
 		if (attributes != null) {
-			final Set<String> keys = attributes.keys();
+			final Set<String> keys = attributes.entrySet().stream().map(x -> x.getKey()).collect(Collectors.toSet());
 			final Map<String, String> ret = new HashMap<String, String>(
 					keys.size());
 			for (final String key : keys) {

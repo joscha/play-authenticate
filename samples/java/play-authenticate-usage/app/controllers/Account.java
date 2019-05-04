@@ -11,7 +11,6 @@ import play.data.FormFactory;
 import play.data.format.Formats.NonEmpty;
 import play.data.validation.Constraints.MinLength;
 import play.data.validation.Constraints.Required;
-import play.i18n.Messages;
 import play.i18n.MessagesApi;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -67,8 +66,7 @@ public class Account extends Controller {
 
 		public String validate() {
 			if (password == null || !password.equals(repeatPassword)) {
-				return Messages
-						.get("playauthenticate.change_password.error.passwords_not_same");
+				return "playauthenticate.change_password.error.passwords_not_same";
 			}
 			return null;
 		}

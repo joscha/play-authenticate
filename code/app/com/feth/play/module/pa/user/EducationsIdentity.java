@@ -5,7 +5,7 @@ import java.util.Collection;
 
 public interface EducationsIdentity {
   
-  public static class EducationInfo implements Serializable {
+  class EducationInfo implements Serializable {
     protected String id;
     protected String schoolName;
     protected String degree;

@@ -7,6 +7,7 @@ import com.feth.play.module.pa.user.AuthUser;
 import models.CookieTokenSeries;
 import models.LinkedAccount;
 import models.User;
+import play.Environment;
 import play.api.Play;
 import play.inject.ApplicationLifecycle;
 
@@ -20,8 +21,8 @@ public class MyCookieAuthProvider extends CookieAuthProvider {
     PlayAuthenticate auth;
 
     @Inject
-    public MyCookieAuthProvider(PlayAuthenticate auth, ApplicationLifecycle lifecycle) {
-        super(auth, lifecycle);
+    public MyCookieAuthProvider(PlayAuthenticate auth, ApplicationLifecycle lifecycle, Environment env) {
+        super(auth, lifecycle, env);
     }
 
     @Override

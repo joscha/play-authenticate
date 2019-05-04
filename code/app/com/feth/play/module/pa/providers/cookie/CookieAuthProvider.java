@@ -1,5 +1,7 @@
 package com.feth.play.module.pa.providers.cookie;
 
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -9,6 +11,8 @@ import org.slf4j.LoggerFactory;
 
 import play.Play;
 import play.inject.ApplicationLifecycle;
+import play.Environment;
+import play.mvc.Http;
 import play.mvc.Http.Context;
 import play.mvc.Http.Cookie;
 import play.mvc.Http.Cookies;
@@ -31,6 +35,8 @@ public abstract class CookieAuthProvider extends AuthProvider {
     private static final String SETTING_KEY_SECURE_ONLY = "secureOnly";
     private static final String SETTING_KEY_PATH = "path";
 
+    private final Environment env;
+
     @Override
     protected List<String> neededSettingKeys() {
         return Arrays.asList(
@@ -47,8 +53,9 @@ public abstract class CookieAuthProvider extends AuthProvider {
 
 
     @Inject
-    public CookieAuthProvider(final PlayAuthenticate auth, final ApplicationLifecycle lifecycle) {
+    public CookieAuthProvider(final PlayAuthenticate auth, final ApplicationLifecycle lifecycle, final Environment env) {
         super(auth, lifecycle);
+        this.env = env;
     }
 
     @Override
@@ -101,7 +108,7 @@ public abstract class CookieAuthProvider extends AuthProvider {
     }
 
     protected boolean isSecureOnly() {
-        return !Play.isDev() && getConfiguration().getBoolean(SETTING_KEY_SECURE_ONLY);
+        return !env.isDev() && getConfiguration().getBoolean(SETTING_KEY_SECURE_ONLY);
     }
 
     protected String getPath() {
@@ -133,14 +140,11 @@ public abstract class CookieAuthProvider extends AuthProvider {
             save(cookieAuthUser, authUser);
         }
 
-        ctx.response().setCookie(
-                getCookieName(),
-                cookieAuthUser.toCookieValue(),
-                getTimeout(), // MaxAge in seconds
-                getPath(), // Path
-                null,
-                isSecureOnly(),
-                true); //httpOnly, not javascript!
+
+        Cookie cookie = Cookie.builder(getCookieName(), cookieAuthUser.toCookieValue()).
+                withMaxAge(Duration.of(getTimeout(), ChronoUnit.SECONDS)).withPath(getPath()).
+                withSecure(isSecureOnly()).withHttpOnly(true).build();
+        ctx.response().setCookie(cookie);
     }
 
     public void forget(final Context ctx) {

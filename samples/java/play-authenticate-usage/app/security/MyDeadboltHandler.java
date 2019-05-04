@@ -24,7 +24,7 @@ public class MyDeadboltHandler extends AbstractDeadboltHandler {
 	}
 
 	@Override
-	public CompletionStage<Optional<Result>> beforeAuthCheck(final Http.Context context) {
+	public CompletionStage<Optional<Result>> beforeAuthCheck(final Http.Context context, final Optional<String> content) {
 		if (this.auth.isLoggedIn(context)) {
 			// user is logged in
 			return CompletableFuture.completedFuture(Optional.empty());

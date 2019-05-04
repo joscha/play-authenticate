@@ -15,6 +15,8 @@
  */
 package com.feth.play.module.pa.providers.wwwauth;
 
+import java.util.Optional;
+
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.AuthProvider;
@@ -99,11 +101,12 @@ public abstract class WWWAuthenticateProvider extends AuthProvider {
 
 	@Override
 	public Object authenticate(Context context, Object payload)	throws AuthException {
-		String auth = context.request().getHeader("Authorization");
+		Optional<String> authHeader = context.request().header("Authorization");
 
-		if (auth == null) {
+		if (!authHeader.isPresent()) {
 			return deny(context);
 		}
+		String auth = authHeader.get();
 		int ix = auth.indexOf(32);
 		if (ix == -1 || !authScheme().equalsIgnoreCase(auth.substring(0,ix))) {
 			return deny(context);

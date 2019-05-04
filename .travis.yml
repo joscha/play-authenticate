@@ -1,13 +1,24 @@
 language: scala
-sudo: true
+sudo: required
+dist: trusty
 scala:
-- 2.11.8
+- 2.11.12
+- 2.12.6
 jdk:
 - oraclejdk8
 install: true
 before_install:
-- export DISPLAY=:99.0
-- sh -e /etc/init.d/xvfb start
+# See https://github.com/SeleniumHQ/docker-selenium/issues/87
+- export DBUS_SESSION_BUS_ADDRESS=/dev/null
+- export $(dbus-launch)
+- export NSS_USE_SHARED_DB=ENABLED
+- "export DISPLAY=:99.0"
+- "Xvfb :99 +extension RANDR 2>/dev/null &"
+- sleep 5 # give xvfb some time to start
+- "mkdir -p ~/tmp/bin"
+- "pushd ~/tmp/bin && wget -c https://github.com/mozilla/geckodriver/releases/download/v0.21.0/geckodriver-v0.21.0-linux64.tar.gz && tar -xzvf geckodriver-v0.21.0-linux64.tar.gz && popd"
+- "chmod -vv +x ~/tmp/bin/*"
+- "export PATH=$HOME/tmp/bin:$PATH"
 - wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
 script:
 - cd $TRAVIS_BUILD_DIR/code
@@ -25,6 +36,12 @@ script:
 - sbt ++$TRAVIS_SCALA_VERSION test < /dev/null
 notifications:
   email: false
+addons:
+  firefox: latest
+  apt:
+    packages:
+    - unzip
+    - dbus-x11
 env:
   global:
     # SONATYPE_USERNAME

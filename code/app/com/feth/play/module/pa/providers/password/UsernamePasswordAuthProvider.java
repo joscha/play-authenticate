@@ -13,7 +13,6 @@ import com.feth.play.module.pa.providers.AuthProvider;
 import com.feth.play.module.pa.user.AuthUser;
 import com.feth.play.module.pa.user.NameIdentity;
 
-import play.data.Form;
 import play.inject.ApplicationLifecycle;
 import play.mvc.Call;
 import play.mvc.Http;

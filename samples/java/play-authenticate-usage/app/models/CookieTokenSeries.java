@@ -1,6 +1,7 @@
 package models;
 
 import com.feth.play.module.pa.user.AuthUser;
+import io.ebean.Finder;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -26,11 +27,10 @@ public class CookieTokenSeries extends AppModel {
     @Temporal(TemporalType.TIMESTAMP)
     public LocalDateTime timeCreated, timeUpdated;
 
-    public static final Finder<Long, CookieTokenSeries> find = new Finder<Long, CookieTokenSeries>(CookieTokenSeries.class);
+    public static final Finder<Long, CookieTokenSeries> find = new Finder<>(CookieTokenSeries.class);
 
     public static CookieTokenSeries findBySeries(final User user, String key) {
-        return find.where().eq("user", user).eq("series", key)
-                .findUnique();
+        return find.query().where().eq("user", user).eq("series", key).findOne();
     }
 
 

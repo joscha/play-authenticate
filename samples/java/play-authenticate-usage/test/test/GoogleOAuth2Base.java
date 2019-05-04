@@ -32,21 +32,19 @@ public abstract class GoogleOAuth2Base extends OAuth2Test {
 
     protected void signupFill() throws InterruptedException {
         goToLogin();
-        browser
-                .fill("#Email").with(GOOGLE_USER_EMAIL)
-                .find("#next").click();
+        browser.find("#Email").fill().withText(GOOGLE_USER_EMAIL);
+        browser.find("#next").click();
         browser.await().untilPage().isLoaded();
         TimeUnit.SECONDS.sleep(2); // couldn't figure any other way to make it work
         // apparently page is actually not ready at this point
         // #Passwd element is not being found without this sleep
-        browser
-                .fill("#Passwd").with(System.getenv("GOOGLE_USER_PASSWORD"))
-                .find("#signIn").click();
+        browser.find("#Passwd").fill().withText(System.getenv("GOOGLE_USER_PASSWORD"));
+        browser.find("#signIn").click();
         browser.await().untilPage().isLoaded();
     }
 
     protected void signupApprove() {
-        browser.await().atMost(5, TimeUnit.SECONDS).until("#submit_approve_access").areEnabled();
+        browser.await().atMost(5, TimeUnit.SECONDS).until(browser.find("#submit_approve_access")).enabled();
         browser.find("#submit_approve_access").click();
         browser.await().untilPage().isLoaded();
     }

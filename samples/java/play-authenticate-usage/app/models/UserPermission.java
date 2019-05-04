@@ -1,9 +1,10 @@
 package models;
 
+import be.objectify.deadbolt.java.models.Permission;
+import io.ebean.Finder;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
-
-import be.objectify.deadbolt.java.models.Permission;
 
 /**
  * Initial version based on work by Steve Chaloner (steve@objectify.be) for
@@ -21,13 +22,13 @@ public class UserPermission extends AppModel implements Permission {
 
 	public String value;
 
-	public static final AppModel.Find<Long, UserPermission> find = new AppModel.Find<Long, UserPermission>(){};
+	public static final Finder<Long, UserPermission> find = new Finder<>(UserPermission.class);
 
 	public String getValue() {
 		return value;
 	}
 
 	public static UserPermission findByValue(String value) {
-		return find.where().eq("value", value).findUnique();
+		return find.query().where().eq("value", value).findOne();
 	}
 }

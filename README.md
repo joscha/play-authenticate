@@ -1,5 +1,7 @@
 # [![Build Status](https://travis-ci.org/joscha/play-authenticate.svg?branch=master)](https://travis-ci.org/joscha/play-authenticate) PlayAuthenticate - An extensible authentication plugin for Play! Framework 2 (Java)
 
+> MAINTAINERS WANTED!!!! Please drop me a message if you want to help out!
+
 This plugin uses concepts from [securesocial2][] and [Play20StartApp][] and provides a sample containing code from [deadbolt2][].
 
 #### Version information

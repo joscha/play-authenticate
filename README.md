@@ -2,6 +2,8 @@
 
 > MAINTAINERS WANTED!!!! Please drop me a message if you want to help out!
 
+> Update on 2021-02-10: Unfortunately the search for maintainers has not yielded any results and ther haven't been made any meaningful updates/changes to the source code in a long time. This repository will be archived for the time being to prevent people adopting this project.
+
 This plugin uses concepts from [securesocial2][] and [Play20StartApp][] and provides a sample containing code from [deadbolt2][].
 
 #### Version information

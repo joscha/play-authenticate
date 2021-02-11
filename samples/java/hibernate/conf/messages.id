@@ -1,0 +1,153 @@
+# Override default Play's validation messages
+
+# --- Constraints
+constraint.required=Required
+constraint.min=Minimum value: {0}
+constraint.max=Maximum value: {0}
+constraint.minLength=Minimum length: {0}
+constraint.maxLength=Maximum length: {0}
+constraint.email=Email
+
+# --- Formats
+format.date=Date (''{0}'')
+format.numeric=Numeric
+format.real=Real
+
+# --- Errors
+error.invalid=Nilai tidak valid
+error.required=Field ini harus diisi
+error.number=Nilai numerik diharapkan
+error.real=Nilai riil diharapkan
+error.min=Harus lebih dari atau sama dengan {0}
+error.max=Harus kurang dari atau sama dengan {0}
+error.minLength=Panjang minimum adalah {0}
+error.maxLength=Panjang maksimum adalah {0}
+error.email=Email valid diharapkan
+error.pattern=Harus sesuai dengan {0}
+
+### --- play-authenticate START
+
+# play-authenticate: Initial translations
+
+playauthenticate.accounts.link.success=Akun berhasil disambungkan
+playauthenticate.accounts.merge.success=Akun berhasil digabungkan
+
+playauthenticate.verify_email.error.already_validated=Email kamu sudah divalidasi
+playauthenticate.verify_email.error.set_email_first=Kamu harus mengatur alamat email terlebih dahulu
+playauthenticate.verify_email.message.instructions_sent=Instruksi cara verifikasi alamat email kamu sudah dikirim ke {0}.
+playauthenticate.verify_email.success=Alamat email ({0}) berhasil diverifikasi
+
+playauthenticate.reset_password.message.instructions_sent=Instruksi untuk mengatur ulang password kamu sudah dikirim ke {0}.
+playauthenticate.reset_password.message.email_not_verified=Akun kamu belum diverifikasi saat ini. Sebuah email yang berisi instruksi untuk memverifikasinya sudah dikirim. Coba reset ulang password kamu setelahnya.
+playauthenticate.reset_password.message.no_password_account=Pengguna belum mengatur penggunaan password.
+playauthenticate.reset_password.message.success.auto_login=Password kamu belum diatur ulang.
+playauthenticate.reset_password.message.success.manual_login=Password kamu sudah diatur ulang. Silakan masuk menggunakan password baru.
+
+playauthenticate.change_password.error.passwords_not_same=Password tidak cocok.
+playauthenticate.change_password.success=Password berhasil diubah.
+
+playauthenticate.password.signup.error.passwords_not_same=Password tidak cocok.
+playauthenticate.password.login.unknown_user_or_pw=Pengguna atau password tidak dikenal.
+
+playauthenticate.password.verify_signup.subject=PlayAuthenticate: Lengkapi pendaftaran
+playauthenticate.password.verify_email.subject=PlayAuthenticate: Konfirmasi alamat email kamu.
+playauthenticate.password.reset_email.subject=PlayAuthenticate: Cara pengaturan ulang password kamu.
+
+# play-authenticate: Additional translations
+
+playauthenticate.login.email.placeholder=Alamat email kamu
+playauthenticate.login.password.placeholder=Pilih password
+playauthenticate.login.password.repeat=Ulangi password
+playauthenticate.login.title=Masuk
+playauthenticate.login.password.placeholder=Password
+playauthenticate.login.now=Masuk sekarang
+playauthenticate.login.forgot.password=Lupa password kamu?
+playauthenticate.login.oauth=atau masuk menggunakan salah satu dari provider berikut:
+playauthenticate.login.basic=atau coba autentikasi HTTP dasar (sebagai contoh / rahasia)
+
+playauthenticate.signup.title=Daftar
+playauthenticate.signup.name=Nama kamu
+playauthenticate.signup.now=Daftar sekarang
+playauthenticate.signup.oauth=atau daftar menggunakan salah satu dari provider berikut:
+
+playauthenticate.verify.account.title=Verifikasi email diharapkan
+playauthenticate.verify.account.before=Sebelum mengatur password, kamu harus
+playauthenticate.verify.account.first=verifikasi alamat email kamu
+
+playauthenticate.change.password.title=Ubah password kamu disini
+playauthenticate.change.password.cta=Ubah password saya
+
+playauthenticate.merge.accounts.title=Gabungkan akun
+playauthenticate.merge.accounts.question=Do you want to merge your current account ({0}) with this account: {1}?
+playauthenticate.merge.accounts.question=Apakah kamu ingin menggabungkan akun kamu sekarang ({0}) dengan akun ini: {1}?
+playauthenticate.merge.accounts.true=Ya, gabungkan dua akun ini.
+playauthenticate.merge.accounts.false=Tidak, keluar dari sesi saya sekarang dan masuk sebagai pengguna baru
+playauthenticate.merge.accounts.ok=OK
+
+playauthenticate.link.account.title=Sambungkan akun
+playauthenticate.link.account.question=Sambungkan ({0}) dengan user kamu?
+playauthenticate.link.account.true=Ya, sambungkan dengan akun ini
+playauthenticate.link.account.false=Tidak, keluar dan buat user baru dengan akun ini
+playauthenticate.link.account.ok=OK
+
+# play-authenticate: Signup folder translations
+
+playauthenticate.verify.email.title=Verifikasi email kamu
+playauthenticate.verify.email.requirement=Sebelum kamu menggunakan PlayAuthenticate, kamu harus melakukan verifikasi alamat email kamu.
+playauthenticate.verify.email.cta=Sebuah email sudah dikirim ke alamat tersimpan. Silakan ikuti tautan tersisip untuk melakukan aktivasi akun kamu.
+
+playauthenticate.password.reset.title=Atur ulang password
+playauthenticate.password.reset.cta=Atur ulang password saya
+
+playauthenticate.password.forgot.title=Lupa password
+playauthenticate.password.forgot.cta=Kirim instruksi reset
+
+playauthenticate.oauth.access.denied.title=Akses OAuth ditolak
+playauthenticate.oauth.access.denied.explanation=Jika kamu ingin menggunakan PlayAuthenticate with OAuth, kamu harus menerima sambungan.
+playauthenticate.oauth.access.denied.alternative=Jika kamu tidak menginginkannya, kamu juga bisa
+playauthenticate.oauth.access.denied.alternative.cta=mendaftar dengan nama pengguna dan password
+
+playauthenticate.token.error.title=Token error
+playauthenticate.token.error.message=Token yang diberikan kadaluarsa atau tidak ada.
+
+playauthenticate.user.exists.title=Pengguna sudah ada
+playauthenticate.user.exists.message=Pengguna ini sudah ada sebelumnya.
+
+# play-authenticate: Navigation
+playauthenticate.navigation.profile=Profil
+playauthenticate.navigation.link_more=Sambungkan provider lain
+playauthenticate.navigation.logout=Keluar
+playauthenticate.navigation.login=Masuk
+playauthenticate.navigation.home=Beranda
+playauthenticate.navigation.restricted=Laman terlarang
+playauthenticate.navigation.signup=Daftar
+
+# play-authenticate: Handler
+playauthenticate.handler.loginfirst=Kamu harus masuk terlebih dahulu untuk melihat ''{0}''
+
+# play-authenticate: Profile
+playauthenticate.profile.title=Profil pengguna
+playauthenticate.profile.mail=Nama kamu {0} dan alamat email kamu adalah {1}!
+playauthenticate.profile.unverified=belum diverifikasi - klik untuk verifikasi
+playauthenticate.profile.verified=sudah terverifikasi
+playauthenticate.profile.providers_many=Ada {0} penyedia yang disambungkan dengan akun kamu:
+playauthenticate.profile.providers_one = Ada satu penyedia yang disambungkan dengan akun kamu:
+playauthenticate.profile.logged=Saat ini kamu masuk dengan:
+playauthenticate.profile.session=user ID kamu {0} dan sesi kamu akan kadaluarsa pada {1}
+playauthenticate.profile.session_endless=user ID kamu {0} dan sesi kamu tidak akan kadaluarsa, semacam seumur hidup
+playauthenticate.profile.password_change=Ubah / atur password untuk akun kamu
+
+# play-authenticate - sample: Index page
+playauthenticate.index.title=Selamat datang di Play Authenticate
+playauthenticate.index.intro=Play Authenticate sample app
+playauthenticate.index.intro=Aplikasi contoh Play Authenticate
+playauthenticate.index.intro_2=Ini merupakan template untuk aplikasi sederhana dengan autentikasi.
+playauthenticate.index.intro_3=Lihat navigasi utama diatas untuk contoh laman sederhana, termasuk fitur autentikasi yang didukung.
+playauthenticate.index.heading=Heading
+playauthenticate.index.details=Lihat detail
+
+# play-authenticate - sample: Restricted page
+playauthenticate.restricted.secrets=Ra-ha-sia!
+
+### --- play-authenticate END
+

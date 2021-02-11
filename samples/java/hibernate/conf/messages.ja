@@ -1,0 +1,149 @@
+# Override default Play's validation messages
+
+# --- Constraints
+constraint.required=必須
+constraint.min=最小値: {0}
+constraint.max=最大値: {0}
+constraint.minLength=最短文字数: {0}
+constraint.maxLength=最長文字数: {0}
+constraint.email=電子メール
+
+# --- Formats
+format.date=日付 (''{0}'')
+format.numeric=整数
+format.real=実数
+
+# --- Errors
+error.invalid=不正な値です
+error.required=このフィールドは必須です
+error.number=整数値を入力してください
+error.real=実数を入力してください
+error.min=値は {0} 以上でなければなりません
+error.max=値は {0} 以下でなければなりません
+error.minLength=文字列は最短 {0} 文字です
+error.maxLength=文字列は最長 {0} 文字です
+error.email=正しい電子メールアドレスにしてください
+error.pattern={0} を満たす必要があります。
+
+### --- play-authenticate START
+
+# play-authenticate: Initial translations
+
+playauthenticate.accounts.link.success=アカウントは正しく紐付けられました
+playauthenticate.accounts.merge.success=アカウントは正しくマージされました
+
+playauthenticate.verify_email.error.already_validated=電子メールアドレスはすでに確認済です。
+playauthenticate.verify_email.error.set_email_first=最初に電子メールアドレスを登録する必要があります。
+playauthenticate.verify_email.message.instructions_sent=電子メールアドレスの確認方法は {0} に送信されました。
+playauthenticate.verify_email.success=電子メールアドレス ({0}) は正しく確認されました。
+
+playauthenticate.reset_password.message.instructions_sent=パスワードのリセット方法は {0} に送信されました。
+playauthenticate.reset_password.message.email_not_verified=アカウントが確認されていません。確認方法が記載されたメールは送信済です。確認後パスワードのリセットを行ってください。
+playauthenticate.reset_password.message.no_password_account=あなたのユーザーアカウントはパスワードを使用するように設定されていません。
+playauthenticate.reset_password.message.success.auto_login=パスワードはリセットされました。
+playauthenticate.reset_password.message.success.manual_login=パスハードはリセットされました。新しいパスワードでログインしてください。
+
+playauthenticate.change_password.error.passwords_not_same=パスワードが一致しません。
+playauthenticate.change_password.success=パスハードは正常に変更されました。
+
+playauthenticate.password.signup.error.passwords_not_same=パスワードが一致しません。
+playauthenticate.password.login.unknown_user_or_pw=不明なユーザー名かパスワードです。
+
+playauthenticate.password.verify_signup.subject=PlayAuthenticate: サインアップ完了
+playauthenticate.password.verify_email.subject=PlayAuthenticate: 電子メールアドレス確認
+playauthenticate.password.reset_email.subject=PlayAuthenticate: パスワードリセットの方法
+
+# play-authenticate: Additional translations
+
+playauthenticate.login.email.placeholder=お使いの電子メールアドレス
+playauthenticate.login.password.placeholder=パスワードを入力
+playauthenticate.login.password.repeat=再度パスワードを入力
+playauthenticate.login.title=ログイン
+playauthenticate.login.password.placeholder=パスワード
+playauthenticate.login.now=ログイン完了
+playauthenticate.login.forgot.password=パスワードをお忘れですか？
+playauthenticate.login.oauth=または以下のプロバイダーからログイン：
+
+playauthenticate.signup.title=サインアップ
+playauthenticate.signup.name=お名前
+playauthenticate.signup.now=今すぐサインアップ
+playauthenticate.signup.oauth=または以下のプロバイダーからサインアップ：
+
+playauthenticate.verify.account.title=電子メールによる確認が必要
+playauthenticate.verify.account.before=パスワードを設定する前に、
+playauthenticate.verify.account.first=電子メールアドレスの確認が必要です
+
+playauthenticate.change.password.title=ここでパスワードの変更
+playauthenticate.change.password.cta=パスワードを変更
+
+playauthenticate.merge.accounts.title=アカウントのマージ
+playauthenticate.merge.accounts.question=今のアカウント ({0}) をアカウント {1} とマージしますか？
+playauthenticate.merge.accounts.true=はい、二つのアカウントをマージします
+playauthenticate.merge.accounts.false=いいえ、今のセッションを抜けて新たにログインします
+playauthenticate.merge.accounts.ok=OK
+
+playauthenticate.link.account.title=アカウントの紐付け
+playauthenticate.link.account.question=({0}) を自分のアカウントと紐付けますか？
+playauthenticate.link.account.true=はい、アカウントを紐付けします
+playauthenticate.link.account.false=いいえ、ログアウトしてこのアカウントに対応する別のユーザーを作ります
+playauthenticate.link.account.ok=OK
+
+# play-authenticate: Signup folder translations
+
+playauthenticate.verify.email.title=電子メールアドレスの確認
+playauthenticate.verify.email.requirement=PlayAuthentificateを利用する前に、まずは電子メールアドレスを確認する必要があります。
+playauthenticate.verify.email.cta=登録されたアドレスにメールが送られます。アカウントを有効にするためにメール内のリンクをクリックしてください。
+
+playauthenticate.password.reset.title=パスワードのリセット
+playauthenticate.password.reset.cta=パスワードをリセットする
+
+playauthenticate.password.forgot.title=パスワードを忘れた
+playauthenticate.password.forgot.cta=パスワードリセットの手順を送付する
+
+playauthenticate.oauth.access.denied.title=OAuthアクセスが未許可
+playauthenticate.oauth.access.denied.explanation=PlayAuthenticateをOAuthで使いたい場合は、接続を許可する必要があります。
+playauthenticate.oauth.access.denied.alternative=そのようにしたくない場合は、代わりに
+playauthenticate.oauth.access.denied.alternative.cta=ユーザー名とパスワードで登録することもできます。
+
+playauthenticate.token.error.title=トークンエラー
+playauthenticate.token.error.message=与えられたトークンは失効しているか存在しません。
+
+playauthenticate.user.exists.title=重複したユーザー
+playauthenticate.user.exists.message=このユーザーはすでに存在します。
+
+# play-authenticate: Navigation
+playauthenticate.navigation.profile=プロフィール
+playauthenticate.navigation.link_more=ほかのプロバイダーと紐付ける
+playauthenticate.navigation.logout=サインアウト
+playauthenticate.navigation.login=ログイン
+playauthenticate.navigation.home=ホーム
+playauthenticate.navigation.restricted=制限されたページ
+playauthenticate.navigation.signup=サインアップ
+
+# play-authenticate: Handler
+playauthenticate.handler.loginfirst=''{0}'' を見るにはまずログインが必要です。
+
+# play-authenticate: Profile
+playauthenticate.profile.title=ユーザープロフィール
+playauthenticate.profile.mail=あなたのお名前は {0} でメールアドレスは {1} です！
+playauthenticate.profile.unverified=未確認 - 確認を押してください
+playauthenticate.profile.verified=確認済
+playauthenticate.profile.providers_many={0} 個のプロバイダーがアカウントに紐付いています：
+playauthenticate.profile.providers_one = 1 個のプロバイダーがアカウントに紐付いています：
+playauthenticate.profile.logged=現在次の手段でログインしています：
+playauthenticate.profile.session=あなたのユーザーIDは {0} でセッションは {1} に失効します
+playauthenticate.profile.session_endless=あなたのユーザーIDは {0} でセッションは永遠に失効しません
+playauthenticate.profile.password_change=パスワードの変更／設定
+
+# play-authenticate - sample: Index page
+playauthenticate.index.title=Play Authenticate へようこそ！
+playauthenticate.index.intro=Play Authenticate サンプルアプリ
+playauthenticate.index.intro_2=これは認証機能を持つシンプルなアプリケーションです。
+playauthenticate.index.intro_3=上にあるメインナビゲーションでサポートされた認証機能をお試しください。
+playauthenticate.index.heading=タイトル
+playauthenticate.index.details=詳細を見る
+
+# play-authenticate - sample: Restricted page
+playauthenticate.restricted.secrets=ふふ、秘密はどこにでもあるのですよ！
+
+### --- play-authenticate END
